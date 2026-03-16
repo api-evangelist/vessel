@@ -1,0 +1,73 @@
+aid: vessel
+name: Vessel
+description: >-
+  Vessel is a developer-first embedded integrations platform that enables
+  product teams to add native integrations to their applications. It provides
+  unified API abstractions, actions APIs, and passthrough APIs to connect with
+  CRM, marketing, HR, and productivity tools while managing authentication,
+  rate limits, and data normalization.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Integrations
+  - iPaaS
+  - Embedded Integrations
+  - Unified API
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/apis.yml
+created: '2026-03-16'
+modified: '2026-03-16'
+specificationVersion: '0.19'
+apis:
+  - aid: vessel:actions-api
+    name: Vessel Actions API
+    description: >-
+      The Vessel Actions API provides pre-built actions for common integration
+      operations, with validated API responses and request inputs. It offers
+      well-documented APIs so developers don't need to refer to downstream
+      provider documentation, and handles authentication, rate limits, and
+      data normalization automatically.
+    humanURL: https://www.vessel.dev/
+    tags:
+      - Integrations
+      - Actions
+      - Automation
+    properties:
+      - type: Documentation
+        url: https://www.vessel.dev/
+      - type: GitHubRepository
+        url: https://github.com/vesselapi/integrations
+  - aid: vessel:unified-api
+    name: Vessel Unified API
+    description: >-
+      The Vessel Unified API provides a standardized interface across integrations,
+      abstracting away the differences between third-party APIs to provide a
+      consistent developer experience when connecting to multiple services.
+    humanURL: https://www.vessel.dev/
+    tags:
+      - Integrations
+      - Unified API
+      - Normalization
+    properties:
+      - type: Documentation
+        url: https://www.vessel.dev/
+common:
+  - url: https://www.vessel.dev/
+    name: Vessel - Embedded Integrations Platform
+    type: Website
+    description: 'null'
+  - url: https://www.vessel.dev/integrations
+    name: Vessel Integrations
+    type: Integrations
+    description: 'null'
+  - url: https://github.com/vesselapi
+    name: Vessel GitHub Organization
+    type: GitHubOrganization
+    description: 'null'
+  - url: https://github.com/vesselapi/integrations
+    name: Vessel Integrations Library
+    type: GitHubRepository
+    description: 'null'
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
