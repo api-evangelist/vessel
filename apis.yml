@@ -9,9 +9,9 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
+  - Embedded Integrations
   - Integrations
   - iPaaS
-  - Embedded Integrations
   - Unified API
 url: >-
   https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/apis.yml
@@ -29,9 +29,9 @@ apis:
       data normalization automatically.
     humanURL: https://www.vessel.dev/
     tags:
-      - Integrations
       - Actions
       - Automation
+      - Integrations
     properties:
       - type: Documentation
         url: https://www.vessel.dev/
@@ -46,8 +46,8 @@ apis:
     humanURL: https://www.vessel.dev/
     tags:
       - Integrations
-      - Unified API
       - Normalization
+      - Unified API
     properties:
       - type: Documentation
         url: https://www.vessel.dev/
