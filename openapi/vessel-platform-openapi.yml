@@ -1,0 +1,537 @@
+openapi: 3.1.0
+info:
+  title: Vessel Platform API
+  description: >-
+    The Vessel Platform API provides the core integration platform capabilities
+    for embedding third-party integrations into your product. Includes session
+    token management, access token exchange, connection lifecycle management,
+    integration listing, passthrough API calls, and webhook management.
+    The platform supports GTM tools including CRM (Salesforce, HubSpot, Zoho),
+    sales engagement (Outreach, Apollo, Salesloft), chat (Slack, Teams),
+    marketing automation (Mailchimp, Customer.io), and dialers (Aircall,
+    Dialpad, RingCentral).
+  version: '2.0'
+  contact:
+    name: Vessel Support
+    email: support@vessel.dev
+    url: https://www.vessel.dev/
+  license:
+    name: Proprietary
+    url: https://www.vessel.dev/
+servers:
+  - url: https://api.vessel.dev
+    description: Vessel Platform API
+security:
+  - apiToken: []
+paths:
+  /integrations/list:
+    post:
+      operationId: listIntegrations
+      summary: List All Integrations
+      description: >-
+        Returns all supported integrations with their name, icon URI, and
+        integration ID. Use this to build your integrations page UI showing
+        which third-party tools users can connect.
+      tags:
+        - Integrations
+      responses:
+        '200':
+          description: List of supported integrations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      integrations:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Integration'
+        '401':
+          description: Unauthorized - invalid API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /auth/session-token:
+    post:
+      operationId: createSessionToken
+      summary: Create Session Token
+      description: >-
+        Creates a temporary authentication session token. Call this endpoint
+        each time a user wants to connect a new integration. The session token
+        is passed to the Vessel client SDK to open the authentication modal.
+      tags:
+        - Authentication
+      security:
+        - apiToken: []
+      responses:
+        '200':
+          description: Session token created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      sessionToken:
+                        type: string
+                        description: Temporary session token for authentication flow
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /auth/access-token:
+    post:
+      operationId: exchangeAccessToken
+      summary: Exchange Session Token for Access Token
+      description: >-
+        Exchanges a session token (returned from the Vessel client SDK after
+        successful user authentication) for a permanent access token and
+        connection ID. Store the access token securely on your backend.
+      tags:
+        - Authentication
+      security:
+        - apiToken: []
+        - sessionToken: []
+      responses:
+        '200':
+          description: Access token exchanged successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                        description: Access token for making API calls on behalf of the user
+                      connectionId:
+                        type: string
+                        description: Unique identifier for this user connection
+                      integrationId:
+                        type: string
+                        description: Identifier for the connected integration
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /connections/list:
+    post:
+      operationId: listConnections
+      summary: List All Connections
+      description: >-
+        Returns all active connections for your API token. Useful for managing
+        user integrations and tracking connection status.
+      tags:
+        - Connections
+      security:
+        - apiToken: []
+      responses:
+        '200':
+          description: List of connections
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      connections:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Connection'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /connections/get:
+    post:
+      operationId: getConnection
+      summary: Get a Connection
+      description: Returns details for a specific connection by connection ID.
+      tags:
+        - Connections
+      security:
+        - apiToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: string
+                  description: Connection ID to retrieve
+      responses:
+        '200':
+          description: Connection details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    $ref: '#/components/schemas/Connection'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Connection not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /connections/delete:
+    post:
+      operationId: deleteConnection
+      summary: Delete a Connection
+      description: >-
+        Permanently deletes a connection and frees associated resources. Call
+        this when a user disconnects a third-party integration from your app.
+      tags:
+        - Connections
+      security:
+        - apiToken: []
+        - accessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: string
+                  description: Connection ID to delete
+      responses:
+        '200':
+          description: Connection deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      success:
+                        type: boolean
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /passthrough:
+    post:
+      operationId: passthrough
+      summary: Passthrough API Call
+      description: >-
+        Forwards an authenticated API call directly to the downstream integration
+        provider. The access token credentials are automatically attached to the
+        request. Useful for calling endpoints not yet covered by Vessel actions.
+      tags:
+        - Passthrough
+      security:
+        - apiToken: []
+        - accessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - method
+                - path
+              properties:
+                method:
+                  type: string
+                  description: HTTP method for the downstream request
+                  enum: [GET, POST, PUT, PATCH, DELETE]
+                path:
+                  type: string
+                  description: Path on the downstream provider's API
+                body:
+                  type: object
+                  description: Request body to pass to the downstream provider
+                headers:
+                  type: object
+                  description: Additional headers to include
+      responses:
+        '200':
+          description: Passthrough response from downstream provider
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    description: Raw response from the downstream provider
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /webhooks:
+    post:
+      operationId: createWebhook
+      summary: Create a Webhook
+      description: >-
+        Creates a webhook subscription to receive real-time notifications when
+        events occur in connected integrations.
+      tags:
+        - Webhooks
+      security:
+        - apiToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+                - event
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  description: Destination URL for webhook events
+                event:
+                  type: string
+                  description: Event type to subscribe to
+      responses:
+        '200':
+          description: Webhook created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    $ref: '#/components/schemas/Webhook'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /webhooks/list:
+    post:
+      operationId: listWebhooks
+      summary: List All Webhooks
+      description: Returns all configured webhook subscriptions for your account.
+      tags:
+        - Webhooks
+      security:
+        - apiToken: []
+      responses:
+        '200':
+          description: List of webhooks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      webhooks:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Webhook'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /webhooks/delete:
+    post:
+      operationId: deleteWebhook
+      summary: Delete a Webhook
+      description: Removes a webhook subscription.
+      tags:
+        - Webhooks
+      security:
+        - apiToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: string
+                  description: Webhook ID to delete
+      responses:
+        '200':
+          description: Webhook deleted
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /unifications/engagement/users/list:
+    post:
+      operationId: listEngagementUsers
+      summary: List Engagement Users
+      description: Returns all users from the connected sales engagement tool.
+      tags:
+        - Engagement Unifications
+      security:
+        - apiToken: []
+        - accessToken: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cursor:
+                  type: string
+                  description: Pagination cursor
+      responses:
+        '200':
+          description: List of engagement users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+components:
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: x-vessel-api-token
+      description: Your Vessel API token for server-side authentication
+    accessToken:
+      type: apiKey
+      in: header
+      name: x-vessel-access-token
+      description: User connection access token for user-scoped API calls
+    sessionToken:
+      type: apiKey
+      in: header
+      name: x-vessel-session-token
+      description: Temporary session token from the auth flow
+  schemas:
+    Integration:
+      type: object
+      description: A supported third-party integration
+      properties:
+        integrationId:
+          type: string
+          description: Unique integration identifier
+        id:
+          type: string
+          description: Integration identifier (alias)
+        display:
+          type: object
+          description: UI display properties
+          properties:
+            name:
+              type: string
+              description: Integration display name
+            iconURI:
+              type: string
+              format: uri
+              description: URL to the integration's logo/icon
+        category:
+          type: string
+          description: Integration category
+          enum:
+            - crm
+            - engagement
+            - chat
+            - marketing-automation
+            - dialer
+    Connection:
+      type: object
+      description: A user's authenticated connection to a third-party integration
+      properties:
+        connectionId:
+          type: string
+          description: Unique connection identifier
+        integrationId:
+          type: string
+          description: Connected integration identifier
+        status:
+          type: string
+          description: Current connection status
+          enum:
+            - NEW_CONNECTION
+            - INITIAL_SYNCED
+            - READY
+        createdAt:
+          type: string
+          format: date-time
+          description: Connection creation timestamp
+    Webhook:
+      type: object
+      description: A webhook subscription for real-time integration events
+      properties:
+        id:
+          type: string
+          description: Unique webhook identifier
+        url:
+          type: string
+          format: uri
+          description: Destination URL for webhook events
+        event:
+          type: string
+          description: Subscribed event type
+        createdAt:
+          type: string
+          format: date-time
+          description: Webhook creation timestamp
+    Error:
+      type: object
+      description: API error response
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: Human-readable error message
+            code:
+              type: string
+              description: Error code identifier

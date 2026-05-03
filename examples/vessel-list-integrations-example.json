@@ -1,0 +1,58 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.vessel.dev/integrations/list",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {}
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "result": {
+        "integrations": [
+          {
+            "integrationId": "salesforce",
+            "id": "salesforce",
+            "display": {
+              "name": "Salesforce",
+              "iconURI": "https://assets.vessel.dev/integrations/salesforce.png"
+            },
+            "category": "crm"
+          },
+          {
+            "integrationId": "hubspot",
+            "id": "hubspot",
+            "display": {
+              "name": "HubSpot",
+              "iconURI": "https://assets.vessel.dev/integrations/hubspot.png"
+            },
+            "category": "crm"
+          },
+          {
+            "integrationId": "outreach",
+            "id": "outreach",
+            "display": {
+              "name": "Outreach",
+              "iconURI": "https://assets.vessel.dev/integrations/outreach.png"
+            },
+            "category": "engagement"
+          },
+          {
+            "integrationId": "slack",
+            "id": "slack",
+            "display": {
+              "name": "Slack",
+              "iconURI": "https://assets.vessel.dev/integrations/slack.png"
+            },
+            "category": "chat"
+          }
+        ]
+      }
+    }
+  }
+}

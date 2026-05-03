@@ -1,0 +1,104 @@
+extends: spectral:oas
+rules:
+  vessel-operation-ids-camel-case:
+    description: Operation IDs must use camelCase as per Vessel API conventions
+    message: "Operation ID '{{value}}' must use camelCase"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]+$"
+
+  vessel-require-api-token-security:
+    description: All operations must declare apiToken security scheme
+    message: "Operation must require x-vessel-api-token authentication"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete].security"
+    then:
+      function: truthy
+
+  vessel-post-responses-should-return-200:
+    description: Vessel API uses POST for most operations and returns 200
+    message: "POST operations should return 200 (Vessel API convention)"
+    severity: info
+    given: "$.paths[*].post"
+    then:
+      field: responses
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - '200'
+
+  vessel-require-operation-description:
+    description: All operations must have a description
+    message: "Operation must include a description"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: description
+      function: truthy
+
+  vessel-require-operation-tags:
+    description: All operations must have at least one tag
+    message: "Operations must have at least one tag"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: tags
+      function: length
+      functionOptions:
+        min: 1
+
+  vessel-ids-should-be-strings:
+    description: All ID fields in schemas should be type string (Vessel normalizes all IDs to strings)
+    message: "ID fields must be type string (Vessel normalizes all IDs)"
+    severity: warn
+    given: "$.components.schemas[*].properties.id"
+    then:
+      field: type
+      function: enumeration
+      functionOptions:
+        values:
+          - string
+
+  vessel-dates-should-be-datetime:
+    description: Date fields should use date-time format (Vessel normalizes all dates to ISO 8601)
+    message: "Date fields should use format date-time"
+    severity: info
+    given: "$.components.schemas[*].properties[*At]"
+    then:
+      field: format
+      function: enumeration
+      functionOptions:
+        values:
+          - date-time
+
+  vessel-error-responses-should-have-schema:
+    description: Error responses must include a content schema
+    message: "4xx and 5xx responses must include content schema"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete].responses['4*','5*'].content['application/json']"
+    then:
+      field: schema
+      function: truthy
+
+  vessel-require-contact-info:
+    description: API info must include contact information
+    message: "API info should include contact information"
+    severity: info
+    given: "$.info"
+    then:
+      field: contact
+      function: truthy
+
+  vessel-passthrough-must-have-request-body:
+    description: The passthrough endpoint must define a request body
+    message: "Passthrough endpoint must have a requestBody"
+    severity: warn
+    given: "$.paths['/passthrough'].post"
+    then:
+      field: requestBody
+      function: truthy

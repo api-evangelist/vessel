@@ -1,0 +1,42 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.vessel.land/crm/contacts?accessToken=access_token_here",
+    "headers": {
+      "vessel-api-token": "vessel_api_key_here"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "contacts": [
+        {
+          "id": "0032500000FjQp5AAF",
+          "firstName": "John",
+          "lastName": "Smith",
+          "email": "john.smith@acme.com",
+          "phone": "+1-415-555-0100",
+          "title": "VP of Engineering",
+          "company": "Acme Corporation",
+          "createdAt": "2026-01-15T09:00:00Z",
+          "updatedAt": "2026-04-30T14:25:00Z"
+        },
+        {
+          "id": "0032500000FjQp6BBF",
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "email": "jane.doe@techcorp.io",
+          "phone": "+1-650-555-0200",
+          "title": "CTO",
+          "company": "TechCorp",
+          "createdAt": "2026-02-10T11:30:00Z",
+          "updatedAt": "2026-05-01T08:15:00Z"
+        }
+      ],
+      "nextCursor": "eyJwYWdlIjoyLCJsaW1pdCI6MTAwfQ=="
+    }
+  }
+}

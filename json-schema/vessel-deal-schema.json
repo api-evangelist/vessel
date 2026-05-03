@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-deal-schema.json",
+  "title": "Vessel CRM Deal",
+  "description": "A normalized CRM deal/opportunity record from the Vessel unified CRM API",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique deal ID (normalized to string)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Deal name or title"
+    },
+    "amount": {
+      "type": ["number", "null"],
+      "description": "Deal monetary value"
+    },
+    "stage": {
+      "type": "string",
+      "description": "Deal stage in the pipeline"
+    },
+    "closeDate": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Expected close date (ISO 8601)"
+    },
+    "ownerId": {
+      "type": "string",
+      "description": "ID of the assigned owner/user"
+    },
+    "accountId": {
+      "type": "string",
+      "description": "Associated account/company ID"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 creation timestamp"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 last update timestamp"
+    }
+  },
+  "required": ["id"]
+}

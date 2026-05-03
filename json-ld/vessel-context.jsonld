@@ -1,0 +1,99 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "vessel": "https://www.vessel.dev/vocabulary/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Contact": "schema:Person",
+    "Deal": "schema:Offer",
+    "Account": "schema:Organization",
+    "Lead": "vessel:Lead",
+    "Note": "schema:Comment",
+    "Task": "schema:Action",
+    "User": "schema:Person",
+    "Connection": "vessel:Connection",
+    "Integration": "schema:SoftwareApplication",
+
+    "id": {
+      "@id": "schema:identifier",
+      "@type": "xsd:string"
+    },
+    "firstName": {
+      "@id": "schema:givenName",
+      "@type": "xsd:string"
+    },
+    "lastName": {
+      "@id": "schema:familyName",
+      "@type": "xsd:string"
+    },
+    "email": {
+      "@id": "schema:email",
+      "@type": "xsd:string"
+    },
+    "phone": {
+      "@id": "schema:telephone",
+      "@type": "xsd:string"
+    },
+    "title": {
+      "@id": "schema:jobTitle",
+      "@type": "xsd:string"
+    },
+    "company": {
+      "@id": "schema:worksFor",
+      "@type": "xsd:string"
+    },
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "amount": {
+      "@id": "schema:price",
+      "@type": "xsd:decimal"
+    },
+    "stage": {
+      "@id": "vessel:dealStage",
+      "@type": "xsd:string"
+    },
+    "closeDate": {
+      "@id": "vessel:closeDate",
+      "@type": "xsd:dateTime"
+    },
+    "content": {
+      "@id": "schema:text",
+      "@type": "xsd:string"
+    },
+    "domain": {
+      "@id": "schema:url",
+      "@type": "xsd:string"
+    },
+    "industry": {
+      "@id": "schema:industry",
+      "@type": "xsd:string"
+    },
+    "createdAt": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "updatedAt": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    },
+    "connectionId": {
+      "@id": "vessel:connectionId",
+      "@type": "xsd:string"
+    },
+    "integrationId": {
+      "@id": "vessel:integrationId",
+      "@type": "xsd:string"
+    },
+    "accessToken": {
+      "@id": "vessel:accessToken",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "vessel:connectionStatus",
+      "@type": "xsd:string"
+    }
+  }
+}

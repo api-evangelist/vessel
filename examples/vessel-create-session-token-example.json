@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.vessel.dev/auth/session-token",
+    "headers": {
+      "x-vessel-api-token": "vessel_api_key_here",
+      "Content-Type": "application/json"
+    },
+    "body": {}
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "result": {
+        "sessionToken": "sess_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJzZXNzXzEyMzQ1Njc4OTAifQ.abc123"
+      }
+    }
+  }
+}
