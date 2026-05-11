@@ -155,6 +155,94 @@ common:
     name: Vessel React Link Component (npm)
     type: SDK
     description: React component for embedding the Vessel authentication modal.
+integrations:
+  - name: Salesforce
+  - name: HubSpot
+  - name: Zoho
+  - name: Pipedrive
+  - name: Dynamics Sales
+  - name: Affinity
+  - name: monday.com
+  - name: Freshsales
+  - name: Freshdesk
+  - name: Keap
+  - name: Salesloft
+  - name: Outreach
+  - name: Apollo
+  - name: Active Campaign
+  - name: Mailchimp
+  - name: Customer.io
+  - name: Ringcentral
+  - name: Dialpad
+  - name: Aircall
+  - name: Microsoft Teams
+  - name: Slack
+  - name: Zendesk
+  - name: Intercom
+  - name: Jira
+  - name: Linear
+  - name: Todoist
+  - name: Asana
+  - name: WooCommerce
+  - name: Shopify
+  - name: Stripe
+  - name: ZoomInfo
+  - name: Brex
+  - name: Contentstack
+  - name: Facebook
+  - name: Pagerduty
+  - name: Qualtrics
+  - name: Ramp
+  - name: Square
+  - name: SurveyMonkey
+  - name: Typeform
+  - name: Miro
+  - name: Mural
+  - name: Pandadoc
+  - name: Payfit
+  - name: Sage
+  - name: Teamwork
+  - name: Twinfield
+  - name: Wave Accounting
+  - name: Xero
+  - name: Zenefits
+  - name: Google
+  - name: Google Calendar
+  - name: Gmail
+  - name: Intuit
+  - name: Lever
+  - name: Linkedin
+  - name: Freshbooks
+  - name: Front
+  - name: GitHub
+  - name: Gitlab
+  - name: Greenhouse
+  - name: Gumroad
+  - name: Gusto
+  - name: Netsuite
+  - name: Notion
+  - name: OneDrive
+  - name: Zoom
+  - name: Calendly
+  - name: Clickup
+  - name: Dropbox
+  - name: Factorial
+  - name: Atlassian
+  - name: BambooHR
+  - name: Bitbucket
+  - name: Boldsign
+  - name: Box
+  - name: Accelo
+  - name: Adobe
+  - name: Airtable
+  - name: Amazon
+  - name: Shortcut
+  - name: Workable
+  - name: Gong
+  - name: Amplitude
+  - name: Ashby
+  - name: Mixpanel
+  - name: Chorus
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
