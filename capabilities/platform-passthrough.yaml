@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Vessel Platform API — Passthrough
+  description: 'Vessel Platform API — Passthrough. 1 operations. Lead operation: Passthrough API Call. Self-contained Naftiko
+    capability covering one Vessel business surface.'
+  tags:
+  - Vessel
+  - Passthrough
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    VESSEL_API_KEY: VESSEL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: platform-passthrough
+    baseUri: https://api.vessel.dev
+    description: Vessel Platform API — Passthrough business capability. Self-contained, no shared references.
+    resources:
+    - name: passthrough
+      path: /passthrough
+      operations:
+      - name: passthrough
+        method: POST
+        description: Passthrough API Call
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: x-vessel-api-token
+      value: '{{env.VESSEL_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: platform-passthrough-rest
+    port: 8080
+    description: REST adapter for Vessel Platform API — Passthrough. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/passthrough
+      name: passthrough
+      description: REST surface for passthrough.
+      operations:
+      - method: POST
+        name: passthrough
+        description: Passthrough API Call
+        call: platform-passthrough.passthrough
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: platform-passthrough-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Vessel Platform API — Passthrough. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: passthrough-api-call
+      description: Passthrough API Call
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: platform-passthrough.passthrough
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

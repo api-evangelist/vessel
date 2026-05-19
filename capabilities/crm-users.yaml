@@ -1,0 +1,81 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Vessel CRM API — Users
+  description: 'Vessel CRM API — Users. 1 operations. Lead operation: Get All Users. Self-contained Naftiko capability covering
+    one Vessel business surface.'
+  tags:
+  - Vessel
+  - Users
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    VESSEL_API_KEY: VESSEL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: crm-users
+    baseUri: https://api.vessel.land
+    description: Vessel CRM API — Users business capability. Self-contained, no shared references.
+    resources:
+    - name: crm-users
+      path: /crm/users
+      operations:
+      - name: getallusers
+        method: GET
+        description: Get All Users
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: accessToken
+          in: query
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: vessel-api-token
+      value: '{{env.VESSEL_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: crm-users-rest
+    port: 8080
+    description: REST adapter for Vessel CRM API — Users. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/crm/users
+      name: crm-users
+      description: REST surface for crm-users.
+      operations:
+      - method: GET
+        name: getallusers
+        description: Get All Users
+        call: crm-users.getallusers
+        with:
+          accessToken: rest.accessToken
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: crm-users-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Vessel CRM API — Users. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-all-users
+      description: Get All Users
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: crm-users.getallusers
+      with:
+        accessToken: tools.accessToken
+      outputParameters:
+      - type: object
+        mapping: $.

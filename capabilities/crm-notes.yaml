@@ -1,0 +1,129 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Vessel CRM API — Notes
+  description: 'Vessel CRM API — Notes. 2 operations. Lead operation: Get All Notes. Self-contained Naftiko capability covering
+    one Vessel business surface.'
+  tags:
+  - Vessel
+  - Notes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    VESSEL_API_KEY: VESSEL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: crm-notes
+    baseUri: https://api.vessel.land
+    description: Vessel CRM API — Notes business capability. Self-contained, no shared references.
+    resources:
+    - name: crm-notes
+      path: /crm/notes
+      operations:
+      - name: getallnotes
+        method: GET
+        description: Get All Notes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: accessToken
+          in: query
+          type: string
+          required: true
+    - name: crm-notes-create
+      path: /crm/notes/create
+      operations:
+      - name: createnote
+        method: POST
+        description: Create a Note
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: accessToken
+          in: query
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: vessel-api-token
+      value: '{{env.VESSEL_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: crm-notes-rest
+    port: 8080
+    description: REST adapter for Vessel CRM API — Notes. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/crm/notes
+      name: crm-notes
+      description: REST surface for crm-notes.
+      operations:
+      - method: GET
+        name: getallnotes
+        description: Get All Notes
+        call: crm-notes.getallnotes
+        with:
+          accessToken: rest.accessToken
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/crm/notes/create
+      name: crm-notes-create
+      description: REST surface for crm-notes-create.
+      operations:
+      - method: POST
+        name: createnote
+        description: Create a Note
+        call: crm-notes.createnote
+        with:
+          accessToken: rest.accessToken
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: crm-notes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Vessel CRM API — Notes. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-all-notes
+      description: Get All Notes
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: crm-notes.getallnotes
+      with:
+        accessToken: tools.accessToken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-note
+      description: Create a Note
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: crm-notes.createnote
+      with:
+        accessToken: tools.accessToken
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

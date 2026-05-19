@@ -1,0 +1,81 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Vessel CRM API — Connections
+  description: 'Vessel CRM API — Connections. 1 operations. Lead operation: Delete a Connection. Self-contained Naftiko capability
+    covering one Vessel business surface.'
+  tags:
+  - Vessel
+  - Connections
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    VESSEL_API_KEY: VESSEL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: crm-connections
+    baseUri: https://api.vessel.land
+    description: Vessel CRM API — Connections business capability. Self-contained, no shared references.
+    resources:
+    - name: connection-connection
+      path: /connection/connection
+      operations:
+      - name: deleteconnection
+        method: DELETE
+        description: Delete a Connection
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: accessToken
+          in: query
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: vessel-api-token
+      value: '{{env.VESSEL_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: crm-connections-rest
+    port: 8080
+    description: REST adapter for Vessel CRM API — Connections. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/connection/connection
+      name: connection-connection
+      description: REST surface for connection-connection.
+      operations:
+      - method: DELETE
+        name: deleteconnection
+        description: Delete a Connection
+        call: crm-connections.deleteconnection
+        with:
+          accessToken: rest.accessToken
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: crm-connections-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Vessel CRM API — Connections. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: delete-connection
+      description: Delete a Connection
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: crm-connections.deleteconnection
+      with:
+        accessToken: tools.accessToken
+      outputParameters:
+      - type: object
+        mapping: $.

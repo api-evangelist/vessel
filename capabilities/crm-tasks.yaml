@@ -1,0 +1,81 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Vessel CRM API — Tasks
+  description: 'Vessel CRM API — Tasks. 1 operations. Lead operation: Get All Tasks. Self-contained Naftiko capability covering
+    one Vessel business surface.'
+  tags:
+  - Vessel
+  - Tasks
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    VESSEL_API_KEY: VESSEL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: crm-tasks
+    baseUri: https://api.vessel.land
+    description: Vessel CRM API — Tasks business capability. Self-contained, no shared references.
+    resources:
+    - name: crm-tasks
+      path: /crm/tasks
+      operations:
+      - name: getalltasks
+        method: GET
+        description: Get All Tasks
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: accessToken
+          in: query
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: vessel-api-token
+      value: '{{env.VESSEL_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: crm-tasks-rest
+    port: 8080
+    description: REST adapter for Vessel CRM API — Tasks. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/crm/tasks
+      name: crm-tasks
+      description: REST surface for crm-tasks.
+      operations:
+      - method: GET
+        name: getalltasks
+        description: Get All Tasks
+        call: crm-tasks.getalltasks
+        with:
+          accessToken: rest.accessToken
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: crm-tasks-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Vessel CRM API — Tasks. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-all-tasks
+      description: Get All Tasks
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: crm-tasks.getalltasks
+      with:
+        accessToken: tools.accessToken
+      outputParameters:
+      - type: object
+        mapping: $.
