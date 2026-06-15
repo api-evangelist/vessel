@@ -1,10 +1,12 @@
 aid: vessel
 name: Vessel
-description: 'Vessel is a developer-first embedded integrations platform that enables product teams to add native integrations
-  to their applications. It provides unified API abstractions, actions APIs, and passthrough APIs to connect with CRM, sales
-  engagement, marketing automation, chat, and dialer tools while managing authentication, rate limits, and data normalization.
-  The platform supports OAuth and API-key authentication via a drop-in React UI component (Vessel Link), with two API surfaces:
-  api.vessel.dev for the newer GTM integrations platform and api.vessel.land for the CRM-focused platform.'
+description: >-
+  Vessel is a developer-first embedded integrations platform that enables product teams to add native integrations to
+  their applications. It provides unified API abstractions, actions APIs, and passthrough APIs to connect with CRM,
+  sales engagement, marketing automation, chat, and dialer tools while managing authentication, rate limits, and data
+  normalization. The platform supports OAuth and API-key authentication via a drop-in React UI component (Vessel Link),
+  with two API surfaces: api.vessel.dev for the newer GTM integrations platform and api.vessel.land for the CRM-focused
+  platform.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
@@ -22,112 +24,86 @@ specificationVersion: '0.19'
 apis:
   - aid: vessel:platform-api
     name: Vessel Platform API
-    description: The Vessel Platform API (api.vessel.dev) provides the core integration platform capabilities including authentication
-      session management, access token exchange, connection lifecycle management, integration listing, passthrough API calls,
-      and webhook management. Authentication uses the x-vessel-api-token header for server-side requests plus x-vessel-access-token
-      for user connection scoped operations.
+    description: >-
+      The Vessel Platform API (api.vessel.dev) provides the core integration platform capabilities including
+      authentication session management, access token exchange, connection lifecycle management, integration listing,
+      passthrough API calls, and webhook management. Authentication uses the x-vessel-api-token header for server-side
+      requests plus x-vessel-access-token for user connection scoped operations.
     humanURL: https://www.vessel.dev/
     tags:
-    - Authentication
-    - Connections
-    - Integrations
-    - Passthrough
-    - Webhooks
+      - Authentication
+      - Connections
+      - Integrations
+      - Passthrough
+      - Webhooks
     properties:
-    - type: Documentation
-      url: https://docs.vessel.dev/
-    - type: OpenAPI
-      url: https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/openapi/vessel-platform-openapi.yml
-    - type: SpectralRuleset
-      url: https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
-    - type: GitHubRepository
-      url: https://github.com/vesselapi/all-api-docs
-    - type: NaftikoCapability
-      url: capabilities/platform-authentication.yaml
-    - type: NaftikoCapability
-      url: capabilities/platform-connections.yaml
-    - type: NaftikoCapability
-      url: capabilities/platform-engagement-unifications.yaml
-    - type: NaftikoCapability
-      url: capabilities/platform-integrations.yaml
-    - type: NaftikoCapability
-      url: capabilities/platform-passthrough.yaml
-    - type: NaftikoCapability
-      url: capabilities/platform-webhooks.yaml
+      - type: Documentation
+        url: https://docs.vessel.dev/
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/openapi/vessel-platform-openapi.yml
+      - type: SpectralRuleset
+        url: https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
+      - type: GitHubRepository
+        url: https://github.com/vesselapi/all-api-docs
   - aid: vessel:crm-api
     name: Vessel CRM API
-    description: The Vessel CRM API (api.vessel.land) provides unified CRM operations across Salesforce, HubSpot, Zoho, Pipedrive,
-      Close, Freshsales, Microsoft Dynamics, Affinity, monday.com, and Freshdesk. The API normalizes contacts, deals, accounts,
-      leads, notes, tasks, emails, calls, events, event attendees, users, and lists. Authentication uses vessel-api-token header
-      and accessToken query parameter.
+    description: >-
+      The Vessel CRM API (api.vessel.land) provides unified CRM operations across Salesforce, HubSpot, Zoho, Pipedrive,
+      Close, Freshsales, Microsoft Dynamics, Affinity, monday.com, and Freshdesk. The API normalizes contacts, deals,
+      accounts, leads, notes, tasks, emails, calls, events, event attendees, users, and lists. Authentication uses
+      vessel-api-token header and accessToken query parameter.
     humanURL: https://www.vessel.dev/unified-apis/crm
     tags:
-    - Accounts
-    - CRM
-    - Contacts
-    - Deals
-    - Leads
-    - Unified API
+      - Accounts
+      - CRM
+      - Contacts
+      - Deals
+      - Leads
+      - Unified API
     properties:
-    - type: Documentation
-      url: https://docs.vessel.dev/
-    - type: OpenAPI
-      url: https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/openapi/vessel-crm-openapi.yml
-    - type: JSONSchema
-      url: https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
-    - type: GitHubRepository
-      url: https://github.com/vesselapi/all-api-docs
-    - type: NaftikoCapability
-      url: capabilities/crm-accounts.yaml
-    - type: NaftikoCapability
-      url: capabilities/crm-authentication.yaml
-    - type: NaftikoCapability
-      url: capabilities/crm-connections.yaml
-    - type: NaftikoCapability
-      url: capabilities/crm-contacts.yaml
-    - type: NaftikoCapability
-      url: capabilities/crm-deals.yaml
-    - type: NaftikoCapability
-      url: capabilities/crm-leads.yaml
-    - type: NaftikoCapability
-      url: capabilities/crm-notes.yaml
-    - type: NaftikoCapability
-      url: capabilities/crm-tasks.yaml
-    - type: NaftikoCapability
-      url: capabilities/crm-users.yaml
+      - type: Documentation
+        url: https://docs.vessel.dev/
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/openapi/vessel-crm-openapi.yml
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
+      - type: GitHubRepository
+        url: https://github.com/vesselapi/all-api-docs
   - aid: vessel:actions-api
     name: Vessel Actions API
-    description: The Vessel Actions API provides pre-built, validated actions for common integration operations across CRM,
-      sales engagement, marketing automation, chat, and dialer systems. Actions validate API responses and request inputs, standardize
-      data types (ISO dates, string IDs), and abstract downstream provider quirks.
+    description: >-
+      The Vessel Actions API provides pre-built, validated actions for common integration operations across CRM, sales
+      engagement, marketing automation, chat, and dialer systems. Actions validate API responses and request inputs,
+      standardize data types (ISO dates, string IDs), and abstract downstream provider quirks.
     humanURL: https://www.vessel.dev/
     tags:
-    - Actions
-    - Automation
-    - Integrations
-    - Validation
+      - Actions
+      - Automation
+      - Integrations
+      - Validation
     properties:
-    - type: Documentation
-      url: https://www.vessel.dev/
-    - type: GitHubRepository
-      url: https://github.com/vesselapi/integrations
+      - type: Documentation
+        url: https://www.vessel.dev/
+      - type: GitHubRepository
+        url: https://github.com/vesselapi/integrations
   - aid: vessel:unified-api
     name: Vessel Unified API
-    description: The Vessel Unified API provides a standardized interface across integrations, abstracting away the differences
-      between third-party APIs to provide a consistent developer experience. Supports CRM, sales engagement, chat, marketing
-      automation, and dialer categories.
+    description: >-
+      The Vessel Unified API provides a standardized interface across integrations, abstracting away the differences
+      between third-party APIs to provide a consistent developer experience. Supports CRM, sales engagement, chat,
+      marketing automation, and dialer categories.
     humanURL: https://www.vessel.dev/
     tags:
-    - CRM
-    - Chat
-    - Dialers
-    - Marketing Automation
-    - Normalized
-    - Sales Engagement
-    - Unified API
+      - CRM
+      - Chat
+      - Dialers
+      - Marketing Automation
+      - Normalized
+      - Sales Engagement
+      - Unified API
     properties:
-    - type: Documentation
-      url: https://www.vessel.dev/
+      - type: Documentation
+        url: https://www.vessel.dev/
 common:
   - type: LinkedIn
     url: https://www.linkedin.com/company/vesselapi
@@ -146,11 +122,15 @@ common:
   - url: https://github.com/vesselapi
     name: Vessel GitHub Organization
     type: GitHubOrganization
-    description: Vessel's GitHub organization hosting the integrations library, documentation, client SDK, and example applications.
+    description: >-
+      Vessel's GitHub organization hosting the integrations library, documentation, client SDK, and example
+      applications.
   - url: https://github.com/vesselapi/integrations
     name: Vessel Integrations Library
     type: GitHubRepository
-    description: Open-source integrations library defining actions, authentication, and passthrough APIs for all supported integrations.
+    description: >-
+      Open-source integrations library defining actions, authentication, and passthrough APIs for all supported
+      integrations.
   - url: https://github.com/vesselapi/client-sdk
     name: Vessel Client SDK
     type: SDK

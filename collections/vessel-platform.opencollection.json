@@ -1,0 +1,271 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vessel Platform API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-vessel-api-token",
+      "value": "{{x-vessel-api-token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Integrations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List All Integrations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.dev/integrations/list"
+          },
+          "docs": "Returns all supported integrations with their name, icon URI, and integration ID. Use this to build your integrations page UI showing which third-party tools users can connect."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Session Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.dev/auth/session-token",
+            "auth": {
+              "type": "apikey",
+              "key": "x-vessel-api-token",
+              "value": "{{x-vessel-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a temporary authentication session token. Call this endpoint each time a user wants to connect a new integration. The session token is passed to the Vessel client SDK to open the authentication modal."
+        },
+        {
+          "info": {
+            "name": "Exchange Session Token for Access Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.dev/auth/access-token",
+            "auth": {
+              "type": "apikey",
+              "key": "x-vessel-api-token",
+              "value": "{{x-vessel-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Exchanges a session token (returned from the Vessel client SDK after successful user authentication) for a permanent access token and connection ID. Store the access token securely on your backend."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Connections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List All Connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.dev/connections/list",
+            "auth": {
+              "type": "apikey",
+              "key": "x-vessel-api-token",
+              "value": "{{x-vessel-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns all active connections for your API token. Useful for managing user integrations and tracking connection status."
+        },
+        {
+          "info": {
+            "name": "Get a Connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.dev/connections/get",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-vessel-api-token",
+              "value": "{{x-vessel-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns details for a specific connection by connection ID."
+        },
+        {
+          "info": {
+            "name": "Delete a Connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.dev/connections/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-vessel-api-token",
+              "value": "{{x-vessel-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Permanently deletes a connection and frees associated resources. Call this when a user disconnects a third-party integration from your app."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Passthrough",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Passthrough API Call",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.dev/passthrough",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-vessel-api-token",
+              "value": "{{x-vessel-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Forwards an authenticated API call directly to the downstream integration provider. The access token credentials are automatically attached to the request. Useful for calling endpoints not yet covered by Vessel actions."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.dev/webhooks",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-vessel-api-token",
+              "value": "{{x-vessel-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a webhook subscription to receive real-time notifications when events occur in connected integrations."
+        },
+        {
+          "info": {
+            "name": "List All Webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.dev/webhooks/list",
+            "auth": {
+              "type": "apikey",
+              "key": "x-vessel-api-token",
+              "value": "{{x-vessel-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns all configured webhook subscriptions for your account."
+        },
+        {
+          "info": {
+            "name": "Delete a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.dev/webhooks/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-vessel-api-token",
+              "value": "{{x-vessel-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Removes a webhook subscription."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Engagement Unifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Engagement Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.dev/unifications/engagement/users/list",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-vessel-api-token",
+              "value": "{{x-vessel-api-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns all users from the connected sales engagement tool."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

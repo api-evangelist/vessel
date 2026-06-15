@@ -1,0 +1,438 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vessel CRM API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "vessel-api-token",
+      "value": "{{vessel-api-token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Link Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.land/link/token"
+          },
+          "docs": "Creates a link token for initiating the Vessel Link authentication flow. Pass this token to the @vesselapi/react-vessel-link component to open the authentication modal."
+        },
+        {
+          "info": {
+            "name": "Exchange Public Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.land/link/exchange",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Exchanges a public token (returned from the Vessel Link UI after successful CRM authentication) for an access token and connection ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Contacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vessel.land/crm/contacts",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query",
+                "description": "User connection access token"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor for next page"
+              }
+            ]
+          },
+          "docs": "Returns all contacts from the connected CRM."
+        },
+        {
+          "info": {
+            "name": "Create a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.land/crm/contacts/create",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query",
+                "description": "User connection access token"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new contact in the connected CRM."
+        },
+        {
+          "info": {
+            "name": "Update a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.land/crm/contacts/update",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query",
+                "description": "User connection access token"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing contact in the connected CRM."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Deals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Deals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vessel.land/crm/deals",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all deals/opportunities from the connected CRM."
+        },
+        {
+          "info": {
+            "name": "Create a Deal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.land/crm/deals/create",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new deal in the connected CRM."
+        },
+        {
+          "info": {
+            "name": "Update a Deal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.land/crm/deals/update",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing deal in the connected CRM."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vessel.land/crm/accounts",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all accounts/companies from the connected CRM."
+        },
+        {
+          "info": {
+            "name": "Create an Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.land/crm/accounts/create",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new account/company in the connected CRM."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Leads",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Leads",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vessel.land/crm/leads",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all leads from the connected CRM."
+        },
+        {
+          "info": {
+            "name": "Create a Lead",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.land/crm/leads/create",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new lead in the connected CRM."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Notes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Notes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vessel.land/crm/notes",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all notes from the connected CRM."
+        },
+        {
+          "info": {
+            "name": "Create a Note",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vessel.land/crm/notes/create",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new note in the connected CRM."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Tasks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Tasks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vessel.land/crm/tasks",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all tasks from the connected CRM."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vessel.land/crm/users",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all users from the connected CRM."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Connections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Delete a Connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.vessel.land/connection/connection",
+            "params": [
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a CRM connection and frees associated resources. Always call this when a user disconnects their CRM."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

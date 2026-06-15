@@ -1,8 +1,12 @@
-# Vessel
+# Vessel (vessel)
 
-Vessel is a developer-first embedded integrations platform that enables product teams to add native integrations to their applications. It provides unified API abstractions, actions APIs, and passthrough APIs to connect with CRM, sales engagement, marketing automation, chat, and dialer tools while managing authentication, rate limits, and data normalization.
+Vessel is a developer-first embedded integrations platform that enables product teams to add native integrations to their applications. It provides unified API abstractions, actions APIs, and passthrough APIs to connect with CRM, sales engagement, marketing automation, chat, and dialer tools while managing authentication, rate limits, and data normalization. The platform supports OAuth and API-key authentication via a drop-in React UI component (Vessel Link), with two API surfaces: api.vessel.dev for the newer GTM integrations platform and api.vessel.land for the CRM-focused platform.
 
-**URL:** [https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/apis.yml)
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/apis.yml)
+
+## Scope
+
+- **Type:** Index
 
 ## Tags
 
@@ -17,113 +21,120 @@ Vessel is a developer-first embedded integrations platform that enables product 
 ## Timestamps
 
 - **Created:** 2026-05-03
-- **Modified:** 2026-05-03
+- **Modified:** 2026-05-19
 
 ## APIs
 
-### Vessel Platform API (api.vessel.dev)
+### Vessel Platform API
 
-The newer Vessel platform providing session management, access token exchange, connection lifecycle, integration catalog, passthrough, and webhooks.
+The Vessel Platform API (api.vessel.dev) provides the core integration platform capabilities including authentication session management, access token exchange, connection lifecycle management, integration listing, passthrough API calls, and webhook management. Authentication uses the x-vessel-api-token header for server-side requests plus x-vessel-access-token for user connection scoped operations.
 
-Authentication: `x-vessel-api-token` header (server) + `x-vessel-access-token` header (user-scoped)
+- **Human URL:** [https://www.vessel.dev/](https://www.vessel.dev/)
 
-- **Documentation:** [https://docs.vessel.dev/](https://docs.vessel.dev/)
-- **OpenAPI Spec:** [openapi/vessel-platform-openapi.yml](openapi/vessel-platform-openapi.yml)
-- **API Docs Repository:** [https://github.com/vesselapi/all-api-docs](https://github.com/vesselapi/all-api-docs)
+#### Tags
 
-### Vessel CRM API (api.vessel.land)
+- Authentication
+- Connections
+- Integrations
+- Passthrough
+- Webhooks
 
-Unified CRM API providing normalized contacts, deals, accounts, leads, notes, tasks, emails, calls, events, and users across Salesforce, HubSpot, Zoho, Pipedrive, Close, Freshsales, Microsoft Dynamics, Affinity, and monday.com.
+#### Properties
 
-Authentication: `vessel-api-token` header + `accessToken` query parameter
+- [Documentation](https://docs.vessel.dev/)
+- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/openapi/vessel-platform-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Spectral Ruleset](https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml)
+- [GitHub Repository](https://github.com/vesselapi/all-api-docs)
+- [Postman Collection](collections/vessel-crm.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/vessel-crm.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/vessel-platform.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/vessel-platform.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
-- **Documentation:** [https://docs.vessel.dev/](https://docs.vessel.dev/)
-- **OpenAPI Spec:** [openapi/vessel-crm-openapi.yml](openapi/vessel-crm-openapi.yml)
+### Vessel CRM API
 
-### Supported Integrations
+The Vessel CRM API (api.vessel.land) provides unified CRM operations across Salesforce, HubSpot, Zoho, Pipedrive, Close, Freshsales, Microsoft Dynamics, Affinity, monday.com, and Freshdesk. The API normalizes contacts, deals, accounts, leads, notes, tasks, emails, calls, events, event attendees, users, and lists. Authentication uses vessel-api-token header and accessToken query parameter.
 
-| Category | Tools |
-|----------|-------|
-| CRM | Salesforce, HubSpot, Zoho, Pipedrive, Close, Freshsales, Microsoft Dynamics, Affinity, monday.com, Freshdesk |
-| Sales Engagement | Outreach, Apollo, Salesloft |
-| Chat | Slack, Microsoft Teams |
-| Marketing Automation | Customer.io, Mailchimp, ActiveCampaign |
-| Dialer | Aircall, Dialpad, RingCentral |
+- **Human URL:** [https://www.vessel.dev/unified-apis/crm](https://www.vessel.dev/unified-apis/crm)
 
-## Authentication Flow
+#### Tags
 
-1. Backend calls `POST /auth/session-token` to get a session token
-2. Frontend opens the Vessel modal using `@vesselapi/client-sdk` with the session token
-3. User authenticates their integration via OAuth modal
-4. On success, backend calls `POST /auth/access-token` to exchange session token for a permanent access token
-5. Access token is stored securely and used for all subsequent API calls via `x-vessel-access-token` header
+- Accounts
+- CRM
+- Contacts
+- Deals
+- Leads
+- Unified API
 
-## Artifacts
+#### Properties
 
-### OpenAPI Specifications
+- [Documentation](https://docs.vessel.dev/)
+- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/openapi/vessel-crm-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [JSON Schema](https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [GitHub Repository](https://github.com/vesselapi/all-api-docs)
+- [Postman Collection](collections/vessel-crm.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/vessel-crm.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/vessel-platform.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/vessel-platform.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
-| Spec | Description |
-|------|-------------|
-| [openapi/vessel-platform-openapi.yml](openapi/vessel-platform-openapi.yml) | Vessel Platform API — auth, connections, integrations, passthrough, webhooks |
-| [openapi/vessel-crm-openapi.yml](openapi/vessel-crm-openapi.yml) | Vessel CRM API — contacts, deals, accounts, leads, notes, tasks, users |
+### Vessel Actions API
 
-### Capabilities (Naftiko)
+The Vessel Actions API provides pre-built, validated actions for common integration operations across CRM, sales engagement, marketing automation, chat, and dialer systems. Actions validate API responses and request inputs, standardize data types (ISO dates, string IDs), and abstract downstream provider quirks.
 
-| File | Description |
-|------|-------------|
-| [capabilities/crm-integration.yaml](capabilities/crm-integration.yaml) | Unified CRM integration workflow — 10 tools for contacts, deals, accounts, leads, notes, tasks |
-| [capabilities/shared/vessel-crm.yaml](capabilities/shared/vessel-crm.yaml) | Shared Vessel CRM API consumed definition |
+- **Human URL:** [https://www.vessel.dev/](https://www.vessel.dev/)
 
-### Spectral Rules
+#### Tags
 
-| File | Description |
-|------|-------------|
-| [rules/vessel-api-rules.yml](rules/vessel-api-rules.yml) | Spectral ruleset enforcing Vessel API conventions |
+- Actions
+- Automation
+- Integrations
+- Validation
 
-### JSON Schemas
+#### Properties
 
-| Schema | Description |
-|--------|-------------|
-| [json-schema/vessel-contact-schema.json](json-schema/vessel-contact-schema.json) | CRM contact entity schema |
-| [json-schema/vessel-deal-schema.json](json-schema/vessel-deal-schema.json) | CRM deal entity schema |
+- [Documentation](https://www.vessel.dev/)
+- [GitHub Repository](https://github.com/vesselapi/integrations)
+- [Postman Collection](collections/vessel-crm.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/vessel-crm.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/vessel-platform.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/vessel-platform.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
-### JSON Structures
+### Vessel Unified API
 
-| Structure | Description |
-|-----------|-------------|
-| [json-structure/vessel-contact-structure.json](json-structure/vessel-contact-structure.json) | Contact field structure documentation |
+The Vessel Unified API provides a standardized interface across integrations, abstracting away the differences between third-party APIs to provide a consistent developer experience. Supports CRM, sales engagement, chat, marketing automation, and dialer categories.
 
-### JSON-LD
+- **Human URL:** [https://www.vessel.dev/](https://www.vessel.dev/)
 
-| File | Description |
-|------|-------------|
-| [json-ld/vessel-context.jsonld](json-ld/vessel-context.jsonld) | JSON-LD context mapping Vessel CRM vocabulary to schema.org |
+#### Tags
 
-### Examples
+- CRM
+- Chat
+- Dialers
+- Marketing Automation
+- Normalized
+- Sales Engagement
+- Unified API
 
-| Example | Description |
-|---------|-------------|
-| [examples/vessel-create-session-token-example.json](examples/vessel-create-session-token-example.json) | Create authentication session token |
-| [examples/vessel-get-all-contacts-example.json](examples/vessel-get-all-contacts-example.json) | Get all CRM contacts |
-| [examples/vessel-list-integrations-example.json](examples/vessel-list-integrations-example.json) | List all supported integrations |
+#### Properties
 
-### Vocabulary
-
-| File | Description |
-|------|-------------|
-| [vocabulary/vessel-vocabulary.yml](vocabulary/vessel-vocabulary.yml) | Embedded integrations and CRM domain vocabulary |
+- [Documentation](https://www.vessel.dev/)
+- [Postman Collection](collections/vessel-crm.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/vessel-crm.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/vessel-platform.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/vessel-platform.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ## Common Properties
 
+- [LinkedIn](https://www.linkedin.com/company/vesselapi)
 - [Website](https://www.vessel.dev/)
-- [API Documentation](https://docs.vessel.dev/)
-- [Integrations Catalog](https://www.vessel.dev/integrations)
+- [Documentation](https://docs.vessel.dev/)
+- [Integrations](https://www.vessel.dev/integrations)
 - [GitHub Organization](https://github.com/vesselapi)
-- [Integrations Library](https://github.com/vesselapi/integrations)
-- [Client SDK](https://github.com/vesselapi/client-sdk)
-- [Node.js SDK (npm)](https://www.npmjs.com/package/@vesselapi/sdk)
-- [React Link Component (npm)](https://www.npmjs.com/package/@vesselapi/react-vessel-link)
+- [GitHub Repository](https://github.com/vesselapi/integrations)
+- [SDK](https://github.com/vesselapi/client-sdk)
+- [SDK](https://www.npmjs.com/package/@vesselapi/sdk)
+- [SDK](https://www.npmjs.com/package/@vesselapi/react-vessel-link)
 
 ## Maintainers
 
-**Kin Lane** — kin@apievangelist.com
+**FN:** Kin Lane
+**Email:** kin@apievangelist.com
