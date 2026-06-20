@@ -8,7 +8,7 @@ description: >-
   with two API surfaces: api.vessel.dev for the newer GTM integrations platform and api.vessel.land for the CRM-focused
   platform.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - CRM
   - Embedded Integrations
