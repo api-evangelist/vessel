@@ -133,15 +133,15 @@ common:
       integrations.
   - url: https://github.com/vesselapi/client-sdk
     name: Vessel Client SDK
-    type: SDK
+    type: SDKs
     description: Client-side SDK providing the Vessel Link modal for user authentication with third-party integrations.
   - url: https://www.npmjs.com/package/@vesselapi/sdk
     name: Vessel Node.js SDK (npm)
-    type: SDK
+    type: SDKs
     description: Official Vessel Node.js SDK for server-side API calls.
   - url: https://www.npmjs.com/package/@vesselapi/react-vessel-link
     name: Vessel React Link Component (npm)
-    type: SDK
+    type: SDKs
     description: React component for embedding the Vessel authentication modal.
 integrations:
   - name: Salesforce
