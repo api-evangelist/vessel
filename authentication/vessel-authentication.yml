@@ -1,0 +1,37 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/vessel-crm-openapi.yml, openapi/vessel-platform-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiToken
+  type: apiKey
+  in: header
+  parameter: vessel-api-token
+  description: Your Vessel API token for server-side authentication
+  sources:
+  - openapi/vessel-crm-openapi.yml
+- name: apiToken
+  type: apiKey
+  in: header
+  parameter: x-vessel-api-token
+  description: Your Vessel API token for server-side authentication
+  sources:
+  - openapi/vessel-platform-openapi.yml
+- name: accessToken
+  type: apiKey
+  in: header
+  parameter: x-vessel-access-token
+  description: User connection access token for user-scoped API calls
+  sources:
+  - openapi/vessel-platform-openapi.yml
+- name: sessionToken
+  type: apiKey
+  in: header
+  parameter: x-vessel-session-token
+  description: Temporary session token from the auth flow
+  sources:
+  - openapi/vessel-platform-openapi.yml

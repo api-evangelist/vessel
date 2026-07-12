@@ -105,6 +105,10 @@ apis:
       - type: Documentation
         url: https://www.vessel.dev/
 common:
+  - type: DomainSecurity
+    url: security/vessel-domain-security.yml
+  - type: Authentication
+    url: authentication/vessel-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/vesselapi
   - url: https://www.vessel.dev/
@@ -143,6 +147,10 @@ common:
     name: Vessel React Link Component (npm)
     type: SDKs
     description: React component for embedding the Vessel authentication modal.
+  - url: https://www.vessel.dev/blog
+    name: Vessel Blog
+    type: Blog
+    description: Vessel's blog covering integration development guides and platform tutorials.
 integrations:
   - name: Salesforce
   - name: HubSpot
