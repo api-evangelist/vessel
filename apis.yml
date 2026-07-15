@@ -105,6 +105,8 @@ apis:
       - type: Documentation
         url: https://www.vessel.dev/
 common:
+  - type: AgenticAccess
+    url: agentic-access/vessel-agentic-access.yml
   - type: DomainSecurity
     url: security/vessel-domain-security.yml
   - type: Authentication
