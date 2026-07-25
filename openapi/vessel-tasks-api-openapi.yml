@@ -1,0 +1,89 @@
+openapi: 3.1.0
+info:
+  title: Vessel CRM Accounts Tasks API
+  description: The Vessel CRM API provides a unified interface for CRM operations across Salesforce, HubSpot, Zoho, Pipedrive, Close, Freshsales, Microsoft Dynamics, Affinity, monday.com, and Freshdesk. Operations are normalized across all CRM systems with consistent object models for contacts, deals, accounts, leads, notes, tasks, emails, calls, events, and users. Authentication uses vessel-api-token header and accessToken query parameter.
+  version: '1.0'
+  contact:
+    name: Vessel Support
+    email: support@vessel.dev
+    url: https://www.vessel.dev/
+  license:
+    name: Proprietary
+    url: https://www.vessel.dev/
+servers:
+- url: https://api.vessel.land
+  description: Vessel CRM API
+security:
+- apiToken: []
+tags:
+- name: Tasks
+paths:
+  /crm/tasks:
+    get:
+      operationId: getAllTasks
+      summary: Get All Tasks
+      description: Returns all tasks from the connected CRM.
+      tags:
+      - Tasks
+      parameters:
+      - name: accessToken
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: API error response
+      properties:
+        error:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code
+    Task:
+      type: object
+      description: A CRM task record
+      properties:
+        id:
+          type: string
+        subject:
+          type: string
+        dueDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+        assignedTo:
+          type: string
+        contactId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: vessel-api-token
+      description: Your Vessel API token for server-side authentication

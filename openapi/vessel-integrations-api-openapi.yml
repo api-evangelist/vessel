@@ -1,0 +1,99 @@
+openapi: 3.1.0
+info:
+  title: Vessel CRM Accounts Integrations API
+  description: The Vessel CRM API provides a unified interface for CRM operations across Salesforce, HubSpot, Zoho, Pipedrive, Close, Freshsales, Microsoft Dynamics, Affinity, monday.com, and Freshdesk. Operations are normalized across all CRM systems with consistent object models for contacts, deals, accounts, leads, notes, tasks, emails, calls, events, and users. Authentication uses vessel-api-token header and accessToken query parameter.
+  version: '1.0'
+  contact:
+    name: Vessel Support
+    email: support@vessel.dev
+    url: https://www.vessel.dev/
+  license:
+    name: Proprietary
+    url: https://www.vessel.dev/
+servers:
+- url: https://api.vessel.land
+  description: Vessel CRM API
+security:
+- apiToken: []
+tags:
+- name: Integrations
+paths:
+  /integrations/list:
+    post:
+      operationId: listIntegrations
+      summary: List All Integrations
+      description: Returns all supported integrations with their name, icon URI, and integration ID. Use this to build your integrations page UI showing which third-party tools users can connect.
+      tags:
+      - Integrations
+      responses:
+        '200':
+          description: List of supported integrations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      integrations:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Integration'
+        '401':
+          description: Unauthorized - invalid API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: API error response
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: Human-readable error message
+            code:
+              type: string
+              description: Error code identifier
+    Integration:
+      type: object
+      description: A supported third-party integration
+      properties:
+        integrationId:
+          type: string
+          description: Unique integration identifier
+        id:
+          type: string
+          description: Integration identifier (alias)
+        display:
+          type: object
+          description: UI display properties
+          properties:
+            name:
+              type: string
+              description: Integration display name
+            iconURI:
+              type: string
+              format: uri
+              description: URL to the integration's logo/icon
+        category:
+          type: string
+          description: Integration category
+          enum:
+          - crm
+          - engagement
+          - chat
+          - marketing-automation
+          - dialer
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: vessel-api-token
+      description: Your Vessel API token for server-side authentication

@@ -1,0 +1,86 @@
+openapi: 3.1.0
+info:
+  title: Vessel CRM Accounts Users API
+  description: The Vessel CRM API provides a unified interface for CRM operations across Salesforce, HubSpot, Zoho, Pipedrive, Close, Freshsales, Microsoft Dynamics, Affinity, monday.com, and Freshdesk. Operations are normalized across all CRM systems with consistent object models for contacts, deals, accounts, leads, notes, tasks, emails, calls, events, and users. Authentication uses vessel-api-token header and accessToken query parameter.
+  version: '1.0'
+  contact:
+    name: Vessel Support
+    email: support@vessel.dev
+    url: https://www.vessel.dev/
+  license:
+    name: Proprietary
+    url: https://www.vessel.dev/
+servers:
+- url: https://api.vessel.land
+  description: Vessel CRM API
+security:
+- apiToken: []
+tags:
+- name: Users
+paths:
+  /crm/users:
+    get:
+      operationId: getAllUsers
+      summary: Get All Users
+      description: Returns all users from the connected CRM.
+      tags:
+      - Users
+      parameters:
+      - name: accessToken
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    User:
+      type: object
+      description: A CRM user record
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      description: API error response
+      properties:
+        error:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: vessel-api-token
+      description: Your Vessel API token for server-side authentication
