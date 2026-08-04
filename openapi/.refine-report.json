@@ -1,0 +1,38 @@
+{
+  "provider": "vessel",
+  "sources": [
+    "vessel-accounts-api-openapi.yml",
+    "vessel-authentication-api-openapi.yml",
+    "vessel-connections-api-openapi.yml",
+    "vessel-contacts-api-openapi.yml",
+    "vessel-deals-api-openapi.yml",
+    "vessel-engagement-unifications-api-openapi.yml",
+    "vessel-integrations-api-openapi.yml",
+    "vessel-leads-api-openapi.yml",
+    "vessel-notes-api-openapi.yml",
+    "vessel-passthrough-api-openapi.yml",
+    "vessel-tasks-api-openapi.yml",
+    "vessel-users-api-openapi.yml",
+    "vessel-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "vessel-accounts-api-openapi.yml",
+    "vessel-authentication-api-openapi.yml",
+    "vessel-connections-api-openapi.yml",
+    "vessel-contacts-api-openapi.yml",
+    "vessel-deals-api-openapi.yml",
+    "vessel-engagement-unifications-api-openapi.yml",
+    "vessel-integrations-api-openapi.yml",
+    "vessel-leads-api-openapi.yml",
+    "vessel-notes-api-openapi.yml",
+    "vessel-passthrough-api-openapi.yml",
+    "vessel-tasks-api-openapi.yml",
+    "vessel-users-api-openapi.yml",
+    "vessel-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

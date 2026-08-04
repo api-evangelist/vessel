@@ -1,0 +1,840 @@
+openapi: 3.1.0
+info:
+  title: Vessel CRM API
+  description: >-
+    The Vessel CRM API provides a unified interface for CRM operations across
+    Salesforce, HubSpot, Zoho, Pipedrive, Close, Freshsales, Microsoft Dynamics,
+    Affinity, monday.com, and Freshdesk. Operations are normalized across all
+    CRM systems with consistent object models for contacts, deals, accounts,
+    leads, notes, tasks, emails, calls, events, and users.
+    Authentication uses vessel-api-token header and accessToken query parameter.
+  version: '1.0'
+  contact:
+    name: Vessel Support
+    email: support@vessel.dev
+    url: https://www.vessel.dev/
+  license:
+    name: Proprietary
+    url: https://www.vessel.dev/
+servers:
+  - url: https://api.vessel.land
+    description: Vessel CRM API
+security:
+  - apiToken: []
+paths:
+  /link/token:
+    post:
+      operationId: createLinkToken
+      summary: Create Link Token
+      description: >-
+        Creates a link token for initiating the Vessel Link authentication flow.
+        Pass this token to the @vesselapi/react-vessel-link component to open
+        the authentication modal.
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: Link token created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  linkToken:
+                    type: string
+                    description: Temporary link token for authentication flow
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /link/exchange:
+    post:
+      operationId: exchangePublicToken
+      summary: Exchange Public Token
+      description: >-
+        Exchanges a public token (returned from the Vessel Link UI after
+        successful CRM authentication) for an access token and connection ID.
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - publicToken
+              properties:
+                publicToken:
+                  type: string
+                  description: Public token from the Vessel Link UI onSuccess callback
+      responses:
+        '200':
+          description: Tokens exchanged successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  connectionId:
+                    type: string
+                    description: Unique connection identifier
+                  accessToken:
+                    type: string
+                    description: Access token for CRM API calls
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/contacts:
+    get:
+      operationId: getAllContacts
+      summary: Get All Contacts
+      description: Returns all contacts from the connected CRM.
+      tags:
+        - Contacts
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+          description: User connection access token
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor for next page
+      responses:
+        '200':
+          description: List of CRM contacts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  contacts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Contact'
+                  nextCursor:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/contacts/create:
+    post:
+      operationId: createContact
+      summary: Create a Contact
+      description: Creates a new contact in the connected CRM.
+      tags:
+        - Contacts
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+          description: User connection access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactInput'
+      responses:
+        '200':
+          description: Contact created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/contacts/update:
+    post:
+      operationId: updateContact
+      summary: Update a Contact
+      description: Updates an existing contact in the connected CRM.
+      tags:
+        - Contacts
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+          description: User connection access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - type: object
+                  required:
+                    - id
+                  properties:
+                    id:
+                      type: string
+                      description: Contact ID to update
+                - $ref: '#/components/schemas/ContactInput'
+      responses:
+        '200':
+          description: Contact updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/deals:
+    get:
+      operationId: getAllDeals
+      summary: Get All Deals
+      description: Returns all deals/opportunities from the connected CRM.
+      tags:
+        - Deals
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of deals
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deals:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Deal'
+                  nextCursor:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/deals/create:
+    post:
+      operationId: createDeal
+      summary: Create a Deal
+      description: Creates a new deal in the connected CRM.
+      tags:
+        - Deals
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DealInput'
+      responses:
+        '200':
+          description: Deal created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deal'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/deals/update:
+    post:
+      operationId: updateDeal
+      summary: Update a Deal
+      description: Updates an existing deal in the connected CRM.
+      tags:
+        - Deals
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - type: object
+                  required:
+                    - id
+                  properties:
+                    id:
+                      type: string
+                - $ref: '#/components/schemas/DealInput'
+      responses:
+        '200':
+          description: Deal updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deal'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/accounts:
+    get:
+      operationId: getAllAccounts
+      summary: Get All Accounts
+      description: Returns all accounts/companies from the connected CRM.
+      tags:
+        - Accounts
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of accounts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Account'
+                  nextCursor:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/accounts/create:
+    post:
+      operationId: createAccount
+      summary: Create an Account
+      description: Creates a new account/company in the connected CRM.
+      tags:
+        - Accounts
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountInput'
+      responses:
+        '200':
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/leads:
+    get:
+      operationId: getAllLeads
+      summary: Get All Leads
+      description: Returns all leads from the connected CRM.
+      tags:
+        - Leads
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of leads
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  leads:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Lead'
+                  nextCursor:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/leads/create:
+    post:
+      operationId: createLead
+      summary: Create a Lead
+      description: Creates a new lead in the connected CRM.
+      tags:
+        - Leads
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadInput'
+      responses:
+        '200':
+          description: Lead created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lead'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/notes:
+    get:
+      operationId: getAllNotes
+      summary: Get All Notes
+      description: Returns all notes from the connected CRM.
+      tags:
+        - Notes
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of notes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Note'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/notes/create:
+    post:
+      operationId: createNote
+      summary: Create a Note
+      description: Creates a new note in the connected CRM.
+      tags:
+        - Notes
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoteInput'
+      responses:
+        '200':
+          description: Note created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/tasks:
+    get:
+      operationId: getAllTasks
+      summary: Get All Tasks
+      description: Returns all tasks from the connected CRM.
+      tags:
+        - Tasks
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /crm/users:
+    get:
+      operationId: getAllUsers
+      summary: Get All Users
+      description: Returns all users from the connected CRM.
+      tags:
+        - Users
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /connection/connection:
+    delete:
+      operationId: deleteConnection
+      summary: Delete a Connection
+      description: >-
+        Permanently deletes a CRM connection and frees associated resources.
+        Always call this when a user disconnects their CRM.
+      tags:
+        - Connections
+      parameters:
+        - name: accessToken
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Connection deleted
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: vessel-api-token
+      description: Your Vessel API token for server-side authentication
+  schemas:
+    Contact:
+      type: object
+      description: A CRM contact record
+      properties:
+        id:
+          type: string
+          description: Unique contact ID (string-normalized)
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        title:
+          type: string
+        company:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          description: ISO 8601 creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+    ContactInput:
+      type: object
+      description: Input for creating or updating a CRM contact
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        title:
+          type: string
+        company:
+          type: string
+    Deal:
+      type: object
+      description: A CRM deal/opportunity record
+      properties:
+        id:
+          type: string
+          description: Unique deal ID (string-normalized)
+        name:
+          type: string
+        amount:
+          type: number
+        stage:
+          type: string
+        closeDate:
+          type: string
+          format: date-time
+        ownerId:
+          type: string
+        accountId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    DealInput:
+      type: object
+      description: Input for creating or updating a CRM deal
+      properties:
+        name:
+          type: string
+        amount:
+          type: number
+        stage:
+          type: string
+        closeDate:
+          type: string
+        ownerId:
+          type: string
+        accountId:
+          type: string
+    Account:
+      type: object
+      description: A CRM account/company record
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        domain:
+          type: string
+        industry:
+          type: string
+        phone:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    AccountInput:
+      type: object
+      description: Input for creating a CRM account
+      properties:
+        name:
+          type: string
+        domain:
+          type: string
+        industry:
+          type: string
+        phone:
+          type: string
+    Lead:
+      type: object
+      description: A CRM lead record
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        company:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    LeadInput:
+      type: object
+      description: Input for creating a CRM lead
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        company:
+          type: string
+        status:
+          type: string
+    Note:
+      type: object
+      description: A CRM note record
+      properties:
+        id:
+          type: string
+        content:
+          type: string
+        contactId:
+          type: string
+        dealId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    NoteInput:
+      type: object
+      description: Input for creating a CRM note
+      properties:
+        content:
+          type: string
+        contactId:
+          type: string
+        dealId:
+          type: string
+    Task:
+      type: object
+      description: A CRM task record
+      properties:
+        id:
+          type: string
+        subject:
+          type: string
+        dueDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+        assignedTo:
+          type: string
+        contactId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    User:
+      type: object
+      description: A CRM user record
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      description: API error response
+      properties:
+        error:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code
