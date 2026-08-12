@@ -320,6 +320,9 @@ apis:
     url: >-
       https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
 common:
+  - type: License
+    name: MIT
+    url: https://github.com/vesselapi/integrations/blob/main/LICENSE
   - type: AgenticAccess
     url: agentic-access/vessel-agentic-access.yml
   - type: DomainSecurity
