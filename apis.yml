@@ -1,12 +1,15 @@
 aid: vessel
 name: Vessel
-description: >-
-  Vessel is a developer-first embedded integrations platform that enables product teams to add native integrations to
-  their applications. It provides unified API abstractions, actions APIs, and passthrough APIs to connect with CRM,
-  sales engagement, marketing automation, chat, and dialer tools while managing authentication, rate limits, and data
-  normalization. The platform supports OAuth and API-key authentication via a drop-in React UI component (Vessel Link),
-  with two API surfaces: api.vessel.dev for the newer GTM integrations platform and api.vessel.land for the CRM-focused
-  platform.
+description: 'Vessel (Kinit Inc.) is a developer-first embedded integrations platform for go-to-market software.
+  It gives a product team one contract to read and write an end customer''s CRM, sales engagement, chat, dialer
+  and marketing automation tools, plus a drop-in browser component — Vessel Link — that handles the end user''s
+  authorization so the host application never touches downstream credentials. Three modules sit on an open-source
+  integrations library: Unification (one normalized schema per vertical), Actions (typed, validated wrappers over
+  a single provider''s native API), and Managed ETL. An /api/passthrough endpoint forwards arbitrary authenticated
+  requests for anything the modules do not cover. Vessel publishes 20 OpenAPI 3.1.0 definitions covering 376 operations
+  in its own documentation repository. As of 2026-08-13 those contracts are still public but the operational surface
+  is not: api.vessel.dev does not answer, api.vessel.land has no DNS record, and both docs.vessel.dev and app.vessel.dev
+  are unreachable.'
 type: Index
 accessModel:
   pricing: paid
@@ -23,442 +26,768 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/vessel.png
 tags:
-  - CRM
-  - Embedded Integrations
-  - GTM
-  - Integrations
-  - iPaaS
-  - Sales Engagement
-  - Unified API
+- CRM
+- Chat
+- Dialer
+- Embedded Integrations
+- GTM
+- Integrations
+- iPaaS
+- Marketing Automation
+- Sales Engagement
+- Unified API
+- Webhooks
 url: https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/apis.yml
 created: '2026-05-03'
-modified: '2026-05-19'
+modified: '2026-08-13'
 specificationVersion: '0.19'
 apis:
-- aid: vessel:actions-api
-  name: Vessel Actions API
-  description: >-
-    The Vessel Actions API provides pre-built, validated actions for common integration operations across
-    CRM, sales engagement, marketing automation, chat, and dialer systems. Actions validate API responses
-    and request inputs, standardize data types (ISO dates, string IDs), and abstract downstream provider
-    quirks.
+- aid: vessel:platform-api
+  name: Vessel Platform API
+  description: The Vessel Platform API is the control plane of the Vessel embedded integrations platform. It covers
+    the Link authentication handshake (session tokens and access tokens), the catalog of supported integrations,
+    connection lifecycle (list, find, delete), customer-managed OAuth apps, the /api/passthrough escape hatch
+    for calling a downstream provider's native API directly, and webhook subscription management. Every request
+    is authenticated with an x-vessel-api-token header. Published by Vessel as OpenAPI 3.1.0 with 15 operations.
   humanURL: https://www.vessel.dev/
-  tags:
-  - Actions
-  - Automation
-  - Integrations
-  - Validation
-  properties:
-  - type: Documentation
-    url: https://www.vessel.dev/
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/integrations
-- aid: vessel:unified-api
-  name: Vessel Unified API
-  description: >-
-    The Vessel Unified API provides a standardized interface across integrations, abstracting away the
-    differences between third-party APIs to provide a consistent developer experience. Supports CRM, sales
-    engagement, chat, marketing automation, and dialer categories.
-  humanURL: https://www.vessel.dev/
-  tags:
-  - CRM
-  - Chat
-  - Dialers
-  - Marketing Automation
-  - Normalized
-  - Sales Engagement
-  - Unified API
-  properties:
-  - type: Documentation
-    url: https://www.vessel.dev/
-- aid: vessel:vessel-accounts-api
-  name: Vessel Accounts API
-  description: The Accounts API from Vessel — 2 operation(s) for accounts.
-  humanURL: https://www.vessel.dev/
-  tags:
-  - Accounts
-  properties:
-  - type: OpenAPI
-    url: openapi/vessel-accounts-api-openapi.yml
-  - type: Documentation
-    url: https://docs.vessel.dev/
-  - type: SpectralRuleset
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/all-api-docs
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
-- aid: vessel:vessel-authentication-api
-  name: Vessel Authentication API
-  description: The Authentication API from Vessel — 4 operation(s) for authentication.
-  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
   tags:
   - Authentication
-  properties:
-  - type: OpenAPI
-    url: openapi/vessel-authentication-api-openapi.yml
-  - type: Documentation
-    url: https://docs.vessel.dev/
-  - type: SpectralRuleset
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/all-api-docs
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
-- aid: vessel:vessel-connections-api
-  name: Vessel Connections API
-  description: The Connections API from Vessel — 4 operation(s) for connections.
-  humanURL: https://www.vessel.dev/
-  tags:
   - Connections
-  properties:
-  - type: OpenAPI
-    url: openapi/vessel-connections-api-openapi.yml
-  - type: Documentation
-    url: https://docs.vessel.dev/
-  - type: SpectralRuleset
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/all-api-docs
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
-- aid: vessel:vessel-contacts-api
-  name: Vessel Contacts API
-  description: The Contacts API from Vessel — 3 operation(s) for contacts.
-  humanURL: https://www.vessel.dev/
-  tags:
-  - Contacts
-  properties:
-  - type: OpenAPI
-    url: openapi/vessel-contacts-api-openapi.yml
-  - type: Documentation
-    url: https://docs.vessel.dev/
-  - type: SpectralRuleset
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/all-api-docs
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
-- aid: vessel:vessel-deals-api
-  name: Vessel Deals API
-  description: The Deals API from Vessel — 3 operation(s) for deals.
-  humanURL: https://www.vessel.dev/
-  tags:
-  - Deals
-  properties:
-  - type: OpenAPI
-    url: openapi/vessel-deals-api-openapi.yml
-  - type: Documentation
-    url: https://docs.vessel.dev/
-  - type: SpectralRuleset
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/all-api-docs
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
-- aid: vessel:vessel-engagement-unifications-api
-  name: Vessel Engagement Unifications API
-  description: >-
-    The Engagement Unifications API from Vessel — 1 operation(s) for engagement unifications.
-  humanURL: https://www.vessel.dev/
-  tags:
-  - Engagement Unifications
-  properties:
-  - type: OpenAPI
-    url: openapi/vessel-engagement-unifications-api-openapi.yml
-  - type: Documentation
-    url: https://docs.vessel.dev/
-  - type: SpectralRuleset
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/all-api-docs
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
-- aid: vessel:vessel-integrations-api
-  name: Vessel Integrations API
-  description: The Integrations API from Vessel — 1 operation(s) for integrations.
-  humanURL: https://www.vessel.dev/
-  tags:
   - Integrations
-  properties:
-  - type: OpenAPI
-    url: openapi/vessel-integrations-api-openapi.yml
-  - type: Documentation
-    url: https://docs.vessel.dev/
-  - type: SpectralRuleset
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/all-api-docs
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
-- aid: vessel:vessel-leads-api
-  name: Vessel Leads API
-  description: The Leads API from Vessel — 2 operation(s) for leads.
-  humanURL: https://www.vessel.dev/
-  tags:
-  - Leads
-  properties:
-  - type: OpenAPI
-    url: openapi/vessel-leads-api-openapi.yml
-  - type: Documentation
-    url: https://docs.vessel.dev/
-  - type: SpectralRuleset
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/all-api-docs
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
-- aid: vessel:vessel-notes-api
-  name: Vessel Notes API
-  description: The Notes API from Vessel — 2 operation(s) for notes.
-  humanURL: https://www.vessel.dev/
-  tags:
-  - Notes
-  properties:
-  - type: OpenAPI
-    url: openapi/vessel-notes-api-openapi.yml
-  - type: Documentation
-    url: https://docs.vessel.dev/
-  - type: SpectralRuleset
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/all-api-docs
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
-- aid: vessel:vessel-passthrough-api
-  name: Vessel Passthrough API
-  description: The Passthrough API from Vessel — 1 operation(s) for passthrough.
-  humanURL: https://www.vessel.dev/
-  tags:
   - Passthrough
-  properties:
-  - type: OpenAPI
-    url: openapi/vessel-passthrough-api-openapi.yml
-  - type: Documentation
-    url: https://docs.vessel.dev/
-  - type: SpectralRuleset
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/all-api-docs
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
-- aid: vessel:vessel-tasks-api
-  name: Vessel Tasks API
-  description: The Tasks API from Vessel — 1 operation(s) for tasks.
-  humanURL: https://www.vessel.dev/
-  tags:
-  - Tasks
-  properties:
-  - type: OpenAPI
-    url: openapi/vessel-tasks-api-openapi.yml
-  - type: Documentation
-    url: https://docs.vessel.dev/
-  - type: SpectralRuleset
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/all-api-docs
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
-- aid: vessel:vessel-users-api
-  name: Vessel Users API
-  description: The Users API from Vessel — 1 operation(s) for users.
-  humanURL: https://www.vessel.dev/
-  tags:
-  - Users
-  properties:
-  - type: OpenAPI
-    url: openapi/vessel-users-api-openapi.yml
-  - type: Documentation
-    url: https://docs.vessel.dev/
-  - type: SpectralRuleset
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/all-api-docs
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
-- aid: vessel:vessel-webhooks-api
-  name: Vessel Webhooks API
-  description: The Webhooks API from Vessel — 3 operation(s) for webhooks.
-  humanURL: https://www.vessel.dev/
-  tags:
+  - Platform
   - Webhooks
   properties:
   - type: OpenAPI
-    url: openapi/vessel-webhooks-api-openapi.yml
+    url: openapi/vessel-platform-openapi.yml
   - type: Documentation
-    url: https://docs.vessel.dev/
-  - type: SpectralRuleset
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/rules/vessel-api-rules.yml
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
   - type: GitHubRepository
     url: https://github.com/vesselapi/all-api-docs
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:crm-unified-api
+  name: Vessel CRM Unified API
+  description: The Vessel CRM Unified API (v2) normalizes CRM objects across Salesforce, HubSpot, Zoho, Pipedrive,
+    Close, Freshsales, Microsoft Dynamics, Affinity and monday.com behind a single schema under /api/unifications/crm.
+    It exposes list, find, batch-read, create, update and details operations for users, contacts, deals, accounts,
+    leads, notes, tasks, events, emails, calls and lists. Published by Vessel as OpenAPI 3.1.0 with 69 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - CRM
+  - Contacts
+  - Deals
+  - Leads
+  - Normalized
+  - Unified API
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-crm-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:engagement-unified-api
+  name: Vessel Sales Engagement Unified API
+  description: The Vessel Sales Engagement Unified API normalizes sales engagement objects across Outreach, Salesloft,
+    Apollo and similar tools under /api/unifications/engagement, covering users, contacts, accounts, sequences,
+    tasks, calls, emails and mailboxes behind one schema. Published by Vessel as OpenAPI 3.1.0 with 20 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Sales Engagement
+  - Sequences
+  - Unified API
+  - Outreach
+  - Salesloft
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-engagement-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:chat-unified-api
+  name: Vessel Chat Unified API
+  description: The Vessel Chat Unified API normalizes chat platform objects across Slack and Microsoft Teams under
+    /api/unifications/chat, providing a single interface for channels, messages and users. Published by Vessel
+    as OpenAPI 3.1.0 with 4 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Chat
+  - Slack
+  - Microsoft Teams
+  - Unified API
+  - Messaging
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-chat-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:dialer-unified-api
+  name: Vessel Dialer Unified API
+  description: The Vessel Dialer Unified API normalizes telephony/dialer objects across Aircall, Dialpad and RingCentral
+    under /api/unifications/dialer, covering calls, call recordings, users and contacts. Published by Vessel as
+    OpenAPI 3.1.0 with 9 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Dialer
+  - Telephony
+  - Calls
+  - Aircall
+  - Unified API
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-dialer-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:marketing-automation-unified-api
+  name: Vessel Marketing Automation Unified API
+  description: The Vessel Marketing Automation Unified API normalizes marketing automation objects across Mailchimp,
+    ActiveCampaign and Customer.io under /api/unifications/marketing, covering lists, contacts, campaigns and
+    subscriptions. Published by Vessel as OpenAPI 3.1.0 with 7 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Marketing Automation
+  - Mailchimp
+  - Campaigns
+  - Unified API
+  - Email
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-marketing-automation-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:crm-api-v1
+  name: Vessel CRM API (v1, legacy)
+  description: The first-generation Vessel CRM API, published under /crm/* with the vessel-api-token header and
+    an accessToken query/body parameter. Superseded by the v2 unified CRM API under /api/unifications/crm and
+    marked as hidden/legacy in Vessel's own documentation navigation, but still published as a full OpenAPI 3.1
+    contract with search, batch and custom-field operations the v2 surface does not carry. Published by Vessel
+    as OpenAPI 3.1.0 with 93 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.land
+  tags:
+  - CRM
+  - Legacy
+  - v1
+  - Search
+  - Batch
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-crm-v1-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:engagement-api-v1
+  name: Vessel Engagement API (v1, legacy)
+  description: The first-generation Vessel Sales Engagement API, published under /engagement/* on api.vessel.land.
+    Covers users, accounts, contacts, tasks, actions, calls, emails, call dispositions, sequences, sequence steps
+    and mailboxes, plus the Link and connection endpoints. Superseded by the v2 engagement unification surface.
+    Published by Vessel as OpenAPI 3.1.0 with 44 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.land
+  tags:
+  - Sales Engagement
+  - Legacy
+  - v1
+  - Sequences
+  - Mailboxes
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-engagement-v1-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:salesforce-actions-api
+  name: Vessel Salesforce Actions API
+  description: The Vessel Actions API for Salesforce — typed, validated wrappers over Salesforce's native API
+    served under /api/actions/salesforce. Actions add request/response schema validation, standardized data types
+    and normalized error handling on top of the downstream provider, so callers do not have to absorb that provider's
+    quirks directly. Published by Vessel as OpenAPI 3.1.0 with 10 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Actions
+  - CRM
+  - Salesforce
+  - Integrations
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-salesforce-actions-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:slack-actions-api
+  name: Vessel Slack Actions API
+  description: The Vessel Actions API for Slack — typed, validated wrappers over Slack's native API served under
+    /api/actions/slack. Actions add request/response schema validation, standardized data types and normalized
+    error handling on top of the downstream provider, so callers do not have to absorb that provider's quirks
+    directly. Published by Vessel as OpenAPI 3.1.0 with 4 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Actions
+  - Chat
+  - Slack
+  - Integrations
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-slack-actions-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:teams-actions-api
+  name: Vessel Microsoft Teams Actions API
+  description: The Vessel Actions API for Microsoft Teams — typed, validated wrappers over Microsoft Teams's native
+    API served under /api/actions/teams. Actions add request/response schema validation, standardized data types
+    and normalized error handling on top of the downstream provider, so callers do not have to absorb that provider's
+    quirks directly. Published by Vessel as OpenAPI 3.1.0 with 4 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Actions
+  - Chat
+  - Microsoft Teams
+  - Integrations
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-teams-actions-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:outreach-actions-api
+  name: Vessel Outreach Actions API
+  description: The Vessel Actions API for Outreach — typed, validated wrappers over Outreach's native API served
+    under /api/actions/outreach. Actions add request/response schema validation, standardized data types and normalized
+    error handling on top of the downstream provider, so callers do not have to absorb that provider's quirks
+    directly. Published by Vessel as OpenAPI 3.1.0 with 17 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Actions
+  - Sales Engagement
+  - Outreach
+  - Integrations
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-outreach-actions-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:salesloft-actions-api
+  name: Vessel Salesloft Actions API
+  description: The Vessel Actions API for Salesloft — typed, validated wrappers over Salesloft's native API served
+    under /api/actions/salesloft. Actions add request/response schema validation, standardized data types and
+    normalized error handling on top of the downstream provider, so callers do not have to absorb that provider's
+    quirks directly. Published by Vessel as OpenAPI 3.1.0 with 14 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Actions
+  - Sales Engagement
+  - Salesloft
+  - Integrations
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-salesloft-actions-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:apollo-actions-api
+  name: Vessel Apollo Actions API
+  description: The Vessel Actions API for Apollo — typed, validated wrappers over Apollo's native API served under
+    /api/actions/apollo. Actions add request/response schema validation, standardized data types and normalized
+    error handling on top of the downstream provider, so callers do not have to absorb that provider's quirks
+    directly. Published by Vessel as OpenAPI 3.1.0 with 23 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Actions
+  - Sales Engagement
+  - Apollo
+  - Integrations
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-apollo-actions-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:aircall-actions-api
+  name: Vessel Aircall Actions API
+  description: The Vessel Actions API for Aircall — typed, validated wrappers over Aircall's native API served
+    under /api/actions/aircall. Actions add request/response schema validation, standardized data types and normalized
+    error handling on top of the downstream provider, so callers do not have to absorb that provider's quirks
+    directly. Published by Vessel as OpenAPI 3.1.0 with 9 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Actions
+  - Dialer
+  - Aircall
+  - Integrations
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-aircall-actions-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:dialpad-actions-api
+  name: Vessel Dialpad Actions API
+  description: The Vessel Actions API for Dialpad — typed, validated wrappers over Dialpad's native API served
+    under /api/actions/dialpad. Actions add request/response schema validation, standardized data types and normalized
+    error handling on top of the downstream provider, so callers do not have to absorb that provider's quirks
+    directly. Published by Vessel as OpenAPI 3.1.0 with 9 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Actions
+  - Dialer
+  - Dialpad
+  - Integrations
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-dialpad-actions-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:ringcentral-actions-api
+  name: Vessel RingCentral Actions API
+  description: The Vessel Actions API for RingCentral — typed, validated wrappers over RingCentral's native API
+    served under /api/actions/ringcentral. Actions add request/response schema validation, standardized data types
+    and normalized error handling on top of the downstream provider, so callers do not have to absorb that provider's
+    quirks directly. Published by Vessel as OpenAPI 3.1.0 with 9 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Actions
+  - Dialer
+  - RingCentral
+  - Integrations
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-ringcentral-actions-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:mailchimp-actions-api
+  name: Vessel Mailchimp Actions API
+  description: The Vessel Actions API for Mailchimp — typed, validated wrappers over Mailchimp's native API served
+    under /api/actions/mailchimp. Actions add request/response schema validation, standardized data types and
+    normalized error handling on top of the downstream provider, so callers do not have to absorb that provider's
+    quirks directly. Published by Vessel as OpenAPI 3.1.0 with 5 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Actions
+  - Marketing Automation
+  - Mailchimp
+  - Integrations
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-mailchimp-actions-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:activecampaign-actions-api
+  name: Vessel ActiveCampaign Actions API
+  description: The Vessel Actions API for ActiveCampaign — typed, validated wrappers over ActiveCampaign's native
+    API served under /api/actions/activecampaign. Actions add request/response schema validation, standardized
+    data types and normalized error handling on top of the downstream provider, so callers do not have to absorb
+    that provider's quirks directly. Published by Vessel as OpenAPI 3.1.0 with 7 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Actions
+  - Marketing Automation
+  - ActiveCampaign
+  - Integrations
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-activecampaign-actions-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:monday-actions-api
+  name: Vessel monday.com Actions API
+  description: The Vessel Actions API for monday.com — typed, validated wrappers over monday.com's native API
+    served under /api/actions/monday. Actions add request/response schema validation, standardized data types
+    and normalized error handling on top of the downstream provider, so callers do not have to absorb that provider's
+    quirks directly. Published by Vessel as OpenAPI 3.1.0 with 4 operations.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Actions
+  - Work Management
+  - monday.com
+  - Integrations
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-monday-actions-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
 common:
-  - type: License
-    name: MIT
-    url: https://github.com/vesselapi/integrations/blob/main/LICENSE
-  - type: AgenticAccess
-    url: agentic-access/vessel-agentic-access.yml
-  - type: DomainSecurity
-    url: security/vessel-domain-security.yml
-  - type: Authentication
-    url: authentication/vessel-authentication.yml
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/vesselapi
-  - url: https://www.vessel.dev/
-    name: Vessel - Embedded Integrations Platform
-    type: Website
-    description: Vessel's main website for the developer-first embedded integrations platform.
-  - url: https://docs.vessel.dev/
-    name: Vessel API Documentation
-    type: Documentation
-    description: Full documentation for the Vessel APIs, SDKs, and integrations.
-  - url: https://www.vessel.dev/integrations
-    name: Vessel Integrations
-    type: Integrations
-    description: Full catalog of supported integrations across CRM, engagement, chat, dialer, and marketing automation.
-  - url: https://github.com/vesselapi
-    name: Vessel GitHub Organization
-    type: GitHubOrganization
-    description: >-
-      Vessel's GitHub organization hosting the integrations library, documentation, client SDK, and example
-      applications.
-  - url: https://github.com/vesselapi/integrations
-    name: Vessel Integrations Library
-    type: GitHubRepository
-    description: >-
-      Open-source integrations library defining actions, authentication, and passthrough APIs for all supported
-      integrations.
-  - url: https://github.com/vesselapi/client-sdk
-    name: Vessel Client SDK
-    type: SDKs
-    description: Client-side SDK providing the Vessel Link modal for user authentication with third-party integrations.
-  - url: https://www.npmjs.com/package/@vesselapi/sdk
-    name: Vessel Node.js SDK (npm)
-    type: SDKs
-    description: Official Vessel Node.js SDK for server-side API calls.
-  - url: https://www.npmjs.com/package/@vesselapi/react-vessel-link
-    name: Vessel React Link Component (npm)
-    type: SDKs
-    description: React component for embedding the Vessel authentication modal.
-  - url: https://www.vessel.dev/blog
-    name: Vessel Blog
-    type: Blog
-    description: Vessel's blog covering integration development guides and platform tutorials.
+- type: License
+  name: MIT
+  url: https://github.com/vesselapi/integrations/blob/main/LICENSE
+- type: AgenticAccess
+  url: agentic-access/vessel-agentic-access.yml
+- type: DomainSecurity
+  url: security/vessel-domain-security.yml
+- type: Authentication
+  url: authentication/vessel-authentication.yml
+- type: LinkedIn
+  url: https://www.linkedin.com/company/vesselapi
+- url: https://www.vessel.dev/
+  name: Vessel - Embedded Integrations Platform
+  type: Website
+  description: Vessel's main website for the developer-first embedded integrations platform.
+- url: https://www.vessel.dev/integrations
+  name: Vessel Integrations
+  type: Integrations
+  description: Full catalog of supported integrations across CRM, engagement, chat, dialer, and marketing automation.
+- url: https://github.com/vesselapi
+  name: Vessel GitHub Organization
+  type: GitHubOrganization
+  description: Vessel's GitHub organization hosting the integrations library, documentation, client SDK, and example
+    applications.
+- url: https://github.com/vesselapi/integrations
+  name: Vessel Integrations Library
+  type: GitHubRepository
+  description: Open-source integrations library defining actions, authentication, and passthrough APIs for all
+    supported integrations.
+- url: https://github.com/vesselapi/client-sdk
+  name: Vessel Client SDK
+  type: SDKs
+  description: Client-side SDK providing the Vessel Link modal for user authentication with third-party integrations.
+- url: https://www.npmjs.com/package/@vesselapi/sdk
+  name: Vessel Node.js SDK (npm)
+  type: SDKs
+  description: Official Vessel Node.js SDK for server-side API calls.
+- url: https://www.npmjs.com/package/@vesselapi/react-vessel-link
+  name: Vessel React Link Component (npm)
+  type: SDKs
+  description: React component for embedding the Vessel authentication modal.
+- url: https://www.vessel.dev/blog
+  name: Vessel Blog
+  type: Blog
+  description: Vessel's blog covering integration development guides and platform tutorials.
+- type: Documentation
+  name: Vessel API Documentation (source)
+  url: https://github.com/vesselapi/all-api-docs
+  description: Vessel's public documentation repository — the Mintlify docs source carrying 20 first-party OpenAPI
+    3.1.0 specifications. The rendered site at docs.vessel.dev returns HTTP 404 as of 2026-08-13; this repository
+    is the only reachable copy.
+- type: APIReference
+  name: Vessel API Reference (OpenAPI sources)
+  url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  description: Per-surface OpenAPI 3.1.0 definitions for the platform, unified and actions APIs.
+- type: GettingStarted
+  name: Vessel Getting Started
+  url: https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/getting-started.mdx
+  description: 'End-to-end quickstart: obtain an API token, create a session token, run the Link flow, exchange
+    for an access token, call a unified API.'
+- type: Pricing
+  name: Vessel Pricing
+  url: https://www.vessel.dev/pricing
+  description: Start (free, 5 development connections), Launch (custom, up to 20 connections) and Custom (custom,
+    unlimited connections + whitelabeling).
+- type: PrivacyPolicy
+  name: Vessel Privacy Policy
+  url: https://www.vessel.dev/privacy
+  description: Privacy policy for Kinit Inc., operator of vessel.dev. Effective 03/22/2023.
+- type: TermsOfService
+  name: Vessel Terms of Service
+  url: https://drive.google.com/file/d/1MAhix9lfQdMW7B600vYeMNtdY3vnQzIQ/view
+  description: Terms of Service, published by Vessel as a Google Drive document and linked from the docs 'Disclaimers'
+    section.
+- type: Support
+  name: Vessel Support
+  url: https://www.vessel.dev/contact
+  description: Contact form; support is also reachable at support@vessel.dev.
+- type: Roadmap
+  name: Vessel Feature Requests
+  url: https://vesselapi.canny.io/
+  description: Public Canny board Vessel points customers at for integration and feature requests.
+- type: Packages
+  url: packages/vessel-packages.yml
+- type: LLMsTxt
+  url: llms/vessel-llms.txt
+- type: Overlay
+  url: overlays/vessel-crm-overlay.yaml
+- type: Conformance
+  url: conformance/vessel-conformance.yml
+- type: Compliance
+  url: conformance/vessel-conformance.yml
+- type: ErrorCatalog
+  url: errors/vessel-error-codes.yml
+- type: Lifecycle
+  url: lifecycle/vessel-lifecycle.yml
+- type: Conventions
+  url: conventions/vessel-conventions.yml
+- type: DataModel
+  url: data-model/vessel-data-model.yml
+- type: Components
+  url: components/vessel-components.yml
+- type: Sandbox
+  url: sandbox/vessel-sandbox.yml
+- type: Webhooks
+  url: asyncapi/vessel-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Examples
+  url: examples/vessel-list-crm-contacts-example.json
+  description: Request/response pairs reproduced from Vessel's own in-spec examples.
+- type: RateLimits
+  url: rate-limits/vessel-rate-limits.yml
+- type: Plans
+  url: plans/vessel-plans-pricing.yml
+- type: FinOps
+  url: finops/vessel-finops.yml
+- type: Vocabulary
+  url: vocabulary/vessel-vocabulary.yml
+- type: SpectralRuleset
+  url: rules/vessel-api-rules.yml
+- type: JSONSchema
+  url: json-schema/vessel-contact-schema.json
+- type: JSONSchema
+  url: json-schema/vessel-deal-schema.json
+- type: JSONSchema
+  url: json-schema/vessel-account-schema.json
+- type: JSONStructure
+  url: json-structure/vessel-contact-structure.json
+- type: JSONLD
+  url: json-ld/vessel-context.jsonld
+- type: Overlay
+  url: overlays/vessel-platform-overlay.yaml
+- type: SpectralRuleset
+  url: rules/vessel-jsonschema-spectral-rules.yml
 integrations:
-  - name: Salesforce
-  - name: HubSpot
-  - name: Zoho
-  - name: Pipedrive
-  - name: Dynamics Sales
-  - name: Affinity
-  - name: monday.com
-  - name: Freshsales
-  - name: Freshdesk
-  - name: Keap
-  - name: Salesloft
-  - name: Outreach
-  - name: Apollo
-  - name: Active Campaign
-  - name: Mailchimp
-  - name: Customer.io
-  - name: Ringcentral
-  - name: Dialpad
-  - name: Aircall
-  - name: Microsoft Teams
-  - name: Slack
-  - name: Zendesk
-  - name: Intercom
-  - name: Jira
-  - name: Linear
-  - name: Todoist
-  - name: Asana
-  - name: WooCommerce
-  - name: Shopify
-  - name: Stripe
-  - name: ZoomInfo
-  - name: Brex
-  - name: Contentstack
-  - name: Facebook
-  - name: Pagerduty
-  - name: Qualtrics
-  - name: Ramp
-  - name: Square
-  - name: SurveyMonkey
-  - name: Typeform
-  - name: Miro
-  - name: Mural
-  - name: Pandadoc
-  - name: Payfit
-  - name: Sage
-  - name: Teamwork
-  - name: Twinfield
-  - name: Wave Accounting
-  - name: Xero
-  - name: Zenefits
-  - name: Google
-  - name: Google Calendar
-  - name: Gmail
-  - name: Intuit
-  - name: Lever
-  - name: Linkedin
-  - name: Freshbooks
-  - name: Front
-  - name: GitHub
-  - name: Gitlab
-  - name: Greenhouse
-  - name: Gumroad
-  - name: Gusto
-  - name: Netsuite
-  - name: Notion
-  - name: OneDrive
-  - name: Zoom
-  - name: Calendly
-  - name: Clickup
-  - name: Dropbox
-  - name: Factorial
-  - name: Atlassian
-  - name: BambooHR
-  - name: Bitbucket
-  - name: Boldsign
-  - name: Box
-  - name: Accelo
-  - name: Adobe
-  - name: Airtable
-  - name: Amazon
-  - name: Shortcut
-  - name: Workable
-  - name: Gong
-  - name: Amplitude
-  - name: Ashby
-  - name: Mixpanel
-  - name: Chorus
+- name: Salesforce
+- name: HubSpot
+- name: Zoho
+- name: Pipedrive
+- name: Dynamics Sales
+- name: Affinity
+- name: monday.com
+- name: Freshsales
+- name: Freshdesk
+- name: Keap
+- name: Salesloft
+- name: Outreach
+- name: Apollo
+- name: Active Campaign
+- name: Mailchimp
+- name: Customer.io
+- name: Ringcentral
+- name: Dialpad
+- name: Aircall
+- name: Microsoft Teams
+- name: Slack
+- name: Zendesk
+- name: Intercom
+- name: Jira
+- name: Linear
+- name: Todoist
+- name: Asana
+- name: WooCommerce
+- name: Shopify
+- name: Stripe
+- name: ZoomInfo
+- name: Brex
+- name: Contentstack
+- name: Facebook
+- name: Pagerduty
+- name: Qualtrics
+- name: Ramp
+- name: Square
+- name: SurveyMonkey
+- name: Typeform
+- name: Miro
+- name: Mural
+- name: Pandadoc
+- name: Payfit
+- name: Sage
+- name: Teamwork
+- name: Twinfield
+- name: Wave Accounting
+- name: Xero
+- name: Zenefits
+- name: Google
+- name: Google Calendar
+- name: Gmail
+- name: Intuit
+- name: Lever
+- name: Linkedin
+- name: Freshbooks
+- name: Front
+- name: GitHub
+- name: Gitlab
+- name: Greenhouse
+- name: Gumroad
+- name: Gusto
+- name: Netsuite
+- name: Notion
+- name: OneDrive
+- name: Zoom
+- name: Calendly
+- name: Clickup
+- name: Dropbox
+- name: Factorial
+- name: Atlassian
+- name: BambooHR
+- name: Bitbucket
+- name: Boldsign
+- name: Box
+- name: Accelo
+- name: Adobe
+- name: Airtable
+- name: Amazon
+- name: Shortcut
+- name: Workable
+- name: Gong
+- name: Amplitude
+- name: Ashby
+- name: Mixpanel
+- name: Chorus
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 62
+  artifacts_updated: 15
+  pass: local-v1
+x-contract-provenance:
+  harvested: '2026-08-13'
+  source_repository: https://github.com/vesselapi/all-api-docs
+  source_paths: docs/pages/**/*.yaml, listed in docs/mint.json under "openapi"
+  spec_count: 20
+  operation_count: 376
+  ownership_check: All 20 specifications are served from Vessel's own GitHub organization (github.com/vesselapi),
+    are enumerated in Vessel's own Mintlify config, and declare servers[] of https://api.vessel.dev or https://api.vessel.land
+    — the exact hosts named in Vessel's own documentation and in this profile's baseURLs. Ownership is unambiguous.
+  supersedes: Replaces two hand-authored scaffold specifications (openapi/_original/vessel-crm-openapi.yml and
+    vessel-platform-openapi.yml, added 2026-08-03) together with the 13 per-tag specs and 32 collection files
+    refined from them. 16 of those 28 scaffold operations — including POST /crm/contacts/create, POST /crm/deals/create,
+    POST /integrations/list, POST /auth/session-token, POST /connections/list and POST /passthrough — do not exist
+    in any contract Vessel published, and the real paths differ (POST /api/unifications/crm/contacts/create, POST
+    /api/integrations/list, POST /api/auth/session-token). Every artifact derived from those scaffolds has been
+    regenerated from the harvested contracts.
