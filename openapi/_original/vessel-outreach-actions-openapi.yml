@@ -1,0 +1,2422 @@
+
+openapi: 3.1.0
+info:
+  title: Outreach API Reference
+  version: "1.0"
+  summary: API
+servers:
+  - url: "https://api.vessel.dev"
+security:
+  - VesselAPIToken: []
+paths:
+  /api/actions/outreach/accounts/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       attributes:
+                         type: object
+                         properties:
+                           companyType:
+                             type:
+                               - string
+                               - 'null'
+                           name:
+                             type:
+                               - string
+                               - 'null'
+                           description:
+                             type:
+                               - string
+                               - 'null'
+                           domain:
+                             type:
+                               - string
+                               - 'null'
+                           locality:
+                             type:
+                               - string
+                               - 'null'
+                           numberOfEmployees:
+                             type:
+                               - number
+                               - 'null'
+                           websiteUrl:
+                             type:
+                               - string
+                               - 'null'
+                           industry:
+                             type:
+                               - string
+                               - 'null'
+                           createdAt:
+                             type: string
+                             format: date-time
+                           updatedAt:
+                             type: string
+                             format: date-time
+                         required:
+                           - companyType
+                           - name
+                           - description
+                           - domain
+                           - locality
+                           - numberOfEmployees
+                           - websiteUrl
+                           - industry
+                           - createdAt
+                           - updatedAt
+                       relationships:
+                         type: object
+                         properties:
+                           owner:
+                             type: object
+                             properties:
+                               data:
+                                 type: object
+                                 properties:
+                                   id:
+                                     type: string
+                                 required:
+                                   - id
+                             required:
+                               - data
+                         required:
+                           - owner
+                     required:
+                       - id
+                       - attributes
+                       - relationships
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: -73121789.77917258
+                       attributes:
+                         companyType: laborum
+                         name: proident in
+                         description: dolor consectetur
+                         domain: in ex
+                         locality: null
+                         numberOfEmployees: null
+                         websiteUrl: Ut dolore do
+                         industry: null
+                         createdAt: '2018-05-09T17:28:41.0Z'
+                         updatedAt: '1978-08-28T14:27:24.0Z'
+                       relationships:
+                         owner:
+                           data:
+                             id: in tempor dolor ut
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: number
+            examples:
+              example-1:
+                value:
+                     id: -40966825.30895803
+      operationId: find-account
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/accounts/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   allOf:
+                     - type: object
+                       properties:
+                         data:
+                           type: array
+                           items:
+                             type: object
+                             properties:
+                               id:
+                                 type: number
+                               attributes:
+                                 type: object
+                                 properties:
+                                   companyType:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   name:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   description:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   domain:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   locality:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   numberOfEmployees:
+                                     type:
+                                       - number
+                                       - 'null'
+                                   websiteUrl:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   industry:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   createdAt:
+                                     type: string
+                                     format: date-time
+                                   updatedAt:
+                                     type: string
+                                     format: date-time
+                                 required:
+                                   - companyType
+                                   - name
+                                   - description
+                                   - domain
+                                   - locality
+                                   - numberOfEmployees
+                                   - websiteUrl
+                                   - industry
+                                   - createdAt
+                                   - updatedAt
+                               relationships:
+                                 type: object
+                                 properties:
+                                   owner:
+                                     type: object
+                                     properties:
+                                       data:
+                                         type: object
+                                         properties:
+                                           id:
+                                             type: string
+                                         required:
+                                           - id
+                                     required:
+                                       - data
+                                 required:
+                                   - owner
+                             required:
+                               - id
+                               - attributes
+                               - relationships
+                       required:
+                         - data
+                     - type: object
+                       properties:
+                         links:
+                           anyOf:
+                             - type: object
+                               properties:
+                                 next:
+                                   type:
+                                     - string
+                                     - 'null'
+                             - type: 'null'
+              examples:
+                example-1:
+                  value:
+                     data:
+                       - id: -98779064.77779308
+                         attributes:
+                           companyType: sunt ullamco anim culpa mollit
+                           name: null
+                           description: adipisicing in ex magna
+                           domain: eu in nostrud dolor
+                           locality: mollit velit
+                           numberOfEmployees: null
+                           websiteUrl: null
+                           industry: null
+                           createdAt: '2014-12-13T04:12:21.0Z'
+                           updatedAt: '2001-05-08T17:14:16.0Z'
+                         relationships:
+                           owner:
+                             data:
+                               id: ullamco veniam fugiat
+                     links:
+                       next: deserunt dolore eiusmod non
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 filters:
+                   type: object
+                   properties:
+                     name:
+                       type: string
+                     domain:
+                       type: string
+                 cursor:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     filters:
+                       name: non amet
+                       domain: consequat officia pariatur
+                     cursor: occaecat in cupidatat
+      operationId: list-accounts
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/mailboxes/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   allOf:
+                     - type: object
+                       properties:
+                         data:
+                           type: array
+                           items:
+                             type: object
+                             properties:
+                               id:
+                                 type: number
+                               attributes:
+                                 type: object
+                                 properties:
+                                   email:
+                                     type: string
+                                   userId:
+                                     type: number
+                                   createdAt:
+                                     type: string
+                                     format: date-time
+                                   updatedAt:
+                                     type: string
+                                     format: date-time
+                                 required:
+                                   - email
+                                   - userId
+                                   - createdAt
+                                   - updatedAt
+                             required:
+                               - id
+                               - attributes
+                       required:
+                         - data
+                     - type: object
+                       properties:
+                         links:
+                           anyOf:
+                             - type: object
+                               properties:
+                                 next:
+                                   type:
+                                     - string
+                                     - 'null'
+                             - type: 'null'
+              examples:
+                example-1:
+                  value:
+                     data:
+                       - id: 13399360.674311906
+                         attributes:
+                           email: ex et cillum Ut
+                           userId: 21821.89441342652
+                           createdAt: '2021-01-19T02:01:42.0Z'
+                           updatedAt: '2004-10-23T21:57:02.0Z'
+                     links:
+                       next: eiusmod velit sit adipisicing do
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 cursor:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     cursor: sint
+      operationId: list-mailboxes
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/mailings/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       attributes:
+                         type: object
+                         properties:
+                           bodyHtml:
+                             type:
+                               - string
+                               - 'null'
+                           bodyText:
+                             type:
+                               - string
+                               - 'null'
+                           bouncedAt:
+                             type:
+                               - string
+                               - 'null'
+                           clickCount:
+                             type:
+                               - number
+                               - 'null'
+                           clickedAt:
+                             type:
+                               - string
+                               - 'null'
+                           deliveredAt:
+                             type:
+                               - string
+                               - 'null'
+                           openCount:
+                             type:
+                               - number
+                               - 'null'
+                           openedAt:
+                             type:
+                               - string
+                               - 'null'
+                           repliedAt:
+                             type:
+                               - string
+                               - 'null'
+                           subject:
+                             type:
+                               - string
+                               - 'null'
+                           createdAt:
+                             type: string
+                             format: date-time
+                           updatedAt:
+                             type: string
+                             format: date-time
+                         required:
+                           - bodyHtml
+                           - bodyText
+                           - bouncedAt
+                           - clickCount
+                           - clickedAt
+                           - deliveredAt
+                           - openCount
+                           - openedAt
+                           - repliedAt
+                           - subject
+                           - createdAt
+                           - updatedAt
+                       relationships:
+                         type: object
+                         properties:
+                           user:
+                             anyOf:
+                               - type: object
+                                 properties:
+                                   data:
+                                     type: object
+                                     properties:
+                                       id:
+                                         type: string
+                                     required:
+                                       - id
+                                 required:
+                                   - data
+                               - type: 'null'
+                           sequence:
+                             anyOf:
+                               - {}
+                               - type: 'null'
+                         required:
+                           - user
+                           - sequence
+                     required:
+                       - id
+                       - attributes
+                       - relationships
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: 5137231.793693602
+                       attributes:
+                         bodyHtml: cupidatat
+                         bodyText: null
+                         bouncedAt: null
+                         clickCount: 28489713.583598062
+                         clickedAt: exercitation laboris ut dolor
+                         deliveredAt: null
+                         openCount: 31207064.983144134
+                         openedAt: incididunt
+                         repliedAt: null
+                         subject: pariatur eiusmod proident cillum
+                         createdAt: '1982-08-17T16:44:39.0Z'
+                         updatedAt: '1979-10-11T23:52:57.0Z'
+                       relationships:
+                         user:
+                           data:
+                             id: ullamco sunt aliqua
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: number
+            examples:
+              example-1:
+                value:
+                     id: 10015340.752246797
+      operationId: find-mailing
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/mailings/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   allOf:
+                     - type: object
+                       properties:
+                         data:
+                           type: array
+                           items:
+                             type: object
+                             properties:
+                               id:
+                                 type: number
+                               attributes:
+                                 type: object
+                                 properties:
+                                   bodyHtml:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   bodyText:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   bouncedAt:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   clickCount:
+                                     type:
+                                       - number
+                                       - 'null'
+                                   clickedAt:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   deliveredAt:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   openCount:
+                                     type:
+                                       - number
+                                       - 'null'
+                                   openedAt:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   repliedAt:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   subject:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   createdAt:
+                                     type: string
+                                     format: date-time
+                                   updatedAt:
+                                     type: string
+                                     format: date-time
+                                 required:
+                                   - bodyHtml
+                                   - bodyText
+                                   - bouncedAt
+                                   - clickCount
+                                   - clickedAt
+                                   - deliveredAt
+                                   - openCount
+                                   - openedAt
+                                   - repliedAt
+                                   - subject
+                                   - createdAt
+                                   - updatedAt
+                               relationships:
+                                 type: object
+                                 properties:
+                                   user:
+                                     anyOf:
+                                       - type: object
+                                         properties:
+                                           data:
+                                             type: object
+                                             properties:
+                                               id:
+                                                 type: string
+                                             required:
+                                               - id
+                                         required:
+                                           - data
+                                       - type: 'null'
+                                   sequence:
+                                     anyOf:
+                                       - {}
+                                       - type: 'null'
+                                 required:
+                                   - user
+                                   - sequence
+                             required:
+                               - id
+                               - attributes
+                               - relationships
+                       required:
+                         - data
+                     - type: object
+                       properties:
+                         links:
+                           anyOf:
+                             - type: object
+                               properties:
+                                 next:
+                                   type:
+                                     - string
+                                     - 'null'
+                             - type: 'null'
+              examples:
+                example-1:
+                  value:
+                     data:
+                       - id: 17365327.076577142
+                         attributes:
+                           bodyHtml: commodo culpa
+                           bodyText: null
+                           bouncedAt: null
+                           clickCount: null
+                           clickedAt: null
+                           deliveredAt: Ut et Excepteur ex tempor
+                           openCount: 52168259.10125035
+                           openedAt: in exercitation et minim do
+                           repliedAt: tempor pariatur
+                           subject: null
+                           createdAt: '1989-10-21T22:32:09.0Z'
+                           updatedAt: '2004-05-03T11:32:44.0Z'
+                         relationships:
+                           user:
+                             data:
+                               id: aliqua Duis incididunt
+                     links:
+                       next: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 cursor:
+                   type: string
+                 filters:
+                   type: object
+                   properties:
+                     prospectId:
+                       type: number
+                     sequenceId:
+                       type: number
+            examples:
+              example-1:
+                value:
+                     cursor: deserunt esse
+                     filters:
+                       sequenceId: -57639451.95482893
+                       prospectId: -23727739.721193954
+      operationId: list-mailings
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/prospects/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       attributes:
+                         type: object
+                         properties:
+                           firstName:
+                             type:
+                               - string
+                               - 'null'
+                           lastName:
+                             type:
+                               - string
+                               - 'null'
+                           occupation:
+                             type:
+                               - string
+                               - 'null'
+                           addressCity:
+                             type:
+                               - string
+                               - 'null'
+                           addressCountry:
+                             type:
+                               - string
+                               - 'null'
+                           addressState:
+                             type:
+                               - string
+                               - 'null'
+                           addressStreet:
+                             type:
+                               - string
+                               - 'null'
+                           addressStreet2:
+                             type:
+                               - string
+                               - 'null'
+                           addressZip:
+                             type:
+                               - string
+                               - 'null'
+                           emails:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           homePhones:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           mobilePhones:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           otherPhones:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           workPhones:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           clickCount:
+                             type:
+                               - number
+                               - 'null'
+                           openCount:
+                             type:
+                               - number
+                               - 'null'
+                           replyCount:
+                             type:
+                               - number
+                               - 'null'
+                           createdAt:
+                             type: string
+                             format: date-time
+                           updatedAt:
+                             type: string
+                             format: date-time
+                         required:
+                           - firstName
+                           - lastName
+                           - occupation
+                           - addressCity
+                           - addressCountry
+                           - addressState
+                           - addressStreet
+                           - addressStreet2
+                           - addressZip
+                           - emails
+                           - homePhones
+                           - mobilePhones
+                           - otherPhones
+                           - workPhones
+                           - clickCount
+                           - openCount
+                           - replyCount
+                           - createdAt
+                           - updatedAt
+                       relationships:
+                         type: object
+                         properties:
+                           owner:
+                             anyOf:
+                               - type: object
+                                 properties:
+                                   data:
+                                     type: object
+                                     properties:
+                                       id:
+                                         type: string
+                                     required:
+                                       - id
+                                 required:
+                                   - data
+                               - type: 'null'
+                           account:
+                             anyOf:
+                               - {}
+                               - type: 'null'
+                     required:
+                       - id
+                       - attributes
+                       - relationships
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: 80591692.27684051
+                       attributes:
+                         firstName: null
+                         lastName: null
+                         occupation: null
+                         addressCity: enim sed Excepteur commodo
+                         addressCountry: null
+                         addressState: null
+                         addressStreet: occaecat cupidatat in dolor ut
+                         addressStreet2: null
+                         addressZip: null
+                         emails:
+                           - laboris ad dolore
+                         homePhones:
+                           - sed culpa commodo esse anim
+                         mobilePhones:
+                           - velit ullamco ut
+                         otherPhones: null
+                         workPhones: null
+                         clickCount: null
+                         openCount: 28404165.844468072
+                         replyCount: null
+                         createdAt: '2001-07-27T03:37:06.0Z'
+                         updatedAt: '2006-10-31T01:02:06.0Z'
+                       relationships:
+                         owner: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 attributes:
+                   type: object
+                   properties:
+                     firstName:
+                       type:
+                         - string
+                         - 'null'
+                     lastName:
+                       type:
+                         - string
+                         - 'null'
+                     occupation:
+                       type:
+                         - string
+                         - 'null'
+                     addressCity:
+                       type:
+                         - string
+                         - 'null'
+                     addressCountry:
+                       type:
+                         - string
+                         - 'null'
+                     addressState:
+                       type:
+                         - string
+                         - 'null'
+                     addressStreet:
+                       type:
+                         - string
+                         - 'null'
+                     addressStreet2:
+                       type:
+                         - string
+                         - 'null'
+                     addressZip:
+                       type:
+                         - string
+                         - 'null'
+                     emails:
+                       type: array
+                       items:
+                         type: string
+                 relationships:
+                   type: object
+                   properties:
+                     ownerId:
+                       type: number
+                     accountId:
+                       type: number
+            examples:
+              example-1:
+                value:
+                     attributes:
+                       firstName: null
+                       addressCity: null
+                       addressStreet2: commodo do anim Excepteur in
+                       emails:
+                         - velit
+                       occupation: null
+                       addressState: dolore elit culpa qui aute
+                       addressCountry: sit enim id veniam
+                       lastName: amet proident aliquip
+                       addressStreet: magna non laboris nisi
+                       addressZip: do dolore
+                     relationships:
+                       accountId: 79232671.17152092
+                       ownerId: 76293205.50088212
+      operationId: create-prospect
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/prospects/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       attributes:
+                         type: object
+                         properties:
+                           firstName:
+                             type:
+                               - string
+                               - 'null'
+                           lastName:
+                             type:
+                               - string
+                               - 'null'
+                           occupation:
+                             type:
+                               - string
+                               - 'null'
+                           addressCity:
+                             type:
+                               - string
+                               - 'null'
+                           addressCountry:
+                             type:
+                               - string
+                               - 'null'
+                           addressState:
+                             type:
+                               - string
+                               - 'null'
+                           addressStreet:
+                             type:
+                               - string
+                               - 'null'
+                           addressStreet2:
+                             type:
+                               - string
+                               - 'null'
+                           addressZip:
+                             type:
+                               - string
+                               - 'null'
+                           emails:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           homePhones:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           mobilePhones:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           otherPhones:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           workPhones:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           clickCount:
+                             type:
+                               - number
+                               - 'null'
+                           openCount:
+                             type:
+                               - number
+                               - 'null'
+                           replyCount:
+                             type:
+                               - number
+                               - 'null'
+                           createdAt:
+                             type: string
+                             format: date-time
+                           updatedAt:
+                             type: string
+                             format: date-time
+                         required:
+                           - firstName
+                           - lastName
+                           - occupation
+                           - addressCity
+                           - addressCountry
+                           - addressState
+                           - addressStreet
+                           - addressStreet2
+                           - addressZip
+                           - emails
+                           - homePhones
+                           - mobilePhones
+                           - otherPhones
+                           - workPhones
+                           - clickCount
+                           - openCount
+                           - replyCount
+                           - createdAt
+                           - updatedAt
+                       relationships:
+                         type: object
+                         properties:
+                           owner:
+                             anyOf:
+                               - type: object
+                                 properties:
+                                   data:
+                                     type: object
+                                     properties:
+                                       id:
+                                         type: string
+                                     required:
+                                       - id
+                                 required:
+                                   - data
+                               - type: 'null'
+                           account:
+                             anyOf:
+                               - {}
+                               - type: 'null'
+                     required:
+                       - id
+                       - attributes
+                       - relationships
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: 68184234.67225495
+                       attributes:
+                         firstName: null
+                         lastName: null
+                         occupation: null
+                         addressCity: null
+                         addressCountry: exercitation dolor eiusmod
+                         addressState: null
+                         addressStreet: ut eu dolore
+                         addressStreet2: tempor laboris nulla do
+                         addressZip: proident aliquip in
+                         emails: null
+                         homePhones: null
+                         mobilePhones: null
+                         otherPhones:
+                           - deserunt Lorem occaecat Duis nostrud
+                         workPhones:
+                           - cillum aliquip
+                         clickCount: -62776367.167051636
+                         openCount: null
+                         replyCount: -42069278.108680755
+                         createdAt: '1974-05-01T23:03:44.0Z'
+                         updatedAt: '1988-11-03T01:31:22.0Z'
+                       relationships:
+                         owner:
+                           data:
+                             id: commodo
+                         account: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: number
+            examples:
+              example-1:
+                value:
+                     id: 39770475.74343881
+      operationId: find-prospect
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/prospects/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   allOf:
+                     - type: object
+                       properties:
+                         data:
+                           type: array
+                           items:
+                             type: object
+                             properties:
+                               id:
+                                 type: number
+                               attributes:
+                                 type: object
+                                 properties:
+                                   firstName:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   lastName:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   occupation:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   addressCity:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   addressCountry:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   addressState:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   addressStreet:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   addressStreet2:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   addressZip:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   emails:
+                                     anyOf:
+                                       - type: array
+                                         items:
+                                           type: string
+                                       - type: 'null'
+                                   homePhones:
+                                     anyOf:
+                                       - type: array
+                                         items:
+                                           type: string
+                                       - type: 'null'
+                                   mobilePhones:
+                                     anyOf:
+                                       - type: array
+                                         items:
+                                           type: string
+                                       - type: 'null'
+                                   otherPhones:
+                                     anyOf:
+                                       - type: array
+                                         items:
+                                           type: string
+                                       - type: 'null'
+                                   workPhones:
+                                     anyOf:
+                                       - type: array
+                                         items:
+                                           type: string
+                                       - type: 'null'
+                                   clickCount:
+                                     type:
+                                       - number
+                                       - 'null'
+                                   openCount:
+                                     type:
+                                       - number
+                                       - 'null'
+                                   replyCount:
+                                     type:
+                                       - number
+                                       - 'null'
+                                   createdAt:
+                                     type: string
+                                     format: date-time
+                                   updatedAt:
+                                     type: string
+                                     format: date-time
+                                 required:
+                                   - firstName
+                                   - lastName
+                                   - occupation
+                                   - addressCity
+                                   - addressCountry
+                                   - addressState
+                                   - addressStreet
+                                   - addressStreet2
+                                   - addressZip
+                                   - emails
+                                   - homePhones
+                                   - mobilePhones
+                                   - otherPhones
+                                   - workPhones
+                                   - clickCount
+                                   - openCount
+                                   - replyCount
+                                   - createdAt
+                                   - updatedAt
+                               relationships:
+                                 type: object
+                                 properties:
+                                   owner:
+                                     anyOf:
+                                       - type: object
+                                         properties:
+                                           data:
+                                             type: object
+                                             properties:
+                                               id:
+                                                 type: string
+                                             required:
+                                               - id
+                                         required:
+                                           - data
+                                       - type: 'null'
+                                   account:
+                                     anyOf:
+                                       - {}
+                                       - type: 'null'
+                             required:
+                               - id
+                               - attributes
+                               - relationships
+                       required:
+                         - data
+                     - type: object
+                       properties:
+                         links:
+                           anyOf:
+                             - type: object
+                               properties:
+                                 next:
+                                   type:
+                                     - string
+                                     - 'null'
+                             - type: 'null'
+              examples:
+                example-1:
+                  value:
+                     data:
+                       - id: -44768200.32322064
+                         attributes:
+                           firstName: aliquip dolore ullamco irure fugiat
+                           lastName: est non ex sit elit
+                           occupation: Excepteur laboris consectetur consequat
+                           addressCity: null
+                           addressCountry: null
+                           addressState: null
+                           addressStreet: null
+                           addressStreet2: cupidatat exercitation id sunt laborum
+                           addressZip: null
+                           emails: null
+                           homePhones: null
+                           mobilePhones:
+                             - Excepteur adipisicing
+                           otherPhones: null
+                           workPhones: null
+                           clickCount: null
+                           openCount: null
+                           replyCount: null
+                           createdAt: '2008-07-04T02:44:33.0Z'
+                           updatedAt: '2001-01-18T15:16:23.0Z'
+                         relationships:
+                           owner:
+                             data:
+                               id: Ut
+                     links: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 filters:
+                   type: object
+                   properties:
+                     emails:
+                       type: string
+                   required:
+                     - emails
+                 cursor:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     filters:
+                       emails: elit ut velit
+                     cursor: sit aliquip occaecat
+      operationId: list-prospects
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/prospects/update:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       attributes:
+                         type: object
+                         properties:
+                           firstName:
+                             type:
+                               - string
+                               - 'null'
+                           lastName:
+                             type:
+                               - string
+                               - 'null'
+                           occupation:
+                             type:
+                               - string
+                               - 'null'
+                           addressCity:
+                             type:
+                               - string
+                               - 'null'
+                           addressCountry:
+                             type:
+                               - string
+                               - 'null'
+                           addressState:
+                             type:
+                               - string
+                               - 'null'
+                           addressStreet:
+                             type:
+                               - string
+                               - 'null'
+                           addressStreet2:
+                             type:
+                               - string
+                               - 'null'
+                           addressZip:
+                             type:
+                               - string
+                               - 'null'
+                           emails:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           homePhones:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           mobilePhones:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           otherPhones:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           workPhones:
+                             anyOf:
+                               - type: array
+                                 items:
+                                   type: string
+                               - type: 'null'
+                           clickCount:
+                             type:
+                               - number
+                               - 'null'
+                           openCount:
+                             type:
+                               - number
+                               - 'null'
+                           replyCount:
+                             type:
+                               - number
+                               - 'null'
+                           createdAt:
+                             type: string
+                             format: date-time
+                           updatedAt:
+                             type: string
+                             format: date-time
+                         required:
+                           - firstName
+                           - lastName
+                           - occupation
+                           - addressCity
+                           - addressCountry
+                           - addressState
+                           - addressStreet
+                           - addressStreet2
+                           - addressZip
+                           - emails
+                           - homePhones
+                           - mobilePhones
+                           - otherPhones
+                           - workPhones
+                           - clickCount
+                           - openCount
+                           - replyCount
+                           - createdAt
+                           - updatedAt
+                       relationships:
+                         type: object
+                         properties:
+                           owner:
+                             anyOf:
+                               - type: object
+                                 properties:
+                                   data:
+                                     type: object
+                                     properties:
+                                       id:
+                                         type: string
+                                     required:
+                                       - id
+                                 required:
+                                   - data
+                               - type: 'null'
+                           account:
+                             anyOf:
+                               - {}
+                               - type: 'null'
+                     required:
+                       - id
+                       - attributes
+                       - relationships
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: -58545856.5729291
+                       attributes:
+                         firstName: null
+                         lastName: aute sint dolore
+                         occupation: null
+                         addressCity: null
+                         addressCountry: null
+                         addressState: null
+                         addressStreet: null
+                         addressStreet2: null
+                         addressZip: aliquip voluptate fugiat id
+                         emails: null
+                         homePhones: null
+                         mobilePhones:
+                           - adipisicing aliquip velit deserunt
+                         otherPhones:
+                           - cillum aliquip velit
+                         workPhones:
+                           - commodo ipsum
+                         clickCount: 49204853.20410663
+                         openCount: 46550608.29722616
+                         replyCount: null
+                         createdAt: '1953-03-23T11:07:20.0Z'
+                         updatedAt: '1966-04-10T01:22:26.0Z'
+                       relationships:
+                         owner:
+                           data:
+                             id: magna elit reprehenderit aliquip
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: number
+                 attributes:
+                   type: object
+                   properties:
+                     firstName:
+                       type:
+                         - string
+                         - 'null'
+                     lastName:
+                       type:
+                         - string
+                         - 'null'
+                     occupation:
+                       type:
+                         - string
+                         - 'null'
+                     addressCity:
+                       type:
+                         - string
+                         - 'null'
+                     addressCountry:
+                       type:
+                         - string
+                         - 'null'
+                     addressState:
+                       type:
+                         - string
+                         - 'null'
+                     addressStreet:
+                       type:
+                         - string
+                         - 'null'
+                     addressStreet2:
+                       type:
+                         - string
+                         - 'null'
+                     addressZip:
+                       type:
+                         - string
+                         - 'null'
+            examples:
+              example-1:
+                value:
+                     id: 23284383.97091639
+                     attributes:
+                       addressStreet2: esse
+                       addressState: ipsum quis
+                       firstName: null
+                       addressCountry: in officia nulla in
+                       lastName: est labore
+                       addressStreet: null
+                       addressCity: ut
+                       occupation: incididunt dolor magna laborum
+                       addressZip: et ex
+      operationId: update-prospect
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/sequence-states/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       attributes:
+                         type: object
+                         properties: {}
+                       relationships:
+                         type: object
+                         properties:
+                           prospect:
+                             type: object
+                             properties:
+                               data:
+                                 type: object
+                                 properties:
+                                   id:
+                                     type: string
+                                 required:
+                                   - id
+                             required:
+                               - data
+                           sequence: {}
+                           mailbox: {}
+                         required:
+                           - prospect
+                           - sequence
+                           - mailbox
+                     required:
+                       - id
+                       - attributes
+                       - relationships
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: 63804386.34817743
+                       attributes: {}
+                       relationships:
+                         prospect:
+                           data:
+                             id: exercitation commodo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 relationships:
+                   type: object
+                   properties:
+                     prospectId:
+                       type: number
+                     sequenceId:
+                       type: number
+                     mailboxId:
+                       type: number
+                   required:
+                     - prospectId
+                     - sequenceId
+                     - mailboxId
+            examples:
+              example-1:
+                value:
+                     relationships:
+                       prospectId: -70103019.51049876
+                       sequenceId: 93699420.55675119
+                       mailboxId: 45691285.64025861
+      operationId: create-sequence-state
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/sequences/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       attributes:
+                         type: object
+                         properties:
+                           name:
+                             type: string
+                           bounceCount:
+                             type: number
+                           clickCount:
+                             type: number
+                           deliverCount:
+                             type: number
+                           description:
+                             type:
+                               - string
+                               - 'null'
+                           enabled:
+                             type: boolean
+                           openCount:
+                             type: number
+                           optOutCount:
+                             type: number
+                           replyCount:
+                             type: number
+                           scheduleCount:
+                             type: number
+                           sequenceStepCount:
+                             type: number
+                           tags:
+                             type: array
+                             items:
+                               type: string
+                           createdAt:
+                             type: string
+                             format: date-time
+                           updatedAt:
+                             type: string
+                             format: date-time
+                         required:
+                           - name
+                           - bounceCount
+                           - clickCount
+                           - deliverCount
+                           - description
+                           - enabled
+                           - openCount
+                           - optOutCount
+                           - replyCount
+                           - scheduleCount
+                           - sequenceStepCount
+                           - tags
+                           - createdAt
+                           - updatedAt
+                       relationships:
+                         type: object
+                         properties: {}
+                     required:
+                       - id
+                       - attributes
+                       - relationships
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: -88688637.86527786
+                       attributes:
+                         name: ex veniam dolor in
+                         bounceCount: -84594399.34797852
+                         clickCount: -67364965.20228843
+                         deliverCount: 59766267.891215146
+                         description: null
+                         enabled: false
+                         openCount: 89312604.12766996
+                         optOutCount: -33785129.26377697
+                         replyCount: 55594000.38105786
+                         scheduleCount: -15140271.236715779
+                         sequenceStepCount: 42862179.63476524
+                         tags:
+                           - reprehenderit ullamco do Lorem
+                         createdAt: '1962-07-27T19:01:29.0Z'
+                         updatedAt: '1997-11-28T05:51:44.0Z'
+                       relationships: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: number
+            examples:
+              example-1:
+                value:
+                     id: 23070234.56027913
+      operationId: find-sequence
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/sequences/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   allOf:
+                     - type: object
+                       properties:
+                         data:
+                           type: array
+                           items:
+                             type: object
+                             properties:
+                               id:
+                                 type: number
+                               attributes:
+                                 type: object
+                                 properties:
+                                   name:
+                                     type: string
+                                   bounceCount:
+                                     type: number
+                                   clickCount:
+                                     type: number
+                                   deliverCount:
+                                     type: number
+                                   description:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   enabled:
+                                     type: boolean
+                                   openCount:
+                                     type: number
+                                   optOutCount:
+                                     type: number
+                                   replyCount:
+                                     type: number
+                                   scheduleCount:
+                                     type: number
+                                   sequenceStepCount:
+                                     type: number
+                                   tags:
+                                     type: array
+                                     items:
+                                       type: string
+                                   createdAt:
+                                     type: string
+                                     format: date-time
+                                   updatedAt:
+                                     type: string
+                                     format: date-time
+                                 required:
+                                   - name
+                                   - bounceCount
+                                   - clickCount
+                                   - deliverCount
+                                   - description
+                                   - enabled
+                                   - openCount
+                                   - optOutCount
+                                   - replyCount
+                                   - scheduleCount
+                                   - sequenceStepCount
+                                   - tags
+                                   - createdAt
+                                   - updatedAt
+                               relationships:
+                                 type: object
+                                 properties: {}
+                             required:
+                               - id
+                               - attributes
+                               - relationships
+                       required:
+                         - data
+                     - type: object
+                       properties:
+                         links:
+                           anyOf:
+                             - type: object
+                               properties:
+                                 next:
+                                   type:
+                                     - string
+                                     - 'null'
+                             - type: 'null'
+              examples:
+                example-1:
+                  value:
+                     data:
+                       - id: -4317515.007753372
+                         attributes:
+                           name: non proident incididunt ipsum laborum
+                           bounceCount: 2645223.4464615136
+                           clickCount: 86024256.1611695
+                           deliverCount: 25691750.276609376
+                           description: null
+                           enabled: true
+                           openCount: -37314450.80330684
+                           optOutCount: 10295368.58562529
+                           replyCount: 66884542.30809149
+                           scheduleCount: 54406252.23085269
+                           sequenceStepCount: 72393889.40702525
+                           tags:
+                             - Duis occaecat magna
+                           createdAt: '1950-06-23T15:23:55.0Z'
+                           updatedAt: '1969-04-07T20:05:22.0Z'
+                         relationships: {}
+                     links:
+                       next: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 cursor:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     cursor: irure reprehenderit elit officia ullamco
+      operationId: list-sequences
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/users/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       attributes:
+                         type: object
+                         properties:
+                           firstName:
+                             type: string
+                           lastName:
+                             type: string
+                           email:
+                             type: string
+                           createdAt:
+                             type: string
+                             format: date-time
+                           updatedAt:
+                             type: string
+                             format: date-time
+                         required:
+                           - firstName
+                           - lastName
+                           - email
+                           - createdAt
+                           - updatedAt
+                       relationships:
+                         type: object
+                         properties: {}
+                     required:
+                       - id
+                       - attributes
+                       - relationships
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: -30901637.883632958
+                       attributes:
+                         firstName: tempor
+                         lastName: ad laborum consequat
+                         email: est Duis occaecat
+                         createdAt: '1963-01-08T13:01:41.0Z'
+                         updatedAt: '1975-02-17T21:42:10.0Z'
+                       relationships: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: number
+            examples:
+              example-1:
+                value:
+                     id: -88922724.81974715
+      operationId: find-user
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/users/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   allOf:
+                     - type: object
+                       properties:
+                         data:
+                           type: array
+                           items:
+                             type: object
+                             properties:
+                               id:
+                                 type: number
+                               attributes:
+                                 type: object
+                                 properties:
+                                   firstName:
+                                     type: string
+                                   lastName:
+                                     type: string
+                                   email:
+                                     type: string
+                                   createdAt:
+                                     type: string
+                                     format: date-time
+                                   updatedAt:
+                                     type: string
+                                     format: date-time
+                                 required:
+                                   - firstName
+                                   - lastName
+                                   - email
+                                   - createdAt
+                                   - updatedAt
+                               relationships:
+                                 type: object
+                                 properties: {}
+                             required:
+                               - id
+                               - attributes
+                               - relationships
+                       required:
+                         - data
+                     - type: object
+                       properties:
+                         links:
+                           anyOf:
+                             - type: object
+                               properties:
+                                 next:
+                                   type:
+                                     - string
+                                     - 'null'
+                             - type: 'null'
+              examples:
+                example-1:
+                  value:
+                     data:
+                       - id: -17979996.475858465
+                         attributes:
+                           firstName: nostrud et in ex enim
+                           lastName: Ut laboris amet ipsum
+                           email: Duis aute nulla Lorem
+                           createdAt: '2010-02-10T04:26:16.0Z'
+                           updatedAt: '1993-08-07T21:22:04.0Z'
+                         relationships: {}
+                     links:
+                       next: fugiat culpa
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 cursor:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     cursor: enim
+      operationId: list-users
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/sequences/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       attributes:
+                         type: object
+                         properties:
+                           name:
+                             type: string
+                           bounceCount:
+                             type: number
+                           clickCount:
+                             type: number
+                           deliverCount:
+                             type: number
+                           description:
+                             type:
+                               - string
+                               - 'null'
+                           enabled:
+                             type: boolean
+                           openCount:
+                             type: number
+                           optOutCount:
+                             type: number
+                           replyCount:
+                             type: number
+                           scheduleCount:
+                             type: number
+                           sequenceStepCount:
+                             type: number
+                           tags:
+                             type: array
+                             items:
+                               type: string
+                           createdAt:
+                             type: string
+                             format: date-time
+                           updatedAt:
+                             type: string
+                             format: date-time
+                         required:
+                           - name
+                           - bounceCount
+                           - clickCount
+                           - deliverCount
+                           - description
+                           - enabled
+                           - openCount
+                           - optOutCount
+                           - replyCount
+                           - scheduleCount
+                           - sequenceStepCount
+                           - tags
+                           - createdAt
+                           - updatedAt
+                       relationships:
+                         type: object
+                         properties: {}
+                     required:
+                       - id
+                       - attributes
+                       - relationships
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: -63777477.74138864
+                       attributes:
+                         name: dolore in
+                         bounceCount: -98350643.1525964
+                         clickCount: 74572831.23432362
+                         deliverCount: 2726754.36776568
+                         description: null
+                         enabled: false
+                         openCount: 3765773.9645832926
+                         optOutCount: 99843628.57939288
+                         replyCount: 19056627.477946937
+                         scheduleCount: 80495941.69729298
+                         sequenceStepCount: 84887685.23504916
+                         tags:
+                           - fugiat ut est
+                         createdAt: '2018-04-30T08:35:51.0Z'
+                         updatedAt: '1982-07-28T04:57:44.0Z'
+                       relationships: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 attributes:
+                   type: object
+                   properties:
+                     name:
+                       type: string
+                     sequenceType:
+                       type: string
+                       enum:
+                         - date
+                         - interval
+                     shareType:
+                       type: string
+                       enum:
+                         - private
+                         - read_only
+                         - shared
+                   required:
+                     - name
+                     - sequenceType
+                     - shareType
+            examples:
+              example-1:
+                value:
+                     attributes:
+                       name: non in
+                       sequenceType: interval
+                       shareType: shared
+      operationId: create-sequence
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/templates/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                     required:
+                       - id
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: 67955629.79071575
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 attributes:
+                   type: object
+                   properties:
+                     bodyHtml:
+                       type: string
+                     name:
+                       type: string
+                     subject:
+                       type:
+                         - string
+                         - 'null'
+                     trackOpens:
+                       type: boolean
+                   required:
+                     - bodyHtml
+                     - name
+            examples:
+              example-1:
+                value:
+                     attributes:
+                       bodyHtml: eiusmod nulla anim eu
+                       name: Excepteur
+                       trackOpens: true
+                       subject: nisi minim consectetur irure
+      operationId: create-template
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/outreach/sequence-templates/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                     required:
+                       - id
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: 52648232.56628111
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 attributes:
+                   type: object
+                   properties:
+                     isReply:
+                       type: boolean
+                   required:
+                     - isReply
+                 relationships:
+                   type: object
+                   properties:
+                     sequenceStepId:
+                       type: number
+                     templateId:
+                       type: number
+                   required:
+                     - sequenceStepId
+                     - templateId
+            examples:
+              example-1:
+                value:
+                     attributes:
+                       isReply: false
+                     relationships:
+                       sequenceStepId: -25342478.74707681
+                       templateId: 88822467.83166945
+      operationId: create-sequence-template
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []

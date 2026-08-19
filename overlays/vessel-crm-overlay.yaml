@@ -1,0 +1,476 @@
+overlay: 1.0.0
+info:
+  title: Vessel CRM Unified API — API Evangelist Overlay
+  version: 1.0.0
+extends: openapi/vessel-crm-openapi.yml
+x-provenance:
+  generated: '2026-08-13'
+  method: generated
+  source: API Evangelist enrichment pipeline — enhancements over the verbatim spec harvested from https://github.com/vesselapi/all-api-docs
+  note: The underlying OpenAPI is left byte-identical to what Vessel published. Every change below is
+    an API Evangelist annotation, not a claim about Vessel's contract. The two substantive additions are
+    tags (the published specs declare none, so no generator or catalog can group these operations) and
+    the error responses that Vessel documents in prose but never declares in the contract.
+actions:
+- target: $.info
+  update:
+    contact:
+      name: Vessel Support
+      email: support@vessel.dev
+      url: https://www.vessel.dev/
+    description: 'Unified CRM API (v2). Normalizes contacts, deals, accounts, leads, notes, tasks, events,
+      event attendees, emails, calls, lists and users across Salesforce, HubSpot, Zoho, Pipedrive, Close,
+      Freshsales, Microsoft Dynamics, Affinity and monday.com. RPC over POST: reads are POSTs because
+      filters, includes and synced-cache selectors travel in the body. Cursor pagination via cursor/nextPageCursor.
+      Every object carries $native with the untranslated source record.'
+- target: $
+  update:
+    tags:
+    - name: Accounts
+    - name: Calls
+    - name: Connection Info
+    - name: Contacts
+    - name: Custom Fields
+    - name: Deals
+    - name: Emails
+    - name: Event Attendees
+    - name: Events
+    - name: Leads
+    - name: Lists
+    - name: Notes
+    - name: Tasks
+    - name: Users
+- target: $.paths['/api/unifications/crm/info/find'].post
+  update:
+    tags:
+    - Connection Info
+- target: $.paths['/api/unifications/crm/users/list'].post
+  update:
+    tags:
+    - Users
+- target: $.paths['/api/unifications/crm/users/batch-read'].post
+  update:
+    tags:
+    - Users
+- target: $.paths['/api/unifications/crm/users/find'].post
+  update:
+    tags:
+    - Users
+- target: $.paths['/api/unifications/crm/users/details'].post
+  update:
+    tags:
+    - Users
+- target: $.paths['/api/unifications/crm/contacts/list'].post
+  update:
+    tags:
+    - Contacts
+- target: $.paths['/api/unifications/crm/contacts/batch-read'].post
+  update:
+    tags:
+    - Contacts
+- target: $.paths['/api/unifications/crm/contacts/find'].post
+  update:
+    tags:
+    - Contacts
+- target: $.paths['/api/unifications/crm/contacts/create'].post
+  update:
+    tags:
+    - Contacts
+- target: $.paths['/api/unifications/crm/contacts/update'].post
+  update:
+    tags:
+    - Contacts
+- target: $.paths['/api/unifications/crm/contacts/details'].post
+  update:
+    tags:
+    - Contacts
+- target: $.paths['/api/unifications/crm/deals/list'].post
+  update:
+    tags:
+    - Deals
+- target: $.paths['/api/unifications/crm/deals/batch-read'].post
+  update:
+    tags:
+    - Deals
+- target: $.paths['/api/unifications/crm/deals/find'].post
+  update:
+    tags:
+    - Deals
+- target: $.paths['/api/unifications/crm/deals/create'].post
+  update:
+    tags:
+    - Deals
+- target: $.paths['/api/unifications/crm/deals/update'].post
+  update:
+    tags:
+    - Deals
+- target: $.paths['/api/unifications/crm/deals/details'].post
+  update:
+    tags:
+    - Deals
+- target: $.paths['/api/unifications/crm/accounts/list'].post
+  update:
+    tags:
+    - Accounts
+- target: $.paths['/api/unifications/crm/accounts/batch-read'].post
+  update:
+    tags:
+    - Accounts
+- target: $.paths['/api/unifications/crm/accounts/find'].post
+  update:
+    tags:
+    - Accounts
+- target: $.paths['/api/unifications/crm/accounts/create'].post
+  update:
+    tags:
+    - Accounts
+- target: $.paths['/api/unifications/crm/accounts/update'].post
+  update:
+    tags:
+    - Accounts
+- target: $.paths['/api/unifications/crm/accounts/details'].post
+  update:
+    tags:
+    - Accounts
+- target: $.paths['/api/unifications/crm/leads/list'].post
+  update:
+    tags:
+    - Leads
+- target: $.paths['/api/unifications/crm/leads/batch-read'].post
+  update:
+    tags:
+    - Leads
+- target: $.paths['/api/unifications/crm/leads/find'].post
+  update:
+    tags:
+    - Leads
+- target: $.paths['/api/unifications/crm/leads/create'].post
+  update:
+    tags:
+    - Leads
+- target: $.paths['/api/unifications/crm/leads/update'].post
+  update:
+    tags:
+    - Leads
+- target: $.paths['/api/unifications/crm/custom-fields/create'].post
+  update:
+    tags:
+    - Custom Fields
+- target: $.paths['/api/unifications/crm/leads/details'].post
+  update:
+    tags:
+    - Leads
+- target: $.paths['/api/unifications/crm/notes/list'].post
+  update:
+    tags:
+    - Notes
+- target: $.paths['/api/unifications/crm/notes/batch-read'].post
+  update:
+    tags:
+    - Notes
+- target: $.paths['/api/unifications/crm/notes/find'].post
+  update:
+    tags:
+    - Notes
+- target: $.paths['/api/unifications/crm/notes/create'].post
+  update:
+    tags:
+    - Notes
+- target: $.paths['/api/unifications/crm/notes/update'].post
+  update:
+    tags:
+    - Notes
+- target: $.paths['/api/unifications/crm/notes/details'].post
+  update:
+    tags:
+    - Notes
+- target: $.paths['/api/unifications/crm/tasks/list'].post
+  update:
+    tags:
+    - Tasks
+- target: $.paths['/api/unifications/crm/tasks/batch-read'].post
+  update:
+    tags:
+    - Tasks
+- target: $.paths['/api/unifications/crm/tasks/find'].post
+  update:
+    tags:
+    - Tasks
+- target: $.paths['/api/unifications/crm/tasks/create'].post
+  update:
+    tags:
+    - Tasks
+- target: $.paths['/api/unifications/crm/tasks/update'].post
+  update:
+    tags:
+    - Tasks
+- target: $.paths['/api/unifications/crm/tasks/details'].post
+  update:
+    tags:
+    - Tasks
+- target: $.paths['/api/unifications/crm/events/list'].post
+  update:
+    tags:
+    - Events
+- target: $.paths['/api/unifications/crm/events/batch-read'].post
+  update:
+    tags:
+    - Events
+- target: $.paths['/api/unifications/crm/events/find'].post
+  update:
+    tags:
+    - Events
+- target: $.paths['/api/unifications/crm/events/create'].post
+  update:
+    tags:
+    - Events
+- target: $.paths['/api/unifications/crm/events/update'].post
+  update:
+    tags:
+    - Events
+- target: $.paths['/api/unifications/crm/events/details'].post
+  update:
+    tags:
+    - Events
+- target: $.paths['/api/unifications/crm/attendees/list'].post
+  update:
+    tags:
+    - Event Attendees
+- target: $.paths['/api/unifications/crm/attendees/batch-read'].post
+  update:
+    tags:
+    - Event Attendees
+- target: $.paths['/api/unifications/crm/attendees/find'].post
+  update:
+    tags:
+    - Event Attendees
+- target: $.paths['/api/unifications/crm/attendees/create'].post
+  update:
+    tags:
+    - Event Attendees
+- target: $.paths['/api/unifications/crm/attendees/update'].post
+  update:
+    tags:
+    - Event Attendees
+- target: $.paths['/api/unifications/crm/attendees/details'].post
+  update:
+    tags:
+    - Event Attendees
+- target: $.paths['/api/unifications/crm/emails/list'].post
+  update:
+    tags:
+    - Emails
+- target: $.paths['/api/unifications/crm/emails/batch-read'].post
+  update:
+    tags:
+    - Emails
+- target: $.paths['/api/unifications/crm/emails/find'].post
+  update:
+    tags:
+    - Emails
+- target: $.paths['/api/unifications/crm/emails/create'].post
+  update:
+    tags:
+    - Emails
+- target: $.paths['/api/unifications/crm/emails/update'].post
+  update:
+    tags:
+    - Emails
+- target: $.paths['/api/unifications/crm/emails/details'].post
+  update:
+    tags:
+    - Emails
+- target: $.paths['/api/unifications/crm/calls/list'].post
+  update:
+    tags:
+    - Calls
+- target: $.paths['/api/unifications/crm/calls/batch-read'].post
+  update:
+    tags:
+    - Calls
+- target: $.paths['/api/unifications/crm/calls/find'].post
+  update:
+    tags:
+    - Calls
+- target: $.paths['/api/unifications/crm/calls/create'].post
+  update:
+    tags:
+    - Calls
+- target: $.paths['/api/unifications/crm/calls/update'].post
+  update:
+    tags:
+    - Calls
+- target: $.paths['/api/unifications/crm/calls/details'].post
+  update:
+    tags:
+    - Calls
+- target: $.paths['/api/unifications/crm/lists/list'].post
+  update:
+    tags:
+    - Lists
+- target: $.paths['/api/unifications/crm/lists/find'].post
+  update:
+    tags:
+    - Lists
+- target: $.paths['/api/unifications/crm/lists/details'].post
+  update:
+    tags:
+    - Lists
+- target: $.paths['/api/unifications/crm/info/find'].post.responses
+  update: &id001
+    '400':
+      description: Generic Client Error — invalid body parameters, expired public token, or development-connection
+        cap reached. Documented at crm/error-handling.mdx; not declared in the published contract.
+    '401':
+      description: Authorization Error — invalid API token, link token, or access token.
+    '409':
+      description: Data still syncing — the connection has not reached the INITIAL_SYNC state.
+    '500':
+      description: 'Internal Server Error. NOTE: Vessel documents that some client-side validation failures
+        (missing object, endpoint not implemented for that CRM, expired link token, webhook setup problems)
+        are returned as 5xx. Do not treat as automatically retryable.'
+- target: $.paths['/api/unifications/crm/users/list'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/users/batch-read'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/users/find'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/users/details'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/contacts/list'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/contacts/batch-read'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/contacts/find'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/contacts/create'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/contacts/update'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/contacts/details'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/deals/list'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/deals/batch-read'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/deals/find'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/deals/create'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/deals/update'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/deals/details'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/accounts/list'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/accounts/batch-read'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/accounts/find'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/accounts/create'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/accounts/update'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/accounts/details'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/leads/list'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/leads/batch-read'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/leads/find'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/leads/create'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/leads/update'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/custom-fields/create'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/leads/details'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/notes/list'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/notes/batch-read'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/notes/find'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/notes/create'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/notes/update'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/notes/details'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/tasks/list'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/tasks/batch-read'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/tasks/find'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/tasks/create'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/tasks/update'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/tasks/details'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/events/list'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/events/batch-read'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/events/find'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/events/create'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/events/update'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/events/details'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/attendees/list'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/attendees/batch-read'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/attendees/find'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/attendees/create'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/attendees/update'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/attendees/details'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/emails/list'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/emails/batch-read'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/emails/find'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/emails/create'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/emails/update'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/emails/details'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/calls/list'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/calls/batch-read'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/calls/find'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/calls/create'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/calls/update'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/calls/details'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/lists/list'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/lists/find'].post.responses
+  update: *id001
+- target: $.paths['/api/unifications/crm/lists/details'].post.responses
+  update: *id001
+- target: $.components.securitySchemes
+  update:
+    VesselAPIToken:
+      type: apiKey
+      in: header
+      name: x-vessel-api-token
+      description: Project API token. The published v2 specs declare a security requirement referencing
+        VesselAPIToken but never define the scheme; this restores the definition from the provider mint.json
+        (api.auth.name).

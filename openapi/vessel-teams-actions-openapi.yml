@@ -1,0 +1,248 @@
+
+openapi: 3.1.0
+info:
+  title: Teams API Reference
+  version: "1.0"
+  summary: API
+servers:
+  - url: "https://api.vessel.dev"
+security:
+  - VesselAPIToken: []
+paths:
+  /api/actions/teams/messages/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   id:
+                     type: string
+                   createdDateTime:
+                     type: string
+                     format: date-time
+                   body:
+                     type: object
+                     properties:
+                       content:
+                         type: string
+                     required:
+                       - content
+                   channelIdentity:
+                     type: object
+                     properties:
+                       teamId:
+                         type: string
+                       channelId:
+                         type: string
+                     required:
+                       - teamId
+                       - channelId
+              examples:
+                example-1:
+                  value:
+                     id: elit incididunt
+                     createdDateTime: '1956-05-16T12:13:57.0Z'
+                     body:
+                       content: exercitation est laborum irure quis
+                     channelIdentity:
+                       teamId: enim
+                       channelId: dolor sint ea tempor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 text:
+                   type: string
+                 channelId:
+                   type: string
+                 teamId:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     text: sunt enim consequat ea dolore
+                     channelId: fugiat cupidatat
+                     teamId: enim commodo eiusmod laborum in
+      operationId: create-message
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/teams/channels/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   value:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         displayName:
+                           type: string
+                         createdDateTime:
+                           type: string
+                           format: date-time
+                       required:
+                         - id
+                         - displayName
+                         - createdDateTime
+                   '@odataNextLink':
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     value:
+                       - id: aliquip
+                         displayName: in Duis velit pariatur irure
+                         createdDateTime: '2012-06-04T02:06:01.0Z'
+                         idea_: false
+                     '@odataNextLink': laboris Excepteur dolor cillum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 teamId:
+                   type: string
+                 cursor:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     teamId: sint dolor consequat ex
+                     cursor: mollit non cillum
+      operationId: list-channels
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/teams/members/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   value:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         displayName:
+                           type: string
+                       required:
+                         - id
+                         - displayName
+                   '@odataNextLink':
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     value:
+                       - id: sit in voluptate velit
+                         displayName: magna laboris sint Lorem elit
+                     '@odataNextLink': ea reprehenderit laboris Lorem dolore
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 teamId:
+                   type: string
+                 cursor:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     teamId: incididunt Lorem ad ex Ut
+                     cursor: aute Duis dolore anim
+      operationId: list-members
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/teams/teams/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   value:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         displayName:
+                           type: string
+                       required:
+                         - id
+                         - displayName
+                   '@odataNextLink':
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     value:
+                       - id: in sunt
+                         displayName: sunt amet dolore
+                     '@odataNextLink': Excepteur non laboris
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 cursor:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     cursor: ea commodo irure in
+      operationId: list-teams
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []

@@ -4,131 +4,149 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Vessel
 providerId: vessel
 created: '2026-05-04'
-modified: '2026-05-05'
+method: searched
+modified: '2026-08-13'
 reconciled: true
 tags:
-  - Unified API
-  - Integrations
-  - CRM
-  - HRIS
-  - SaaS
-description: Vessel offers a unified API for SaaS integrations. The public pricing page lists three
-  tiers - Start (free, 5 development connections), Launch (custom-priced, up to 20 connections),
-  and Custom (custom-priced, unlimited connections, whitelabeling). All tiers advertise unlimited
-  API calls; commercial pricing for Launch and Custom is negotiated directly.
+- Unified API
+- Integrations
+- CRM
+- HRIS
+- SaaS
+description: Vessel offers a unified API for SaaS integrations. The public pricing page lists three tiers
+  - Start (free, 5 development connections), Launch (custom-priced, up to 20 connections), and Custom
+  (custom-priced, unlimited connections, whitelabeling). All tiers advertise unlimited API calls; commercial
+  pricing for Launch and Custom is negotiated directly.
 sources:
-  - https://www.vessel.dev/pricing
+- https://www.vessel.dev/pricing
 plans:
-  - id: vessel-start
-    name: Start
-    type: freemium
-    description: Free development tier with 5 connections; intended for evaluation and prototyping.
-    entries:
-      - label: Plan price
-        name: plan_price
-        type: subscription
-        metric: month
-        limit: 1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '$0'
-        userMultiplied: false
-      - label: Development connections
-        name: dev_connections
-        type: quota
-        metric: connection
-        limit: 5
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: '$0'
-        userMultiplied: false
-      - label: API calls
-        name: api_calls
-        type: quota
-        metric: request
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '$0'
-        userMultiplied: false
-    elements:
-      - name: Unified APIs
-      - name: Action APIs
-      - name: Unlimited API calls
-  - id: vessel-launch
-    name: Launch
+- id: vessel-start
+  name: Start
+  type: freemium
+  description: Free development tier with 5 connections; intended for evaluation and prototyping.
+  entries:
+  - label: Plan price
+    name: plan_price
     type: subscription
-    description: Production tier with up to 20 connections, custom-priced for the customer's business.
-    entries:
-      - label: Plan price
-        name: plan_price
-        type: subscription
-        metric: month
-        limit: 1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: customized for your business
-        userMultiplied: false
-      - label: Maximum connections
-        name: max_connections
-        type: quota
-        metric: connection
-        limit: 20
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: API calls
-        name: api_calls
-        type: quota
-        metric: request
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-    elements:
-      - name: Unified APIs
-      - name: Action APIs
-      - name: Email support
-      - name: Unlimited API calls
-  - id: vessel-custom
-    name: Custom
-    type: enterprise
-    description: Custom-priced tier with unlimited connections, whitelabeling, and Slack support.
-    entries:
-      - label: Plan price
-        name: plan_price
-        type: subscription
-        metric: month
-        limit: 1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: customized for your business
-        userMultiplied: false
-      - label: Connections
-        name: connections
-        type: quota
-        metric: connection
-        limit: -1
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-    elements:
-      - name: Whitelabeling
-      - name: Unified APIs
-      - name: Action APIs
-      - name: Slack support
-      - name: Prioritized feature requests and integrations
+    metric: month
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0
+    userMultiplied: false
+  - label: Development connections
+    name: dev_connections
+    type: quota
+    metric: connection
+    limit: 5
+    timeFrame: usage
+    geo: global
+    unit: 1
+    price: $0
+    userMultiplied: false
+  - label: API calls
+    name: api_calls
+    type: quota
+    metric: request
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0
+    userMultiplied: false
+  elements:
+  - name: Unified APIs
+  - name: Action APIs
+  - name: Unlimited API calls
+- id: vessel-launch
+  name: Launch
+  type: subscription
+  description: Production tier with up to 20 connections, custom-priced for the customer's business.
+  entries:
+  - label: Plan price
+    name: plan_price
+    type: subscription
+    metric: month
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: customized for your business
+    userMultiplied: false
+  - label: Maximum connections
+    name: max_connections
+    type: quota
+    metric: connection
+    limit: 20
+    timeFrame: usage
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  - label: API calls
+    name: api_calls
+    type: quota
+    metric: request
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  elements:
+  - name: Unified APIs
+  - name: Action APIs
+  - name: Email support
+  - name: Unlimited API calls
+- id: vessel-custom
+  name: Custom
+  type: enterprise
+  description: Custom-priced tier with unlimited connections, whitelabeling, and Slack support.
+  entries:
+  - label: Plan price
+    name: plan_price
+    type: subscription
+    metric: month
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: customized for your business
+    userMultiplied: false
+  - label: Connections
+    name: connections
+    type: quota
+    metric: connection
+    limit: -1
+    timeFrame: usage
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  elements:
+  - name: Whitelabeling
+  - name: Unified APIs
+  - name: Action APIs
+  - name: Slack support
+  - name: Prioritized feature requests and integrations
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+plan_count: 3
+x-verification:
+  checked: '2026-08-13'
+  url: https://www.vessel.dev/pricing
+  http_status: 200
+  verbatim_tiers:
+  - 'Start — Free per month — Unified APIs, Action APIs, Unlimited API calls, Free development connections:
+    5'
+  - 'Launch — Customized for your business — Unified APIs, Action APIs, Email support, Unlimited API calls,
+    Max number of connections: 20'
+  - Custom — Customized for your business — Whitelabeling, Unified APIs, Action APIs, Slack support, Prioritized
+    feature requests and integrations, Unlimited number of connections
+  note: The pricing page was re-fetched on 2026-08-13 and the three tiers match this artifact exactly,
+    so the method is upgraded from generated to searched. Only the Start tier carries a numeric price;
+    Launch and Custom are quoted. The "Start for free" and "Log in" buttons on the page both point at
+    https://app.vessel.dev, which did not answer on the same date, so the free tier is not currently self-serve
+    reachable.

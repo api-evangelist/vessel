@@ -1,0 +1,139 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/crm/error-handling.mdx
+docs:
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/crm/error-handling.mdx
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/hidden/error-faq.mdx
+format: proprietary-json
+rfc9457: false
+content_type: application/json
+summary:
+  spec_documented_error_responses: 0
+  docs_documented_classes: 5
+  note: >-
+    A material contract gap: across all 20 published Vessel OpenAPI definitions, 375 of 375 operations
+    declare a 200 response and NOTHING ELSE — there is not one 4xx or 5xx response object in any spec.
+    Every error fact below is transcribed from the prose error-handling page, not from the contract. An
+    agent reading only the OpenAPI would conclude these APIs cannot fail.
+envelope:
+  fields:
+    - name: message
+      type: string
+      required: true
+      description: Human-readable statement of what went wrong.
+    - name: errorCode
+      type: string
+      required: false
+      description: >-
+        Machine-readable code. Optional — Vessel's own documentation marks it as such, so callers
+        cannot branch on it reliably.
+    - name: metadata
+      type: object
+      required: false
+      description: >-
+        Present when Vessel has normalized an error raised by the downstream SaaS provider. Carries
+        the original payload so the caller can debug against the source system.
+      fields:
+        - name: originalStatusCode
+          type: integer
+          description: The status code the downstream provider returned.
+        - name: originalErrors
+          type: array
+          description: >-
+            The downstream provider's own error objects, each with message, errorCode and the
+            affected fields[].
+  example:
+    message: Invalid email address
+    errorCode: INVALID_FIELD_VALUE
+    metadata:
+      originalStatusCode: 400
+      originalErrors:
+        - message: 'Email: invalid email address: 123123123'
+          errorCode: INVALID_EMAIL_ADDRESS
+          fields:
+            - Email
+classes:
+  - status: 400
+    id: generic-client-error
+    title: Generic Client Error
+    meaning: >-
+      Catch-all for a malformed or unacceptable request — invalid body parameters, an expired public
+      token, or exceeding the development-account connection cap.
+    action: >-
+      Validate the request body against the operation schema; if the cause is the connection cap,
+      delete unused development connections or move to a production key.
+  - status: 401
+    id: authorization-error
+    title: Authorization Error
+    meaning: >-
+      Vessel could not authenticate the request. Raised for an invalid API token, an invalid link
+      token, or an invalid access token.
+    action: >-
+      Confirm the correct header for the surface being called (x-vessel-api-token on api.vessel.dev,
+      vessel-api-token on the legacy api.vessel.land surface) and that the accessToken belongs to the
+      same project as the API token.
+  - status: 409
+    id: data-still-syncing
+    title: Data still syncing
+    meaning: >-
+      The connection has not reached the INITIAL_SYNC state. The connected account exists but Vessel
+      has not finished pulling its data.
+    action: >-
+      Wait for the system.sync.initial.complete webhook event for this connectionId before issuing
+      further calls against it.
+  - status: 5xx
+    id: validation-error-as-5xx
+    title: Validation Error returned as 5xx
+    meaning: >-
+      Vessel documents that, "due to historical reasons", several user-input validation failures are
+      returned as Internal Server Errors rather than 4xx — webhook setup problems, referencing an
+      object that does not exist, calling an endpoint not implemented for that CRM, and some auth
+      failures such as an expired link token.
+    action: >-
+      Do not treat a Vessel 5xx as automatically retryable. Inspect message/errorCode first; a
+      blind exponential-backoff retry loop on 5xx will spin on a permanent validation failure.
+    severity: high
+    note: >-
+      This is the single most consequential runtime semantic in Vessel's documentation and it is
+      invisible in the OpenAPI. It is the reason this artifact exists.
+  - status: 5xx
+    id: downstream-integration-error
+    title: Error from the downstream integration
+    meaning: >-
+      The failure happened inside the connected SaaS application (Salesforce, HubSpot, …), usually
+      against validation a customer configured themselves. Common downstream errors — rate limits,
+      object-not-found — are normalized into Vessel's envelope.
+    action: >-
+      Read metadata.originalErrors for the source system's own message and fields; remediate in the
+      downstream tenant, not in the Vessel call.
+codes:
+  - code: OBJECT_NOT_FOUND
+    status: 5xx
+    meaning: The referenced object does not exist in the connected system.
+    source: error-handling.mdx (Error Shape example)
+  - code: INVALID_FIELD_VALUE
+    status: 5xx
+    meaning: >-
+      A field value was rejected. Normalized from a downstream validation error; the original code
+      (e.g. INVALID_EMAIL_ADDRESS) is preserved under metadata.originalErrors.
+    source: error-handling.mdx (Error Shape Example)
+named_conditions:
+  - id: development-connection-cap
+    message: Maximum number of connections reached for development account
+    status: 400
+    cause: >-
+      Development API keys are capped at 5 connections. Every customer is issued a development key
+      and a production key.
+    remediation: >-
+      List connections for the development key and delete the ones no longer needed, or use the
+      production key.
+    source: https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/hidden/error-faq.mdx
+gaps:
+  - >-
+    No error responses are declared in any published OpenAPI definition, so no error schema can be
+    validated by a client generator or an agent.
+  - >-
+    errorCode is documented as optional, and no enumerated registry of codes is published — only two
+    codes appear anywhere in the documentation, both inside examples.
+  - >-
+    Errors are not RFC 9457 problem+json; the envelope is a bespoke {message, errorCode, metadata}.

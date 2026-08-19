@@ -1,0 +1,2282 @@
+
+openapi: 3.1.0
+info:
+  title: Salesloft API Reference
+  version: "1.0"
+  summary: API
+servers:
+  - url: "https://api.vessel.dev"
+security:
+  - VesselAPIToken: []
+paths:
+  /api/actions/salesloft/cadence-memberships/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       addedAt:
+                         type: string
+                       createdAt:
+                         type: string
+                       updatedAt:
+                         type: string
+                       personDeleted:
+                         type:
+                           - boolean
+                           - 'null'
+                       currentlyOnCadence:
+                         type:
+                           - boolean
+                           - 'null'
+                       currentState:
+                         type:
+                           - string
+                           - 'null'
+                       cadence:
+                         type: object
+                         properties:
+                           id:
+                             type: number
+                         required:
+                           - id
+                       person:
+                         anyOf:
+                           - type: object
+                             properties:
+                               id:
+                                 type: number
+                             required:
+                               - id
+                           - type: 'null'
+                       user:
+                         anyOf:
+                           - type: object
+                             properties:
+                               id:
+                                 type: number
+                             required:
+                               - id
+                           - type: 'null'
+                       latestAction:
+                         anyOf:
+                           - type: object
+                             properties:
+                               id:
+                                 type: number
+                             required:
+                               - id
+                           - type: 'null'
+                       counts:
+                         anyOf:
+                           - type: object
+                             properties:
+                               views:
+                                 type:
+                                   - number
+                                   - 'null'
+                               clicks:
+                                 type:
+                                   - number
+                                   - 'null'
+                               replies:
+                                 type:
+                                   - number
+                                   - 'null'
+                               calls:
+                                 type:
+                                   - number
+                                   - 'null'
+                               sentEmails:
+                                 type:
+                                   - number
+                                   - 'null'
+                               bounces:
+                                 type:
+                                   - number
+                                   - 'null'
+                           - type: 'null'
+                     required:
+                       - id
+                       - added_at
+                       - created_at
+                       - updated_at
+                       - cadence
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: -56851202.11291372
+                       cadence:
+                         id: 68386379.95007396
+                       person:
+                         id: 64496267.23127252
+                       addedAt: proident labore fugiat
+                       currentlyOnCadence: null
+                       counts:
+                         clicks: 56202174.847684234
+                         views: 47311405.75283393
+                         sentEmails: -5865150.638498351
+                         bounces: -63153875.96998745
+                         replies: 23815749.55406536
+                         calls: -54771481.02616862
+                       updatedAt: aliqua pariatur
+                       personDeleted: null
+                       currentState: null
+                       user: null
+                       createdAt: occaecat Lorem in exercitation cupidatat
+                       latestAction: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 cadenceId:
+                   type: string
+                 personId:
+                   type: string
+                 userId:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     cadenceId: laboris dolore in sit
+                     personId: exercitation ut non ullamco
+                     userId: cupidatat anim dolore irure
+      operationId: create-cadence-memberships
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesloft/cadences/import:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       cadence:
+                         type: object
+                         properties:
+                           id:
+                             type: number
+                         required:
+                           - id
+                     required:
+                       - cadence
+              examples:
+                example-1:
+                  value:
+                     data:
+                       cadence:
+                         id: 99533124.307352
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 settings:
+                   type: object
+                   properties:
+                     name:
+                       type: string
+                     targetDailyPeople:
+                       type: number
+                     removeReplied:
+                       type: boolean
+                     removeBounced:
+                       type: boolean
+                     externalIdentifier:
+                       type: string
+                     cadenceFunction:
+                       type: string
+                   required:
+                     - name
+                     - target_daily_people
+                     - remove_replied
+                     - remove_bounced
+                     - cadence_function
+                 sharingSettings:
+                   type: object
+                   properties:
+                     teamCadence:
+                       type: boolean
+                     shared:
+                       type: boolean
+                   required:
+                     - team_cadence
+                     - shared
+                 cadenceContent:
+                   type: object
+                   properties:
+                     cadenceId:
+                       type: string
+                     stepGroups:
+                       type: array
+                       items:
+                         type: object
+                         properties:
+                           day:
+                             type: number
+                           dueImmediately:
+                             type: boolean
+                           automated:
+                             type: boolean
+                           referenceId:
+                             type: number
+                           steps:
+                             type: array
+                             items:
+                               type: object
+                               properties:
+                                 enabled:
+                                   type: boolean
+                                 name:
+                                   type: string
+                                 type:
+                                   type: string
+                                 typeSettings:
+                                   type: object
+                                   properties:
+                                     previousEmailStepGroupReferenceId:
+                                       type: number
+                                     emailTemplate:
+                                       type: object
+                                       properties:
+                                         title:
+                                           type: string
+                                         subject:
+                                           type: string
+                                         body:
+                                           type: string
+                                         openTracking:
+                                           type: boolean
+                                         clickTracking:
+                                           type: boolean
+                                       required:
+                                         - title
+                                         - body
+                                   required:
+                                     - email_template
+                               required:
+                                 - enabled
+                                 - type
+                                 - type_settings
+                         required:
+                           - day
+                           - due_immediately
+                           - automated
+                           - steps
+                   required:
+                     - cadence_id
+                     - step_groups
+            examples:
+              example-1:
+                value:
+                     settings:
+                       name: reprehenderit ea id in
+                       targetDailyPeople: -76813105.53799015
+                       removeReplied: true
+                       externalIdentifier: quis non exercitation ullamco aliqua
+                       removeBounced: false
+                       cadenceFunction: velit Duis
+                     sharingSettings:
+                       shared: true
+                       teamCadence: false
+                     cadenceContent:
+                       stepGroups:
+                         - day: 14706746.434673995
+                           automated: false
+                           steps:
+                             - enabled: false
+                               type: Ut officia qui ea
+                               name: nostrud incididunt dolore
+                               typeSettings:
+                                 emailTemplate:
+                                   title: veniam nisi cillum dolore
+                                   body: labore ut quis dolore tempor
+                                   openTracking: true
+                                   subject: exercitation
+                                   clickTracking: false
+                                 previousEmailStepGroupReferenceId: -14174382.60233967
+                           referenceId: 58640405.702331275
+                           dueImmediately: true
+                       cadenceId: magna qui sint in dolor
+      operationId: import-cadences
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesloft/cadences/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: number
+                         createdAt:
+                           type: string
+                           format: date-time
+                         updatedAt:
+                           type: string
+                           format: date-time
+                         name:
+                           type:
+                             - string
+                             - 'null'
+                         archivedAt:
+                           type:
+                             - string
+                             - 'null'
+                         teamCadence:
+                           type:
+                             - boolean
+                             - 'null'
+                         shared:
+                           type:
+                             - boolean
+                             - 'null'
+                         removeBouncesEnabled:
+                           type:
+                             - boolean
+                             - 'null'
+                         removeRepliesEnabled:
+                           type:
+                             - boolean
+                             - 'null'
+                         optOutLinkIncluded:
+                           type:
+                             - boolean
+                             - 'null'
+                         draft:
+                           type:
+                             - boolean
+                             - 'null'
+                         cadenceFrameworkId:
+                           type:
+                             - number
+                             - 'null'
+                         cadenceFunction:
+                           type:
+                             - string
+                             - 'null'
+                         externalIdentifier:
+                           type:
+                             - string
+                             - 'null'
+                         tags:
+                           type: array
+                           items:
+                             type: string
+                         counts:
+                           anyOf:
+                             - type: object
+                               properties:
+                                 cadencePeople:
+                                   type:
+                                     - number
+                                     - 'null'
+                                 peopleActedOnCount:
+                                   type:
+                                     - number
+                                     - 'null'
+                                 targetDailyPeople:
+                                   type:
+                                     - number
+                                     - 'null'
+                                 opportunitiesCreated:
+                                   type:
+                                     - number
+                                     - 'null'
+                                 meetingsBooked:
+                                   type:
+                                     - number
+                                     - 'null'
+                             - type: 'null'
+                       required:
+                         - id
+                         - created_at
+                         - updated_at
+                         - tags
+                   metadata:
+                     type: object
+                     properties:
+                       paging:
+                         type: object
+                         properties:
+                           perPage:
+                             type: number
+                           currentPage:
+                             type: number
+                           nextPage:
+                             type:
+                               - number
+                               - 'null'
+                           prevPage:
+                             type:
+                               - number
+                               - 'null'
+                         required:
+                           - per_page
+                           - current_page
+                     required:
+                       - paging
+              examples:
+                example-1:
+                  value:
+                     data:
+                       - id: -47475417.66640424
+                         tags:
+                           - eu dolor labore quis laboris
+                         archivedAt: null
+                         shared: null
+                         cadenceFrameworkId: -89350510.1160029
+                         teamCadence: null
+                         externalIdentifier: null
+                         cadenceFunction: null
+                         counts:
+                           cadencePeople: null
+                           opportunitiesCreated: -5111985.282995328
+                           targetDailyPeople: 45759963.530312896
+                           meetingsBooked: -94575881.1425458
+                           peopleActedOnCount: -99701569.85847223
+                         updatedAt: '2014-03-12T16:22:10.0Z'
+                         draft: false
+                         optOutLinkIncluded: false
+                         name: null
+                         removeRepliesEnabled: false
+                         createdAt: '1961-11-21T08:20:20.0Z'
+                         removeBouncesEnabled: null
+                     metadata:
+                       paging:
+                         prevPage: null
+                         nextPage: null
+                         perPage: -70282356.7250379
+                         currentPage: 21899870.526472658
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 perPage:
+                   type: number
+                 page:
+                   type: number
+            examples:
+              example-1:
+                value:
+                     perPage: -85979398.3336393
+                     page: -20861037.012846455
+      operationId: list-cadences
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesloft/custom-fields/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       name:
+                         type: string
+                       fieldType:
+                         type: string
+                       valueType:
+                         type: string
+                       createdAt:
+                         type: string
+                         format: date-time
+                       updatedAt:
+                         type: string
+                         format: date-time
+                     required:
+                       - id
+                       - name
+                       - field_type
+                       - value_type
+                       - created_at
+                       - updated_at
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: 998397.7575469464
+                       name: ad proident Duis in
+                       fieldType: consectetur irure
+                       updatedAt: '2009-10-20T12:55:45.0Z'
+                       createdAt: '1990-01-27T09:01:35.0Z'
+                       valueType: ipsum reprehenderit esse in
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 name:
+                   type: string
+                 fieldType:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     name: sed
+                     fieldType: voluptate ad velit ex Ut
+      operationId: create-custom-field
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesloft/custom-fields/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: number
+                         name:
+                           type: string
+                         fieldType:
+                           type: string
+                         valueType:
+                           type: string
+                         createdAt:
+                           type: string
+                           format: date-time
+                         updatedAt:
+                           type: string
+                           format: date-time
+                       required:
+                         - id
+                         - name
+                         - field_type
+                         - value_type
+                         - created_at
+                         - updated_at
+                   metadata:
+                     type: object
+                     properties:
+                       paging:
+                         type: object
+                         properties:
+                           perPage:
+                             type: number
+                           currentPage:
+                             type: number
+                           nextPage:
+                             type:
+                               - number
+                               - 'null'
+                           prevPage:
+                             type:
+                               - number
+                               - 'null'
+                         required:
+                           - per_page
+                           - current_page
+                     required:
+                       - paging
+              examples:
+                example-1:
+                  value:
+                     data:
+                       - id: 93178606.11422518
+                         name: aliqua sunt laborum
+                         updatedAt: '2022-04-01T01:17:56.0Z'
+                         fieldType: proident cillum exercitation
+                         createdAt: '1998-09-24T10:31:27.0Z'
+                         valueType: pariatur laboris
+                     metadata:
+                       paging:
+                         perPage: -5327694.842459872
+                         currentPage: 35961918.416861
+                         prevPage: 11707237.020071521
+                         nextPage: -11343082.460922897
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 perPage:
+                   type: number
+                 page:
+                   type: number
+                 fieldType:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     perPage: 54485764.757252544
+                     page: 69047773.496629
+                     fieldType: esse
+      operationId: list-custom-fields
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesloft/emailBodies/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       mailbox:
+                         type:
+                           - string
+                           - 'null'
+                       messageId:
+                         type:
+                           - string
+                           - 'null'
+                       raw:
+                         type: string
+                     required:
+                       - id
+                       - raw
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: 42741382.09717527
+                       raw: aliqua
+                       mailbox: aliquip elit sint sit anim
+                       messageId: tempor nulla
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: elit officia dolore ea deserunt
+      operationId: find-email-body
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesloft/emails/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: number
+                         createdAt:
+                           type: string
+                           format: date-time
+                         updatedAt:
+                           type: string
+                           format: date-time
+                         recipientEmailAddress:
+                           type:
+                             - string
+                             - 'null'
+                         status:
+                           type:
+                             - string
+                             - 'null'
+                         bounced:
+                           type: boolean
+                         sendAfter:
+                           type: string
+                           format: date-time
+                         sentAt:
+                           type: string
+                           format: date-time
+                         viewTracking:
+                           type: boolean
+                         clickTracking:
+                           type: boolean
+                         subject:
+                           type:
+                             - string
+                             - 'null'
+                         errorMessage:
+                           type:
+                             - string
+                             - 'null'
+                         counts:
+                           anyOf:
+                             - type: object
+                               properties:
+                                 clicks:
+                                   type:
+                                     - number
+                                     - 'null'
+                                 views:
+                                   type:
+                                     - number
+                                     - 'null'
+                                 replies:
+                                   type:
+                                     - number
+                                     - 'null'
+                                 uniqueDevices:
+                                   type:
+                                     - number
+                                     - 'null'
+                                 uniqueLocations:
+                                   type:
+                                     - number
+                                     - 'null'
+                                 attachments:
+                                   type:
+                                     - number
+                                     - 'null'
+                             - type: 'null'
+                         user:
+                           anyOf:
+                             - type: object
+                               properties:
+                                 id:
+                                   type: number
+                               required:
+                                 - id
+                             - type: 'null'
+                         cadence:
+                           anyOf:
+                             - type: object
+                               properties:
+                                 id:
+                                   type: number
+                               required:
+                                 - id
+                             - type: 'null'
+                       required:
+                         - id
+                         - created_at
+                         - updated_at
+                         - bounced
+                         - send_after
+                         - sent_at
+                         - view_tracking
+                         - click_tracking
+                   metadata:
+                     type: object
+                     properties:
+                       paging:
+                         type: object
+                         properties:
+                           perPage:
+                             type: number
+                           currentPage:
+                             type: number
+                           nextPage:
+                             type:
+                               - number
+                               - 'null'
+                           prevPage:
+                             type:
+                               - number
+                               - 'null'
+                         required:
+                           - per_page
+                           - current_page
+                     required:
+                       - paging
+              examples:
+                example-1:
+                  value:
+                     data:
+                       - id: 50774689.744436145
+                         bounced: true
+                         sentAt: '2005-07-26T20:32:31.0Z'
+                         status: null
+                         user:
+                           id: -9480558.144495845
+                         errorMessage: eiusmod
+                         recipientEmailAddress: null
+                         createdAt: '1992-04-04T05:55:29.0Z'
+                         updatedAt: '2010-07-26T21:03:47.0Z'
+                         clickTracking: false
+                         cadence: null
+                         sendAfter: '1951-06-25T07:42:25.0Z'
+                         viewTracking: true
+                         subject: null
+                         counts: null
+                     metadata:
+                       paging:
+                         prevPage: null
+                         currentPage: -61910627.88594857
+                         perPage: -5534388.110851824
+                         nextPage: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 perPage:
+                   type: number
+                 page:
+                   type: number
+                 personId:
+                   type: string
+                 cadenceId:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     perPage: 2707097.9769516736
+                     page: -47577699.74596724
+                     personId: mollit reprehenderit
+                     cadenceId: eiusmod nostrud
+      operationId: list-emails
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesloft/emails/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       createdAt:
+                         type: string
+                         format: date-time
+                       updatedAt:
+                         type: string
+                         format: date-time
+                       recipientEmailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       status:
+                         type:
+                           - string
+                           - 'null'
+                       bounced:
+                         type: boolean
+                       sendAfter:
+                         type: string
+                         format: date-time
+                       sentAt:
+                         type: string
+                         format: date-time
+                       viewTracking:
+                         type: boolean
+                       clickTracking:
+                         type: boolean
+                       subject:
+                         type:
+                           - string
+                           - 'null'
+                       errorMessage:
+                         type:
+                           - string
+                           - 'null'
+                       counts:
+                         anyOf:
+                           - type: object
+                             properties:
+                               clicks:
+                                 type:
+                                   - number
+                                   - 'null'
+                               views:
+                                 type:
+                                   - number
+                                   - 'null'
+                               replies:
+                                 type:
+                                   - number
+                                   - 'null'
+                               uniqueDevices:
+                                 type:
+                                   - number
+                                   - 'null'
+                               uniqueLocations:
+                                 type:
+                                   - number
+                                   - 'null'
+                               attachments:
+                                 type:
+                                   - number
+                                   - 'null'
+                           - type: 'null'
+                       user:
+                         anyOf:
+                           - type: object
+                             properties:
+                               id:
+                                 type: number
+                             required:
+                               - id
+                           - type: 'null'
+                       cadence:
+                         anyOf:
+                           - type: object
+                             properties:
+                               id:
+                                 type: number
+                             required:
+                               - id
+                           - type: 'null'
+                     required:
+                       - id
+                       - created_at
+                       - updated_at
+                       - bounced
+                       - send_after
+                       - sent_at
+                       - view_tracking
+                       - click_tracking
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: -61966070.53410075
+                       bounced: true
+                       errorMessage: Excepteur in cillum ut
+                       sentAt: '1960-04-04T15:58:59.0Z'
+                       updatedAt: '2016-11-26T14:49:01.0Z'
+                       user: null
+                       counts:
+                         clicks: null
+                         replies: null
+                         views: -26029381.309456617
+                         uniqueLocations: 56275534.15917128
+                         uniqueDevices: null
+                         attachments: null
+                       status: null
+                       clickTracking: true
+                       viewTracking: false
+                       sendAfter: '2017-09-29T11:55:04.0Z'
+                       cadence: null
+                       recipientEmailAddress: null
+                       createdAt: '1966-02-10T04:19:08.0Z'
+                       subject: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: ut
+      operationId: find-email
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesloft/people/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       firstName:
+                         type:
+                           - string
+                           - 'null'
+                       lastName:
+                         type:
+                           - string
+                           - 'null'
+                       city:
+                         type:
+                           - string
+                           - 'null'
+                       state:
+                         type:
+                           - string
+                           - 'null'
+                       country:
+                         type:
+                           - string
+                           - 'null'
+                       title:
+                         type:
+                           - string
+                           - 'null'
+                       owner:
+                         anyOf:
+                           - type: object
+                             properties:
+                               id:
+                                 type: number
+                             required:
+                               - id
+                           - type: 'null'
+                       account:
+                         anyOf:
+                           - type: object
+                             properties:
+                               id:
+                                 type: number
+                             required:
+                               - id
+                           - type: 'null'
+                       phone:
+                         type:
+                           - string
+                           - 'null'
+                       homePhone:
+                         type:
+                           - string
+                           - 'null'
+                       mobilePhone:
+                         type:
+                           - string
+                           - 'null'
+                       emailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       secondaryEmailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       personalEmailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       createdAt:
+                         type: string
+                         format: date-time
+                       updatedAt:
+                         type: string
+                         format: date-time
+                       counts:
+                         type: object
+                         properties:
+                           emailsSent:
+                             type:
+                               - number
+                               - 'null'
+                           emailsViewed:
+                             type:
+                               - number
+                               - 'null'
+                           emailsClicked:
+                             type:
+                               - number
+                               - 'null'
+                           emailsRepliedTo:
+                             type:
+                               - number
+                               - 'null'
+                           emailsBounced:
+                             type:
+                               - number
+                               - 'null'
+                           calls:
+                             type:
+                               - number
+                               - 'null'
+                       customFields:
+                         type: object
+                         properties: {}
+                     required:
+                       - id
+                       - created_at
+                       - updated_at
+                       - counts
+                       - custom_fields
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: -92336448.50582077
+                       counts:
+                         emailsViewed: -17944090.491637483
+                         calls: null
+                         emailsSent: null
+                         emailsClicked: null
+                         emailsRepliedTo: 15606480.892245814
+                         emailsBounced: -27334315.826718524
+                       customFields: {}
+                       secondaryEmailAddress: sit adipisicing
+                       mobilePhone: deserunt quis enim
+                       account:
+                         id: -24525475.420395225
+                       createdAt: '1956-07-19T23:44:09.0Z'
+                       firstName: null
+                       phone: null
+                       emailAddress: aliqua culpa laborum
+                       title: do dolore culpa sint minim
+                       state: null
+                       homePhone: incididunt id ex
+                       lastName: null
+                       owner:
+                         id: -57797586.78436493
+                       updatedAt: '1995-01-10T17:40:45.0Z'
+                       city: anim
+                       personalEmailAddress: sed
+                       country: cillum sint elit cupidatat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 firstName:
+                   type: string
+                 lastName:
+                   type: string
+                 city:
+                   type: string
+                 state:
+                   type: string
+                 country:
+                   type: string
+                 title:
+                   type: string
+                 owner:
+                   type: object
+                   properties:
+                     id:
+                       type: string
+                   required:
+                     - id
+                 account:
+                   type: object
+                   properties:
+                     id:
+                       type: string
+                   required:
+                     - id
+                 emailAddress:
+                   type: string
+                 secondaryEmailAddress:
+                   type: string
+                 personalEmailAddress:
+                   type: string
+                 customFields:
+                   type: object
+                   properties: {}
+            examples:
+              example-1:
+                value:
+                     firstName: adipisicing Duis amet fugiat sunt
+                     lastName: ipsum Ut
+                     city: velit enim reprehenderit
+                     state: sint magna esse aute
+                     country: dolore
+                     title: laboris adipisicing
+                     owner:
+                       id: ipsum labore sed
+                       est_e1f: -58512857
+                     account:
+                       id: quis incididunt commodo eu esse
+                     emailAddress: laborum cupidatat aute Excepteur
+                     secondaryEmailAddress: laborum mollit magna cupidatat deserunt
+                     personalEmailAddress: id in eu
+                     customFields: {}
+      operationId: create-people
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesloft/people/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: number
+                         firstName:
+                           type:
+                             - string
+                             - 'null'
+                         lastName:
+                           type:
+                             - string
+                             - 'null'
+                         city:
+                           type:
+                             - string
+                             - 'null'
+                         state:
+                           type:
+                             - string
+                             - 'null'
+                         country:
+                           type:
+                             - string
+                             - 'null'
+                         title:
+                           type:
+                             - string
+                             - 'null'
+                         owner:
+                           anyOf:
+                             - type: object
+                               properties:
+                                 id:
+                                   type: number
+                               required:
+                                 - id
+                             - type: 'null'
+                         account:
+                           anyOf:
+                             - type: object
+                               properties:
+                                 id:
+                                   type: number
+                               required:
+                                 - id
+                             - type: 'null'
+                         phone:
+                           type:
+                             - string
+                             - 'null'
+                         homePhone:
+                           type:
+                             - string
+                             - 'null'
+                         mobilePhone:
+                           type:
+                             - string
+                             - 'null'
+                         emailAddress:
+                           type:
+                             - string
+                             - 'null'
+                         secondaryEmailAddress:
+                           type:
+                             - string
+                             - 'null'
+                         personalEmailAddress:
+                           type:
+                             - string
+                             - 'null'
+                         createdAt:
+                           type: string
+                           format: date-time
+                         updatedAt:
+                           type: string
+                           format: date-time
+                         counts:
+                           type: object
+                           properties:
+                             emailsSent:
+                               type:
+                                 - number
+                                 - 'null'
+                             emailsViewed:
+                               type:
+                                 - number
+                                 - 'null'
+                             emailsClicked:
+                               type:
+                                 - number
+                                 - 'null'
+                             emailsRepliedTo:
+                               type:
+                                 - number
+                                 - 'null'
+                             emailsBounced:
+                               type:
+                                 - number
+                                 - 'null'
+                             calls:
+                               type:
+                                 - number
+                                 - 'null'
+                         customFields:
+                           type: object
+                           properties: {}
+                       required:
+                         - id
+                         - created_at
+                         - updated_at
+                         - counts
+                         - custom_fields
+                   metadata:
+                     type: object
+                     properties:
+                       paging:
+                         type: object
+                         properties:
+                           perPage:
+                             type: number
+                           currentPage:
+                             type: number
+                           nextPage:
+                             type:
+                               - number
+                               - 'null'
+                           prevPage:
+                             type:
+                               - number
+                               - 'null'
+                         required:
+                           - per_page
+                           - current_page
+                     required:
+                       - paging
+              examples:
+                example-1:
+                  value:
+                     data:
+                       - id: -55963748.18681875
+                         counts:
+                           emailsBounced: 57427186.693143725
+                           emailsViewed: 72481928.11805823
+                           calls: null
+                           emailsSent: -82559208.09864339
+                           emailsClicked: null
+                           emailsRepliedTo: null
+                         updatedAt: '1961-06-18T15:48:26.0Z'
+                         account:
+                           id: -85895580.83249034
+                         firstName: null
+                         customFields: {}
+                         emailAddress: in adipisicing commodo ut laboris
+                         homePhone: null
+                         createdAt: '2008-08-02T10:40:30.0Z'
+                         country: minim sit in Duis
+                         city: null
+                         title: null
+                         lastName: null
+                         owner: null
+                         mobilePhone: null
+                         phone: null
+                         personalEmailAddress: Excepteur minim
+                         secondaryEmailAddress: null
+                         state: dolor in do ullamco enim
+                     metadata:
+                       paging:
+                         prevPage: 46108441.09997162
+                         perPage: -83362988.7435222
+                         currentPage: 38063242.9352926
+                         nextPage: -90476444.6773323
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 perPage:
+                   type: number
+                 page:
+                   type: number
+            examples:
+              example-1:
+                value:
+                     perPage: -67092425.651655674
+                     page: 69361004.11237502
+      operationId: list-people
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesloft/people/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       firstName:
+                         type:
+                           - string
+                           - 'null'
+                       lastName:
+                         type:
+                           - string
+                           - 'null'
+                       city:
+                         type:
+                           - string
+                           - 'null'
+                       state:
+                         type:
+                           - string
+                           - 'null'
+                       country:
+                         type:
+                           - string
+                           - 'null'
+                       title:
+                         type:
+                           - string
+                           - 'null'
+                       owner:
+                         anyOf:
+                           - type: object
+                             properties:
+                               id:
+                                 type: number
+                             required:
+                               - id
+                           - type: 'null'
+                       account:
+                         anyOf:
+                           - type: object
+                             properties:
+                               id:
+                                 type: number
+                             required:
+                               - id
+                           - type: 'null'
+                       phone:
+                         type:
+                           - string
+                           - 'null'
+                       homePhone:
+                         type:
+                           - string
+                           - 'null'
+                       mobilePhone:
+                         type:
+                           - string
+                           - 'null'
+                       emailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       secondaryEmailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       personalEmailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       createdAt:
+                         type: string
+                         format: date-time
+                       updatedAt:
+                         type: string
+                         format: date-time
+                       counts:
+                         type: object
+                         properties:
+                           emailsSent:
+                             type:
+                               - number
+                               - 'null'
+                           emailsViewed:
+                             type:
+                               - number
+                               - 'null'
+                           emailsClicked:
+                             type:
+                               - number
+                               - 'null'
+                           emailsRepliedTo:
+                             type:
+                               - number
+                               - 'null'
+                           emailsBounced:
+                             type:
+                               - number
+                               - 'null'
+                           calls:
+                             type:
+                               - number
+                               - 'null'
+                       customFields:
+                         type: object
+                         properties: {}
+                     required:
+                       - id
+                       - created_at
+                       - updated_at
+                       - counts
+                       - custom_fields
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: -75808608.35234779
+                       counts:
+                         emailsViewed: 70008951.97278965
+                         calls: null
+                         emailsSent: null
+                         emailsRepliedTo: null
+                         emailsBounced: -60175904.974657394
+                         emailsClicked: 90963790.01933578
+                       secondaryEmailAddress: null
+                       mobilePhone: Ut in irure sint
+                       city: sit dolore
+                       country: commodo dolor sint laboris
+                       firstName: veniam
+                       updatedAt: '2013-07-02T14:17:21.0Z'
+                       account: null
+                       lastName: sed enim
+                       phone: consectetur aliquip cupidatat consequat elit
+                       homePhone: null
+                       personalEmailAddress: magna
+                       emailAddress: Excepteur tempor esse
+                       customFields: {}
+                       createdAt: '2001-08-09T03:30:52.0Z'
+                       state: null
+                       owner:
+                         id: 61348502.3221409
+                       title: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: aliquip occaecat
+      operationId: find-people
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesloft/people/update:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       firstName:
+                         type:
+                           - string
+                           - 'null'
+                       lastName:
+                         type:
+                           - string
+                           - 'null'
+                       city:
+                         type:
+                           - string
+                           - 'null'
+                       state:
+                         type:
+                           - string
+                           - 'null'
+                       country:
+                         type:
+                           - string
+                           - 'null'
+                       title:
+                         type:
+                           - string
+                           - 'null'
+                       owner:
+                         anyOf:
+                           - type: object
+                             properties:
+                               id:
+                                 type: number
+                             required:
+                               - id
+                           - type: 'null'
+                       account:
+                         anyOf:
+                           - type: object
+                             properties:
+                               id:
+                                 type: number
+                             required:
+                               - id
+                           - type: 'null'
+                       phone:
+                         type:
+                           - string
+                           - 'null'
+                       homePhone:
+                         type:
+                           - string
+                           - 'null'
+                       mobilePhone:
+                         type:
+                           - string
+                           - 'null'
+                       emailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       secondaryEmailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       personalEmailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       createdAt:
+                         type: string
+                         format: date-time
+                       updatedAt:
+                         type: string
+                         format: date-time
+                       counts:
+                         type: object
+                         properties:
+                           emailsSent:
+                             type:
+                               - number
+                               - 'null'
+                           emailsViewed:
+                             type:
+                               - number
+                               - 'null'
+                           emailsClicked:
+                             type:
+                               - number
+                               - 'null'
+                           emailsRepliedTo:
+                             type:
+                               - number
+                               - 'null'
+                           emailsBounced:
+                             type:
+                               - number
+                               - 'null'
+                           calls:
+                             type:
+                               - number
+                               - 'null'
+                       customFields:
+                         type: object
+                         properties: {}
+                     required:
+                       - id
+                       - created_at
+                       - updated_at
+                       - counts
+                       - custom_fields
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: -17721806.93246855
+                       counts:
+                         calls: null
+                         emailsRepliedTo: 68786868.18103987
+                         emailsClicked: 64482383.55830318
+                         emailsSent: null
+                         emailsViewed: -12214551.915072918
+                         emailsBounced: null
+                       emailAddress: null
+                       country: null
+                       firstName: nostrud officia
+                       account: null
+                       createdAt: '2017-12-03T13:06:32.0Z'
+                       customFields: {}
+                       title: Duis ut ipsum sit
+                       updatedAt: '1981-06-08T18:38:58.0Z'
+                       lastName: nisi in
+                       secondaryEmailAddress: null
+                       mobilePhone: null
+                       owner:
+                         id: 95769841.54799911
+                       homePhone: Lorem do
+                       city: null
+                       personalEmailAddress: null
+                       phone: null
+                       state: in ut aliquip elit
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+                 firstName:
+                   type: string
+                 lastName:
+                   type: string
+                 city:
+                   type: string
+                 state:
+                   type: string
+                 country:
+                   type: string
+                 title:
+                   type: string
+                 owner:
+                   type: object
+                   properties:
+                     id:
+                       type: string
+                   required:
+                     - id
+                 account:
+                   type: object
+                   properties:
+                     id:
+                       type: string
+                   required:
+                     - id
+                 emailAddress:
+                   type: string
+                 secondaryEmailAddress:
+                   type: string
+                 personalEmailAddress:
+                   type: string
+                 customFields:
+                   type: object
+                   properties: {}
+            examples:
+              example-1:
+                value:
+                     id: Excepteur proident sint
+                     firstName: mollit ex dolor commodo esse
+                     lastName: fugiat est quis Duis dolor
+                     city: incididunt
+                     state: veniam Lorem sit commodo consequat
+                     country: anim laboris officia nostrud
+                     title: dolore ut
+                     owner:
+                       id: velit deserunt sint ea cillum
+                       exercitationa: true
+                     account:
+                       id: quis
+                     emailAddress: labore ullamco
+                     secondaryEmailAddress: velit aute enim ea
+                     personalEmailAddress: commodo est aliquip occaecat deserunt
+                     customFields: {}
+      operationId: update-people
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesloft/users/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       guid:
+                         type: string
+                       createdAt:
+                         type: string
+                         format: date-time
+                       updatedAt:
+                         type: string
+                         format: date-time
+                       firstName:
+                         type:
+                           - string
+                           - 'null'
+                       name:
+                         type:
+                           - string
+                           - 'null'
+                       lastName:
+                         type:
+                           - string
+                           - 'null'
+                       jobRole:
+                         type:
+                           - string
+                           - 'null'
+                       active:
+                         type: boolean
+                       timeZone:
+                         type:
+                           - string
+                           - 'null'
+                       slackUsername:
+                         type:
+                           - string
+                           - 'null'
+                       twitterHandle:
+                         type:
+                           - string
+                           - 'null'
+                       email:
+                         type:
+                           - string
+                           - 'null'
+                       emailClientEmailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       sendingEmailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       fromAddress:
+                         type:
+                           - string
+                           - 'null'
+                       fullEmailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       bccEmailAddress:
+                         type:
+                           - string
+                           - 'null'
+                       workCountry:
+                         type:
+                           - string
+                           - 'null'
+                       emailSignature:
+                         type:
+                           - string
+                           - 'null'
+                       emailSignatureType:
+                         type:
+                           - string
+                           - 'null'
+                       emailSignatureClickTrackingDisabled:
+                         type:
+                           - boolean
+                           - 'null'
+                       teamAdmin:
+                         type:
+                           - boolean
+                           - 'null'
+                       localDialEnabled:
+                         type:
+                           - boolean
+                           - 'null'
+                       clickToCallEnabled:
+                         type:
+                           - boolean
+                           - 'null'
+                       emailClientConfigured:
+                         type:
+                           - boolean
+                           - 'null'
+                       crmConnected:
+                         type:
+                           - boolean
+                           - 'null'
+                     required:
+                       - id
+                       - guid
+                       - created_at
+                       - updated_at
+                       - active
+              examples:
+                example-1:
+                  value:
+                     data:
+                       id: 23291559.595152125
+                       guid: est
+                       active: false
+                       jobRole: ex nostrud sed
+                       sendingEmailAddress: null
+                       emailSignature: null
+                       slackUsername: null
+                       fromAddress: amet dolor tempor id
+                       emailClientEmailAddress: qui
+                       updatedAt: '1989-08-10T17:14:27.0Z'
+                       fullEmailAddress: null
+                       teamAdmin: null
+                       name: null
+                       firstName: null
+                       emailSignatureType: nulla
+                       localDialEnabled: true
+                       email: null
+                       lastName: null
+                       workCountry: reprehenderit dolor aliqua ad
+                       clickToCallEnabled: false
+                       emailClientConfigured: null
+                       twitterHandle: sint sunt veniam
+                       emailSignatureClickTrackingDisabled: false
+                       createdAt: '1998-05-07T17:21:06.0Z'
+                       crmConnected: null
+                       bccEmailAddress: exercitation enim dolor
+                       timeZone: dolore fugiat velit
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: sit enim sed in
+      operationId: find-user
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesloft/users/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   data:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: number
+                         guid:
+                           type: string
+                         createdAt:
+                           type: string
+                           format: date-time
+                         updatedAt:
+                           type: string
+                           format: date-time
+                         firstName:
+                           type:
+                             - string
+                             - 'null'
+                         name:
+                           type:
+                             - string
+                             - 'null'
+                         lastName:
+                           type:
+                             - string
+                             - 'null'
+                         jobRole:
+                           type:
+                             - string
+                             - 'null'
+                         active:
+                           type: boolean
+                         timeZone:
+                           type:
+                             - string
+                             - 'null'
+                         slackUsername:
+                           type:
+                             - string
+                             - 'null'
+                         twitterHandle:
+                           type:
+                             - string
+                             - 'null'
+                         email:
+                           type:
+                             - string
+                             - 'null'
+                         emailClientEmailAddress:
+                           type:
+                             - string
+                             - 'null'
+                         sendingEmailAddress:
+                           type:
+                             - string
+                             - 'null'
+                         fromAddress:
+                           type:
+                             - string
+                             - 'null'
+                         fullEmailAddress:
+                           type:
+                             - string
+                             - 'null'
+                         bccEmailAddress:
+                           type:
+                             - string
+                             - 'null'
+                         workCountry:
+                           type:
+                             - string
+                             - 'null'
+                         emailSignature:
+                           type:
+                             - string
+                             - 'null'
+                         emailSignatureType:
+                           type:
+                             - string
+                             - 'null'
+                         emailSignatureClickTrackingDisabled:
+                           type:
+                             - boolean
+                             - 'null'
+                         teamAdmin:
+                           type:
+                             - boolean
+                             - 'null'
+                         localDialEnabled:
+                           type:
+                             - boolean
+                             - 'null'
+                         clickToCallEnabled:
+                           type:
+                             - boolean
+                             - 'null'
+                         emailClientConfigured:
+                           type:
+                             - boolean
+                             - 'null'
+                         crmConnected:
+                           type:
+                             - boolean
+                             - 'null'
+                       required:
+                         - id
+                         - guid
+                         - created_at
+                         - updated_at
+                         - active
+                   metadata:
+                     type: object
+                     properties:
+                       paging:
+                         type: object
+                         properties:
+                           perPage:
+                             type: number
+                           currentPage:
+                             type: number
+                           nextPage:
+                             type:
+                               - number
+                               - 'null'
+                           prevPage:
+                             type:
+                               - number
+                               - 'null'
+                         required:
+                           - per_page
+                           - current_page
+                     required:
+                       - paging
+              examples:
+                example-1:
+                  value:
+                     data:
+                       - id: -53321045.920108065
+                         guid: Ut adipisicing in voluptate mollit
+                         active: true
+                         email: ad velit
+                         name: null
+                         createdAt: '1991-10-09T02:24:37.0Z'
+                         emailClientEmailAddress: null
+                         updatedAt: '2002-01-22T18:24:47.0Z'
+                         teamAdmin: true
+                         twitterHandle: amet in
+                         timeZone: voluptate ullamco fugiat sint
+                         sendingEmailAddress: null
+                         clickToCallEnabled: true
+                         emailClientConfigured: false
+                         fullEmailAddress: null
+                         emailSignatureType: nisi esse amet aliqua
+                         emailSignature: labore occaecat sed dolore aliqua
+                         jobRole: tempor eu pariatur consectetur
+                         slackUsername: null
+                         localDialEnabled: null
+                         workCountry: ex magna
+                         fromAddress: null
+                         firstName: null
+                         bccEmailAddress: null
+                         lastName: in in aute cillum Lorem
+                         crmConnected: null
+                         emailSignatureClickTrackingDisabled: null
+                     metadata:
+                       paging:
+                         nextPage: -98302654.8809748
+                         currentPage: -55761408.21831794
+                         perPage: -13145009.649252474
+                         prevPage: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 perPage:
+                   type: number
+                 page:
+                   type: number
+            examples:
+              example-1:
+                value:
+                     perPage: 27213817.92262952
+                     page: 44822802.619262755
+      operationId: list-users
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []

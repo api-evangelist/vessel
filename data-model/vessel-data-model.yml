@@ -1,0 +1,344 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/vessel-crm-openapi.yml
+docs:
+- https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/synced-cache.mdx
+- https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/crm/accessing-native-data.mdx
+domain: Unified CRM (v2)
+summary:
+  entity_count: 11
+  relationship_count: 39
+  id_type: string
+  id_prefixes: null
+  note: Derived from the associations blocks and id-reference fields in the v2 unified CRM contract. Vessel
+    normalizes every downstream identifier to an opaque string with no type prefix, so an id carries no
+    information about which entity or which source system it came from — the caller must track that separately.
+    Relationships are expressed only through the associations object; there are no embedded objects and
+    no $ref links between entity schemas.
+conventions:
+  timestamps:
+  - createdTime
+  - modifiedTime
+  native_escape: Every entity carries a $native property holding the untranslated record from the source
+    system, so any field Vessel does not unify is still reachable.
+  two_way_associations: 'Associations are only bidirectional when BOTH objects are synced to the synced-cache.
+    Vessel documents this explicitly: sync Deals but not Tasks and the taskId field may be absent from
+    Deals. The graph below is therefore the maximum shape, not a guarantee.'
+entities:
+- name: Account
+  id_field: id
+  id_type: string
+  fields:
+  - id
+  - name
+  - description
+  - industry
+  - annualRevenue
+  - numberOfEmployees
+  - website
+  - phone
+  - address
+  - createdTime
+  - modifiedTime
+  - $native
+  native_escape: true
+  relationships:
+  - type: has_many
+    entity: Deal
+    via: associations.dealIds
+  - type: has_many
+    entity: Contact
+    via: associations.contactIds
+  - type: has_many
+    entity: Lead
+    via: associations.leadIds
+  - type: belongs_to
+    entity: User
+    via: associations.ownerUserId
+  source: openapi/vessel-crm-openapi.yml#/components/schemas/Account
+- name: Call
+  id_field: id
+  id_type: string
+  fields:
+  - id
+  - subject
+  - disposition
+  - direction
+  - description
+  - date
+  - createdTime
+  - modifiedTime
+  - $native
+  native_escape: true
+  relationships:
+  - type: has_many
+    entity: Account
+    via: associations.accountIds
+  - type: has_many
+    entity: Contact
+    via: associations.contactIds
+  - type: has_many
+    entity: Deal
+    via: associations.dealIds
+  - type: has_many
+    entity: Lead
+    via: associations.leadIds
+  - type: belongs_to
+    entity: User
+    via: associations.ownerUserId
+  source: openapi/vessel-crm-openapi.yml#/components/schemas/Call
+- name: Contact
+  id_field: id
+  id_type: string
+  fields:
+  - id
+  - email
+  - firstName
+  - lastName
+  - jobTitle
+  - phone
+  - mobilePhone
+  - createdTime
+  - modifiedTime
+  - $native
+  native_escape: true
+  relationships:
+  - type: has_many
+    entity: Account
+    via: associations.accountIds
+  - type: has_many
+    entity: Deal
+    via: associations.dealIds
+  - type: has_many
+    entity: Lead
+    via: associations.leadIds
+  - type: belongs_to
+    entity: User
+    via: associations.ownerUserId
+  source: openapi/vessel-crm-openapi.yml#/components/schemas/Contact
+- name: Deal
+  id_field: id
+  id_type: string
+  fields:
+  - id
+  - name
+  - stage
+  - amount
+  - closeDate
+  - probability
+  - expectedRevenue
+  - isWon
+  - isClosed
+  - currency
+  - createdTime
+  - modifiedTime
+  - $native
+  native_escape: true
+  relationships:
+  - type: has_many
+    entity: Contact
+    via: associations.contactIds
+  - type: has_many
+    entity: Account
+    via: associations.accountIds
+  - type: belongs_to
+    entity: User
+    via: associations.ownerUserId
+  source: openapi/vessel-crm-openapi.yml#/components/schemas/Deal
+- name: Email
+  id_field: id
+  id_type: string
+  fields:
+  - id
+  - from
+  - to
+  - cc
+  - bcc
+  - subject
+  - bodyText
+  - bodyHtml
+  - messageDate
+  - isIncoming
+  - isBounced
+  - hasAttachment
+  - status
+  - createdTime
+  - modifiedTime
+  - $native
+  native_escape: true
+  relationships:
+  - type: has_many
+    entity: Account
+    via: associations.accountIds
+  - type: has_many
+    entity: Lead
+    via: associations.leadIds
+  - type: has_many
+    entity: Contact
+    via: associations.contactIds
+  - type: has_many
+    entity: Deal
+    via: associations.dealIds
+  - type: belongs_to
+    entity: User
+    via: associations.ownerUserId
+  source: openapi/vessel-crm-openapi.yml#/components/schemas/Email
+- name: Event
+  id_field: id
+  id_type: string
+  fields:
+  - id
+  - subject
+  - description
+  - type
+  - location
+  - startDateTime
+  - endDateTime
+  - isAllDayEvent
+  - createdTime
+  - modifiedTime
+  - $native
+  native_escape: true
+  relationships:
+  - type: has_many
+    entity: Account
+    via: associations.accountIds
+  - type: has_many
+    entity: Lead
+    via: associations.leadIds
+  - type: has_many
+    entity: Contact
+    via: associations.contactIds
+  - type: has_many
+    entity: Deal
+    via: associations.dealIds
+  - type: belongs_to
+    entity: User
+    via: associations.ownerUserId
+  source: openapi/vessel-crm-openapi.yml#/components/schemas/Event
+- name: EventAttendee
+  id_field: id
+  id_type: string
+  fields:
+  - id
+  - status
+  - associatedObjectType
+  - email
+  - createdTime
+  - modifiedTime
+  - $native
+  native_escape: true
+  relationships: []
+  source: openapi/vessel-crm-openapi.yml#/components/schemas/EventAttendee
+- name: Lead
+  id_field: id
+  id_type: string
+  fields:
+  - id
+  - firstName
+  - lastName
+  - jobTitle
+  - email
+  - accountName
+  - phone
+  - mobilePhone
+  - createdTime
+  - modifiedTime
+  - $native
+  native_escape: true
+  relationships:
+  - type: has_many
+    entity: Contact
+    via: associations.contactIds
+  - type: has_many
+    entity: Account
+    via: associations.accountIds
+  - type: belongs_to
+    entity: User
+    via: associations.ownerUserId
+  source: openapi/vessel-crm-openapi.yml#/components/schemas/Lead
+- name: Note
+  id_field: id
+  id_type: string
+  fields:
+  - id
+  - contentHtml
+  - contentText
+  - createdTime
+  - modifiedTime
+  - $native
+  native_escape: true
+  relationships:
+  - type: has_many
+    entity: Deal
+    via: associations.dealIds
+  - type: has_many
+    entity: Contact
+    via: associations.contactIds
+  - type: has_many
+    entity: Account
+    via: associations.accountIds
+  - type: has_many
+    entity: Lead
+    via: associations.leadIds
+  - type: belongs_to
+    entity: User
+    via: associations.ownerUserId
+  source: openapi/vessel-crm-openapi.yml#/components/schemas/Note
+- name: Task
+  id_field: id
+  id_type: string
+  fields:
+  - id
+  - body
+  - subject
+  - isDone
+  - dueDate
+  - status
+  - priority
+  - createdTime
+  - modifiedTime
+  - $native
+  native_escape: true
+  relationships:
+  - type: has_many
+    entity: Deal
+    via: associations.dealIds
+  - type: has_many
+    entity: Contact
+    via: associations.contactIds
+  - type: has_many
+    entity: Account
+    via: associations.accountIds
+  - type: has_many
+    entity: Lead
+    via: associations.leadIds
+  - type: belongs_to
+    entity: User
+    via: associations.ownerUserId
+  source: openapi/vessel-crm-openapi.yml#/components/schemas/Task
+- name: User
+  id_field: id
+  id_type: string
+  fields:
+  - id
+  - firstName
+  - lastName
+  - email
+  - createdTime
+  - modifiedTime
+  - $native
+  native_escape: true
+  relationships: []
+  source: openapi/vessel-crm-openapi.yml#/components/schemas/User
+other_modules:
+- module: engagement
+  spec: openapi/vessel-engagement-openapi.yml
+  note: Sales engagement unified objects — users, contacts, accounts, sequences, tasks, calls, emails,
+    mailboxes.
+- module: chat
+  spec: openapi/vessel-chat-openapi.yml
+- module: dialer
+  spec: openapi/vessel-dialer-openapi.yml
+- module: marketing
+  spec: openapi/vessel-marketing-automation-openapi.yml

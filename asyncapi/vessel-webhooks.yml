@@ -1,0 +1,109 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/webhooks.mdx
+docs:
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/webhooks.mdx
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/crm/webhooks.mdx
+asyncapi_published: false
+asyncapi_note: >-
+  Vessel publishes no AsyncAPI document. The event surface below is transcribed verbatim from the
+  provider's webhook documentation and from the webhook management operations in
+  openapi/vessel-platform-openapi.yml — nothing here is invented, and no AsyncAPI has been fabricated
+  on Vessel's behalf.
+transport:
+  protocol: https
+  method: POST
+  expected_response: 2xx
+  retries: 3
+  retry_note: >-
+    "We will re-send the webhook up to 3 times if we don't receive a 2xx response." No backoff schedule
+    or dead-letter behaviour is published.
+subscription:
+  scope: project
+  detail: >-
+    Webhooks are registered per project (i.e. per API key), not per connection. Registering one webhook
+    immediately starts delivery for every existing connection on that project, and new connections are
+    covered automatically.
+  management_operations:
+    - operationId: create-webhook
+      path: /webhooks/create
+      spec: openapi/vessel-platform-openapi.yml
+    - operationId: list-webhooks
+      path: /webhooks/list
+      spec: openapi/vessel-platform-openapi.yml
+    - operationId: find-webhook
+      path: /webhooks/find
+      spec: openapi/vessel-platform-openapi.yml
+    - operationId: delete-webhook
+      path: /webhooks/delete
+      spec: openapi/vessel-platform-openapi.yml
+prerequisite:
+  synced_cache_required: true
+  detail: >-
+    "Very Important: Webhooks will only be sent for objects which are using the synced-cache." An
+    object that is not in the synced cache emits no events at all. This is the single most important
+    precondition on the whole event surface.
+  latency: >-
+    Real-time only where the downstream platform has native webhook support; otherwise the event is
+    emitted after the next sync, and syncs run hourly.
+headers:
+  - name: x-vessel-project-id
+    type: string
+  - name: x-vessel-timestamp
+    type: number-string
+    description: When Vessel sent this event.
+  - name: x-vessel-webhook-id
+    type: string
+  - name: x-vessel-webhook-signature
+    type: string
+    description: See signature below.
+signature:
+  algorithm: sha256
+  construction: 'sha256(`${VESSEL_API_TOKEN}:${x-vessel-timestamp}:${JSON.stringify(body)}`) as hex'
+  secret: the caller's own Vessel API token
+  note: >-
+    A plain SHA-256 digest of a concatenated string, not an HMAC, and the signing secret is the same
+    long-lived API token used for outbound calls rather than a dedicated webhook secret. Verification
+    code is published in home/webhooks.mdx.
+events:
+  - type: system.sync.initial.complete
+    category: system
+    description: >-
+      Emitted once per connection when Vessel has finished the initial pull of all data for a
+      synced-cache-enabled connection. Until this fires, calls against the connection can return the
+      409 "Data still syncing" error.
+    payload:
+      connectionId: string
+      eventId: string
+      eventTime: date-string
+      eventType: system.sync.initial.complete
+  - type: object.{module}.{object}.{action}
+    category: object
+    description: >-
+      Emitted whenever a synced-cache object is created, updated or deleted. Only the id of the
+      affected record is sent — the consumer must call back to read the record.
+    pattern: 'object.crm.[deals|notes|accounts|contacts|leads|tasks|events|emails|calls|users].[created|updated|deleted]'
+    example_type: object.crm.deals.deleted
+    payload:
+      connectionId: string
+      eventId: string
+      eventTime: date-string
+      eventType: string
+      data:
+        id: string
+    note: >-
+      Vessel documents the pattern with an abbreviated object list ("deals|notes|accounts|..."). The
+      objects enumerated above are the unified CRM objects present in openapi/vessel-crm-openapi.yml;
+      the documentation does not publish a closed enumeration, so consumers must treat eventType as
+      an open string.
+consumer_guidance:
+  - Verify x-vessel-webhook-signature before processing.
+  - Return 2xx quickly; non-2xx triggers up to 3 redeliveries.
+  - Branch on eventType and ignore object types you do not consume.
+  - Treat delivery as at-least-once — eventId is provided for de-duplication.
+  - Enable synced-cache on every object you expect events for, or you will silently receive none.
+gaps:
+  - No AsyncAPI or machine-readable event catalog is published.
+  - No closed enumeration of eventType values.
+  - No delivery-attempt or replay API.
+  - Webhook payloads carry only an id, so every event requires a follow-up read.

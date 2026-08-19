@@ -4,37 +4,76 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Vessel
 providerId: vessel
 created: '2026-05-04'
-modified: '2026-05-05'
+method: searched
+modified: '2026-08-13'
 reconciled: false
 tags:
-  - Rate Limiting
-  - Unified API
-  - Integrations
-description: Vessel's public pricing page advertises unlimited API calls across all tiers, but does
-  not publish concrete per-second / per-minute throttling thresholds. Underlying integration calls
-  are subject to the destination SaaS providers' own rate limits.
+- Rate Limiting
+- Unified API
+- Integrations
+description: 'Vessel publishes no numeric rate limits and returns no rate-limit response headers. Every
+  pricing tier advertises "Unlimited API calls", and grepping all 20 published OpenAPI definitions on
+  2026-08-13 found no X-RateLimit-*, RateLimit-* or Retry-After header declared on any response. The binding
+  constraint is the END CUSTOMER''s downstream SaaS quota, which is spent on every uncached read: Vessel
+  forwards unified calls straight through to the connected system. Vessel''s own documented remedy is
+  the synced-cache, which it states carries no read rate limits because reads hit a Vessel-hosted database
+  instead of the customer''s tenant. Downstream 429s are normalized into the {message, errorCode, metadata}
+  error envelope with the original status and errors under metadata, rather than surfaced as headers.'
 sources:
-  - https://www.vessel.dev/pricing
+- https://www.vessel.dev/pricing
+- https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/synced-cache.mdx
+- https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/crm/error-handling.mdx
 responseCodes:
   throttled: 429
+  note: 429 is inherited from the downstream provider and normalized into the Vessel error envelope; Vessel
+    does not document a throttling status of its own.
 limits:
-  - name: Vessel-side request rate
-    scope: account
-    metric: varies
-    limit: not publicly documented (advertised as unlimited)
-  - name: Downstream provider limits
-    scope: integration
-    metric: varies
-    limit: governed by the destination SaaS API (Salesforce, HubSpot, BambooHR, etc.)
-    notes: Even when Vessel does not throttle, the connected provider will; clients should treat
-      429s and provider-specific error codes as sourced from the downstream system.
+- name: Vessel-side request rate
+  scope: account
+  metric: requests
+  limit: null
+  documented: false
+  note: Advertised as unlimited on every pricing tier; no threshold is published.
+- name: Downstream provider limits
+  scope: connection
+  metric: varies
+  limit: null
+  documented: false
+  note: Governed by the connected SaaS API (Salesforce, HubSpot, Outreach, ...). Vessel warns that reading
+    a customer's entire instance 'runs the risk of exhausting your customer's rate limits, which can cause
+    your integration to fail'.
+- name: Synced-cache reads
+  scope: connection
+  metric: requests
+  limit: null
+  documented: false
+  note: Vessel states synced-cache reads 'don't come with any read rate limits' — no number is given.
+- name: Development connections
+  scope: api-key
+  metric: connections
+  limit: 5
+  documented: true
+  note: The one published numeric ceiling on the platform. Exceeding it returns 400 "Maximum number of
+    connections reached for development account".
+  source: https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/hidden/error-faq.mdx
+- name: Launch-tier connections
+  scope: account
+  metric: connections
+  limit: 20
+  documented: true
+  source: https://www.vessel.dev/pricing
 policies:
-  - name: Downstream pass-through
-    description: Errors and rate-limit signals from the underlying SaaS API are surfaced through
-      Vessel's response; respect the provider's documented limits.
-  - name: Backoff
-    description: On 429 responses, implement exponential backoff with jitter and honor any
-      Retry-After header.
+- name: Downstream pass-through
+  description: Errors and rate-limit signals from the underlying SaaS API are surfaced through Vessel's
+    response; respect the provider's documented limits.
+- name: Backoff
+  description: On 429 responses, implement exponential backoff with jitter and honor any Retry-After header.
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+limit_count: 2
+headers: []
+limit_count_note: 2 published numeric limits, both CONNECTION quotas (5 development connections, 20 connections
+  on the Launch tier) rather than request-rate limits. The count of documented request-rate limits is
+  0, and the count of documented rate-limit response headers is 0.
+request_rate_limit_count: 0

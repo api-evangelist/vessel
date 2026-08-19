@@ -1,0 +1,68 @@
+{
+  "_provenance": {
+    "generated": "2026-08-13",
+    "method": "derived",
+    "source": "openapi/vessel-crm-openapi.yml #/paths/api/unifications/crm/contacts/list/post (examples.example-1, published by Vessel)",
+    "note": "Request and response payloads are Vessel's own in-spec examples, reproduced verbatim. Headers and the URL are assembled from the documented auth model. Credential values are placeholders."
+  },
+  "operationId": "list-contacts",
+  "summary": "List Contacts",
+  "request": {
+    "method": "POST",
+    "url": "https://api.vessel.dev/api/unifications/crm/contacts/list",
+    "headers": {
+      "x-vessel-api-token": "REDACTED_API_TOKEN",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "cursor": "123123",
+      "filters": {
+        "email": {
+          "equals": "michael@dunder.mifflin"
+        }
+      },
+      "include": {
+        "$native": false
+      },
+      "associations": [
+        "accounts",
+        "deals"
+      ],
+      "accessToken": "REDACTED_ACCESS_TOKEN"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "contacts": [
+        {
+          "id": "23",
+          "email": "tom@bluecross.com",
+          "firstName": "Tom",
+          "lastName": "Smith",
+          "jobTitle": "Director of Operations",
+          "phone": "2101128833",
+          "mobilePhone": "2106541111",
+          "createdTime": "2019-08-24T14:15:22Z",
+          "modifiedTime": "2019-08-24T14:15:22Z",
+          "associations": {
+            "accountIds": [
+              "0dcb45e051315a6ea63b0f16e73689d9"
+            ],
+            "dealIds": [
+              "497fb529e6805351b5dc8057c74a4a52"
+            ],
+            "leadIds": [
+              "d08f345ace24509e911a0ea8e3d2203c"
+            ],
+            "ownerUserId": ".56f653659ea9524b9e0fb0ba67e6f8a0"
+          }
+        }
+      ],
+      "nextPageCursor": "string"
+    }
+  }
+}

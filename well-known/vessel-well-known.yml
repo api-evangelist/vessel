@@ -1,0 +1,77 @@
+generated: '2026-08-13'
+method: probed
+source: live HTTP probes of every Vessel host on 2026-08-13
+summary:
+  hits: 0
+  note: >-
+    Every /.well-known/ path was probed on every reachable Vessel host and none returned a document.
+    www.vessel.dev is a Webflow site whose 404 handler answers "Invalid .well-known path" with an HTML
+    body; docs.vessel.dev is a Vercel deployment that now 404s at its own root; api.vessel.dev and
+    api.vessel.land do not complete a TLS connection at all. NO WellKnown or SecurityTxt pointer is
+    emitted in apis.yml, because this file records an absence, not a surface.
+hosts:
+  - host: www.vessel.dev
+    reachable: true
+    probes:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+      - path: /llms.txt
+        status: 404
+        file: null
+  - host: docs.vessel.dev
+    reachable: true
+    note: Vercel deployment returns 404 at the site root as well as every well-known path.
+    probes:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+      - path: /llms.txt
+        status: 404
+        file: null
+  - host: api.vessel.dev
+    reachable: false
+    note: >-
+      DNS resolves to core-api-production.fly.dev (66.241.124.237) but the connection times out; no
+      well-known path could be probed.
+    probes: []
+  - host: api.vessel.land
+    reachable: false
+    note: No DNS A record exists for api.vessel.land; the host is gone.
+    probes: []

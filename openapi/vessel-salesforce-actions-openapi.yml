@@ -1,0 +1,688 @@
+
+openapi: 3.1.0
+info:
+  title: Salesforce API Reference
+  version: "1.0"
+  summary: API
+servers:
+  - url: "https://api.vessel.dev"
+security:
+  - VesselAPIToken: []
+paths:
+  /api/actions/salesforce/soql/query:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-1:
+                  value:
+                     records:
+                       - id: 123123
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 query:
+                   type: string
+              required:
+                - query
+            examples:
+              example-1:
+                value:
+                  query: "SELECT FIELDS(ALL) FROM Account LIMIT 200"
+      operationId: query-soql
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesforce/contacts/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   id:
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     id: incididunt amet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 email:
+                   type: string
+                   format: email
+                 firstName:
+                   type: string
+                 lastName:
+                   type: string
+                 title:
+                   type: string
+                 phone:
+                   type: string
+                 mobilePhone:
+                   type: string
+                 accountId:
+                   type: string
+                 ownerId:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     email: LjNrr@LrrFgCyBnuLYB.jq
+                     firstName: do labore minim sed et
+                     lastName: culpa pariatur quis magna eu
+                     title: do consequat non
+                     phone: nostrud consequat dolore ea amet
+                     mobilePhone: adipisicing esse ullamco
+                     accountId: consequat quis dolore laborum tempor
+                     ownerId: do
+      operationId: create-contact
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesforce/contacts/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   id:
+                     type: string
+                   firstName:
+                     type: string
+                   lastName:
+                     type: string
+                   title:
+                     type: string
+                   email:
+                     type: string
+                     format: email
+                   phone:
+                     type: string
+                   mobilePhone:
+                     type: string
+                   createdDate:
+                     type: string
+                     format: date-time
+                   lastModifiedDate:
+                     type: string
+                     format: date-time
+                   accountId:
+                     type: string
+                   ownerId:
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     id: proident amet aute
+                     firstName: enim proident
+                     lastName: aute nulla nisi
+                     title: dolore velit esse ipsum
+                     email: UYHWlhtmc5V-Bw@xRhixCoQDAvCPPMqLEqRjtz.idt
+                     phone: aliquip laboris Duis
+                     mobilePhone: in in
+                     createdDate: '1979-10-07T13:17:14.0Z'
+                     lastModifiedDate: '1948-11-29T05:09:02.0Z'
+                     accountId: do ex
+                     ownerId: Excepteur pariatur
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: minim tempor Excepteur adipisicing
+      operationId: find-contact
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesforce/contacts/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   records:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         firstName:
+                           type: string
+                         lastName:
+                           type: string
+                         title:
+                           type: string
+                         email:
+                           type: string
+                           format: email
+                         phone:
+                           type: string
+                         mobilePhone:
+                           type: string
+                         createdDate:
+                           type: string
+                           format: date-time
+                         lastModifiedDate:
+                           type: string
+                           format: date-time
+                         accountId:
+                           type: string
+                         ownerId:
+                           type: string
+                       required:
+                         - Id
+                         - FirstName
+                         - LastName
+                         - Title
+                         - Email
+                         - Phone
+                         - MobilePhone
+                         - CreatedDate
+                         - LastModifiedDate
+                         - AccountId
+                         - OwnerId
+                   totalSize:
+                     type: number
+              examples:
+                example-1:
+                  value:
+                     records:
+                       - mobilePhone: est
+                         lastName: do eu nisi sed
+                         title: cillum enim ex sint
+                         ownerId: Ut
+                         phone: dolor sit nostrud irure
+                         createdDate: '1950-02-25T16:34:16.0Z'
+                         id: ex nisi
+                         email: yKE4mgV@bixrK.oj
+                         lastModifiedDate: '2014-06-08T19:31:49.0Z'
+                         firstName: sed ut voluptate in
+                         accountId: commodo Lorem tempor reprehenderit pariatur
+                     totalSize: -40874731.60621861
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 cursor:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     cursor: consectetur in enim nulla occaecat
+      operationId: list-contacts
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesforce/contacts/update:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   id:
+                     type: string
+                   firstName:
+                     type: string
+                   lastName:
+                     type: string
+                   title:
+                     type: string
+                   email:
+                     type: string
+                     format: email
+                   phone:
+                     type: string
+                   mobilePhone:
+                     type: string
+                   createdDate:
+                     type: string
+                     format: date-time
+                   lastModifiedDate:
+                     type: string
+                     format: date-time
+                   accountId:
+                     type: string
+                   ownerId:
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     id: anim
+                     firstName: commodo nisi ex
+                     lastName: veniam minim eiusmod in velit
+                     title: occaecat tempor sed
+                     email: 8fGmgOB3g3@WCdbTLhGhPvjNLbPE.iyo
+                     phone: Lorem do ut
+                     mobilePhone: aliqua labore dolore eiusmod
+                     createdDate: '1965-01-19T17:20:36.0Z'
+                     lastModifiedDate: '2008-09-11T07:16:49.0Z'
+                     accountId: officia adipisicing eiusmod
+                     ownerId: sint in deserunt sit voluptate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+                 contact:
+                   type: object
+                   properties:
+                     email:
+                       type: string
+                       format: email
+                     firstName:
+                       type: string
+                     lastName:
+                       type: string
+                     title:
+                       type: string
+                     phone:
+                       type: string
+                     mobilePhone:
+                       type: string
+                     accountId:
+                       type: string
+                     ownerId:
+                       type: string
+            examples:
+              example-1:
+                value:
+                     id: nostrud proident do aliqua
+                     contact:
+                       lastName: minim sed
+                       firstName: in veniam voluptate Lorem adipisicing
+                       phone: ad labore do minim pariatur
+                       email: h-NsmggtDj@ydCskIbOHlwtzcEfgcjIVuLFJYcvD.rv
+                       title: quis veniam id exercitation
+                       accountId: quis occaecat labore Ut ea
+                       mobilePhone: quis sunt ea
+                       ownerId: exercitation sed nulla sint et
+      operationId: update-contact
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesforce/list-views/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   id:
+                     type: string
+                   name:
+                     type: string
+                   createdDate:
+                     type: string
+                     format: date-time
+                   lastModifiedDate:
+                     type: string
+                     format: date-time
+                   createdById:
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     id: consectetur dolor minim ea in
+                     name: ex sit ut qui officia
+                     createdDate: '1989-08-24T05:06:45.0Z'
+                     lastModifiedDate: '1963-07-03T11:25:18.0Z'
+                     createdById: culpa laborum Lorem anim
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: dolor commodo sint incididunt
+      operationId: find-list-view
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesforce/list-views/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   records:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         name:
+                           type: string
+                         createdDate:
+                           type: string
+                           format: date-time
+                         lastModifiedDate:
+                           type: string
+                           format: date-time
+                         createdById:
+                           type: string
+                       required:
+                         - Id
+                         - Name
+                         - CreatedDate
+                         - LastModifiedDate
+                         - CreatedById
+                   totalSize:
+                     type: number
+              examples:
+                example-1:
+                  value:
+                     records:
+                       - createdById: culpa proident
+                         lastModifiedDate: '1947-12-22T17:17:44.0Z'
+                         name: Lorem dolor eu Ut
+                         createdDate: '1992-06-23T04:42:21.0Z'
+                         id: do esse
+                     totalSize: 22160176.21787159
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 cursor:
+                   type: string
+                 objectType:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     cursor: consectetur
+                     objectType: pariatur in
+      operationId: list-list-views
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesforce/list-view-results/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   developerName:
+                     type: string
+                   done:
+                     type: boolean
+                   id:
+                     type: string
+                   label:
+                     type: string
+                   records:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         columns:
+                           type: array
+                           items:
+                             type: object
+                             properties:
+                               fieldNameOrPath:
+                                 type: string
+                               value:
+                                 type: string
+                             required:
+                               - fieldNameOrPath
+                               - value
+                       required:
+                         - columns
+                   size:
+                     type: number
+              examples:
+                example-1:
+                  value:
+                     developerName: cupidatat magna non mollit culpa
+                     done: false
+                     id: nulla reprehenderit ullamco consectetur adipisicing
+                     label: enim
+                     records:
+                       - columns:
+                           - fieldNameOrPath: proident quis tempor ipsum id
+                             value: ea aliqua ut in do
+                     size: 11093394.578945532
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+                 objectType:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: et velit dolor proident
+                     objectType: exercitation
+      operationId: find-list-view-results
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesforce/users/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   records:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         firstName:
+                           type: string
+                         lastName:
+                           type: string
+                         email:
+                           type: string
+                           format: email
+                         createdDate:
+                           type: string
+                           format: date-time
+                         lastModifiedDate:
+                           type: string
+                           format: date-time
+                       required:
+                         - Id
+                         - FirstName
+                         - LastName
+                         - Email
+                         - CreatedDate
+                         - LastModifiedDate
+                   totalSize:
+                     type: number
+              examples:
+                example-1:
+                  value:
+                     records:
+                       - email: HUp@WhLSrUPqDJLAqsEYiGAIcxFkwUoha.wtwr
+                         lastName: nostrud veniam consequat ad
+                         id: exercitation Ut
+                         lastModifiedDate: '1966-12-31T10:48:54.0Z'
+                         createdDate: '1951-04-12T18:32:40.0Z'
+                         firstName: labore ut
+                     totalSize: -31617201.024693653
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 cursor:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     cursor: elit Duis tempor
+      operationId: list-users
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/salesforce/users/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   id:
+                     type: string
+                   firstName:
+                     type: string
+                   lastName:
+                     type: string
+                   email:
+                     type: string
+                     format: email
+                   createdDate:
+                     type: string
+                     format: date-time
+                   lastModifiedDate:
+                     type: string
+                     format: date-time
+              examples:
+                example-1:
+                  value:
+                     id: dolore dolor ex occaecat
+                     firstName: cillum labore Duis reprehenderit Ut
+                     lastName: commodo laboris do
+                     email: bvH@K.regs
+                     createdDate: '1990-05-03T09:31:29.0Z'
+                     lastModifiedDate: '1969-01-06T02:10:47.0Z'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: sit ipsum Duis
+      operationId: find-user
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []

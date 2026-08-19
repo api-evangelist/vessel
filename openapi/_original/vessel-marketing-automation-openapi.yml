@@ -1,0 +1,547 @@
+openapi: 3.1.0
+info:
+  title: Marketing Automation API Reference
+  version: "1.0"
+  summary: API
+servers:
+  - url: "https://api.vessel.dev"
+security:
+  - VesselAPIToken: []
+paths:
+  /api/unifications/marketing/users/list:
+    post:
+      summary: List Users
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    users:
+                      - id: e5f32d4fd2115220bd20a2ccf81210ec
+                        email: tom@dundermifflin.com
+                        firstName: Tom
+                        lastName: Haverford
+                        createdTime: "2019-08-24T14:15:22Z"
+                        modifiedTime: "2019-08-24T14:15:22Z"
+                    nextPageCursor: "123123"
+      parameters:
+        - name: x-vessel-access-token
+          in: header
+          description: Access Token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                include:
+                  $ref: "#/components/schemas/IncludeFields"
+                cursor:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  cursor: "123123"
+                  include:
+                    $native: false
+      operationId: get-all-users
+      description: List Users
+    parameters: []
+  /api/unifications/marketing/contacts/list:
+    post:
+      summary: List Contacts
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  contacts:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Contact"
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    contacts:
+                      - id: e5f32d4fd2115220bd20a2ccf81210ec
+                        email: tom@dundermifflin.com
+                        firstName: Tom
+                        lastName: Haverford
+                        phone: "8192223333"
+                        createdTime: "2019-08-24T14:15:22Z"
+                        modifiedTime: "2019-08-24T14:15:22Z"
+                    nextPageCursor: "123123"
+      parameters:
+        - name: x-vessel-access-token
+          in: header
+          description: Access Token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                include:
+                  $ref: "#/components/schemas/IncludeFields"
+                cursor:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  cursor: "123123"
+                  include:
+                    $native: false
+      operationId: get-all-contacts
+      description: List Contacts
+    parameters: []
+  /api/unifications/marketing/contacts/find:
+    post:
+      summary: Find Contact
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  contact:
+                    $ref: "#/components/schemas/Contact"
+              examples:
+                example-1:
+                  value:
+                    contact:
+                      id: e5f32d4fd2115220bd20a2ccf81210ec
+                      email: tom@dundermifflin.com
+                      firstName: Tom
+                      lastName: Haverford
+                      phone: "8192223333"
+                      createdTime: "2019-08-24T14:15:22Z"
+                      modifiedTime: "2019-08-24T14:15:22Z"
+      parameters:
+        - name: x-vessel-access-token
+          in: header
+          description: Access Token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                include:
+                  $ref: "#/components/schemas/IncludeFields"
+                id:
+                  type: string
+              required:
+                - id
+            examples:
+              example-1:
+                value:
+                  id: "123123"
+                  include:
+                    $native: false
+      operationId: get-one-contact
+      description: Find Contact
+    parameters: []
+  /api/unifications/marketing/contacts/create:
+    post:
+      summary: Create Contact
+      operationId: post-contact
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  id:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    id: "0"
+      parameters:
+        - name: x-vessel-access-token
+          in: header
+          description: Access Token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contact:
+                  $ref: "#/components/schemas/ContactCreate"
+              required:
+                - contact
+            examples:
+              example-1:
+                value:
+                  contact:
+                    email: tom@dundermifflin.com
+                    firstName: Tom
+                    lastName: Haverford
+                    phone: "8192223333"
+                    listId: "12"
+                    $native: {}
+      description: Create a Contact
+  /api/unifications/marketing/contacts/update:
+    post:
+      summary: Update Contact
+      operationId: put-contact
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ""
+                type: object
+                x-examples:
+                  example-1:
+                    id: "0"
+                properties:
+                  id:
+                    type: string
+                required:
+                  - id
+              examples:
+                example-1:
+                  value:
+                    id: "0"
+      parameters:
+        - name: x-vessel-access-token
+          in: header
+          description: Access Token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                contact:
+                  $ref: "#/components/schemas/ContactUpdate"
+              required:
+                - id
+                - contact
+            examples:
+              example-1:
+                value:
+                  id: string
+                  contact:
+                    email: tom@dundermifflin.com
+                    firstName: Tom
+                    lastName: Haverford
+                    phone: "8192223333"
+                    $native: {}
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        description: ""
+      description: Update an existing Contact
+    parameters: []
+  /api/unifications/marketing/lists/list:
+    post:
+      summary: List Lists
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  lists:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/List"
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    lists:
+                      - id: e5f32d4fd2115220bd20a2ccf81210ec
+                        name: "Paper leads"
+                        createdTime: "2019-08-24T14:15:22Z"
+                        modifiedTime: "2019-08-24T14:15:22Z"
+                    nextPageCursor: "123123"
+      parameters:
+        - name: x-vessel-access-token
+          in: header
+          description: Access Token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                include:
+                  $ref: "#/components/schemas/IncludeFields"
+                cursor:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  cursor: "123123"
+                  include:
+                    $native: false
+      operationId: get-all-lists
+      description: List Lists
+    parameters: []
+  /api/unifications/marketing/lists/find:
+    post:
+      summary: Find List
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  list:
+                    $ref: "#/components/schemas/List"
+              examples:
+                example-1:
+                  value:
+                    list:
+                      id: e5f32d4fd2115220bd20a2ccf81210ec
+                      name: "Paper leads"
+                      createdTime: "2019-08-24T14:15:22Z"
+                      modifiedTime: "2019-08-24T14:15:22Z"
+      parameters:
+        - name: x-vessel-access-token
+          in: header
+          description: Access Token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                include:
+                  $ref: "#/components/schemas/IncludeFields"
+                id:
+                  type: string
+              required:
+                - id
+            examples:
+              example-1:
+                value:
+                  id: "123123"
+                  include:
+                    $native: false
+      operationId: get-one-list
+      description: Find List
+    parameters: []
+components:
+  schemas:
+    IncludeFields:
+      title: Include Fields
+      type: object
+      examples:
+        - $native: true
+      properties:
+        $native:
+          type: boolean
+          description: Set to true if you want to include all native fields.
+    NativeData:
+      title: Native Data
+      type: object
+      description:
+        Native fields for the connected platform. For reads, this object
+        is only returned if the include.$native field is set to true in the request
+        body.
+    User:
+      title: User
+      type: object
+      examples:
+        - id: e5f32d4fd2115220bd20a2ccf81210ec
+          email: tom@dundermifflin.com
+          firstName: Tom
+          lastName: Haverford
+          createdTime: "2019-08-24T14:15:22Z"
+          modifiedTime: "2019-08-24T14:15:22Z"
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Marketing tool.
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        createdTime:
+          type: string
+          description: The timestamp that the user was created
+        modifiedTime:
+          type: string
+          description: The timestamp the user was last modified
+        $native:
+          $ref: "#/components/schemas/NativeData"
+      required:
+        - id
+        - createdTime
+        - modifiedTime
+    Contact:
+      title: Contact
+      type: object
+      examples:
+        - id: e5f32d4fd2115220bd20a2ccf81210ec
+          email: tom@dundermifflin.com
+          firstName: Tom
+          lastName: Haverford
+          phone: "8192223333"
+          createdTime: "2019-08-24T14:15:22Z"
+          modifiedTime: "2019-08-24T14:15:22Z"
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Marketing tool.
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        createdTime:
+          type: string
+          description: The timestamp that the contact was created
+        modifiedTime:
+          type: string
+          description: The timestamp the contact was last modified
+        $native:
+          $ref: "#/components/schemas/NativeData"
+      required:
+        - id
+        - createdTime
+        - modifiedTime
+    ContactCreate:
+      title: ContactCreate
+      type: object
+      examples:
+        - email: tom@dundermifflin.com
+          firstName: Tom
+          lastName: Haverford
+          phone: "8192223333"
+          listId: "12"
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        listId:
+          type: string
+        $native:
+          $ref: "#/components/schemas/NativeData"
+    ContactUpdate:
+      title: ContactUpdate
+      type: object
+      examples:
+        - id: e5f32d4fd2115220bd20a2ccf81210ec
+          email: tom@dundermifflin.com
+          firstName: Tom
+          lastName: Haverford
+          phone: "8192223333"
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Marketing tool.
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        $native:
+          $ref: "#/components/schemas/NativeData"
+      required:
+        - id
+        - createdTime
+        - modifiedTime
+    List:
+      title: List
+      type: object
+      examples:
+        - id: e5f32d4fd2115220bd20a2ccf81210ec
+          name: "Paper leads"
+          createdTime: "2019-08-24T14:15:22Z"
+          modifiedTime: "2019-08-24T14:15:22Z"
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Marketing tool.
+        name:
+          type: string
+        createdTime:
+          type: string
+          description: The timestamp that the list was created
+        modifiedTime:
+          type: string
+          description: The timestamp the list was last modified
+        $native:
+          $ref: "#/components/schemas/NativeData"
+      required:
+        - id
+        - createdTime
+        - modifiedTime
+

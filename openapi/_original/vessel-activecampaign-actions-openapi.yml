@@ -1,0 +1,480 @@
+
+openapi: 3.1.0
+info:
+  title: Active Campaign API Reference
+  version: "1.0"
+  summary: API
+servers:
+  - url: "https://api.vessel.dev"
+security:
+  - VesselAPIToken: []
+paths:
+  /api/actions/activecampaign/contacts/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   contact:
+                     type: object
+                     properties:
+                       id:
+                         type: string
+                       email:
+                         type: string
+                       phone:
+                         type: string
+                       firstName:
+                         type: string
+                       lastName:
+                         type: string
+                       udate:
+                         type: string
+                         format: date-time
+                       cdate:
+                         type: string
+                         format: date-time
+                     required:
+                       - id
+                       - email
+                       - phone
+                       - firstName
+                       - lastName
+                       - udate
+                       - cdate
+              examples:
+                example-1:
+                  value:
+                     contact:
+                       id: magna nostrud aute ex
+                       email: dolor Duis voluptate
+                       phone: quis magna minim veniam
+                       firstName: Duis dolore irure
+                       lastName: ea sed
+                       udate: '1993-06-09T04:48:55.0Z'
+                       cdate: '1968-04-09T23:04:27.0Z'
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 email:
+                   type: string
+                 firstName:
+                   type: string
+                 lastName:
+                   type: string
+                 phone:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     email: commodo nulla fugiat
+                     firstName: officia commodo do ipsum
+                     lastName: sint consequat tempor enim incididunt
+                     phone: quis magna non laboris culpa
+      operationId: create-contact
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/activecampaign/contacts/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   contact:
+                     type: object
+                     properties:
+                       id:
+                         type: string
+                       email:
+                         type: string
+                       phone:
+                         type: string
+                       firstName:
+                         type: string
+                       lastName:
+                         type: string
+                       udate:
+                         type: string
+                         format: date-time
+                       cdate:
+                         type: string
+                         format: date-time
+                     required:
+                       - id
+                       - email
+                       - phone
+                       - firstName
+                       - lastName
+                       - udate
+                       - cdate
+              examples:
+                example-1:
+                  value:
+                     contact:
+                       id: dolore
+                       email: minim Ut eu qui
+                       phone: cupidatat
+                       firstName: occaecat laborum
+                       lastName: commodo pariatur culpa Ut ea
+                       udate: '1974-11-24T02:14:27.0Z'
+                       cdate: '1948-12-31T17:23:58.0Z'
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: ipsum sit
+      operationId: find-contact
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/activecampaign/contacts/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   contacts:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         email:
+                           type: string
+                         phone:
+                           type: string
+                         firstName:
+                           type: string
+                         lastName:
+                           type: string
+                         udate:
+                           type: string
+                           format: date-time
+                         cdate:
+                           type: string
+                           format: date-time
+                       required:
+                         - id
+                         - email
+                         - phone
+                         - firstName
+                         - lastName
+                         - udate
+                         - cdate
+              examples:
+                example-1:
+                  value:
+                     contacts:
+                       - id: laborum Lorem
+                         email: ut incididunt Duis in
+                         phone: amet consectetur sit
+                         firstName: ea tempor consectetur veniam
+                         lastName: Lorem
+                         udate: '1997-04-13T17:24:29.0Z'
+                         cdate: '2012-11-08T11:04:48.0Z'
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 {}
+            examples:
+              example-1:
+                value:
+                     {}
+      operationId: list-contacts
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/activecampaign/contacts/update:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   contact:
+                     type: object
+                     properties:
+                       id:
+                         type: string
+                       email:
+                         type: string
+                       phone:
+                         type: string
+                       firstName:
+                         type: string
+                       lastName:
+                         type: string
+                       udate:
+                         type: string
+                         format: date-time
+                       cdate:
+                         type: string
+                         format: date-time
+                     required:
+                       - id
+                       - email
+                       - phone
+                       - firstName
+                       - lastName
+                       - udate
+                       - cdate
+              examples:
+                example-1:
+                  value:
+                     contact:
+                       id: id et qui eiusmod do
+                       email: ipsum reprehenderit
+                       phone: in
+                       firstName: deserunt ut sed pariatur
+                       lastName: sunt
+                       udate: '1994-10-25T07:04:39.0Z'
+                       cdate: '1952-03-02T20:22:37.0Z'
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+                 email:
+                   type: string
+                 firstName:
+                   type: string
+                 lastName:
+                   type: string
+                 phone:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: in minim
+                     email: dolore sunt laborum adipisicing
+                     firstName: dolor cupidatat
+                     lastName: dolore nisi laboris
+                     phone: pariatur in
+      operationId: update-contact
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/activecampaign/lists/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   list:
+                     type: object
+                     properties:
+                       id:
+                         type: string
+                       name:
+                         type: string
+                       cdate:
+                         type: string
+                         format: date-time
+                     required:
+                       - id
+                       - name
+                       - cdate
+              examples:
+                example-1:
+                  value:
+                     list:
+                       id: labore cillum irure aliqua
+                       name: sed ut sit
+                       cdate: '1993-09-24T02:40:23.0Z'
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: aliquip aute in dolor reprehenderit
+      operationId: find-list
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/activecampaign/lists/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   lists:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         name:
+                           type: string
+                         cdate:
+                           type: string
+                           format: date-time
+                       required:
+                         - id
+                         - name
+                         - cdate
+              examples:
+                example-1:
+                  value:
+                     lists:
+                       - id: non ad
+                         name: sed sint non laboris
+                         cdate: '1976-07-20T17:09:24.0Z'
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 limit:
+                   type: number
+            examples:
+              example-1:
+                value:
+                     limit: 71740595.36603016
+      operationId: list-lists
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/activecampaign/users/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   users:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         username:
+                           type: string
+                         firstName:
+                           type: string
+                         lastName:
+                           type: string
+                         email:
+                           type: string
+                         phone:
+                           type: string
+                       required:
+                         - id
+                         - username
+                         - firstName
+                         - lastName
+                         - email
+                         - phone
+              examples:
+                example-1:
+                  value:
+                     users:
+                       - id: non
+                         username: non
+                         firstName: commodo laborum
+                         lastName: veniam
+                         email: aute
+                         phone: Duis mollit eu cupidatat
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 {}
+            examples:
+              example-1:
+                value:
+                     {}
+      operationId: list-users
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+    

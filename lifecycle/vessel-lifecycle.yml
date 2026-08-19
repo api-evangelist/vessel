@@ -1,0 +1,94 @@
+generated: '2026-08-13'
+method: probed
+source: live probes of every Vessel host + github.com/vesselapi on 2026-08-13
+docs:
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/mint.json
+versioning:
+  scheme: host-and-path
+  current: v2 (api.vessel.dev, /api/unifications, /api/actions)
+  previous: v1 (api.vessel.land, /crm, /engagement)
+  version_header: null
+  description: >-
+    Generations are separated by host and path prefix. Vessel's own documentation navigation labels
+    the v1 CRM anchor "[V1] CRM APIs" and marks it isDefaultHidden, and stores the v1 engagement docs
+    under a directory literally named old-engagement — but no formal version policy, migration guide,
+    or end-of-life date is published anywhere.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  deprecated_operations: 0
+  note: >-
+    No operation in any of the 20 published specs carries `deprecated: true`, no RFC 8594 Sunset or
+    Deprecation header is documented, and there is no deprecation policy page. The v1 surface is
+    de-emphasised in the docs navigation only. NO Deprecation pointer is emitted in apis.yml, because
+    hiding a nav anchor is not a deprecation policy.
+status_page:
+  published: false
+  url: null
+  probe:
+    - url: https://status.vessel.dev/
+      status: 000
+      note: no DNS record; the host does not exist
+  note: >-
+    No status page is published on any Vessel property and none is linked from the site or docs. NO
+    StatusPage pointer is emitted in apis.yml.
+sla:
+  published: false
+support:
+  channels:
+    - type: email
+      value: support@vessel.dev
+    - type: form
+      value: https://www.vessel.dev/contact
+    - type: feature-requests
+      value: https://vesselapi.canny.io/
+    - type: slack
+      value: 'Custom tier only, per the pricing page'
+operational_state:
+  assessment: dormant
+  checked: '2026-08-13'
+  summary: >-
+    The marketing site is up but every operational surface behind it is gone. This is recorded as an
+    observation of what the hosts returned, not as a statement about the company's corporate status.
+  evidence:
+    - url: https://www.vessel.dev/
+      status: 200
+      note: Webflow marketing site, live. Footer reads "Copyright © Kinit Inc."
+    - url: https://www.vessel.dev/pricing
+      status: 200
+      note: Pricing page still lists Start / Launch / Custom.
+    - url: https://api.vessel.dev/
+      status: 000
+      note: >-
+        DNS resolves to core-api-production.fly.dev (66.241.124.237); TLS connection times out. The
+        production API host for the v2 platform, unified and actions APIs does not answer.
+    - url: https://api.vessel.land/
+      status: 000
+      note: No DNS A record exists. The v1 API host has been removed from DNS entirely.
+    - url: https://docs.vessel.dev/
+      status: 404
+      note: >-
+        Vercel deployment returns 404 at the root and at every documented path. The developer
+        documentation the whole site links to is no longer served.
+    - url: https://app.vessel.dev/
+      status: 000
+      note: >-
+        DNS resolves to Vercel; connection times out. This is the "Log in" and "Start for free"
+        destination on every page of the marketing site, so there is no reachable way to obtain a key.
+    - url: https://github.com/vesselapi/integrations
+      status: 200
+      note: Archived by the owner; last push 2023-11-11.
+    - url: https://registry.npmjs.org/@vesselapi%2Fsdk
+      status: 200
+      note: Latest release 1.0.35, published 2023-08-23. No release since.
+  last_observed_activity:
+    github_org_updated: '2024-05-15'
+    newest_repo_push: '2024-02-21'
+    newest_package_release: '2023-08-23'
+    docs_repo_push: '2023-08-23'
+contract_availability:
+  note: >-
+    The contracts themselves remain publicly readable in github.com/vesselapi/all-api-docs even though
+    the rendered docs site and the API hosts do not answer. All 20 OpenAPI definitions in openapi/ were
+    harvested from that repository on 2026-08-13.

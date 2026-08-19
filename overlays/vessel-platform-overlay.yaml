@@ -1,0 +1,143 @@
+overlay: 1.0.0
+info:
+  title: Vessel Platform API — API Evangelist Overlay
+  version: 1.0.0
+extends: openapi/vessel-platform-openapi.yml
+x-provenance:
+  generated: '2026-08-13'
+  method: generated
+  source: API Evangelist enrichment pipeline — enhancements over the verbatim spec harvested from https://github.com/vesselapi/all-api-docs
+  note: The underlying OpenAPI is left byte-identical to what Vessel published. Every change below is
+    an API Evangelist annotation, not a claim about Vessel's contract. The two substantive additions are
+    tags (the published specs declare none, so no generator or catalog can group these operations) and
+    the error responses that Vessel documents in prose but never declares in the contract.
+actions:
+- target: $.info
+  update:
+    title: Vessel Platform API
+    contact:
+      name: Vessel Support
+      email: support@vessel.dev
+      url: https://www.vessel.dev/
+    description: 'Control plane for the Vessel embedded integrations platform: the Link handshake (session
+      and access tokens), the supported-integrations catalog, connection lifecycle, customer-managed downstream
+      OAuth apps, the /api/passthrough escape hatch, and webhook subscriptions. Published upstream with
+      the generic title "API Reference".'
+- target: $
+  update:
+    tags:
+    - name: Authentication
+    - name: Connections
+    - name: Integrations
+    - name: Passthrough
+    - name: Webhooks
+- target: $.paths['/api/connections/list'].post
+  update:
+    tags:
+    - Connections
+- target: $.paths['/api/connections/find'].post
+  update:
+    tags:
+    - Connections
+- target: $.paths['/api/connections/delete'].post
+  update:
+    tags:
+    - Connections
+- target: $.paths['/api/integrations/list'].post
+  update:
+    tags:
+    - Integrations
+- target: $.paths['/api/auth/access-token'].post
+  update:
+    tags:
+    - Authentication
+- target: $.paths['/api/auth/session-token'].post
+  update:
+    tags:
+    - Authentication
+- target: $.paths['/api/auth/oauth-apps/list'].post
+  update:
+    tags:
+    - Authentication
+- target: $.paths['/api/auth/oauth-apps/find'].post
+  update:
+    tags:
+    - Authentication
+- target: $.paths['/api/auth/oauth-apps/create'].post
+  update:
+    tags:
+    - Authentication
+- target: $.paths['/api/auth/oauth-apps/delete'].post
+  update:
+    tags:
+    - Authentication
+- target: $.paths['/api/passthrough'].post
+  update:
+    tags:
+    - Passthrough
+- target: $.paths['/webhooks/list'].post
+  update:
+    tags:
+    - Webhooks
+- target: $.paths['/webhooks/find'].post
+  update:
+    tags:
+    - Webhooks
+- target: $.paths['/webhooks/create'].post
+  update:
+    tags:
+    - Webhooks
+- target: $.paths['/webhooks/delete'].post
+  update:
+    tags:
+    - Webhooks
+- target: $.paths['/api/connections/list'].post.responses
+  update: &id001
+    '400':
+      description: Generic Client Error — invalid body parameters, expired public token, or development-connection
+        cap reached. Documented at crm/error-handling.mdx; not declared in the published contract.
+    '401':
+      description: Authorization Error — invalid API token, link token, or access token.
+    '409':
+      description: Data still syncing — the connection has not reached the INITIAL_SYNC state.
+    '500':
+      description: 'Internal Server Error. NOTE: Vessel documents that some client-side validation failures
+        (missing object, endpoint not implemented for that CRM, expired link token, webhook setup problems)
+        are returned as 5xx. Do not treat as automatically retryable.'
+- target: $.paths['/api/connections/find'].post.responses
+  update: *id001
+- target: $.paths['/api/connections/delete'].post.responses
+  update: *id001
+- target: $.paths['/api/integrations/list'].post.responses
+  update: *id001
+- target: $.paths['/api/auth/access-token'].post.responses
+  update: *id001
+- target: $.paths['/api/auth/session-token'].post.responses
+  update: *id001
+- target: $.paths['/api/auth/oauth-apps/list'].post.responses
+  update: *id001
+- target: $.paths['/api/auth/oauth-apps/find'].post.responses
+  update: *id001
+- target: $.paths['/api/auth/oauth-apps/create'].post.responses
+  update: *id001
+- target: $.paths['/api/auth/oauth-apps/delete'].post.responses
+  update: *id001
+- target: $.paths['/api/passthrough'].post.responses
+  update: *id001
+- target: $.paths['/webhooks/list'].post.responses
+  update: *id001
+- target: $.paths['/webhooks/find'].post.responses
+  update: *id001
+- target: $.paths['/webhooks/create'].post.responses
+  update: *id001
+- target: $.paths['/webhooks/delete'].post.responses
+  update: *id001
+- target: $.paths['/api/passthrough'].post
+  update:
+    x-agentic-access:
+      action-class: acting
+      consequence: write
+      escalation:
+        human-in-the-loop: required
+      note: Forwards an arbitrary authenticated request to the end customer's downstream SaaS tenant.
+        Unbounded blast radius.

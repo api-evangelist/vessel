@@ -1,0 +1,83 @@
+generated: '2026-08-13'
+method: generated
+source: openapi/ + https://github.com/vesselapi/all-api-docs
+provider: Vessel
+providerId: vessel
+description: >-
+  Packaged Agent Skills for the Vessel embedded integrations platform. Each skill is grounded in
+  operationIds verified against the OpenAPI definitions Vessel publishes in its own documentation
+  repository — no operation named in these skills was invented. Vessel publishes no AGENTS.md and no
+  skills of its own; these are API Evangelist generations.
+provider_published_skills: false
+provider_published_skills_note: >-
+  Searched github.com/vesselapi (all 6 public repos, full trees), www.vessel.dev and the archived
+  docs on 2026-08-13. No AGENTS.md, no skills/ directory, no agent instructions.
+skills:
+  - name: vessel-connect-a-customer-account
+    file: vessel-connect-a-customer-account.md
+    api: vessel:platform-api
+    summary: >-
+      The Vessel Link handshake — integrations catalog, session token, browser modal, publicToken
+      exchange, durable accessToken.
+    operations:
+      - get-all-integrations
+      - get-one-session-token
+      - get-one-access-token
+      - get-all-connections
+  - name: vessel-read-unified-crm-data
+    file: vessel-read-unified-crm-data.md
+    api: vessel:crm-unified-api
+    summary: >-
+      Cursor-paged reads across the unified CRM objects, the synced-cache filter caveat, batch reads,
+      and the $native escape hatch.
+    operations:
+      - get-info
+      - list-contacts
+      - get-contact
+      - batch-read-contacts
+      - get-details-crm-contact
+      - list-deals
+      - list-accounts
+      - list-leads
+  - name: vessel-write-to-a-customers-crm
+    file: vessel-write-to-a-customers-crm.md
+    api: vessel:crm-unified-api
+    summary: >-
+      Creating and updating records safely given that Vessel has no idempotency mechanism and returns
+      some validation failures as 5xx.
+    operations:
+      - get-info
+      - create-contact
+      - update-contact
+      - create-deal
+      - update-deal
+      - create-account
+      - update-account
+      - create-lead
+      - update-lead
+      - create-note
+      - create-task
+      - get-details-crm-contact
+  - name: vessel-subscribe-to-change-events
+    file: vessel-subscribe-to-change-events.md
+    api: vessel:platform-api
+    summary: >-
+      Webhook registration, SHA-256 signature verification, at-least-once handling, and the
+      synced-cache precondition that silently suppresses all events when missed.
+    operations:
+      - create-webhook
+      - list-webhooks
+      - find-webhook
+      - delete-webhook
+      - get-one-session-token
+cross_references:
+  conventions: conventions/vessel-conventions.yml
+  errors: errors/vessel-error-codes.yml
+  authentication: authentication/vessel-authentication.yml
+  webhooks: asyncapi/vessel-webhooks.yml
+  data_model: data-model/vessel-data-model.yml
+  agentic_access: agentic-access/vessel-agentic-access.yml
+operational_caveat: >-
+  As of 2026-08-13 api.vessel.dev does not complete a TLS connection and api.vessel.land has no DNS
+  record, so none of these skills can currently be executed against a live Vessel API. They describe
+  the contract Vessel published.

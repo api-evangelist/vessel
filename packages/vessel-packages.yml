@@ -1,0 +1,84 @@
+generated: '2026-08-13'
+method: searched
+source: https://registry.npmjs.org
+docs:
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/getting-started.mdx
+  - https://github.com/vesselapi/client-sdk
+summary:
+  package_count: 2
+  official_count: 2
+  registries:
+    - npm
+  languages:
+    - javascript
+  newest_release: '2023-08-23'
+  note: >-
+    Vessel ships two first-party npm packages and nothing on PyPI, RubyGems, Packagist, crates.io,
+    NuGet, Maven Central or pkg.go.dev — all were queried on 2026-08-13 and returned no first-party
+    Vessel package. Both npm packages last published in 2023; neither has had a release in the
+    ~3 years since, which matches the archived state of github.com/vesselapi/integrations and the
+    fact that api.vessel.dev and api.vessel.land no longer answer.
+packages:
+  - name: '@vesselapi/sdk'
+    language: javascript
+    registry: npm
+    official: true
+    url: https://www.npmjs.com/package/@vesselapi/sdk
+    version: 1.0.35
+    published: '2023-08-23'
+    first_published: '2023-05-30'
+    description: >-
+      Server-side Node.js/TypeScript SDK for the Vessel platform, unified and actions APIs. Wraps the
+      x-vessel-api-token calls documented in the getting-started guide (e.g. vessel.webhooks.create).
+    role: server-sdk
+    note: >-
+      Latest release 1.0.35 predates the v2 unification surface documentation in vesselapi/all-api-docs
+      (last pushed 2023-08-23) by hours, and there has been no release since. Registry metadata read
+      from https://registry.npmjs.org/@vesselapi%2Fsdk on 2026-08-13.
+  - name: '@vesselapi/react-vessel-link'
+    language: javascript
+    registry: npm
+    official: true
+    url: https://www.npmjs.com/package/@vesselapi/react-vessel-link
+    version: 1.1.8
+    published: '2023-03-17'
+    first_published: '2022-03-12'
+    repository: https://github.com/vesselapi/react-vessel
+    description: >-
+      React component that opens the Vessel Connect (Link) modal so an end user can authorize a
+      downstream SaaS account, returning a publicToken to the host application's onSuccess handler.
+    role: client-component
+    note: >-
+      Registry metadata read from https://registry.npmjs.org/@vesselapi%2Freact-vessel-link on
+      2026-08-13. The named repository github.com/vesselapi/react-vessel is not present in the public
+      vesselapi org (the org publishes github.com/vesselapi/react-vessel-link instead).
+source_repositories:
+  - url: https://github.com/vesselapi/client-sdk
+    description: Front-end client SDK providing the Vessel Link modal.
+    last_push: '2023-10-18'
+    archived: false
+  - url: https://github.com/vesselapi/react-vessel-link
+    description: React wrapper for the Link modal.
+    last_push: '2023-04-05'
+    archived: false
+  - url: https://github.com/vesselapi/integrations
+    description: >-
+      Open-source integrations library (MIT) defining actions, authentication and passthrough
+      behaviour for every supported integration.
+    last_push: '2023-11-11'
+    archived: true
+registries_checked:
+  - registry: npm
+    result: 2 first-party packages found
+  - registry: pypi
+    result: no first-party package
+  - registry: rubygems
+    result: no first-party package
+  - registry: crates.io
+    result: no first-party package
+  - registry: nuget
+    result: no first-party package
+  - registry: maven-central
+    result: no first-party package
+  - registry: pkg.go.dev
+    result: no first-party package

@@ -1,0 +1,1606 @@
+
+openapi: 3.1.0
+info:
+  title: Aircall API Reference
+  version: "1.0"
+  summary: API
+servers:
+  - url: "https://api.vessel.dev"
+security:
+  - VesselAPIToken: []
+paths:
+  /api/actions/aircall/users/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   users:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: number
+                         directLink:
+                           type:
+                             - string
+                             - 'null'
+                         name:
+                           type: string
+                         email:
+                           type:
+                             - string
+                             - 'null'
+                         available:
+                           type:
+                             - boolean
+                             - 'null'
+                         availabilityStatus:
+                           type:
+                             - string
+                             - 'null'
+                         timeZone:
+                           type:
+                             - string
+                             - 'null'
+                         language:
+                           type:
+                             - string
+                             - 'null'
+                         wrapUpTime:
+                           type:
+                             - number
+                             - 'null'
+                         createdAt:
+                           type: string
+                           format: date-time
+                       required:
+                         - id
+                         - direct_link
+                         - name
+                         - email
+                         - available
+                         - availability_status
+                         - time_zone
+                         - language
+                         - wrap_up_time
+                         - created_at
+                   meta:
+                     type: object
+                     properties:
+                       count:
+                         type:
+                           - number
+                           - 'null'
+                       total:
+                         type:
+                           - number
+                           - 'null'
+                       currentPage:
+                         type:
+                           - number
+                           - 'null'
+                       perPage:
+                         type:
+                           - number
+                           - 'null'
+                       nextPageLink:
+                         anyOf:
+                           - type: string
+                           - type: 'null'
+                       previousPageLink:
+                         anyOf:
+                           - type: string
+                           - type: 'null'
+                     required:
+                       - count
+                       - total
+                       - current_page
+                       - per_page
+                       - next_page_link
+                       - previous_page_link
+              examples:
+                example-1:
+                  value:
+                     users:
+                       - id: -89270352.46227905
+                         name: Ut
+                         email: consequat fugiat dolor ut
+                         available: null
+                         language: null
+                         wrapUpTime: 77299649.46462867
+                         timeZone: esse ea et nostrud elit
+                         createdAt: '2018-10-13T10:10:16.0Z'
+                         directLink: null
+                         availabilityStatus: esse ex
+                     meta:
+                       count: -84061575.0836465
+                       total: null
+                       previousPageLink: in veniam mollit fugiat
+                       currentPage: -57299537.317396656
+                       perPage: null
+                       nextPageLink: ut
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 from:
+                   type: string
+                 perPage:
+                   type: number
+                 nextPageLink:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     from: dolore fugiat
+                     perPage: -62917728.630286396
+                     nextPageLink: aliqua
+      operationId: list-users
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/aircall/users/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   user:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       directLink:
+                         type:
+                           - string
+                           - 'null'
+                       name:
+                         type: string
+                       email:
+                         type:
+                           - string
+                           - 'null'
+                       available:
+                         type:
+                           - boolean
+                           - 'null'
+                       availabilityStatus:
+                         type:
+                           - string
+                           - 'null'
+                       timeZone:
+                         type:
+                           - string
+                           - 'null'
+                       language:
+                         type:
+                           - string
+                           - 'null'
+                       wrapUpTime:
+                         type:
+                           - number
+                           - 'null'
+                       createdAt:
+                         type: string
+                         format: date-time
+                     required:
+                       - id
+                       - direct_link
+                       - name
+                       - email
+                       - available
+                       - availability_status
+                       - time_zone
+                       - language
+                       - wrap_up_time
+                       - created_at
+              examples:
+                example-1:
+                  value:
+                     user:
+                       id: -55279769.4802079
+                       name: ipsum nulla sit qui
+                       email: null
+                       available: null
+                       language: null
+                       availabilityStatus: Excepteur eu minim irure cillum
+                       directLink: nostrud do exercitation in in
+                       wrapUpTime: null
+                       timeZone: ullamco ut ex
+                       createdAt: '1961-04-23T09:09:34.0Z'
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type:
+                     - number
+                     - string
+            examples:
+              example-1:
+                value:
+                     id: dolore
+      operationId: find-user
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/aircall/users/start-call:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   {}
+              examples:
+                example-1:
+                  value:
+                     {}
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type:
+                     - number
+                     - string
+                 numberId:
+                   type:
+                     - number
+                     - string
+                 to:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: consequat
+                     numberId: enim
+                     to: labore id ut eu officia
+      operationId: start-user-call
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/aircall/contacts/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   contact:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       directLink:
+                         type:
+                           - string
+                           - 'null'
+                       firstName:
+                         type:
+                           - string
+                           - 'null'
+                       lastName:
+                         type:
+                           - string
+                           - 'null'
+                       companyName:
+                         type:
+                           - string
+                           - 'null'
+                       information:
+                         type:
+                           - string
+                           - 'null'
+                       isShared:
+                         type:
+                           - boolean
+                           - 'null'
+                       createdAt:
+                         type: number
+                       updatedAt:
+                         type: number
+                       emails:
+                         anyOf:
+                           - type: array
+                             items:
+                               type: object
+                               properties:
+                                 id:
+                                   type: number
+                                 label:
+                                   type:
+                                     - string
+                                     - 'null'
+                                 value:
+                                   type: string
+                               required:
+                                 - id
+                                 - label
+                                 - value
+                           - type: 'null'
+                       phoneNumbers:
+                         anyOf:
+                           - type: array
+                             items:
+                               type: object
+                               properties:
+                                 id:
+                                   type: number
+                                 label:
+                                   type:
+                                     - string
+                                     - 'null'
+                                 value:
+                                   type: string
+                               required:
+                                 - id
+                                 - label
+                                 - value
+                           - type: 'null'
+                     required:
+                       - id
+                       - direct_link
+                       - first_name
+                       - last_name
+                       - company_name
+                       - information
+                       - is_shared
+                       - created_at
+                       - updated_at
+                       - emails
+                       - phone_numbers
+              examples:
+                example-1:
+                  value:
+                     contact:
+                       id: -4310924.4277355075
+                       information: consectetur
+                       emails:
+                         - id: -64046885.245729744
+                           label: null
+                           value: commodo
+                           aute66: 49947290
+                           velit_40: false
+                       phoneNumbers: null
+                       directLink: null
+                       isShared: null
+                       updatedAt: 2237749.0678489953
+                       createdAt: 51588572.78623724
+                       firstName: irure aliqua consequat
+                       lastName: null
+                       companyName: null
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 firstName:
+                   type: string
+                 lastName:
+                   type: string
+                 companyName:
+                   type: string
+                 information:
+                   type: string
+                 emails:
+                   type: array
+                   items:
+                     type: object
+                     properties:
+                       label:
+                         type: string
+                       value:
+                         type: string
+                     required:
+                       - value
+                 phoneNumbers:
+                   type: array
+                   items:
+                     type: object
+                     properties:
+                       label:
+                         type: string
+                       value:
+                         type: string
+                     required:
+                       - value
+            examples:
+              example-1:
+                value:
+                     firstName: adipisicing sed dolor Lorem officia
+                     lastName: Lorem
+                     companyName: laboris nulla ex mollit
+                     information: tempor
+                     emails:
+                       - value: occaecat eu sint
+                         label: non occaecat incididunt
+                     phoneNumbers:
+                       - value: ex exercitation
+                         label: in
+      operationId: create-contact
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/aircall/contacts/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   contact:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       directLink:
+                         type:
+                           - string
+                           - 'null'
+                       firstName:
+                         type:
+                           - string
+                           - 'null'
+                       lastName:
+                         type:
+                           - string
+                           - 'null'
+                       companyName:
+                         type:
+                           - string
+                           - 'null'
+                       information:
+                         type:
+                           - string
+                           - 'null'
+                       isShared:
+                         type:
+                           - boolean
+                           - 'null'
+                       createdAt:
+                         type: number
+                       updatedAt:
+                         type: number
+                       emails:
+                         anyOf:
+                           - type: array
+                             items:
+                               type: object
+                               properties:
+                                 id:
+                                   type: number
+                                 label:
+                                   type:
+                                     - string
+                                     - 'null'
+                                 value:
+                                   type: string
+                               required:
+                                 - id
+                                 - label
+                                 - value
+                           - type: 'null'
+                       phoneNumbers:
+                         anyOf:
+                           - type: array
+                             items:
+                               type: object
+                               properties:
+                                 id:
+                                   type: number
+                                 label:
+                                   type:
+                                     - string
+                                     - 'null'
+                                 value:
+                                   type: string
+                               required:
+                                 - id
+                                 - label
+                                 - value
+                           - type: 'null'
+                     required:
+                       - id
+                       - direct_link
+                       - first_name
+                       - last_name
+                       - company_name
+                       - information
+                       - is_shared
+                       - created_at
+                       - updated_at
+                       - emails
+                       - phone_numbers
+              examples:
+                example-1:
+                  value:
+                     contact:
+                       id: 99345447.36392054
+                       information: anim magna
+                       emails: null
+                       directLink: null
+                       firstName: null
+                       lastName: esse dolor elit
+                       phoneNumbers: null
+                       updatedAt: 68223509.77328452
+                       createdAt: 80664193.9649893
+                       isShared: false
+                       companyName: Lorem et
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type:
+                     - number
+                     - string
+            examples:
+              example-1:
+                value:
+                     id: -36096015.86504509
+      operationId: find-contact
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/aircall/contacts/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   contacts:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: number
+                         directLink:
+                           type:
+                             - string
+                             - 'null'
+                         firstName:
+                           type:
+                             - string
+                             - 'null'
+                         lastName:
+                           type:
+                             - string
+                             - 'null'
+                         companyName:
+                           type:
+                             - string
+                             - 'null'
+                         information:
+                           type:
+                             - string
+                             - 'null'
+                         isShared:
+                           type:
+                             - boolean
+                             - 'null'
+                         createdAt:
+                           type: number
+                         updatedAt:
+                           type: number
+                         emails:
+                           anyOf:
+                             - type: array
+                               items:
+                                 type: object
+                                 properties:
+                                   id:
+                                     type: number
+                                   label:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   value:
+                                     type: string
+                                 required:
+                                   - id
+                                   - label
+                                   - value
+                             - type: 'null'
+                         phoneNumbers:
+                           anyOf:
+                             - type: array
+                               items:
+                                 type: object
+                                 properties:
+                                   id:
+                                     type: number
+                                   label:
+                                     type:
+                                       - string
+                                       - 'null'
+                                   value:
+                                     type: string
+                                 required:
+                                   - id
+                                   - label
+                                   - value
+                             - type: 'null'
+                       required:
+                         - id
+                         - direct_link
+                         - first_name
+                         - last_name
+                         - company_name
+                         - information
+                         - is_shared
+                         - created_at
+                         - updated_at
+                         - emails
+                         - phone_numbers
+                   meta:
+                     type: object
+                     properties:
+                       count:
+                         type:
+                           - number
+                           - 'null'
+                       total:
+                         type:
+                           - number
+                           - 'null'
+                       currentPage:
+                         type:
+                           - number
+                           - 'null'
+                       perPage:
+                         type:
+                           - number
+                           - 'null'
+                       nextPageLink:
+                         anyOf:
+                           - type: string
+                           - type: 'null'
+                       previousPageLink:
+                         anyOf:
+                           - type: string
+                           - type: 'null'
+                     required:
+                       - count
+                       - total
+                       - current_page
+                       - per_page
+                       - next_page_link
+                       - previous_page_link
+              examples:
+                example-1:
+                  value:
+                     contacts:
+                       - id: 57434312.2139124
+                         information: null
+                         emails:
+                           - id: -30375498.88328086
+                             label: null
+                             value: proident in occaecat quis cillum
+                             cupidatat__: false
+                             Ut6b4: est laboris
+                             irure__: est mollit
+                             dolor_28: veniam exercitation Excepteur
+                         companyName: Ut eiusmod pariatur dolore
+                         isShared: true
+                         phoneNumbers:
+                           - id: 27001835.037813306
+                             label: Excepteur ea cillum amet mollit
+                             value: id ipsum sit est anim
+                         updatedAt: 41043219.67213011
+                         firstName: null
+                         directLink: aliqua
+                         lastName: null
+                         createdAt: 29886562.004416466
+                     meta:
+                       count: 79154511.47519681
+                       total: null
+                       nextPageLink: velit dolor commodo
+                       previousPageLink: nisi aliqua
+                       perPage: null
+                       currentPage: null
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 from:
+                   type: string
+                 perPage:
+                   type: number
+                 nextPageLink:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     from: ad
+                     perPage: -7016389.1691586375
+                     nextPageLink: sed adipisicing ad culpa
+      operationId: list-contacts
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/aircall/contacts/update:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   contact:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       directLink:
+                         type:
+                           - string
+                           - 'null'
+                       firstName:
+                         type:
+                           - string
+                           - 'null'
+                       lastName:
+                         type:
+                           - string
+                           - 'null'
+                       companyName:
+                         type:
+                           - string
+                           - 'null'
+                       information:
+                         type:
+                           - string
+                           - 'null'
+                       isShared:
+                         type:
+                           - boolean
+                           - 'null'
+                       createdAt:
+                         type: number
+                       updatedAt:
+                         type: number
+                       emails:
+                         anyOf:
+                           - type: array
+                             items:
+                               type: object
+                               properties:
+                                 id:
+                                   type: number
+                                 label:
+                                   type:
+                                     - string
+                                     - 'null'
+                                 value:
+                                   type: string
+                               required:
+                                 - id
+                                 - label
+                                 - value
+                           - type: 'null'
+                       phoneNumbers:
+                         anyOf:
+                           - type: array
+                             items:
+                               type: object
+                               properties:
+                                 id:
+                                   type: number
+                                 label:
+                                   type:
+                                     - string
+                                     - 'null'
+                                 value:
+                                   type: string
+                               required:
+                                 - id
+                                 - label
+                                 - value
+                           - type: 'null'
+                     required:
+                       - id
+                       - direct_link
+                       - first_name
+                       - last_name
+                       - company_name
+                       - information
+                       - is_shared
+                       - created_at
+                       - updated_at
+                       - emails
+                       - phone_numbers
+              examples:
+                example-1:
+                  value:
+                     contact:
+                       id: -89158428.57605143
+                       information: id
+                       emails: null
+                       createdAt: -74604828.86311862
+                       updatedAt: 99775715.99888128
+                       directLink: ad
+                       companyName: magna dolor
+                       isShared: null
+                       phoneNumbers:
+                         - id: -20111456.690393314
+                           label: null
+                           value: Excepteur Ut nisi
+                       firstName: null
+                       lastName: null
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type:
+                     - number
+                     - string
+                 firstName:
+                   type: string
+                 lastName:
+                   type: string
+                 companyName:
+                   type: string
+                 information:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: -57164264.11440763
+                     firstName: proident
+                     lastName: anim
+                     companyName: exercitation
+                     information: et
+      operationId: update-contact
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/aircall/calls/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   call:
+                     type: object
+                     properties:
+                       id:
+                         type: number
+                       directLink:
+                         type:
+                           - string
+                           - 'null'
+                       direction:
+                         anyOf:
+                           - type: string
+                             enum:
+                               - inbound
+                               - outbound
+                           - type: 'null'
+                       status:
+                         type:
+                           - string
+                           - 'null'
+                       startedAt:
+                         type: number
+                       answeredAt:
+                         type: number
+                       endedAt:
+                         type: number
+                       duration:
+                         type:
+                           - number
+                           - 'null'
+                       voicemail:
+                         type:
+                           - string
+                           - 'null'
+                       recording:
+                         type:
+                           - string
+                           - 'null'
+                       rawDigits:
+                         type: string
+                       user:
+                         type: object
+                         properties:
+                           id:
+                             type: number
+                           directLink:
+                             type:
+                               - string
+                               - 'null'
+                           name:
+                             type: string
+                           email:
+                             type:
+                               - string
+                               - 'null'
+                           available:
+                             type:
+                               - boolean
+                               - 'null'
+                           availabilityStatus:
+                             type:
+                               - string
+                               - 'null'
+                           timeZone:
+                             type:
+                               - string
+                               - 'null'
+                           language:
+                             type:
+                               - string
+                               - 'null'
+                           wrapUpTime:
+                             type:
+                               - number
+                               - 'null'
+                           createdAt:
+                             type: string
+                             format: date-time
+                         required:
+                           - id
+                           - direct_link
+                           - name
+                           - email
+                           - available
+                           - availability_status
+                           - time_zone
+                           - language
+                           - wrap_up_time
+                           - created_at
+                       contact:
+                         anyOf:
+                           - type: object
+                             properties:
+                               id:
+                                 type: number
+                               directLink:
+                                 type:
+                                   - string
+                                   - 'null'
+                               firstName:
+                                 type:
+                                   - string
+                                   - 'null'
+                               lastName:
+                                 type:
+                                   - string
+                                   - 'null'
+                               companyName:
+                                 type:
+                                   - string
+                                   - 'null'
+                               information:
+                                 type:
+                                   - string
+                                   - 'null'
+                               isShared:
+                                 type:
+                                   - boolean
+                                   - 'null'
+                               createdAt:
+                                 type: number
+                               updatedAt:
+                                 type: number
+                               emails:
+                                 anyOf:
+                                   - type: array
+                                     items:
+                                       type: object
+                                       properties:
+                                         id:
+                                           type: number
+                                         label:
+                                           type:
+                                             - string
+                                             - 'null'
+                                         value:
+                                           type: string
+                                       required:
+                                         - id
+                                         - label
+                                         - value
+                                   - type: 'null'
+                               phoneNumbers:
+                                 anyOf:
+                                   - type: array
+                                     items:
+                                       type: object
+                                       properties:
+                                         id:
+                                           type: number
+                                         label:
+                                           type:
+                                             - string
+                                             - 'null'
+                                         value:
+                                           type: string
+                                       required:
+                                         - id
+                                         - label
+                                         - value
+                                   - type: 'null'
+                             required:
+                               - id
+                               - direct_link
+                               - first_name
+                               - last_name
+                               - company_name
+                               - information
+                               - is_shared
+                               - created_at
+                               - updated_at
+                               - emails
+                               - phone_numbers
+                           - type: 'null'
+                       number:
+                         type: object
+                         properties:
+                           id:
+                             type: number
+                           name:
+                             type:
+                               - string
+                               - 'null'
+                           digits:
+                             type:
+                               - string
+                               - 'null'
+                           createdAt:
+                             type: string
+                             format: date-time
+                         required:
+                           - id
+                           - name
+                           - digits
+                           - created_at
+                       participants:
+                         type: array
+                         items:
+                           type: object
+                           properties:
+                             id:
+                               type: number
+                             type:
+                               type: string
+                               enum:
+                                 - user
+                                 - contact
+                                 - external
+                             name:
+                               type:
+                                 - string
+                                 - 'null'
+                             phoneNumber:
+                               type:
+                                 - string
+                                 - 'null'
+                           required:
+                             - id
+                             - type
+                             - name
+                             - phone_number
+                     required:
+                       - id
+                       - direct_link
+                       - direction
+                       - status
+                       - started_at
+                       - answered_at
+                       - ended_at
+                       - duration
+                       - voicemail
+                       - recording
+                       - raw_digits
+                       - user
+                       - contact
+                       - number
+              examples:
+                example-1:
+                  value:
+                     call:
+                       id: 76973404.07882455
+                       direction: outbound
+                       status: null
+                       duration: 51302934.868718445
+                       voicemail: null
+                       recording: null
+                       user:
+                         id: 74099454.77302057
+                         name: officia in Ut Lorem
+                         email: dolor aliquip
+                         available: true
+                         language: null
+                         wrapUpTime: 23688321.605538264
+                         timeZone: null
+                         directLink: null
+                         availabilityStatus: null
+                         createdAt: '1964-01-30T09:26:09.0Z'
+                       contact: null
+                       number:
+                         id: -16598077.18119803
+                         name: voluptate Ut
+                         digits: null
+                         createdAt: '1971-01-18T18:59:09.0Z'
+                       participants:
+                         - id: 91322388.92238086
+                           type: user
+                           name: null
+                           phoneNumber: null
+                       rawDigits: labore nostrud voluptate Excepteur aliqua
+                       directLink: null
+                       endedAt: 77737922.9855662
+                       answeredAt: -52119061.94518017
+                       startedAt: -85399918.58678864
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type:
+                     - number
+                     - string
+            examples:
+              example-1:
+                value:
+                     id: 94701425.10324454
+      operationId: find-call
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/aircall/calls/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   calls:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: number
+                         directLink:
+                           type:
+                             - string
+                             - 'null'
+                         direction:
+                           anyOf:
+                             - type: string
+                               enum:
+                                 - inbound
+                                 - outbound
+                             - type: 'null'
+                         status:
+                           type:
+                             - string
+                             - 'null'
+                         startedAt:
+                           type: number
+                         answeredAt:
+                           type: number
+                         endedAt:
+                           type: number
+                         duration:
+                           type:
+                             - number
+                             - 'null'
+                         voicemail:
+                           type:
+                             - string
+                             - 'null'
+                         recording:
+                           type:
+                             - string
+                             - 'null'
+                         rawDigits:
+                           type: string
+                         user:
+                           type: object
+                           properties:
+                             id:
+                               type: number
+                             directLink:
+                               type:
+                                 - string
+                                 - 'null'
+                             name:
+                               type: string
+                             email:
+                               type:
+                                 - string
+                                 - 'null'
+                             available:
+                               type:
+                                 - boolean
+                                 - 'null'
+                             availabilityStatus:
+                               type:
+                                 - string
+                                 - 'null'
+                             timeZone:
+                               type:
+                                 - string
+                                 - 'null'
+                             language:
+                               type:
+                                 - string
+                                 - 'null'
+                             wrapUpTime:
+                               type:
+                                 - number
+                                 - 'null'
+                             createdAt:
+                               type: string
+                               format: date-time
+                           required:
+                             - id
+                             - direct_link
+                             - name
+                             - email
+                             - available
+                             - availability_status
+                             - time_zone
+                             - language
+                             - wrap_up_time
+                             - created_at
+                         contact:
+                           anyOf:
+                             - type: object
+                               properties:
+                                 id:
+                                   type: number
+                                 directLink:
+                                   type:
+                                     - string
+                                     - 'null'
+                                 firstName:
+                                   type:
+                                     - string
+                                     - 'null'
+                                 lastName:
+                                   type:
+                                     - string
+                                     - 'null'
+                                 companyName:
+                                   type:
+                                     - string
+                                     - 'null'
+                                 information:
+                                   type:
+                                     - string
+                                     - 'null'
+                                 isShared:
+                                   type:
+                                     - boolean
+                                     - 'null'
+                                 createdAt:
+                                   type: number
+                                 updatedAt:
+                                   type: number
+                                 emails:
+                                   anyOf:
+                                     - type: array
+                                       items:
+                                         type: object
+                                         properties:
+                                           id:
+                                             type: number
+                                           label:
+                                             type:
+                                               - string
+                                               - 'null'
+                                           value:
+                                             type: string
+                                         required:
+                                           - id
+                                           - label
+                                           - value
+                                     - type: 'null'
+                                 phoneNumbers:
+                                   anyOf:
+                                     - type: array
+                                       items:
+                                         type: object
+                                         properties:
+                                           id:
+                                             type: number
+                                           label:
+                                             type:
+                                               - string
+                                               - 'null'
+                                           value:
+                                             type: string
+                                         required:
+                                           - id
+                                           - label
+                                           - value
+                                     - type: 'null'
+                               required:
+                                 - id
+                                 - direct_link
+                                 - first_name
+                                 - last_name
+                                 - company_name
+                                 - information
+                                 - is_shared
+                                 - created_at
+                                 - updated_at
+                                 - emails
+                                 - phone_numbers
+                             - type: 'null'
+                         number:
+                           type: object
+                           properties:
+                             id:
+                               type: number
+                             name:
+                               type:
+                                 - string
+                                 - 'null'
+                             digits:
+                               type:
+                                 - string
+                                 - 'null'
+                             createdAt:
+                               type: string
+                               format: date-time
+                           required:
+                             - id
+                             - name
+                             - digits
+                             - created_at
+                         participants:
+                           type: array
+                           items:
+                             type: object
+                             properties:
+                               id:
+                                 type: number
+                               type:
+                                 type: string
+                                 enum:
+                                   - user
+                                   - contact
+                                   - external
+                               name:
+                                 type:
+                                   - string
+                                   - 'null'
+                               phoneNumber:
+                                 type:
+                                   - string
+                                   - 'null'
+                             required:
+                               - id
+                               - type
+                               - name
+                               - phone_number
+                       required:
+                         - id
+                         - direct_link
+                         - direction
+                         - status
+                         - started_at
+                         - answered_at
+                         - ended_at
+                         - duration
+                         - voicemail
+                         - recording
+                         - raw_digits
+                         - user
+                         - contact
+                         - number
+                   meta:
+                     type: object
+                     properties:
+                       count:
+                         type:
+                           - number
+                           - 'null'
+                       total:
+                         type:
+                           - number
+                           - 'null'
+                       currentPage:
+                         type:
+                           - number
+                           - 'null'
+                       perPage:
+                         type:
+                           - number
+                           - 'null'
+                       nextPageLink:
+                         anyOf:
+                           - type: string
+                           - type: 'null'
+                       previousPageLink:
+                         anyOf:
+                           - type: string
+                           - type: 'null'
+                     required:
+                       - count
+                       - total
+                       - current_page
+                       - per_page
+                       - next_page_link
+                       - previous_page_link
+              examples:
+                example-1:
+                  value:
+                     calls:
+                       - id: -75376073.69676214
+                         direction: null
+                         status: null
+                         duration: -57347375.44697053
+                         voicemail: nostrud
+                         recording: do reprehenderit
+                         user:
+                           id: 18089884.18484439
+                           name: mollit esse
+                           email: pariatur
+                           available: false
+                           language: eiusmod amet dolor consectetur
+                           createdAt: '1982-02-25T05:02:38.0Z'
+                           wrapUpTime: null
+                           availabilityStatus: occaecat nisi proident
+                           timeZone: fugiat mollit pariatur non
+                           directLink: null
+                         contact:
+                           id: -80586999.36226827
+                           information: null
+                           emails:
+                             - id: 58053087.984629005
+                               label: sed
+                               value: nulla Lorem
+                           firstName: null
+                           directLink: aute eiusmod
+                           companyName: dolore nulla
+                           phoneNumbers: null
+                           lastName: nostrud Ut incididunt amet quis
+                           createdAt: -41802029.006895445
+                           updatedAt: -66405885.980554745
+                           isShared: false
+                         number:
+                           id: 50178920.37031323
+                           name: ad
+                           digits: quis anim labore Ut
+                           createdAt: '1979-12-09T15:58:42.0Z'
+                         rawDigits: Lorem aliqua nulla ullamco
+                         directLink: null
+                         participants:
+                           - id: 48614791.61519435
+                             type: external
+                             name: null
+                             phoneNumber: null
+                         answeredAt: 80830968.84168652
+                         endedAt: -37500350.467588015
+                         startedAt: -24821882.62971157
+                     meta:
+                       count: null
+                       total: null
+                       perPage: -21536160.552566707
+                       currentPage: null
+                       nextPageLink: null
+                       previousPageLink: null
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 from:
+                   type: string
+                 perPage:
+                   type: number
+                 nextPageLink:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     from: ut esse
+                     perPage: 48568655.0099569
+                     nextPageLink: ex mollit Ut
+      operationId: list-calls
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+    

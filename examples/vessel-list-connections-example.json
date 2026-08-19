@@ -1,0 +1,36 @@
+{
+  "_provenance": {
+    "generated": "2026-08-13",
+    "method": "derived",
+    "source": "openapi/vessel-platform-openapi.yml #/paths/api/connections/list/post (examples.example-1, published by Vessel)",
+    "note": "Request and response payloads are Vessel's own in-spec examples, reproduced verbatim. Headers and the URL are assembled from the documented auth model. Credential values are placeholders."
+  },
+  "operationId": "get-all-connections",
+  "summary": "List Connections",
+  "request": {
+    "method": "POST",
+    "url": "https://api.vessel.dev/api/connections/list",
+    "headers": {
+      "x-vessel-api-token": "REDACTED_API_TOKEN",
+      "Content-Type": "application/json"
+    },
+    "body": {}
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "connections": [
+        {
+          "id": "v_connection_development_apollo_eb97282c54ff6c5d9bdf4c716a01d6950c02d361183088769acbe302f94caf52",
+          "projectId": "v_project_123123123",
+          "syncState": "initial-sync-in-progress",
+          "integrationId": "apollo",
+          "createdTime": "2022-11-09T23:11:28.617000+00:00"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,250 @@
+
+openapi: 3.1.0
+info:
+  title: Monday API Reference
+  version: "1.0"
+  summary: API
+servers:
+  - url: "https://api.vessel.dev"
+security:
+  - VesselAPIToken: []
+paths:
+  /api/actions/monday/graphql/query:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type:
+                      - object
+                      - array
+                required:
+                  - data
+              examples:
+                example-1:
+                  value:
+                     data:
+                       users:
+                         - id: 10000
+                           name: "John Doe"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 query:
+                   type: string
+            examples:
+              example-1:
+                value:
+                  query: "query { users (limit: 50) { created_at email account { name id }}}"
+      operationId: graphql-query
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/monday/items/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                required:
+                  - id
+              examples:
+                example-1:
+                  value:
+                     id: 1000
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                boardId:
+                  type: number
+                groupId:
+                  type: string
+                itemName:
+                  type: string
+                columnValues:
+                  type: object
+              required:
+                - boardId
+                - groupId
+                - itemName
+                - columnValues
+            examples:
+              example-1:
+                value:
+                  boardId: 123456789
+                  groupId: "topics"
+                  itemName: "New Item"
+                  columnValues:
+                    name: "John Doe"
+                    lead_company: "New Company"
+      operationId: create-items
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/monday/groups/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                required:
+                  - id
+              examples:
+                example-1:
+                  value:
+                     id: "vessel_leads"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                boardId:
+                  type: number
+                groupName:
+                  type: string
+              required:
+                - boardId
+                - groupName
+            examples:
+              example-1:
+                value:
+                  boardId: 123456789
+                  groupName: "Vessel Leads"
+      operationId: create-groups
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/monday/boards/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      boards:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                            name:
+                              type: string
+                            state:
+                              type: string
+                            permissions:
+                              type: string
+                            columns:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  description:
+                                    type: string
+                                  title:
+                                    type: string
+                                  type:
+                                    type: string
+                            groups:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  title:
+                                    type: string
+                required:
+                  - boards
+              examples:
+                example-1:
+                  value:
+                     data:
+                        boards:
+                          - id: 1000
+                            name: "Board 1"
+                            state: "all"
+                            permissions: "public"
+                            columns:
+                              - id: "name"
+                                description: "Name"
+                                title: "Name"
+                                type: "text"
+                              - id: "email"
+                                description: "Email"
+                                title: "Email"
+                                type: "text"
+                            groups:
+                              - id: "topics"
+                                title: "New Leads"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                limit:
+                  type: number
+                page:
+                  type: number
+            examples:
+              example-1:
+                value:
+                  limit: 10
+                  page: 1
+      operationId: list-boards
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []

@@ -1,11 +1,25 @@
 {
+  "_provenance": {
+    "generated": "2026-08-13",
+    "method": "derived",
+    "source": "openapi/vessel-platform-openapi.yml #/paths/api/integrations/list/post (examples.example-1, published by Vessel)",
+    "note": "Request and response payloads are Vessel's own in-spec examples, reproduced verbatim. Headers and the URL are assembled from the documented auth model. Credential values are placeholders."
+  },
+  "operationId": "get-all-integrations",
+  "summary": "List Integrations",
   "request": {
     "method": "POST",
-    "url": "https://api.vessel.dev/integrations/list",
+    "url": "https://api.vessel.dev/api/integrations/list",
     "headers": {
+      "x-vessel-api-token": "REDACTED_API_TOKEN",
       "Content-Type": "application/json"
     },
-    "body": {}
+    "body": {
+      "ids": [
+        "salesforce",
+        "hubspot"
+      ]
+    }
   },
   "response": {
     "status": 200,
@@ -13,46 +27,15 @@
       "Content-Type": "application/json"
     },
     "body": {
-      "result": {
-        "integrations": [
-          {
-            "integrationId": "salesforce",
-            "id": "salesforce",
-            "display": {
-              "name": "Salesforce",
-              "iconURI": "https://assets.vessel.dev/integrations/salesforce.png"
-            },
-            "category": "crm"
-          },
-          {
-            "integrationId": "hubspot",
-            "id": "hubspot",
-            "display": {
-              "name": "HubSpot",
-              "iconURI": "https://assets.vessel.dev/integrations/hubspot.png"
-            },
-            "category": "crm"
-          },
-          {
-            "integrationId": "outreach",
-            "id": "outreach",
-            "display": {
-              "name": "Outreach",
-              "iconURI": "https://assets.vessel.dev/integrations/outreach.png"
-            },
-            "category": "engagement"
-          },
-          {
-            "integrationId": "slack",
-            "id": "slack",
-            "display": {
-              "name": "Slack",
-              "iconURI": "https://assets.vessel.dev/integrations/slack.png"
-            },
-            "category": "chat"
+      "integrations": [
+        {
+          "id": "apollo",
+          "display": {
+            "name": "Apollo",
+            "iconURI": "1f12532..."
           }
-        ]
-      }
+        }
+      ]
     }
   }
 }

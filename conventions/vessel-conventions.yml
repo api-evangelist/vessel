@@ -1,0 +1,137 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/vesselapi/all-api-docs
+derived_from:
+  - openapi/vessel-crm-openapi.yml
+  - openapi/vessel-platform-openapi.yml
+  - openapi/vessel-crm-v1-openapi.yml
+docs:
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/crm/authentication-and-security.mdx
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/synced-cache.mdx
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/crm/accessing-native-data.mdx
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/webhooks.mdx
+authentication:
+  style: api-key + per-connection access token
+  header: x-vessel-api-token
+  legacy_header: vessel-api-token
+  access_token_location: request body (v2) / query string (v1 GET operations)
+  see: authentication/vessel-authentication.yml
+http_style:
+  verb_usage: rpc-over-post
+  description: >-
+    The v2 surface is RPC-shaped, not resource-shaped: essentially every operation is a POST to a
+    verb-suffixed path — /api/unifications/crm/contacts/list, /contacts/find, /contacts/create,
+    /contacts/update, /contacts/batch-read, /contacts/details. Reads are POSTs because the filter,
+    include and synced-cache selectors travel in the request body. The legacy v1 surface on
+    api.vessel.land is closer to REST (GET /crm/contacts, POST /crm/contact).
+  implication: >-
+    HTTP caching, safe-method assumptions and read-only agent policies keyed on GET do not work here.
+    An agent gating writes by verb will classify every Vessel read as a write.
+  content_type: application/json
+paths:
+  v2_platform: /api/{connections|integrations|auth|passthrough}, /webhooks
+  v2_unified: /api/unifications/{crm|engagement|chat|dialer|marketing}/{object}/{verb}
+  v2_actions: /api/actions/{provider}/{action}
+  v1_legacy: /crm/*, /engagement/*, /link/*, /connection/*
+pagination:
+  style: cursor
+  request_field: cursor
+  response_field: nextPageCursor
+  page_size_param: null
+  note: >-
+    Opaque forward-only cursor in the request body; the response returns nextPageCursor alongside the
+    object array. No page-size parameter and no total count are published.
+filtering:
+  request_field: filters
+  types:
+    - StringFilter
+    - StringListFilter
+    - NumberFilter
+    - BooleanFilter
+    - DateFilter
+  caveat: >-
+    Most filters are annotated "Requires enabling Synced-cache" in the spec — filtering is a property
+    of Vessel's cache, not of the downstream API, so a filter silently has no backing store unless
+    synced-cache is enabled for that object.
+field_selection:
+  request_field: include
+  schema: IncludeFields
+  description: Sparse-fieldset style selector controlling which associated objects come back.
+native_passthrough:
+  object_field: $native
+  endpoint: /api/passthrough
+  legacy_endpoints:
+    - /crm/passthrough
+    - /engagement/passthrough
+  description: >-
+    Two escape hatches from the unified model. Every unified object carries a $native property holding
+    the untranslated record from the source system, and /api/passthrough forwards an arbitrary
+    authenticated request to the downstream provider for anything the modules do not cover.
+response_envelope:
+  style: named-collection
+  description: >-
+    Responses are plain objects keyed by the resource name — {"contacts": [...], "nextPageCursor": "..."}
+    — rather than a generic data/meta wrapper. Singular reads return {"contact": {...}}.
+errors:
+  see: errors/vessel-error-codes.yml
+  envelope: '{message, errorCode?, metadata?}'
+  rfc9457: false
+  warning: >-
+    Some client-side validation failures are returned as 5xx by design; see the error catalog before
+    writing retry logic.
+idempotency:
+  supported: false
+  header: null
+  evidence: >-
+    No idempotency key, request-id-for-replay, or de-duplication mechanism appears in any of the 20
+    published OpenAPI definitions or anywhere in the documentation repository. Grepped for
+    "idempoten" across openapi/ on 2026-08-13: zero matches. Create operations are POSTs with no
+    replay protection, so a retried create can double-write into the customer's CRM.
+  no_pointer_reason: >-
+    No Idempotency pointer is emitted in apis.yml because the capability is genuinely absent.
+rate_limiting:
+  documented: false
+  headers: []
+  see: rate-limits/vessel-rate-limits.yml
+  note: >-
+    Vessel publishes no rate-limit headers and no numeric thresholds; the marketing site advertises
+    "unlimited API calls" on every tier. Downstream provider limits are normalized into the error
+    envelope rather than surfaced as headers.
+request_tracing:
+  request_id_header: null
+  webhook_headers:
+    - x-vessel-project-id
+    - x-vessel-timestamp
+    - x-vessel-webhook-id
+    - x-vessel-webhook-signature
+  note: >-
+    There is no correlation/request-id header on API responses. The only Vessel-issued identifiers in
+    transit are on outbound webhooks.
+versioning:
+  scheme: path-and-host
+  description: >-
+    Versions are separated by host and path prefix rather than by a version header or a /v2/ segment.
+    v1 lives on api.vessel.land under /crm and /engagement; v2 lives on api.vessel.dev under
+    /api/unifications and /api/actions. The two use different auth header names.
+  see: lifecycle/vessel-lifecycle.yml
+data_types:
+  ids: string
+  timestamps: ISO 8601 (createdTime / modifiedTime)
+  note: >-
+    Vessel normalizes IDs to strings and dates to ISO 8601 across every downstream system; this is one
+    of the platform's stated value propositions.
+webhooks:
+  see: asyncapi/vessel-webhooks.yml
+  signature: sha256(apiToken:timestamp:body)
+observed_discrepancies:
+  - id: v1-server-host
+    detail: >-
+      openapi/vessel-crm-v1-openapi.yml declares servers[] https://api.vessel.dev, but the v1 paths it
+      describes (/connection/connections, /connection/connection) are documented in Vessel's own error
+      FAQ against https://api.vessel.land, and the sibling v1 engagement spec declares api.vessel.land.
+      The spec's servers[] block is left verbatim; the apis.yml baseURL for the v1 entries records
+      api.vessel.land, which is what the prose documentation states.
+  - id: header-prefix-drift
+    detail: >-
+      vessel-api-token (v1) vs x-vessel-api-token (v2). The change is not called out in any migration
+      note; it is only visible by diffing the two generations of documentation.

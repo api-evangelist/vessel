@@ -1,37 +1,110 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/vessel-crm-openapi.yml, openapi/vessel-platform-openapi.yml
+generated: '2026-08-13'
+method: searched
+source: https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/crm/authentication-and-security.mdx
+docs:
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/crm/authentication-and-security.mdx
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/getting-started.mdx
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/mint.json
+derived_from:
+  - openapi/vessel-crm-v1-openapi.yml
+  - openapi/vessel-engagement-v1-openapi.yml
+  - openapi/vessel-platform-openapi.yml
 summary:
   types:
-  - apiKey
+    - apiKey
   api_key_in:
-  - header
+    - header
+    - body
+  oauth2: false
+  openid_connect: false
+  mutual_tls: false
+  note: >-
+    Vessel is a key-auth API with a two-token model. A long-lived project API token authenticates
+    the caller (the "gated neighborhood"), and a per-connection accessToken authorizes access to one
+    end-customer's connected account (the "house"). There is no OAuth2 flow for Vessel's own API —
+    OAuth is used only downstream, between Vessel and the end customer's SaaS provider, and Vessel
+    exposes /api/auth/oauth-apps so a customer can bring their own downstream OAuth client.
 schemes:
-- name: apiToken
-  type: apiKey
-  in: header
-  parameter: vessel-api-token
-  description: Your Vessel API token for server-side authentication
-  sources:
-  - openapi/vessel-crm-openapi.yml
-- name: apiToken
-  type: apiKey
-  in: header
-  parameter: x-vessel-api-token
-  description: Your Vessel API token for server-side authentication
-  sources:
-  - openapi/vessel-platform-openapi.yml
-- name: accessToken
-  type: apiKey
-  in: header
-  parameter: x-vessel-access-token
-  description: User connection access token for user-scoped API calls
-  sources:
-  - openapi/vessel-platform-openapi.yml
-- name: sessionToken
-  type: apiKey
-  in: header
-  parameter: x-vessel-session-token
-  description: Temporary session token from the auth flow
-  sources:
-  - openapi/vessel-platform-openapi.yml
+  - name: VesselAPIToken
+    type: apiKey
+    in: header
+    parameter: x-vessel-api-token
+    description: >-
+      Project API token for the v2 platform, unified and actions APIs on api.vessel.dev. Declared as
+      the documented auth method in the provider's own Mintlify config (`api.auth.name`).
+    sources:
+      - https://github.com/vesselapi/all-api-docs/blob/main/docs/mint.json
+      - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/webhooks.mdx
+  - name: VesselAPIToken
+    type: apiKey
+    in: header
+    parameter: vessel-api-token
+    description: >-
+      Project API token for the legacy v1 CRM and Engagement APIs on api.vessel.land. The header name
+      loses the `x-` prefix on the v1 surface — the two generations are not header-compatible.
+    sources:
+      - openapi/vessel-crm-v1-openapi.yml
+      - openapi/vessel-engagement-v1-openapi.yml
+      - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/crm/authentication-and-security.mdx
+  - name: accessToken
+    type: apiKey
+    in: body
+    parameter: accessToken
+    description: >-
+      Per-connection access token identifying which end-customer account the call acts on. Sent in the
+      request body on POST operations and in the query string on the legacy v1 GET operations. Obtained
+      by exchanging a publicToken (see the Link flow below) and intended to be stored permanently.
+    sources:
+      - openapi/vessel-crm-openapi.yml
+      - openapi/vessel-engagement-v1-openapi.yml
+  - name: sessionToken
+    type: apiKey
+    in: body
+    parameter: sessionToken
+    description: >-
+      Short-lived token minted by POST /api/auth/session-token and handed to the browser so the Vessel
+      Link component can start the connect flow without exposing the project API token.
+    sources:
+      - openapi/vessel-platform-openapi.yml
+flows:
+  - name: Vessel Link token exchange
+    description: >-
+      The documented handshake that turns an end user's consent into a durable per-connection credential.
+    steps:
+      - step: 1
+        action: >-
+          Your server calls the link/session token endpoint with the project API token to obtain a
+          linkToken (v1) or sessionToken (v2) — a temporary, client-safe credential.
+        operations:
+          - post-link-token
+          - get-one-session-token
+      - step: 2
+        action: >-
+          The token is passed to the Vessel Link component in the browser. On success the component
+          returns a temporary publicToken to your frontend.
+      - step: 3
+        action: >-
+          Your server exchanges the publicToken for a permanent accessToken.
+        operations:
+          - post-link-exchange
+          - get-one-access-token
+      - step: 4
+        action: >-
+          Store the accessToken securely. Every subsequent unified/actions call sends the project API
+          token in the header and the accessToken in the body (or query on v1).
+transport:
+  https_required: true
+  note: >-
+    "All requests to Vessel are authenticated by an API token and all requests must be made over https."
+key_provisioning:
+  self_serve: false
+  note: >-
+    The docs instruct callers to email support@vessel.dev to request an API token. Each customer is
+    issued two keys — a development key (capped at 5 connections) and a production key.
+  source: https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/hidden/error-faq.mdx
+x-observed:
+  checked: '2026-08-13'
+  note: >-
+    Neither api.vessel.dev nor api.vessel.land answered a TLS connection on 2026-08-13, so none of the
+    above could be exercised live. The model is transcribed from the provider's published contracts and
+    documentation, not from an observed response.

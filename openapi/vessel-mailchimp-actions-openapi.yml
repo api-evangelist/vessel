@@ -1,0 +1,347 @@
+
+openapi: 3.1.0
+info:
+  title: Mailchimp API Reference
+  version: "1.0"
+  summary: API
+servers:
+  - url: "https://api.vessel.dev"
+security:
+  - VesselAPIToken: []
+paths:
+  /api/actions/mailchimp/members/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   id:
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     id: consectetur
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 listId:
+                   type: string
+                 member:
+                   type: object
+                   properties:
+                     emailAddress:
+                       type: string
+                     fullName:
+                       type: string
+                     status:
+                       type: string
+                     lastChanged:
+                       type: string
+                       format: date-time
+                     timestampSignup:
+                       type: string
+                       format: date-time
+                   required:
+                     - email_address
+                     - status
+            examples:
+              example-1:
+                value:
+                     listId: Ut sed ut pariatur incididunt
+                     member:
+                       status: ea Duis
+                       lastChanged: '1954-10-28T17:22:43.0Z'
+                       timestampSignup: '1995-01-30T07:20:15.0Z'
+                       emailAddress: mollit qui
+                       fullName: laboris mollit sint dolore
+      operationId: create-member
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/mailchimp/members/update:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   id:
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     id: aute dolor anim Excepteur
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 listId:
+                   type: string
+                 member:
+                   type: object
+                   properties:
+                     id:
+                       type: string
+                     emailAddress:
+                       type: string
+                     fullName:
+                       type: string
+                     status:
+                       type: string
+                     lastChanged:
+                       type: string
+                       format: date-time
+                     timestampSignup:
+                       type: string
+                       format: date-time
+                   required:
+                     - id
+                     - email_address
+                     - status
+            examples:
+              example-1:
+                value:
+                     listId: do Ut
+                     member:
+                       id: fugiat anim in ipsum
+                       status: eiusmod consectetur sint exercitation officia
+                       emailAddress: consectetur Excepteur sint exercitation amet
+                       timestampSignup: '2020-11-25T11:08:14.0Z'
+                       lastChanged: '1955-10-03T03:46:38.0Z'
+                       fullName: dolor et anim sed
+      operationId: update-member
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/mailchimp/members/search:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   exactMatches:
+                     type: object
+                     properties:
+                       members:
+                         type: array
+                         items:
+                           type: object
+                           properties:
+                             id:
+                               type: string
+                             emailAddress:
+                               type: string
+                             fullName:
+                               type: string
+                             status:
+                               type: string
+                             lastChanged:
+                               type: string
+                               format: date-time
+                             timestampSignup:
+                               type: string
+                               format: date-time
+                           required:
+                             - id
+                             - email_address
+                             - full_name
+                             - status
+                             - last_changed
+                             - timestamp_signup
+                     required:
+                       - members
+                   fullSearch:
+                     type: object
+                     properties:
+                       members:
+                         type: array
+                         items: {}
+                     required:
+                       - members
+              examples:
+                example-1:
+                  value:
+                     exactMatches:
+                       members:
+                         - id: qui
+                           status: enim dolor do
+                           timestampSignup: '1982-03-03T03:33:27.0Z'
+                           fullName: irure Ut dolor est
+                           emailAddress: amet enim laborum ad incididunt
+                           lastChanged: '1965-10-11T05:54:19.0Z'
+                     fullSearch:
+                       members: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 listId:
+                   type: string
+                 fields:
+                   type: array
+                   items:
+                     type: string
+                 excludeFields:
+                   type: array
+                   items:
+                     type: string
+                 query:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     listId: velit sit
+                     fields:
+                       - culpa dolore
+                     excludeFields:
+                       - culpa enim eu
+                     query: eu
+      operationId: search-members
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/mailchimp/lists/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      dateCreated:
+                        type: string
+                        format: date-time
+                    required:
+                      - id
+                      - name
+                      - date_created
+              examples:
+                example-1:
+                  value:
+                     list:
+                        listId: velit sit
+                        fields:
+                          - culpa dolore
+                        excludeFields:
+                          - culpa enim eu
+                        query: eu
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: fugiat mollit Excepteur nulla
+      operationId: find-list
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/mailchimp/lists/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   lists:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         name:
+                           type: string
+                         dateCreated:
+                           type: string
+                           format: date-time
+                       required:
+                         - id
+                         - name
+                         - date_created
+              examples:
+                example-1:
+                  value:
+                     lists:
+                       - id: enim consequat
+                         name: et Ut Lorem cupidatat labore
+                         dateCreated: '1965-06-15T22:12:43.0Z'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 count:
+                   type: number
+                 offset:
+                   type: number
+            examples:
+              example-1:
+                value:
+                     count: -87514915.5288328
+                     offset: 45925499.292773694
+      operationId: list-lists
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []

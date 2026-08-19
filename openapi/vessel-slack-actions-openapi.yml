@@ -1,0 +1,218 @@
+
+openapi: 3.1.0
+info:
+  title: Slack API Reference
+  version: "1.0"
+  summary: API
+servers:
+  - url: "https://api.vessel.dev"
+security:
+  - VesselAPIToken: []
+paths:
+  /api/actions/slack/messages/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   ts:
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     ts: sit ullamco consectetur
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 text:
+                   type: string
+                 channel:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     text: ipsum in
+                     channel: minim
+      operationId: create-message
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/slack/messages/update:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   ts:
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     ts: exercitation eiusmod
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 ts:
+                   type: string
+                 text:
+                   type: string
+                 channel:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     ts: deserunt pariatur eiusmod esse
+                     text: reprehenderit enim
+                     channel: minim ex sunt aliquip
+      operationId: update-message
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/slack/users/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   members:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         name:
+                           type: string
+                         deleted:
+                           type: boolean
+                       required:
+                         - id
+                         - name
+                         - deleted
+                   responseMetadata:
+                     type: object
+                     properties:
+                       nextCursor:
+                         type: string
+                     required:
+                       - next_cursor
+              examples:
+                example-1:
+                  value:
+                     members:
+                       - id: sint laborum
+                         name: sint consectetur aliquip laboris commodo
+                         deleted: false
+                     responseMetadata:
+                       nextCursor: mollit commodo dolore
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 cursor:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     cursor: do
+      operationId: list-users
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/slack/conversations/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   channels:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         name:
+                           type: string
+                         created:
+                           type: number
+                       required:
+                         - id
+                         - name
+                         - created
+                   responseMetadata:
+                     type: object
+                     properties:
+                       nextCursor:
+                         type: string
+                     required:
+                       - next_cursor
+              examples:
+                example-1:
+                  value:
+                     channels:
+                       - id: nisi
+                         name: reprehenderit labore
+                         created: -11244916.177287444
+                     responseMetadata:
+                       nextCursor: ea commodo nisi proident sunt
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 cursor:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     cursor: et
+      operationId: list-conversations
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []

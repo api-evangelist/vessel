@@ -1,0 +1,955 @@
+
+openapi: 3.1.0
+info:
+  title: Ringcentral API Reference
+  version: "1.0"
+  summary: API
+servers:
+  - url: "https://api.vessel.dev"
+security:
+  - VesselAPIToken: []
+paths:
+  /api/actions/ringcentral/extensions/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   id:
+                     type: string
+                   extensionNumber:
+                     type: string
+                   contact:
+                     type: object
+                     properties:
+                       firstName:
+                         type: string
+                       lastName:
+                         type: string
+                       email:
+                         type: string
+                       company:
+                         type: string
+                       jobTitle:
+                         type: string
+                       businessPhone:
+                         type: string
+                     required:
+                       - firstName
+                       - lastName
+                       - email
+                       - company
+                       - jobTitle
+                       - businessPhone
+                   status:
+                     type: string
+                   type:
+                     type: string
+                   permissions:
+                     type: object
+                     properties:
+                       admin:
+                         type: object
+                         properties:
+                           enabled:
+                             type: boolean
+                         required:
+                           - enabled
+                       internationalCalling:
+                         type: object
+                         properties:
+                           enabled:
+                             type: boolean
+                         required:
+                           - enabled
+                     required:
+                       - admin
+                       - internationalCalling
+              examples:
+                example-1:
+                  value:
+                     id: dolor id pariatur consequat Lorem
+                     extensionNumber: sunt labore aliqua mollit
+                     contact:
+                       firstName: culpa
+                       lastName: commodo ullamco aute
+                       email: culpa voluptate
+                       company: aliqua sed sint
+                       jobTitle: sed
+                       businessPhone: velit pariatur
+                     status: deserunt laboris eu velit
+                     type: quis aliqua mollit laborum
+                     permissions:
+                       admin:
+                         enabled: true
+                       internationalCalling:
+                         enabled: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: qui mollit do magna pariatur
+      operationId: find-extension
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/ringcentral/extensions/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   records:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         extensionNumber:
+                           type: string
+                         contact:
+                           type: object
+                           properties:
+                             firstName:
+                               type: string
+                             lastName:
+                               type: string
+                             email:
+                               type: string
+                             company:
+                               type: string
+                             jobTitle:
+                               type: string
+                             businessPhone:
+                               type: string
+                           required:
+                             - firstName
+                             - lastName
+                             - email
+                             - company
+                             - jobTitle
+                             - businessPhone
+                         status:
+                           type: string
+                         type:
+                           type: string
+                         permissions:
+                           type: object
+                           properties:
+                             admin:
+                               type: object
+                               properties:
+                                 enabled:
+                                   type: boolean
+                               required:
+                                 - enabled
+                             internationalCalling:
+                               type: object
+                               properties:
+                                 enabled:
+                                   type: boolean
+                               required:
+                                 - enabled
+                           required:
+                             - admin
+                             - internationalCalling
+                       required:
+                         - id
+                         - extensionNumber
+                         - status
+                         - type
+                         - permissions
+                   navigation:
+                     type: object
+                     properties:
+                       firstPage:
+                         type: object
+                         properties:
+                           uri:
+                             type: string
+                         required:
+                           - uri
+                       lastPage:
+                         type: object
+                         properties:
+                           uri:
+                             type: string
+                         required:
+                           - uri
+                     required:
+                       - firstPage
+                       - lastPage
+                   paging:
+                     type: object
+                     properties:
+                       page:
+                         type: number
+                       totalPages:
+                         type: number
+                       perPage:
+                         type: number
+                       totalElements:
+                         type: number
+                       pageStart:
+                         type: number
+                       pageEnd:
+                         type: number
+                     required:
+                       - page
+                       - totalPages
+                       - perPage
+                       - totalElements
+                       - pageStart
+                       - pageEnd
+              examples:
+                example-1:
+                  value:
+                     records:
+                       - id: tempor nulla officia
+                         extensionNumber: cupidatat amet qui in
+                         status: consequat
+                         type: quis nulla laborum laboris incididunt
+                         permissions:
+                           admin:
+                             enabled: false
+                           internationalCalling:
+                             enabled: true
+                         contact:
+                           firstName: sint nostrud
+                           lastName: nulla
+                           email: dolor aute officia pariatur
+                           company: sint quis
+                           jobTitle: ullamco
+                           businessPhone: Excepteur amet
+                     navigation:
+                       firstPage:
+                         uri: eu Lorem aliquip et proident
+                       lastPage:
+                         uri: ad cupidatat Ut incididunt voluptate
+                     paging:
+                       page: 33072865.43367645
+                       totalPages: -60870314.004288994
+                       perPage: 25910406.691145703
+                       totalElements: 84326421.54368293
+                       pageStart: -38641881.53976351
+                       pageEnd: 10083083.209457293
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 page:
+                   type: number
+                 perPage:
+                   type: number
+            examples:
+              example-1:
+                value:
+                     page: 47116707.53491646
+                     perPage: 6726509.48037678
+      operationId: list-extensions
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/ringcentral/extensions/ring-out:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   uri:
+                     type: string
+                   id:
+                     type: string
+                   status:
+                     type: object
+                     properties:
+                       callStatus:
+                         type: string
+                       callerStatus:
+                         type: string
+                       calleeStatus:
+                         type: string
+                     required:
+                       - callStatus
+                       - callerStatus
+                       - calleeStatus
+              examples:
+                example-1:
+                  value:
+                     uri: adipisicing
+                     id: veniam dolore minim aute amet
+                     status:
+                       callStatus: anim do proident
+                       callerStatus: do aliqua eu
+                       calleeStatus: labore reprehenderit enim eu veniam
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 extensionId:
+                   type: string
+                   default: '~'
+                 from:
+                   type: object
+                   properties:
+                     phoneNumber:
+                       type: string
+                   required:
+                     - phoneNumber
+                 to:
+                   type: object
+                   properties:
+                     phoneNumber:
+                       type: string
+                   required:
+                     - phoneNumber
+                 playPrompt:
+                   type: boolean
+                 callerId:
+                   type: object
+                   properties:
+                     phoneNumber:
+                       type: string
+                   required:
+                     - phoneNumber
+                 callId:
+                   type: string
+                 sipInfo:
+                   type: array
+                   items:
+                     type: object
+                     properties:
+                       transport:
+                         type: string
+                       uri:
+                         type: string
+                       username:
+                         type: string
+                       password:
+                         type: string
+                     required:
+                       - transport
+                       - uri
+                       - username
+                       - password
+            examples:
+              example-1:
+                value:
+                     extensionId: labore Excepteur est aliquip ut
+                     from:
+                       phoneNumber: minim Lorem dolore elit est
+                     to:
+                       phoneNumber: ex ullamco veniam
+                     playPrompt: false
+                     callerId:
+                       phoneNumber: voluptate mollit aliquip proident
+                     callId: sunt nostrud aute cillum labore
+                     sipInfo:
+                       - transport: dolor consectetur ea
+                         uri: ea
+                         username: consectetur
+                         password: velit veniam in magna proident
+      operationId: extension-ring-out
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/ringcentral/call-logs/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   records:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         sessionId:
+                           type: string
+                         startTime:
+                           type: string
+                           format: date-time
+                         duration:
+                           type: number
+                         type:
+                           type: string
+                         direction:
+                           type: string
+                           enum:
+                             - Inbound
+                             - Outbound
+                         action:
+                           type: string
+                         result:
+                           type: string
+                         from:
+                           type: object
+                           properties:
+                             phoneNumber:
+                               type: string
+                             extensionId:
+                               type: string
+                             name:
+                               type: string
+                           required:
+                             - phoneNumber
+                         to:
+                           type: object
+                           properties:
+                             phoneNumber:
+                               type: string
+                             extensionId:
+                               type: string
+                             name:
+                               type: string
+                           required:
+                             - phoneNumber
+                       required:
+                         - id
+                         - sessionId
+                         - startTime
+                         - duration
+                         - type
+                         - direction
+                         - action
+                         - result
+                         - from
+                         - to
+                   navigation:
+                     type: object
+                     properties:
+                       firstPage:
+                         type: object
+                         properties:
+                           uri:
+                             type: string
+                         required:
+                           - uri
+                       lastPage:
+                         type: object
+                         properties:
+                           uri:
+                             type: string
+                         required:
+                           - uri
+                     required:
+                       - firstPage
+                       - lastPage
+                   paging:
+                     type: object
+                     properties:
+                       page:
+                         type: number
+                       totalPages:
+                         type: number
+                       perPage:
+                         type: number
+                       totalElements:
+                         type: number
+                       pageStart:
+                         type: number
+                       pageEnd:
+                         type: number
+                     required:
+                       - page
+                       - totalPages
+                       - perPage
+                       - totalElements
+                       - pageStart
+                       - pageEnd
+              examples:
+                example-1:
+                  value:
+                     records:
+                       - id: aliquip Ut nisi aliqua consectetur
+                         sessionId: id incididunt ex
+                         startTime: '1968-03-21T05:33:09.0Z'
+                         duration: 93187647.87376991
+                         type: culpa
+                         direction: Inbound
+                         action: cillum velit sunt
+                         result: ex commodo est laborum
+                         from:
+                           phoneNumber: nisi quis deserunt Ut
+                           extensionId: ex elit aliqua id
+                           name: pariatur mollit sed
+                         to:
+                           phoneNumber: fugiat elit id
+                           extensionId: ut
+                           name: Duis ea
+                     navigation:
+                       firstPage:
+                         uri: ex sint laborum non reprehenderit
+                       lastPage:
+                         uri: consectetur quis velit
+                     paging:
+                       page: 36495239.3854146
+                       totalPages: -2248060.29560183
+                       perPage: -11657628.161641657
+                       totalElements: -5697191.809851572
+                       pageStart: -7964861.725046158
+                       pageEnd: 50683088.381227255
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 page:
+                   type: number
+                 perPage:
+                   type: number
+            examples:
+              example-1:
+                value:
+                     page: 5457071.296896696
+                     perPage: 75920347.9896104
+      operationId: list-call-logs
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/ringcentral/call-logs/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   id:
+                     type: string
+                   sessionId:
+                     type: string
+                   startTime:
+                     type: string
+                     format: date-time
+                   duration:
+                     type: number
+                   type:
+                     type: string
+                   direction:
+                     type: string
+                     enum:
+                       - Inbound
+                       - Outbound
+                   action:
+                     type: string
+                   result:
+                     type: string
+                   from:
+                     type: object
+                     properties:
+                       phoneNumber:
+                         type: string
+                       extensionId:
+                         type: string
+                       name:
+                         type: string
+                     required:
+                       - phoneNumber
+                   to:
+                     type: object
+                     properties:
+                       phoneNumber:
+                         type: string
+                       extensionId:
+                         type: string
+                       name:
+                         type: string
+                     required:
+                       - phoneNumber
+              examples:
+                example-1:
+                  value:
+                     id: ad commodo culpa
+                     sessionId: nulla
+                     startTime: '2011-04-30T05:03:08.0Z'
+                     duration: 53759700.54297939
+                     type: occaecat dolor amet velit
+                     direction: Outbound
+                     action: pariatur dolor officia laborum
+                     result: nostrud
+                     from:
+                       phoneNumber: ullamco quis
+                       extensionId: sed
+                       name: mollit est nostrud occaecat
+                     to:
+                       phoneNumber: irure in
+                       name: ea
+                       extensionId: fugiat eiusmod
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: cupidatat fugiat esse ex
+      operationId: find-call-log
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/ringcentral/contacts/list:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   records:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id:
+                           type: string
+                         firstName:
+                           type: string
+                         lastName:
+                           type: string
+                         company:
+                           type: string
+                         email:
+                           type: string
+                         businessPhone:
+                           type: string
+                       required:
+                         - id
+                         - firstName
+                         - lastName
+                         - businessPhone
+                   navigation:
+                     type: object
+                     properties:
+                       firstPage:
+                         type: object
+                         properties:
+                           uri:
+                             type: string
+                         required:
+                           - uri
+                       lastPage:
+                         type: object
+                         properties:
+                           uri:
+                             type: string
+                         required:
+                           - uri
+                     required:
+                       - firstPage
+                       - lastPage
+                   paging:
+                     type: object
+                     properties:
+                       page:
+                         type: number
+                       totalPages:
+                         type: number
+                       perPage:
+                         type: number
+                       totalElements:
+                         type: number
+                       pageStart:
+                         type: number
+                       pageEnd:
+                         type: number
+                     required:
+                       - page
+                       - totalPages
+                       - perPage
+                       - totalElements
+                       - pageStart
+                       - pageEnd
+              examples:
+                example-1:
+                  value:
+                     records:
+                       - id: nisi
+                         firstName: ipsum
+                         lastName: ea
+                         businessPhone: laboris ex dolore velit
+                         email: consectetur sint incididunt magna
+                         company: incididunt dolor esse pariatur et
+                     navigation:
+                       firstPage:
+                         uri: consectetur
+                       lastPage:
+                         uri: exercitation ex mollit aliqua eu
+                     paging:
+                       page: 94186522.12574443
+                       totalPages: 84738298.98033732
+                       perPage: -75460480.56643744
+                       totalElements: 34088262.239090115
+                       pageStart: 79835565.66606507
+                       pageEnd: 15002986.66306512
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 page:
+                   type: number
+                 perPage:
+                   type: number
+            examples:
+              example-1:
+                value:
+                     page: 45710349.24480158
+                     perPage: -86985892.37188657
+      operationId: list-contacts
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/ringcentral/contacts/find:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   id:
+                     type: string
+                   firstName:
+                     type: string
+                   lastName:
+                     type: string
+                   company:
+                     type: string
+                   email:
+                     type: string
+                   businessPhone:
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     id: consectetur est Ut
+                     firstName: reprehenderit in officia Lorem
+                     lastName: in
+                     company: tempor amet deserunt adipisicing
+                     email: voluptate veniam sed in
+                     businessPhone: dolor eiusmod
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: Duis sint et esse est
+      operationId: find-contact
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/ringcentral/contacts/create:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   id:
+                     type: string
+                   firstName:
+                     type: string
+                   lastName:
+                     type: string
+                   company:
+                     type: string
+                   email:
+                     type: string
+                   businessPhone:
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     id: velit
+                     firstName: ipsum eiusmod
+                     lastName: proident sit magna
+                     company: culpa nisi ea aliqua
+                     email: amet nostrud irure
+                     businessPhone: Ut
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 firstName:
+                   type: string
+                 lastName:
+                   type: string
+                 company:
+                   type: string
+                 email:
+                   type: string
+                 businessPhone:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     firstName: ullamco
+                     lastName: in id sunt magna
+                     company: dolor aliquip
+                     email: nostrud cillum
+                     businessPhone: dolore dolor ullamco
+      operationId: create-contact
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []
+  /api/actions/ringcentral/contacts/update:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   id:
+                     type: string
+                   firstName:
+                     type: string
+                   lastName:
+                     type: string
+                   company:
+                     type: string
+                   email:
+                     type: string
+                   businessPhone:
+                     type: string
+              examples:
+                example-1:
+                  value:
+                     id: irure et dolor magna qui
+                     firstName: commodo
+                     lastName: amet Ut Lorem sit in
+                     company: pariatur voluptate
+                     email: in non dolore
+                     businessPhone: mollit dolore
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                 id:
+                   type: string
+                 firstName:
+                   type: string
+                 lastName:
+                   type: string
+                 company:
+                   type: string
+                 email:
+                   type: string
+                 businessPhone:
+                   type: string
+            examples:
+              example-1:
+                value:
+                     id: incididunt minim cillum Excepteur Lorem
+                     firstName: Excepteur anim nulla id dolor
+                     lastName: velit laborum sint nostrud
+                     company: cupidatat cillum magna veniam culpa
+                     email: officia Excepteur esse exercitation
+                     businessPhone: aliquip elit ea cupidatat
+      operationId: update-contact
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+    parameters: []

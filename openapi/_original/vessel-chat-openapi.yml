@@ -1,0 +1,309 @@
+openapi: 3.1.0
+info:
+  title: Chat API Reference
+  version: "1.0"
+  summary: API
+servers:
+  - url: https://api.vessel.dev
+security:
+  - VesselAPIToken: []
+paths:
+  /api/unifications/chat/users/list:
+    post:
+      summary: List Users
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    users:
+                      - id: e5f32d4fd2115220bd20a2ccf81210ec
+                        name: "Tom Haverford"
+                        isDeleted: false
+                        createdTime: "2019-08-24T14:15:22Z"
+                    nextPageCursor: "123123"
+      parameters:
+        - name: x-vessel-access-token
+          in: header
+          description: Access Token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                include:
+                  $ref: "#/components/schemas/IncludeFields"
+                cursor:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  cursor: "123123"
+                  include:
+                    $native: false
+      operationId: get-all-users
+      description: List Users
+    parameters: []
+  /api/unifications/chat/channels/list:
+    post:
+      summary: List Channels
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  channels:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Channel"
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    channels:
+                      - id: e5f32d4fd2115220bd20a2ccf81210ec
+                        name: "Paper updates"
+                        createdTime: "2019-08-24T14:15:22Z"
+                    nextPageCursor: "123123"
+      parameters:
+        - name: x-vessel-access-token
+          in: header
+          description: Access Token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                include:
+                  $ref: "#/components/schemas/IncludeFields"
+                cursor:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  cursor: "123123"
+                  include:
+                    $native: false
+      operationId: get-all-channels
+      description: List Channel
+    parameters: []
+  /api/unifications/chat/messages/create:
+    post:
+      summary: Create Message
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  id:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    id: e5f32d4fd2115220bd20a2ccf81210ec
+      parameters:
+        - name: x-vessel-access-token
+          in: header
+          description: Access Token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: object
+                  properties:
+                    text:
+                      type: string
+                    channelId:
+                      type: string
+                    $native:
+                      ref: "#/components/schemas/NativeData"
+            examples:
+              example-1:
+                value:
+                  message:
+                    text: New paper order
+                    channelId: "34f5b4b0b6b650c981a174b02753c390"
+                    $native: {}
+      operationId: post-message
+      description: Create Message
+    parameters: []
+  /api/unifications/chat/messages/update:
+    post:
+      summary: Update Message
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  id:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    id: e5f32d4fd2115220bd20a2ccf81210ec
+      parameters:
+        - name: x-vessel-access-token
+          in: header
+          description: Access Token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                message:
+                  type: object
+                  properties:
+                    text:
+                      type: string
+                    channelId:
+                      type: string
+                    $native:
+                      ref: "#/components/schemas/NativeData"
+            examples:
+              example-1:
+                value:
+                  id: e5f32d4fd2115220bd20a2ccf81210ec
+                  message:
+                    text: "New paper order"
+                    channelId: "34f5b4b0b6b650c981a174b02753c390"
+                    $native: {}
+      operationId: put-message
+      description: Update Message
+    parameters: []
+components:
+  schemas:
+    IncludeFields:
+      title: Include Fields
+      type: object
+      examples:
+        - $native: true
+      properties:
+        $native:
+          type: boolean
+          description: Set to true if you want to include all native fields.
+    NativeData:
+      title: Native Data
+      type: object
+      description:
+        Native fields for the connected platform. For reads, this object
+        is only returned if the include.$native field is set to true in the request
+        body.
+    Message:
+      title: Message
+      type: object
+      examples:
+        - id: e5f32d4fd2115220bd20a2ccf81210ec
+          text: New paper order
+          createdTime: "2019-08-24T14:15:22Z"
+          associations:
+            channelId: "34f5b4b0b6b650c981a174b02753c390"
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Chat tool.
+        text:
+          type: string
+        createdTime:
+          type: string
+          description: The timestamp that the message was created
+        associations:
+          type: object
+          properties:
+            channelId:
+              type: string
+        $native:
+          ref: "#/components/schemas/NativeData"
+      required:
+        - id
+        - createdTime
+    User:
+      title: User
+      type: object
+      examples:
+        - id: e5f32d4fd2115220bd20a2ccf81210ec
+          name: Tom Haverford
+          isDeleted: false
+          createdTime: "2019-08-24T14:15:22Z"
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Chat tool.
+        name:
+          type: string
+        isDeleted:
+          type: boolean
+        createdTime:
+          type: string
+          description: The timestamp that the user was created
+        $native:
+          ref: "#/components/schemas/NativeData"
+      required:
+        - id
+        - createdTime
+    Channel:
+      title: Channel
+      type: object
+      examples:
+        - id: e5f32d4fd2115220bd20a2ccf81210ec
+          name: Paper updates
+          createdTime: "2019-08-24T14:15:22Z"
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Chat tool.
+        name:
+          type: string
+        createdTime:
+          type: string
+          description: The timestamp that the channel was created
+        $native:
+          ref: "#/components/schemas/NativeData"
+      required:
+        - id
+        - createdTime

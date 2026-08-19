@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-account-schema.json",
+  "title": "Account",
+  "description": "(Alias: company, organization) An organization involved with your business.",
+  "x-provenance": {
+    "generated": "2026-08-13",
+    "method": "derived",
+    "source": "openapi/vessel-crm-openapi.yml#/components/schemas/Account",
+    "note": "Extracted verbatim from the schema Vessel publishes in its own OpenAPI 3.1.0 definition. No fields were added, renamed or invented."
+  },
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Id of the object in the connected CRM."
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of this Company/Account. Not supported by Pipedrive"
+    },
+    "industry": {
+      "type": "string",
+      "description": "Not supported by Pipedrive"
+    },
+    "annualRevenue": {
+      "type": "number",
+      "description": "Not supported by Pipedrive"
+    },
+    "numberOfEmployees": {
+      "type": "number",
+      "description": "Not supported by Pipedrive"
+    },
+    "website": {
+      "type": "string",
+      "description": "Not supported by Pipedrive"
+    },
+    "phone": {
+      "type": "string",
+      "description": "The primary phone number. Not supported by Pipedrive"
+    },
+    "address": {
+      "$ref": "#/components/schemas/Address"
+    },
+    "createdTime": {
+      "type": "string",
+      "description": "The timestamp that the account was created"
+    },
+    "modifiedTime": {
+      "type": "string",
+      "description": "The timestamp the account was last modified"
+    },
+    "associations": {
+      "type": "object",
+      "required": [
+        "dealIds",
+        "contactIds",
+        "leadIds",
+        "ownerUserId"
+      ],
+      "properties": {
+        "dealIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contactIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "leadIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ownerUserId": {
+          "type": "string",
+          "description": "The Id of the User that owns this Account"
+        }
+      }
+    },
+    "$native": {
+      "$ref": "#/components/schemas/NativeData"
+    }
+  },
+  "required": [
+    "id",
+    "createdTime",
+    "modifiedTime",
+    "associations"
+  ]
+}

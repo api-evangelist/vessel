@@ -1,0 +1,70 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/vesselapi/client-sdk
+docs:
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/getting-started.mdx
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/crm/authentication-and-security.mdx
+summary:
+  family_count: 1
+  component_count: 2
+  note: >-
+    Vessel's only client-side surface is Vessel Link — a drop-in connect modal that runs the end user
+    through authorizing a downstream SaaS account. It is the piece that makes this an EMBEDDED
+    integrations platform rather than a server-side unified API, so it is captured separately from the
+    server SDK in packages/.
+families:
+  - name: Vessel Link
+    description: >-
+      Prebuilt, hosted authorization modal. The host application mints a short-lived session/link token
+      server-side, hands it to the component, and receives a temporary publicToken in onSuccess when
+      the user finishes connecting their account. The host application never handles the end customer's
+      downstream credentials.
+    components:
+      - name: react-vessel-link
+        kind: react-component
+        package: '@vesselapi/react-vessel-link'
+        registry: npm
+        url: https://www.npmjs.com/package/@vesselapi/react-vessel-link
+        version: 1.1.8
+        published: '2023-03-17'
+        repository: https://github.com/vesselapi/react-vessel-link
+        props:
+          - name: linkToken
+            description: Temporary token minted server-side that scopes the connect session.
+          - name: onSuccess
+            description: >-
+              Callback invoked after a successful connection; receives the publicToken to be exchanged
+              server-side for a permanent accessToken.
+        note: >-
+          Prop names are transcribed from Vessel's own auth flow documentation, which names linkToken
+          and onSuccess explicitly. The full prop surface is not published.
+      - name: client-sdk
+        kind: javascript-loader
+        repository: https://github.com/vesselapi/client-sdk
+        registry: null
+        version: null
+        published: null
+        last_push: '2023-10-18'
+        description: >-
+          Framework-agnostic front-end SDK that opens the same Connect modal for non-React hosts.
+        note: >-
+          version/published are null because this loader is not published to npm under its own name —
+          it is distributed from the GitHub repository only, so there is no registry metadata endpoint
+          to read. Checked npm on 2026-08-13.
+supporting_endpoints:
+  - operation: get-one-session-token
+    path: /api/auth/session-token
+    role: mints the short-lived token the component consumes (v2)
+  - operation: post-link-token
+    path: /link/token
+    role: mints the linkToken the component consumes (v1)
+  - operation: get-one-access-token
+    path: /api/auth/access-token
+    role: exchanges the publicToken the component returns for a durable accessToken
+  - operation: get-all-integrations
+    path: /api/integrations/list
+    role: >-
+      Returns integrationId, display name and high-quality logo URI for every supported integration so
+      the host can render its own integrations picker around the modal.
+embedded_dashboards: []
+hosted_pages: []

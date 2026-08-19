@@ -1,49 +1,100 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-deal-schema.json",
-  "title": "Vessel CRM Deal",
-  "description": "A normalized CRM deal/opportunity record from the Vessel unified CRM API",
+  "title": "Deal",
+  "description": "(Alias: Opportunity) An object representing either the opportunity to sell a product to an Account, or in the case of an `isWon` deal, a product sold to an Account.\n*CRM Caveats*:\n- Pipedrive: Users must have \"Deal probability\" turned on for the given pipeline for probability to be configurable and returned.",
+  "x-provenance": {
+    "generated": "2026-08-13",
+    "method": "derived",
+    "source": "openapi/vessel-crm-openapi.yml#/components/schemas/Deal",
+    "note": "Extracted verbatim from the schema Vessel publishes in its own OpenAPI 3.1.0 definition. No fields were added, renamed or invented."
+  },
   "type": "object",
   "properties": {
     "id": {
       "type": "string",
-      "description": "Unique deal ID (normalized to string)"
+      "description": "Id of the object in the connected CRM."
     },
     "name": {
       "type": "string",
-      "description": "Deal name or title"
-    },
-    "amount": {
-      "type": ["number", "null"],
-      "description": "Deal monetary value"
+      "description": "Optional name for this deal"
     },
     "stage": {
       "type": "string",
-      "description": "Deal stage in the pipeline"
+      "description": "The stage of the pipeline the deal is in. See /deal/details for possible values"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Total deal money value"
     },
     "closeDate": {
-      "type": ["string", "null"],
-      "format": "date-time",
-      "description": "Expected close date (ISO 8601)"
-    },
-    "ownerId": {
       "type": "string",
-      "description": "ID of the assigned owner/user"
+      "description": "When this deal is projected to be closed"
     },
-    "accountId": {
+    "probability": {
       "type": "string",
-      "description": "Associated account/company ID"
+      "description": "Decimal probability of closing this deal."
     },
-    "createdAt": {
-      "type": "string",
-      "format": "date-time",
-      "description": "ISO 8601 creation timestamp"
+    "expectedRevenue": {
+      "type": "number",
+      "description": "probability * amount. This is a computed property"
     },
-    "updatedAt": {
+    "isWon": {
+      "type": "boolean",
+      "description": "If this deal has been won. This is a computed property based on stage"
+    },
+    "isClosed": {
+      "type": "boolean",
+      "description": "If this deal is closed (either closed-won or closed-lost). This is a computed property based on stage"
+    },
+    "currency": {
       "type": "string",
-      "format": "date-time",
-      "description": "ISO 8601 last update timestamp"
+      "description": "The currency of the deal in ISO format. This can be null if the CRM does not support multiple currencies. See `/info/find` for default currency value"
+    },
+    "createdTime": {
+      "type": "string",
+      "description": "The timestamp that the deal was created"
+    },
+    "modifiedTime": {
+      "type": "string",
+      "description": "The timestamp the deal was last modified"
+    },
+    "associations": {
+      "type": "object",
+      "required": [
+        "contactIds",
+        "accountIds",
+        "ownerUserId"
+      ],
+      "properties": {
+        "contactIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "accountIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ownerUserId": {
+          "type": "string",
+          "description": "The Id of the User that owns this Deal"
+        }
+      }
+    },
+    "$native": {
+      "$ref": "#/components/schemas/NativeData"
     }
   },
-  "required": ["id"]
+  "required": [
+    "id",
+    "name",
+    "closeDate",
+    "createdTime",
+    "modifiedTime",
+    "associations"
+  ]
 }

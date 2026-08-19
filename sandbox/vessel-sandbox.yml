@@ -1,0 +1,64 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/hidden/error-faq.mdx
+docs:
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/hidden/error-faq.mdx
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/getting-started.mdx
+  - https://www.vessel.dev/pricing
+summary:
+  hosted_sandbox: false
+  key_modes: 2
+  test_data_published: false
+  note: >-
+    Vessel has no separate sandbox host and publishes no test fixtures, magic identifiers or seeded
+    accounts. Its test story is a second API key with a lower connection ceiling, pointed at a real
+    downstream account you supply yourself.
+modes:
+  - name: development
+    key: development API key
+    endpoint: same as production (api.vessel.dev / api.vessel.land)
+    limits:
+      connections: 5
+    error_on_exhaustion: Maximum number of connections reached for development account
+    remediation: >-
+      List connections for the development key and delete unused ones, or move to the production key.
+    source: home/hidden/error-faq.mdx
+  - name: production
+    key: production API key
+    endpoint: same as development
+    limits:
+      connections: 'per plan — 20 on Launch, unlimited on Custom'
+    source: https://www.vessel.dev/pricing
+modes_note: >-
+  "Every Vessel customer is issued two API keys: A development API Key and a production API Key."
+  Both keys address the same hosts and the same paths; the mode is a property of the credential, not
+  of the endpoint, so there is no URL-level guardrail preventing a development integration from
+  touching production data.
+test_accounts:
+  provided_by_vessel: false
+  guidance: >-
+    The getting-started guide tells developers to bring their own downstream tenant and recommends
+    signing up for a free Salesforce Developer account (developer.salesforce.com/signup) to exercise
+    the CRM and marketing surfaces.
+  source: https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/home/getting-started.mdx
+example_application:
+  url: https://github.com/vesselapi/vessel-example
+  description: >-
+    First-party runnable example the getting-started guide walks through — Link component, session
+    token, token exchange and a unified read.
+  last_push: '2023-10-25'
+test_values:
+  published: []
+  note: >-
+    No test cards, magic phone numbers, sentinel IDs or fixture payloads are published. Nothing is
+    invented here.
+key_provisioning:
+  self_serve: false
+  note: >-
+    Keys are requested by emailing support@vessel.dev. The self-serve "Start for free" path on the
+    marketing site points at https://app.vessel.dev, which did not answer on 2026-08-13.
+x-observed:
+  checked: '2026-08-13'
+  note: >-
+    Neither mode could be exercised: api.vessel.dev times out and app.vessel.dev, where keys would be
+    issued, does not answer either.

@@ -1,0 +1,105 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.vessel.dev/
+docs:
+  - https://www.vessel.dev/
+  - https://www.vessel.dev/privacy
+  - https://github.com/vesselapi/all-api-docs/blob/main/docs/pages/crm/authentication-and-security.mdx
+summary:
+  asserted: 2
+  conforms: 4
+  does_not_conform: 7
+standards:
+  - id: openapi-3.1
+    name: OpenAPI Specification 3.1.0
+    conforms: true
+    evidence: >-
+      All 20 published definitions declare openapi 3.1.0 and parse cleanly; harvested from
+      github.com/vesselapi/all-api-docs on 2026-08-13.
+  - id: json-over-https
+    name: JSON over HTTPS
+    conforms: true
+    evidence: >-
+      "All requests to Vessel are authenticated by an API token and all requests must be made over
+      https" — crm/authentication-and-security.mdx. All request/response content is application/json.
+  - id: iso8601
+    name: ISO 8601 timestamps
+    conforms: true
+    evidence: >-
+      createdTime / modifiedTime on every unified object are date-time strings; date normalization
+      across downstream systems is a stated platform guarantee.
+  - id: webhook-hmac-signature
+    name: Signed webhook delivery
+    conforms: true
+    evidence: >-
+      x-vessel-webhook-signature is a SHA-256 hash of `${apiToken}:${timestamp}:${body}`, with the
+      verification algorithm published in home/webhooks.mdx.
+    caveat: >-
+      A plain SHA-256 of a concatenation, not an HMAC; the shared secret is the caller's own API token
+      rather than a separate signing secret.
+  - id: oauth2
+    name: OAuth 2.0 (for Vessel's own API)
+    conforms: false
+    evidence: >-
+      No oauth2 securityScheme in any spec and no authorization-server metadata document.
+      /api/auth/oauth-apps manages the customer's DOWNSTREAM OAuth client registrations; it is not an
+      OAuth surface for Vessel itself.
+  - id: oidc
+    name: OpenID Connect
+    conforms: false
+    evidence: /.well-known/openid-configuration returned 404 on every Vessel host on 2026-08-13.
+  - id: rfc9457
+    name: RFC 9457 Problem Details
+    conforms: false
+    evidence: >-
+      Errors use a bespoke {message, errorCode?, metadata?} JSON envelope; no application/problem+json
+      anywhere. See errors/vessel-error-codes.yml.
+  - id: rfc8594
+    name: RFC 8594 Sunset header
+    conforms: false
+    evidence: No Sunset or Deprecation header is documented; no operation is marked deprecated.
+  - id: idempotency-key
+    name: Idempotency keys (IETF draft / de-facto Idempotency-Key)
+    conforms: false
+    evidence: >-
+      No idempotency mechanism in any spec or doc page. Create operations are unguarded POSTs.
+  - id: ratelimit-headers
+    name: RFC 9239 / de-facto RateLimit headers
+    conforms: false
+    evidence: No rate-limit response headers are documented or declared.
+  - id: rfc9116
+    name: RFC 9116 security.txt
+    conforms: false
+    evidence: /.well-known/security.txt returned 404 on www.vessel.dev and docs.vessel.dev.
+compliance:
+  programs:
+    - name: SOC 2
+      status: claimed
+      scope: organization
+      evidence: >-
+        "SOC 2 Compliant — Vessel is proud to be SOC2 compliant, demonstrating our commitment to
+        maintaining the highest level of security and trust in our operations." Published on the
+        vessel.dev homepage (HTTP 200, fetched 2026-08-13).
+      verification: >-
+        Self-asserted on the marketing site. No trust center, no report request flow, no auditor and no
+        report date are published, and trust.vessel.dev does not resolve. The claim is recorded as
+        published, not as verified.
+      type: 'not stated (Type I vs Type II unspecified)'
+    - name: Encryption in transit and at rest
+      status: claimed
+      evidence: >-
+        "Data is encrypted in transit and at rest using industry-standard encryption protocols" —
+        vessel.dev homepage.
+  certifications_verified: 0
+  trust_center: null
+  gdpr:
+    privacy_policy: https://www.vessel.dev/privacy
+    controller: Kinit Inc.
+    effective: '2023-03-22'
+data_handling_claims:
+  - claim: Fine-grained permissions
+    detail: '"Manage the permissions you need" — homepage, positioned against security review friction.'
+  - claim: Selective sync
+    detail: '"Sync only the data you want or don''t sync any at all" — homepage.'
+  - claim: White-labeling
+    detail: Offered on the Custom pricing tier.

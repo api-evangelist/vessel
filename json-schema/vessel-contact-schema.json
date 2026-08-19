@@ -1,49 +1,89 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/json-schema/vessel-contact-schema.json",
-  "title": "Vessel CRM Contact",
-  "description": "A normalized CRM contact record from the Vessel unified CRM API (Salesforce, HubSpot, Zoho, Pipedrive, etc.)",
+  "title": "Contact",
+  "description": "Information about an individual affiliated with another CRM Object (e.g., a Lead, a Deal, etc)",
+  "x-provenance": {
+    "generated": "2026-08-13",
+    "method": "derived",
+    "source": "openapi/vessel-crm-openapi.yml#/components/schemas/Contact",
+    "note": "Extracted verbatim from the schema Vessel publishes in its own OpenAPI 3.1.0 definition. No fields were added, renamed or invented."
+  },
   "type": "object",
   "properties": {
     "id": {
       "type": "string",
-      "description": "Unique contact ID (normalized to string across all CRM systems)"
-    },
-    "firstName": {
-      "type": "string",
-      "description": "Contact first name"
-    },
-    "lastName": {
-      "type": "string",
-      "description": "Contact last name"
+      "description": "Id of the object in the connected CRM."
     },
     "email": {
+      "type": "string"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "jobTitle": {
       "type": "string",
-      "format": "email",
-      "description": "Contact email address"
+      "description": "Not supported by Pipedrive"
     },
     "phone": {
       "type": "string",
-      "description": "Contact phone number"
+      "description": "The primary phone number for this contact"
     },
-    "title": {
+    "mobilePhone": {
       "type": "string",
-      "description": "Contact job title"
+      "description": "The primary mobile phone number for this contact. Possibly the same as the phone number."
     },
-    "company": {
+    "createdTime": {
       "type": "string",
-      "description": "Contact company name"
+      "description": "The timestamp that the contact was created"
     },
-    "createdAt": {
+    "modifiedTime": {
       "type": "string",
-      "format": "date-time",
-      "description": "ISO 8601 creation timestamp (normalized across all CRM systems)"
+      "description": "The timestamp the contact was last modified"
     },
-    "updatedAt": {
-      "type": "string",
-      "format": "date-time",
-      "description": "ISO 8601 last update timestamp"
+    "associations": {
+      "type": "object",
+      "required": [
+        "accountIds",
+        "dealIds",
+        "leadIds",
+        "ownerUserId"
+      ],
+      "properties": {
+        "accountIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dealIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "leadIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ownerUserId": {
+          "type": "string"
+        }
+      }
+    },
+    "$native": {
+      "$ref": "#/components/schemas/NativeData"
     }
   },
-  "required": ["id"]
+  "required": [
+    "id",
+    "createdTime",
+    "modifiedTime",
+    "associations"
+  ]
 }

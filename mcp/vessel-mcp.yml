@@ -1,0 +1,105 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/vessel-platform-openapi.yml, openapi/vessel-crm-openapi.yml
+status: candidate
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: api-key
+  verified: searched
+search:
+  checked: '2026-08-13'
+  result: no MCP server exists
+  evidence:
+    - target: github.com/vesselapi (all 6 public repos, trees enumerated)
+      result: no mcp server, no mcp manifest, no @vesselapi mcp package
+    - target: npm registry (@vesselapi scope)
+      result: only @vesselapi/sdk and @vesselapi/react-vessel-link, neither an MCP server
+    - target: https://www.vessel.dev/ and https://www.vessel.dev/pricing
+      result: no mention of MCP, agents or tools
+    - target: https://docs.vessel.dev/
+      result: HTTP 404 — the docs site is no longer served
+    - target: /.well-known/* on www.vessel.dev and docs.vessel.dev
+      result: 404 on every path, including ai-plugin.json
+  note: >-
+    Vessel's last package release was 2023-08-23 and its documentation repo was last pushed the same
+    day, both predating the Model Context Protocol. No MCP surface exists and none is expected.
+    NO MCPServer pointer is emitted in apis.yml — this file records a derived candidate, not a
+    shipped server, and asserting MCPServer for a candidate would credit Vessel with an agent surface
+    it does not have.
+candidate_tools:
+  note: >-
+    A tool list an implementer could build from Vessel's own published OpenAPI. Every entry names a
+    real operationId from a real spec in openapi/. None of these tools exist today.
+  tools:
+    - name: list_integrations
+      operationId: get-all-integrations
+      spec: openapi/vessel-platform-openapi.yml
+      path: /api/integrations/list
+      consequence: read
+    - name: list_connections
+      operationId: get-all-connections
+      spec: openapi/vessel-platform-openapi.yml
+      path: /api/connections/list
+      consequence: read
+    - name: get_connection
+      operationId: get-one-connection
+      spec: openapi/vessel-platform-openapi.yml
+      path: /api/connections/find
+      consequence: read
+    - name: delete_connection
+      operationId: delete-one-connection
+      spec: openapi/vessel-platform-openapi.yml
+      path: /api/connections/delete
+      consequence: destructive
+    - name: list_crm_contacts
+      operationId: list-contacts
+      spec: openapi/vessel-crm-openapi.yml
+      path: /api/unifications/crm/contacts/list
+      consequence: read
+    - name: find_crm_contact
+      operationId: get-contact
+      spec: openapi/vessel-crm-openapi.yml
+      path: /api/unifications/crm/contacts/find
+      consequence: read
+    - name: create_crm_contact
+      operationId: create-contact
+      spec: openapi/vessel-crm-openapi.yml
+      path: /api/unifications/crm/contacts/create
+      consequence: write
+      caution: >-
+        No idempotency mechanism exists; a retried call double-writes into the customer's CRM.
+    - name: update_crm_contact
+      operationId: update-contact
+      spec: openapi/vessel-crm-openapi.yml
+      path: /api/unifications/crm/contacts/update
+      consequence: write
+    - name: list_crm_deals
+      operationId: list-deals
+      spec: openapi/vessel-crm-openapi.yml
+      path: /api/unifications/crm/deals/list
+      consequence: read
+    - name: list_crm_accounts
+      operationId: list-accounts
+      spec: openapi/vessel-crm-openapi.yml
+      path: /api/unifications/crm/accounts/list
+      consequence: read
+    - name: create_webhook
+      operationId: create-webhook
+      spec: openapi/vessel-platform-openapi.yml
+      path: /webhooks/create
+      consequence: write
+    - name: passthrough
+      operationId: passthrough
+      spec: openapi/vessel-platform-openapi.yml
+      path: /api/passthrough
+      consequence: unbounded
+      caution: >-
+        Forwards an arbitrary authenticated request to the customer's downstream SaaS tenant. Should
+        never be exposed to an agent without human confirmation; see agentic-access/.
+blocking_precondition:
+  detail: >-
+    Even a correctly built MCP server could not function today: api.vessel.dev did not complete a TLS
+    connection on 2026-08-13 and api.vessel.land has no DNS record.
