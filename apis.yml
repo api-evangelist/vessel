@@ -30,6 +30,18 @@ tags:
 - Chat
 - Dialer
 - Embedded Integrations
+- Go-To-Market
+- Integration
+- iPaaS
+- Marketing Automation
+- Sales Engagement
+- Unified-API
+- Webhook
+tags_raw:
+- CRM
+- Chat
+- Dialer
+- Embedded Integrations
 - GTM
 - Integrations
 - iPaaS
@@ -52,6 +64,13 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Authentication
+  - Connections
+  - Integration
+  - Passthrough
+  - Platform
+  - Webhook
+  tags_raw:
   - Authentication
   - Connections
   - Integrations
@@ -83,6 +102,13 @@ apis:
   - Deals
   - Leads
   - Normalized
+  - Unified-API
+  tags_raw:
+  - CRM
+  - Contacts
+  - Deals
+  - Leads
+  - Normalized
   - Unified API
   properties:
   - type: OpenAPI
@@ -103,6 +129,12 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Sales Engagement
+  - Sequences
+  - Unified-API
+  - Outreach
+  - Salesloft
+  tags_raw:
   - Sales Engagement
   - Sequences
   - Unified API
@@ -127,6 +159,12 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Chat
+  - Slack
+  - Microsoft Teams
+  - Unified-API
+  - Messaging
+  tags_raw:
   - Chat
   - Slack
   - Microsoft Teams
@@ -155,6 +193,12 @@ apis:
   - Telephony
   - Calls
   - Aircall
+  - Unified-API
+  tags_raw:
+  - Dialer
+  - Telephony
+  - Calls
+  - Aircall
   - Unified API
   properties:
   - type: OpenAPI
@@ -175,6 +219,12 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Marketing Automation
+  - Mailchimp
+  - Campaigns
+  - Unified-API
+  - Email
+  tags_raw:
   - Marketing Automation
   - Mailchimp
   - Campaigns
@@ -254,6 +304,12 @@ apis:
   - Actions
   - CRM
   - Salesforce
+  - Integration
+  - Validation
+  tags_raw:
+  - Actions
+  - CRM
+  - Salesforce
   - Integrations
   - Validation
   properties:
@@ -276,6 +332,12 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Actions
+  - Chat
+  - Slack
+  - Integration
+  - Validation
+  tags_raw:
   - Actions
   - Chat
   - Slack
@@ -304,6 +366,12 @@ apis:
   - Actions
   - Chat
   - Microsoft Teams
+  - Integration
+  - Validation
+  tags_raw:
+  - Actions
+  - Chat
+  - Microsoft Teams
   - Integrations
   - Validation
   properties:
@@ -326,6 +394,12 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Actions
+  - Sales Engagement
+  - Outreach
+  - Integration
+  - Validation
+  tags_raw:
   - Actions
   - Sales Engagement
   - Outreach
@@ -354,6 +428,12 @@ apis:
   - Actions
   - Sales Engagement
   - Salesloft
+  - Integration
+  - Validation
+  tags_raw:
+  - Actions
+  - Sales Engagement
+  - Salesloft
   - Integrations
   - Validation
   properties:
@@ -376,6 +456,12 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Actions
+  - Sales Engagement
+  - Apollo
+  - Integration
+  - Validation
+  tags_raw:
   - Actions
   - Sales Engagement
   - Apollo
@@ -404,6 +490,12 @@ apis:
   - Actions
   - Dialer
   - Aircall
+  - Integration
+  - Validation
+  tags_raw:
+  - Actions
+  - Dialer
+  - Aircall
   - Integrations
   - Validation
   properties:
@@ -426,6 +518,12 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Actions
+  - Dialer
+  - Dialpad
+  - Integration
+  - Validation
+  tags_raw:
   - Actions
   - Dialer
   - Dialpad
@@ -454,6 +552,12 @@ apis:
   - Actions
   - Dialer
   - RingCentral
+  - Integration
+  - Validation
+  tags_raw:
+  - Actions
+  - Dialer
+  - RingCentral
   - Integrations
   - Validation
   properties:
@@ -476,6 +580,12 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Actions
+  - Marketing Automation
+  - Mailchimp
+  - Integration
+  - Validation
+  tags_raw:
   - Actions
   - Marketing Automation
   - Mailchimp
@@ -504,6 +614,12 @@ apis:
   - Actions
   - Marketing Automation
   - ActiveCampaign
+  - Integration
+  - Validation
+  tags_raw:
+  - Actions
+  - Marketing Automation
+  - ActiveCampaign
   - Integrations
   - Validation
   properties:
@@ -526,6 +642,12 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Actions
+  - Work Management
+  - monday.com
+  - Integration
+  - Validation
+  tags_raw:
   - Actions
   - Work Management
   - monday.com
