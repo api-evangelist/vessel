@@ -11,6 +11,20 @@ description: 'Vessel (Kinit Inc.) is a developer-first embedded integrations pla
   is not: api.vessel.dev does not answer, api.vessel.land has no DNS record, and both docs.vessel.dev and app.vessel.dev
   are unreachable.'
 type: Index
+deliveryModel:
+  model: open-core
+  license: MIT
+  open_source: true
+  commercial: true
+  callable_host: true
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
@@ -721,6 +735,11 @@ apis:
   - type: SpectralRuleset
     url: rules/vessel-api-rules.yml
 common:
+- type: CapabilityMap
+  url: capabilities/vessel-capability-edges.yml
+  name: Vessel Business Capability Map
+- type: IssueTracker
+  url: https://github.com/vesselapi/all-api-docs/issues
 - type: License
   name: MIT
   url: https://github.com/vesselapi/integrations/blob/main/LICENSE
