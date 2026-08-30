@@ -1,0 +1,225 @@
+openapi: 3.2.0
+info:
+  title: Reference Eng Calls API
+  version: '2.0'
+  summary: API
+  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+servers:
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: engCalls
+paths:
+  /engagement/calls:
+    parameters: []
+    get:
+      summary: Get All Calls
+      tags:
+      - engCalls
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  calls:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Call'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    calls:
+                    - id: 2322707bbc41577d9806400e2daa25de
+                      phone: 212-555-1212
+                      direction: inbound
+                      disposition: Answered - Meeting Set
+                      durationSeconds: '120'
+                      note: This is a note about the call
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      createdTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        contactId: e5f32d4fd2115220bd20a2ccf81210ec
+                        taskId: 0dcb45e051315a6ea63b0f16e73689d9
+                        actionId: d08f345ace24509e911a0ea8e3d2203c
+                        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+                    nextPageCursor: string
+      operationId: get-all-engagement-calls
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/allFields'
+      description: Retrieve all Calls
+  /engagement/call:
+    parameters: []
+    get:
+      summary: Get Call
+      tags:
+      - engCalls
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  call:
+                    $ref: '#/components/schemas/Call'
+              examples:
+                example-1:
+                  value:
+                    call:
+                      id: 2322707bbc41577d9806400e2daa25de
+                      phone: 212-555-1212
+                      direction: inbound
+                      disposition: Answered - Meeting Set
+                      durationSeconds: '120'
+                      note: This is a note about the call
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      createdTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        contactId: e5f32d4fd2115220bd20a2ccf81210ec
+                        taskId: 0dcb45e051315a6ea63b0f16e73689d9
+                        actionId: d08f345ace24509e911a0ea8e3d2203c
+                        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+      operationId: get-one-engagement-call
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/id'
+      - $ref: '#/components/parameters/allFields'
+      description: Retrieve a Call by Id.
+components:
+  schemas:
+    Call:
+      title: Call
+      type: object
+      description: A phone call between a User and an external Contact
+      examples:
+      - id: 2322707bbc41577d9806400e2daa25de
+        phone: 212-555-1212
+        direction: inbound
+        disposition: Answered - Meeting Set
+        durationSeconds: '120'
+        note: This is a note about the call
+        modifiedTime: '2019-08-24T14:15:22Z'
+        createdTime: '2019-08-24T14:15:22Z'
+        associations:
+          contactId: e5f32d4fd2115220bd20a2ccf81210ec
+          taskId: 0dcb45e051315a6ea63b0f16e73689d9
+          actionId: d08f345ace24509e911a0ea8e3d2203c
+          ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+        additional: {}
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Engagement Platform.
+        phone:
+          type: string
+        direction:
+          type: string
+          enum:
+          - inbound
+          - outbound
+        disposition:
+          type: string
+        durationSeconds:
+          type: number
+        note:
+          type: string
+        createdTime:
+          type: string
+          description: The timestamp that the call was created
+        modifiedTime:
+          type: string
+          description: The timestamp the call was last modified
+        associations:
+          type: object
+          required:
+          - taskId
+          - contactId
+          - actionId
+          - ownerUserId
+          properties:
+            taskId:
+              type: string
+            contactId:
+              type: string
+            actionId:
+              type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this Action
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream Engagement Platform
+      required:
+      - id
+      - createdTime
+      - modifiedTime
+      - associations
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    id:
+      name: id
+      in: query
+      description: The id of the object to retrieve
+      required: true
+      schema:
+        type: string
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-speakeasy-name-override:
+- operationId: post-*
+  methodNameOverride: create
+- operationId: put-*
+  methodNameOverride: update
+- operationId: delete-*
+  methodNameOverride: delete
+- operationId: get-one-*
+  methodNameOverride: find
+- operationId: get-all-*
+  methodNameOverride: list
+- operationId: get-details-*
+  methodNameOverride: details
+- operationId: get-batch-*
+  methodNameOverride: batch
+- operationId: search-*
+  methodNameOverride: search

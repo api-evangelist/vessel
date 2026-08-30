@@ -1,0 +1,116 @@
+openapi: 3.2.0
+info:
+  title: Reference Eng Passthrough API
+  version: '2.0'
+  summary: API
+  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+servers:
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: engPassthrough
+paths:
+  /engagement/passthrough:
+    post:
+      summary: Passthrough Request
+      tags:
+      - engPassthrough
+      operationId: post-engagement-passthrough
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                properties:
+                  headers:
+                    type: object
+                  url:
+                    type: string
+                    description: The full URL that the request was sent to.
+                  statusCode:
+                    type: number
+                    description: The HTTP status code of the response from the downstream Sales Engagement Platform.
+                  body:
+                    AnyValue:
+                      description: The body of the response from the downstream Sales Engagement Platform.
+              examples:
+                example-1:
+                  value:
+                    headers:
+                      content-type: application/json
+                    url: https://app.apollo.io/api/v1/mixed_people/search
+                    statusCode: 200
+                    body:
+                      contacts:
+                      - id: 63bf5589de4b97008b7605e7
+                        first_name: John
+                        last_name: Doe
+                        name: John Doe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                method:
+                  type: string
+                  enum:
+                  - GET
+                  - POST
+                  - PUT
+                  - PATCH
+                  - DELETE
+                path:
+                  type: string
+                  description: The path to send the request to. Vessel handles the domain so for a request to Apollo instead of using `https://app.apollo.io/api/v1/mixed_people/search` you would use `mixed_people/search`.
+                body:
+                  type: object
+                  description: The body of the request.
+                query:
+                  type: object
+                  description: The query parameters to send with the request as key value pairs. These are appended to the URL when the request is sent to the CRM.
+              required:
+              - accessToken
+              - method
+              - path
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  method: POST
+                  path: mixed_people/search
+                  body:
+                  - contact_label_ids:
+                    - 637d308edd8600000128060e
+        description: ''
+      description: Send an authenticated passthrough request to the downstream Sales Engagement Platform. This is useful for making requests to endpoints that are not yet supported by Vessel.
+components:
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-speakeasy-name-override:
+- operationId: post-*
+  methodNameOverride: create
+- operationId: put-*
+  methodNameOverride: update
+- operationId: delete-*
+  methodNameOverride: delete
+- operationId: get-one-*
+  methodNameOverride: find
+- operationId: get-all-*
+  methodNameOverride: list
+- operationId: get-details-*
+  methodNameOverride: details
+- operationId: get-batch-*
+  methodNameOverride: batch
+- operationId: search-*
+  methodNameOverride: search

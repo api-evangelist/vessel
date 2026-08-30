@@ -1,0 +1,506 @@
+openapi: 3.2.0
+info:
+  title: CRM API Reference Users API
+  version: '2.0'
+  summary: API
+servers:
+- url: https://api.vessel.dev
+security:
+- VesselAPIToken: []
+tags:
+- name: users
+paths:
+  /crm/users:
+    parameters: []
+    get:
+      summary: Get All Users
+      tags:
+      - users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    users:
+                    - id: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      nativeId: '12'
+                      firstName: Micheal
+                      lastName: Scott
+                      email: micheal@dundermifflin.com
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      additional: {}
+                    nextPageCursor: string
+      operationId: get-all-crm-users
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        required: true
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+      - schema:
+          type: string
+        in: query
+        name: cursor
+      - schema:
+          type: number
+        in: query
+        name: limit
+        description: The number of records to return per page.
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      - schema:
+          type: boolean
+        in: query
+        name: archived
+        description: Set to true to include archived users in the response. Defaults to false.
+      description: Retrieve all Users
+  /crm/users/search:
+    post:
+      summary: Search Users
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filters:
+                  type: object
+                  properties:
+                    id:
+                      $ref: '#/components/schemas/StringFilter'
+                    nativeId:
+                      $ref: '#/components/schemas/StringFilter'
+                    firstName:
+                      $ref: '#/components/schemas/StringFilter'
+                    lastName:
+                      $ref: '#/components/schemas/StringFilter'
+                    email:
+                      $ref: '#/components/schemas/StringFilter'
+                    createdTime:
+                      $ref: '#/components/schemas/DateFilter'
+                    modifiedTime:
+                      $ref: '#/components/schemas/DateFilter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  nextPageCursor:
+                    type: string
+                title: responseBody
+              examples:
+                example-1:
+                  value:
+                    users:
+                    - id: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      nativeId: '12'
+                      firstName: Micheal
+                      lastName: Scott
+                      email: micheal@dundermifflin.com
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      additional: {}
+                    nextPageCursor: string
+      operationId: search-crm-users
+      description: Search all Users using filters
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/allFields'
+  /crm/user:
+    parameters: []
+    get:
+      summary: Get User
+      tags:
+      - users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+              examples:
+                example-1:
+                  value:
+                    user:
+                      id: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      nativeId: '12'
+                      firstName: Micheal
+                      lastName: Scott
+                      email: micheal@dundermifflin.com
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      additional: {}
+      operationId: get-one-crm-user
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+        required: true
+      - schema:
+          type: string
+        in: query
+        name: id
+        required: true
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      description: Retrieve a single User by Id
+  /crm/user/details:
+    get:
+      summary: Get User Details
+      tags:
+      - users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  fields:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Field'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    fields:
+                    - key: firstName
+                      name: First name
+                      type: string
+                      options: null
+                      isArray: false
+                      custom: false
+                      universal: true
+                      required: false
+                      creatable: true
+                      updatable: true
+                    nextPageCursor: string
+      operationId: get-details-crm-user
+      description: 'Get details about all users.
+
+        Details include the type, possible values, and other meta data about the fields.'
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+        required: true
+      - schema:
+          type: string
+        in: query
+        name: cursor
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns details about native fields.
+  /crm/user/batch:
+    parameters: []
+    get:
+      summary: Get Batch Users
+      tags:
+      - users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  invalidIds:
+                    $ref: '#/components/schemas/InvalidIds'
+              examples:
+                example-1:
+                  value:
+                    users:
+                    - id: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      nativeId: '12'
+                      firstName: Micheal
+                      lastName: Scott
+                      email: micheal@dundermifflin.com
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      additional: {}
+      operationId: get-batch-crm-user
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        required: true
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+      - schema:
+          type: string
+        in: query
+        name: ids
+        description: Comma separated list of User Id's.
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      description: Retrieve Users by a set of Id's
+components:
+  schemas:
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    User:
+      title: User
+      type: object
+      description: Users of the connected CRM platform. These are *not* the contacts or leads, but rather the user accounts from the connected CRM.
+      examples:
+      - id: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+        nativeId: '12'
+        firstName: Micheal
+        lastName: Scott
+        email: micheal@dundermifflin.com
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+        archived: false
+        additional: {}
+      properties:
+        id:
+          type: string
+          description: Unique Vessel Id.
+        nativeId:
+          type: string
+          description: Id of the object in the connected CRM.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          format: email
+          type: string
+        createdTime:
+          type: string
+          description: The timestamp that the user was created
+        modifiedTime:
+          type: string
+          description: The timestamp the user was last modified
+        archived:
+          type: boolean
+          description: Whether or not the user is archived
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream CRM
+      required:
+      - id
+      - nativeId
+      - createdTime
+      - modifiedTime
+      - associations
+    Field:
+      title: Field
+      type: object
+      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
+      properties:
+        key:
+          type: string
+          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
+        name:
+          type: string
+          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
+        type:
+          type: string
+          enum:
+          - string
+          - number
+          - datetime
+          - date
+          - boolean
+          - reference
+          - phone
+          - url
+          - id
+          - email
+          - percent
+          - singleselect
+          - multiselect
+          - address
+          - decimal
+          - time
+          - daterange
+          - object
+        options:
+          type: array
+          description: Possible options for this field
+          items:
+            type: object
+            properties:
+              key:
+                oneOf:
+                - type: string
+                - type: number
+              name:
+                type: string
+        isArray:
+          type: boolean
+          description: If this field is an array
+        custom:
+          type: boolean
+          description: If this field is a custom field
+        universal:
+          type: boolean
+          description: If this is a field we've unified across CRMs
+        required:
+          type: boolean
+          description: If this field is required when creating the object
+        creatable:
+          type: boolean
+          description: If this field can be used when creating the object
+        updatable:
+          type: boolean
+          description: If this field can be updated
+      required:
+      - key
+      - name
+      - type
+      - custom
+      - universal
+      - required
+      - creatable
+      - updatable
+      examples:
+      - key: numberOfEmployees
+        name: number of employees
+        type: number
+        options: null
+        isArray: false
+        custom: false
+        universal: true
+        required: false
+        creatable: true
+        updatable: true
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header

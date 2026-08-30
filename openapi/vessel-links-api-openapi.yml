@@ -1,0 +1,83 @@
+openapi: 3.2.0
+info:
+  title: Vessel Links API
+  version: '2.0'
+  description: 'Operations tagged links across 2 of this provider''s published API definitions: vessel-crm-v1-openapi.yml, vessel-engagement-v1-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.vessel.dev
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: links
+paths:
+  /link/exchange:
+    parameters: []
+    post:
+      summary: Exchange Public Token for Access Token
+      tags:
+      - links
+      operationId: post-link-exchange
+      responses:
+        '200':
+          description: Exchange for access token
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  connectionId:
+                    type: string
+                  accessToken:
+                    type: string
+                  integrationId:
+                    type: string
+                    enum:
+                    - salesforce
+                    - hubspot
+                    - pipedrive
+                    - zoho
+                    - apollo
+                    - salesloft
+                    - outreach
+                  nativeOrgId:
+                    type: string
+                    description: Supported in HubSpot, Salesforce, and Pipedrive
+                  nativeUserId:
+                    type: string
+                    description: Supported in HubSpot, Salesforce, and Pipedrive
+                  nativeOrgURL:
+                    type: string
+                required:
+                - connectionId
+                - accessToken
+                - integrationId
+                - nativeOrgId
+                - nativeUserId
+                - nativeOrgURL
+              examples: {}
+      description: Exchanges the public token for an access token used to interact with the account. Store the access token in a secure location.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                publicToken:
+                  type: string
+              required:
+              - publicToken
+      security:
+      - VesselAPIToken: []
+    servers:
+    - url: https://api.vessel.dev
+components:
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-refined-from:
+- vessel-crm-v1-openapi.yml
+- vessel-engagement-v1-openapi.yml

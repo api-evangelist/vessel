@@ -1,0 +1,811 @@
+openapi: 3.2.0
+info:
+  title: CRM API Reference Tasks API
+  version: '2.0'
+  summary: API
+servers:
+- url: https://api.vessel.dev
+security:
+- VesselAPIToken: []
+tags:
+- name: tasks
+paths:
+  /crm/tasks:
+    parameters: []
+    get:
+      summary: Get All Tasks
+      tags:
+      - tasks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    tasks:
+                    - id: v.task.2322707bbc41577d9806400e2daa25de
+                      nativeId: '122'
+                      body: This task needs to be done very soon!
+                      subject: High Priority Task
+                      isDone: false
+                      dueDate: '2019-09-24T14:15:22Z'
+                      status: Not Done
+                      priority: High
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      createdTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        dealIds:
+                        - v.deal.497fb529e6805351b5dc8057c74a4a52
+                        contactIds:
+                        - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                        accountIds:
+                        - v.account.0dcb45e051315a6ea63b0f16e73689d9
+                        leadIds:
+                        - v.lead.d08f345ace24509e911a0ea8e3d2203c
+                        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+                    nextPageCursor: string
+      operationId: get-all-crm-tasks
+      description: Retrieve all Tasks
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+        required: true
+      - schema:
+          type: string
+        in: query
+        name: cursor
+      - schema:
+          type: number
+        in: query
+        name: limit
+        description: The number of records to return per page.
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+  /crm/tasks/search:
+    post:
+      summary: Search Tasks
+      tags:
+      - tasks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filters:
+                  type: object
+                  properties:
+                    id:
+                      $ref: '#/components/schemas/StringFilter'
+                    nativeId:
+                      $ref: '#/components/schemas/StringFilter'
+                    body:
+                      $ref: '#/components/schemas/StringFilter'
+                    subject:
+                      $ref: '#/components/schemas/StringFilter'
+                    dueDate:
+                      $ref: '#/components/schemas/DateFilter'
+                    priority:
+                      $ref: '#/components/schemas/StringFilter'
+                    status:
+                      $ref: '#/components/schemas/StringFilter'
+                    isDone:
+                      $ref: '#/components/schemas/BooleanFilter'
+                    ownerUserId:
+                      $ref: '#/components/schemas/StringFilter'
+                    createdTime:
+                      $ref: '#/components/schemas/DateFilter'
+                    modifiedTime:
+                      $ref: '#/components/schemas/DateFilter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+                  nextPageCursor:
+                    type: string
+                title: responseBody
+              examples:
+                example-1:
+                  value:
+                    tasks:
+                    - id: v.task.2322707bbc41577d9806400e2daa25de
+                      nativeId: '122'
+                      body: This task needs to be done very soon!
+                      subject: High Priority Task
+                      isDone: false
+                      dueDate: '2019-09-24T14:15:22Z'
+                      status: Not Done
+                      priority: High
+                      ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      createdTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        dealIds:
+                        - v.deal.497fb529e6805351b5dc8057c74a4a52
+                        contactIds:
+                        - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                        accountIds:
+                        - v.account.0dcb45e051315a6ea63b0f16e73689d9
+                        leadIds:
+                        - v.lead.d08f345ace24509e911a0ea8e3d2203c
+                        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+                    nextPageCursor: string
+      operationId: search-crm-tasks
+      description: Search all Tasks using filters
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/allFields'
+  /crm/task:
+    parameters: []
+    get:
+      summary: Get Task
+      tags:
+      - tasks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  task:
+                    $ref: '#/components/schemas/Task'
+              examples:
+                example-1:
+                  value:
+                    task:
+                      id: v.task.2322707bbc41577d9806400e2daa25de
+                      nativeId: '122'
+                      body: This task needs to be done very soon!
+                      subject: High Priority Task
+                      isDone: false
+                      dueDate: '2019-09-24T14:15:22Z'
+                      status: Not Done
+                      priority: High
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      createdTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        dealIds:
+                        - v.deal.497fb529e6805351b5dc8057c74a4a52
+                        contactIds:
+                        - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                        accountIds:
+                        - v.account.0dcb45e051315a6ea63b0f16e73689d9
+                        leadIds:
+                        - v.lead.d08f345ace24509e911a0ea8e3d2203c
+                        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+      operationId: get-one-crm-task
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+        required: true
+      - schema:
+          type: string
+        in: query
+        name: id
+        required: true
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      description: Retrieve a single Task by Id
+    post:
+      summary: Create Task
+      tags:
+      - tasks
+      operationId: post-crm-task
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: '0'
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                task:
+                  $ref: '#/components/schemas/TaskCreate'
+              required:
+              - accessToken
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  task:
+                    body: This task needs to be done very soon!
+                    subject: High Priority Task
+                    dueDate: '2019-09-24T14:15:22Z'
+                    isDone: false
+                    ownerUserId: v.user.79d154aa0c7a571295a157369d448e65
+                    leadId: v.lead.d08f345ace24509e911a0ea8e3d2203c
+                    dealId: v.deal.497fb529e6805351b5dc8057c74a4a52
+                    accountId: v.account.0dcb45e051315a6ea63b0f16e73689d9
+                    contactId: v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                    priority: High
+                    status: Not Done
+        description: ''
+      description: 'Create a new Task.
+
+        *CRM Caveats*:
+
+        - Salesforce: You may only associate a Task with either a Lead or a Contact *and* either a Deal or an Account.'
+    patch:
+      summary: Update Task
+      tags:
+      - tasks
+      operationId: put-crm-task
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: '0'
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                id:
+                  type: string
+                task:
+                  $ref: '#/components/schemas/TaskUpdate'
+              required:
+              - accessToken
+              - id
+              - task
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  id: string
+                  task:
+                    body: This task needs to be done very soon!
+                    subject: High Priority Task
+                    dueDate: '2019-09-24T14:15:22Z'
+                    isDone: false
+                    ownerUserId: v.user.79d154aa0c7a571295a157369d448e65
+                    priority: High
+                    status: Not Done
+      description: Update an existing Task by Id
+  /crm/task/details:
+    get:
+      summary: Get Task Details
+      tags:
+      - tasks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  fields:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Field'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    fields:
+                    - key: subject
+                      name: Subject
+                      type: string
+                      options: null
+                      isArray: false
+                      custom: false
+                      universal: true
+                      required: false
+                      creatable: true
+                      updatable: true
+                    nextPageCursor: string
+      operationId: get-details-crm-task
+      description: 'Get details about all tasks.
+
+        Details include the type, possible values, and other meta data about the fields.'
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+        required: true
+      - schema:
+          type: string
+        in: query
+        name: cursor
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns details about native fields.
+  /crm/task/batch:
+    parameters: []
+    get:
+      summary: Get Batch Tasks
+      tags:
+      - tasks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+                  invalidIds:
+                    $ref: '#/components/schemas/InvalidIds'
+              examples:
+                example-1:
+                  value:
+                    tasks:
+                    - id: v.task.2322707bbc41577d9806400e2daa25de
+                      nativeId: '122'
+                      body: This task needs to be done very soon!
+                      subject: High Priority Task
+                      isDone: false
+                      dueDate: '2019-09-24T14:15:22Z'
+                      status: Not Done
+                      priority: High
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      createdTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        dealIds:
+                        - v.deal.497fb529e6805351b5dc8057c74a4a52
+                        contactIds:
+                        - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                        accountIds:
+                        - v.account.0dcb45e051315a6ea63b0f16e73689d9
+                        leadIds:
+                        - v.lead.d08f345ace24509e911a0ea8e3d2203c
+                        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+      operationId: get-batch-crm-task
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        required: true
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+      - schema:
+          type: string
+        in: query
+        name: ids
+        description: Comma separated list of Task Id's.
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      description: Retrieve Tasks by a set of Id's
+components:
+  schemas:
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    Task:
+      title: Task
+      type: object
+      description: A task attached to some CRM object
+      examples:
+      - id: v.task.2322707bbc41577d9806400e2daa25de
+        nativeId: '122'
+        body: This task needs to be done very soon!
+        subject: High Priority Task
+        isDone: false
+        dueDate: '2019-09-24T14:15:22Z'
+        status: Not Done
+        priority: High
+        modifiedTime: '2019-08-24T14:15:22Z'
+        createdTime: '2019-08-24T14:15:22Z'
+        associations:
+          dealIds:
+          - v.deal.497fb529e6805351b5dc8057c74a4a52
+          contactIds:
+          - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+          accountIds:
+          - v.account.0dcb45e051315a6ea63b0f16e73689d9
+          leadIds:
+          - v.lead.d08f345ace24509e911a0ea8e3d2203c
+          ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+        additional: {}
+      properties:
+        id:
+          type: string
+          description: Unique Vessel Id.
+        nativeId:
+          type: string
+          description: Id of the object in the connected CRM.
+        body:
+          type: string
+        subject:
+          type: string
+        isDone:
+          type: boolean
+        dueDate:
+          type: string
+        status:
+          type: string
+          description: Not supported by Pipedrive
+        priority:
+          type: string
+          description: Not supported by Pipedrive
+        createdTime:
+          type: string
+          description: The timestamp that the task was created
+        modifiedTime:
+          type: string
+          description: The timestamp the task was last modified
+        associations:
+          type: object
+          required:
+          - dealIds
+          - contactIds
+          - accountIds
+          - leadIds
+          - ownerUserId
+          properties:
+            dealIds:
+              type: array
+              items:
+                type: string
+            contactIds:
+              type: array
+              items:
+                type: string
+            accountIds:
+              type: array
+              items:
+                type: string
+            leadIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this Task
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream CRM
+      required:
+      - id
+      - nativeId
+      - createdTime
+      - modifiedTime
+      - associations
+    BooleanFilter:
+      type: object
+      properties:
+        equals:
+          type: boolean
+        not:
+          type: boolean
+    Field:
+      title: Field
+      type: object
+      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
+      properties:
+        key:
+          type: string
+          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
+        name:
+          type: string
+          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
+        type:
+          type: string
+          enum:
+          - string
+          - number
+          - datetime
+          - date
+          - boolean
+          - reference
+          - phone
+          - url
+          - id
+          - email
+          - percent
+          - singleselect
+          - multiselect
+          - address
+          - decimal
+          - time
+          - daterange
+          - object
+        options:
+          type: array
+          description: Possible options for this field
+          items:
+            type: object
+            properties:
+              key:
+                oneOf:
+                - type: string
+                - type: number
+              name:
+                type: string
+        isArray:
+          type: boolean
+          description: If this field is an array
+        custom:
+          type: boolean
+          description: If this field is a custom field
+        universal:
+          type: boolean
+          description: If this is a field we've unified across CRMs
+        required:
+          type: boolean
+          description: If this field is required when creating the object
+        creatable:
+          type: boolean
+          description: If this field can be used when creating the object
+        updatable:
+          type: boolean
+          description: If this field can be updated
+      required:
+      - key
+      - name
+      - type
+      - custom
+      - universal
+      - required
+      - creatable
+      - updatable
+      examples:
+      - key: numberOfEmployees
+        name: number of employees
+        type: number
+        options: null
+        isArray: false
+        custom: false
+        universal: true
+        required: false
+        creatable: true
+        updatable: true
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+    TaskUpdate:
+      title: TaskUpdate
+      type: object
+      description: ''
+      examples:
+      - body: This task needs to be done very soon!
+        subject: High Priority Task
+        dueDate: '2019-09-24T14:15:22Z'
+        isDone: false
+        ownerUserId: v.user.79d154aa0c7a571295a157369d448e65
+        priority: High
+        status: Not Done
+      properties:
+        body:
+          type: string
+        subject:
+          type: string
+        dueDate:
+          type: string
+        ownerUserId:
+          type: string
+        priority:
+          type: string
+          description: Not supported by Pipedrive
+        status:
+          type: string
+          description: Not supported by Pipedrive
+        isDone:
+          type: boolean
+          description: If both `isDone` and `status` are included, `isDone` will take precedence and automatically set `status` to either the default or a 'closed' status depending on the `isDone` value.
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+    TaskCreate:
+      title: TaskCreate
+      type: object
+      description: ''
+      examples:
+      - body: This task needs to be done very soon!
+        subject: High Priority Task
+        dueDate: '2019-09-24T14:15:22Z'
+        isDone: false
+        ownerUserId: v.user.79d154aa0c7a571295a157369d448e65
+        leadId: v.lead.d08f345ace24509e911a0ea8e3d2203c
+        dealId: v.deal.497fb529e6805351b5dc8057c74a4a52
+        accountId: v.account.0dcb45e051315a6ea63b0f16e73689d9
+        contactId: v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+        priority: High
+        status: Not Done
+      properties:
+        body:
+          type: string
+        subject:
+          type: string
+        dueDate:
+          type: string
+          description: ISO Formatted Date for the due date of the task
+        ownerUserId:
+          type: string
+          description: The user to assign this note to. If there is no ownerUserId provided, the behavior is defined by the downstream system (either assigned to no user or to the user that installed the app).
+        leadId:
+          type: string
+          description: Can only set either leadId or dealId but not both.
+        dealId:
+          type: string
+          description: Can only set either leadId or dealId but not both.
+        accountId:
+          type: string
+        contactId:
+          type: string
+        priority:
+          type: string
+          description: Not supported by Pipedrive
+        status:
+          type: string
+          description: Not supported by Pipedrive
+        isDone:
+          type: boolean
+          description: If both `isDone` and `status` are included, `isDone` will take precedence and automatically set `status` to either the default or a 'closed' status depending on the `isDone` value.
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header

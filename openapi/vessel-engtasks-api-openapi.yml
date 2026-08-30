@@ -1,0 +1,461 @@
+openapi: 3.2.0
+info:
+  title: Reference Eng Tasks API
+  version: '2.0'
+  summary: API
+  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+servers:
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: engTasks
+paths:
+  /engagement/tasks:
+    parameters: []
+    get:
+      summary: Get All Tasks
+      tags:
+      - engTasks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EngTask'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    tasks:
+                    - id: 2322707bbc41577d9806400e2daa25de
+                      type: call
+                      body: Call Dunder Mifflin to get a paper refill
+                      dueDate: '2019-09-24T14:15:22Z'
+                      status: complete
+                      completedTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      createdTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        contactId: e5f32d4fd2115220bd20a2ccf81210ec
+                        callId: 0dcb45e051315a6ea63b0f16e73689d9
+                        emailId: d08f345ace24509e911a0ea8e3d2203c
+                        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+                    nextPageCursor: string
+      operationId: get-all-engagement-tasks
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/allFields'
+      description: Retrieve all Tasks
+  /engagement/task:
+    parameters: []
+    get:
+      summary: Get Task
+      tags:
+      - engTasks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  task:
+                    $ref: '#/components/schemas/EngTask'
+              examples:
+                example-1:
+                  value:
+                    task:
+                      id: 2322707bbc41577d9806400e2daa25de
+                      type: call
+                      body: Call Dunder Mifflin to get a paper refill
+                      dueDate: '2019-09-24T14:15:22Z'
+                      status: complete
+                      completedTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      createdTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        contactId: e5f32d4fd2115220bd20a2ccf81210ec
+                        callId: 0dcb45e051315a6ea63b0f16e73689d9
+                        emailId: d08f345ace24509e911a0ea8e3d2203c
+                        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+      operationId: get-one-engagement-task
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/id'
+      - $ref: '#/components/parameters/allFields'
+      description: Retrieve a Task by Id.
+    post:
+      summary: Create Task
+      tags:
+      - engTasks
+      operationId: post-engagement-task
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  id:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                task:
+                  $ref: '#/components/schemas/EngTaskCreate'
+              required:
+              - accessToken
+              - task
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  task:
+                    type: call
+                    body: Call Dunder Mifflin to get a paper refill
+                    dueDate: '2019-09-24T14:15:22Z'
+                    contactId: 2d4fd2115220bd20a2ccf81210ec
+                    ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+                    additional: {}
+      description: Create a new task.
+    patch:
+      summary: Update Task
+      tags:
+      - engTasks
+      operationId: put-engagement-task
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: '0'
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                id:
+                  type: string
+                task:
+                  $ref: '#/components/schemas/EngTaskUpdate'
+              required:
+              - accessToken
+              - id
+              - task
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  id: string
+                  task:
+                    body: Call Dunder Mifflin to get a paper refill
+                    dueDate: '2019-09-24T14:15:22Z'
+                    additional: {}
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+      description: Update an existing Task.
+  /engagement/task/complete:
+    parameters: []
+    post:
+      summary: Complete Task
+      tags:
+      - engTasks
+      x-speakeasy-name-override:
+        methodNameOverride: complete
+      operationId: post-complete-engagement-task
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  id:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                accessToken:
+                  type: string
+                fields:
+                  $ref: '#/components/schemas/EngTaskComplete'
+              required:
+              - id
+              - accessToken
+              - fields
+            examples:
+              example-1:
+                value:
+                  id: 939f3f91233b4b0e8f0f2a0f2a0f2a0f
+                  accessToken: string
+                  fields:
+                    type: call
+                    durationSeconds: 120
+                    phone: '8192223333'
+                    body: Call went well, they'll likely buy our paper.
+                    dispositionKey: answered_meeting_set
+      description: Complete a task.
+components:
+  schemas:
+    EngTaskUpdate:
+      title: TaskUpdate
+      type: object
+      description: Properties that a task can be updated with
+      examples:
+      - body: Call Dunder Mifflin to get a paper refill
+        dueDate: '2019-09-24T14:15:22Z'
+        additional: {}
+      properties:
+        body:
+          type: string
+        dueDate:
+          type: string
+        additional:
+          type: object
+          description: Update any property in the downstream Engagement Platform, such as a custom property.
+    EngTaskComplete:
+      title: TaskComplete
+      type: object
+      examples:
+      - type: call
+        durationSeconds: 120
+        phone: '8192223333'
+        body: Call went well, they'll likely buy our paper.
+        dispositionKey: answered_meeting_set
+      description: Complete a call or other task.
+      properties:
+        type:
+          type: string
+          enum:
+          - call
+          - other
+          description: The type of the action that was completed. Only call and other actions are currently supported.
+        body:
+          type: string
+        durationSeconds:
+          type: number
+          description: Supported for call actions. How long the call lasted, in seconds.
+        phone:
+          type: string
+          description: Supported for call actions. The phone number called.
+        dispositionKey:
+          type: string
+          description: Supported for call actions. The key of the disposition selected for the call. Call /call-dispositions for possible values.
+    EngTaskCreate:
+      title: TaskCreate
+      type: object
+      description: Properties that a task can be created with
+      examples:
+      - type: call
+        body: Call Dunder Mifflin to get a paper refill
+        dueDate: '2019-09-24T14:15:22Z'
+        contactId: 2d4fd2115220bd20a2ccf81210ec
+        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+        additional: {}
+      properties:
+        body:
+          type: string
+        dueDate:
+          type: string
+        type:
+          type: string
+          enum:
+          - call
+          - email
+          - other
+        contactId:
+          type: string
+        ownerUserId:
+          type: string
+          description: The Id of the User that owns this Task
+        additional:
+          type: object
+          description: Update any property in the downstream Engagement Platform, such as a custom property.
+      required:
+      - type
+      - dueDate
+      - contactId
+      - ownerUserId
+    EngTask:
+      title: Task
+      type: object
+      description: A task attached to some object
+      examples:
+      - id: 22707bbc41577d9806400e2daa25de
+        type: call
+        body: Call Dunder Mifflin to get a paper refill
+        dueDate: '2019-09-24T14:15:22Z'
+        status: complete
+        completedTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+        createdTime: '2019-08-24T14:15:22Z'
+        associations:
+          contactId: 2d4fd2115220bd20a2ccf81210ec
+          callId: 15a6ea63b0f16e73689d9
+          emailId: d08f345ace24509e911a0ea8e3d2203c
+          ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+        additional: {}
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Engagement Platform.
+        body:
+          type: string
+        dueDate:
+          type: string
+        type:
+          type: string
+          enum:
+          - call
+          - email
+          - other
+        status:
+          type: string
+          enum:
+          - in_progress
+          - complete
+          - to_do
+        createdTime:
+          type: string
+          description: The timestamp that the task was created
+        modifiedTime:
+          type: string
+          description: The timestamp the task was last modified
+        associations:
+          type: object
+          required:
+          - callId
+          - contactId
+          - emailId
+          - ownerUserId
+          properties:
+            callId:
+              type: string
+            contactId:
+              type: string
+            emailId:
+              type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this Task
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream Engagement Platform
+      required:
+      - id
+      - createdTime
+      - modifiedTime
+      - associations
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    id:
+      name: id
+      in: query
+      description: The id of the object to retrieve
+      required: true
+      schema:
+        type: string
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-speakeasy-name-override:
+- operationId: post-*
+  methodNameOverride: create
+- operationId: put-*
+  methodNameOverride: update
+- operationId: delete-*
+  methodNameOverride: delete
+- operationId: get-one-*
+  methodNameOverride: find
+- operationId: get-all-*
+  methodNameOverride: list
+- operationId: get-details-*
+  methodNameOverride: details
+- operationId: get-batch-*
+  methodNameOverride: batch
+- operationId: search-*
+  methodNameOverride: search

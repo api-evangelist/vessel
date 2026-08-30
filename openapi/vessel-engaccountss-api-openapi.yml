@@ -1,0 +1,226 @@
+openapi: 3.2.0
+info:
+  title: Reference Eng Accountss API
+  version: '2.0'
+  summary: API
+  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+servers:
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: engAccountss
+paths:
+  /engagement/accounts/search:
+    post:
+      summary: Search Accounts
+      tags:
+      - engAccountss
+      operationId: search-engagement-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EngAccount'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    accounts:
+                    - id: '15'
+                      name: test account
+                      createdTime: '2023-02-17T21:28:30.000Z'
+                      modifiedTime: '2023-02-18T01:57:12.000Z'
+                      description: null
+                      industry: null
+                      numberOfEmployees: null
+                      domain: vessel.land
+                      website: null
+                      address: null
+                      phone: null
+                      locality: San Francisco
+                      associations:
+                        ownerUserId: '1'
+                      additional: {}
+                    nextPageCursor: d9806400e2daa25de2322707bbc41577
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                filters:
+                  type: object
+                  properties:
+                    name:
+                      type: object
+                      properties:
+                        equals:
+                          type: string
+                      required: equals
+                    domain:
+                      type: object
+                      properties:
+                        equals:
+                          type: string
+                      required: equals
+              required:
+              - accessToken
+              - filters
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  filters:
+                    name:
+                      equals: Acme Co.
+      description: Search accounts.
+components:
+  schemas:
+    EngAddress:
+      title: Address
+      type: object
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+      examples:
+      - line1: 123 Main St
+        line2: Apt 1
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
+    EngAccount:
+      title: Account
+      type: object
+      examples:
+      - id: '344'
+        name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+        phone: '8192223333'
+        locality: Scranton
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        associations:
+          contactIds:
+          - e5f32d4fd2115220bd20a2ccf81210ec
+          actionIds:
+          - 006b4db16b6b50c981a174b02753c390
+          taskIds:
+          - 2322707bbc41577d9806400e2daa25de
+          ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+        additional: {}
+      description: '(Alias: company, organization) An organization involved with your business.'
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Engagement Platform.
+        name:
+          type: string
+        description:
+          type: string
+          description: A description of this Company/Account.
+        industry:
+          type: string
+          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
+        locality:
+          type: string
+        numberOfEmployees:
+          type: number
+        website:
+          type: string
+        phone:
+          type: string
+          description: The primary phone number.
+        address:
+          $ref: '#/components/schemas/EngAddress'
+        createdTime:
+          type: string
+          description: The timestamp that the account was created
+        modifiedTime:
+          type: string
+          description: The timestamp the account was last modified
+        associations:
+          type: object
+          required:
+          - contactIds
+          - actionIds
+          - taskIds
+          - ownerUserId
+          properties:
+            contactIds:
+              type: array
+              items:
+                type: string
+            actionIds:
+              type: array
+              items:
+                type: string
+            taskIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this Account
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream Engagement Platform
+      required:
+      - id
+      - createdTime
+      - modifiedTime
+      - associations
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-speakeasy-name-override:
+- operationId: post-*
+  methodNameOverride: create
+- operationId: put-*
+  methodNameOverride: update
+- operationId: delete-*
+  methodNameOverride: delete
+- operationId: get-one-*
+  methodNameOverride: find
+- operationId: get-all-*
+  methodNameOverride: list
+- operationId: get-details-*
+  methodNameOverride: details
+- operationId: get-batch-*
+  methodNameOverride: batch
+- operationId: search-*
+  methodNameOverride: search

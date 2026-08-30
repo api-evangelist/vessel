@@ -1,0 +1,287 @@
+openapi: 3.2.0
+info:
+  title: Reference Eng Emails API
+  version: '2.0'
+  summary: API
+  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+servers:
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: engEmails
+paths:
+  /engagement/emails:
+    parameters: []
+    get:
+      summary: Get All Emails
+      tags:
+      - engEmails
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  emails:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EngEmail'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    emails:
+                    - id: 2322707bbc41577d9806400e2daa25de
+                      subject: 'Re: Paper renewal'
+                      hasReplied: true
+                      isBounced: false
+                      openCount: 1
+                      clickCount: 2
+                      replyCount: null
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      createdTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        sequenceId: d08f345ace24509e911a0ea8e3d2203c
+                        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+                    nextPageCursor: string
+      operationId: get-all-engagement-emails
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/allFields'
+      description: Retrieve all Emails
+  /engagement/email:
+    parameters: []
+    get:
+      summary: Get Email
+      tags:
+      - engEmails
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  email:
+                    $ref: '#/components/schemas/EngEmail'
+              examples:
+                example-1:
+                  value:
+                    email:
+                      id: 2322707bbc41577d9806400e2daa25de
+                      subject: 'Re: Paper renewal'
+                      hasReplied: true
+                      isBounced: false
+                      openCount: 1
+                      clickCount: 2
+                      replyCount: null
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      createdTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        sequenceId: d08f345ace24509e911a0ea8e3d2203c
+                        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+      operationId: get-one-engagement-email
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/id'
+      - $ref: '#/components/parameters/allFields'
+      description: Retrieve a Email by Id.
+  /engagement/emails/search:
+    post:
+      summary: Search Emails
+      tags:
+      - engEmails
+      operationId: search-engagement-email
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  emails:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EngEmail'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    emails:
+                    - id: 2322707bbc41577d9806400e2daa25de
+                      subject: 'Re: Paper renewal'
+                      hasReplied: true
+                      isBounced: false
+                      openCount: 1
+                      clickCount: 2
+                      replyCount: null
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      createdTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        sequenceId: d08f345ace24509e911a0ea8e3d2203c
+                        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+                    nextPageCursor: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                filters:
+                  type: object
+                  properties:
+                    sequenceId:
+                      type: object
+                      properties:
+                        equals:
+                          type: string
+                    contactId:
+                      type: object
+                      properties:
+                        equals:
+                          type: string
+              required:
+              - accessToken
+              - filters
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  filters:
+                    sequenceId:
+                      equals: d08f345ace24509e911a0ea8e3d2203c
+      description: Search emails.
+components:
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    id:
+      name: id
+      in: query
+      description: The id of the object to retrieve
+      required: true
+      schema:
+        type: string
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+  schemas:
+    EngEmail:
+      title: Email
+      type: object
+      description: A email between a User and an external Contact
+      examples:
+      - id: 2322707bbc41577d9806400e2daa25de
+        subject: 'Re: Paper renewal'
+        hasReplied: true
+        isBounced: false
+        openCount: 1
+        clickCount: 2
+        replyCount: null
+        modifiedTime: '2019-08-24T14:15:22Z'
+        createdTime: '2019-08-24T14:15:22Z'
+        associations:
+          sequenceId: d08f345ace24509e911a0ea8e3d2203c
+          ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+        additional: {}
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Engagement Platform.
+        subject:
+          type: string
+        isBounced:
+          type: boolean
+        hasReplied:
+          type: boolean
+        openCount:
+          type: number
+        clickCount:
+          type: number
+        replyCount:
+          type: number
+          description: Not supported in Outreach & Apollo - use `hasReplied`.
+        createdTime:
+          type: string
+          description: The timestamp that the email was created
+        modifiedTime:
+          type: string
+          description: The timestamp the email was last modified
+        associations:
+          type: object
+          required:
+          - sequenceId
+          - ownerUserId
+          properties:
+            sequenceId:
+              type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this Action
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream Engagement Platform
+      required:
+      - id
+      - createdTime
+      - modifiedTime
+      - associations
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-speakeasy-name-override:
+- operationId: post-*
+  methodNameOverride: create
+- operationId: put-*
+  methodNameOverride: update
+- operationId: delete-*
+  methodNameOverride: delete
+- operationId: get-one-*
+  methodNameOverride: find
+- operationId: get-all-*
+  methodNameOverride: list
+- operationId: get-details-*
+  methodNameOverride: details
+- operationId: get-batch-*
+  methodNameOverride: batch
+- operationId: search-*
+  methodNameOverride: search

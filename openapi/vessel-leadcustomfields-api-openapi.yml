@@ -1,0 +1,100 @@
+openapi: 3.2.0
+info:
+  title: CRM API Reference Lead Custom Fields API
+  version: '2.0'
+  summary: API
+servers:
+- url: https://api.vessel.dev
+security:
+- VesselAPIToken: []
+tags:
+- name: leadCustomFields
+paths:
+  /crm/lead/custom-field:
+    post:
+      summary: Create Lead Custom Field
+      description: Supported for Salesforce and HubSpot
+      tags:
+      - leadCustomFields
+      operationId: post-lead-custom-field
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    success: true
+                properties:
+                  key:
+                    type: string
+                    description: The key used to access the custom field
+              examples:
+                example-1:
+                  value:
+                    success: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  $ref: '#/components/parameters/accessToken'
+                customField:
+                  $ref: '#/components/schemas/CustomFieldCreate'
+              required:
+              - accessToken
+              - customField
+components:
+  parameters:
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+  schemas:
+    CustomFieldCreate:
+      type: object
+      description: ''
+      properties:
+        customKey:
+          type: string
+          description: Used for overriding the default key generated from the name of the field. Not supported for Close
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - singleselect
+          - number
+          - text
+          - currency
+          - percentage
+        options:
+          type: array
+          description: Required when `type = singleselect`
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              key:
+                type: string
+            required:
+            - name
+            - key
+      required:
+      - name
+      - type
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header

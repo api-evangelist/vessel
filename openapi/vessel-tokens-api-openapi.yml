@@ -1,0 +1,46 @@
+openapi: 3.2.0
+info:
+  title: Vessel Tokens API
+  version: '2.0'
+  description: 'Operations tagged tokens across 2 of this provider''s published API definitions: vessel-crm-v1-openapi.yml, vessel-engagement-v1-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.vessel.dev
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: tokens
+paths:
+  /link/token:
+    parameters: []
+    post:
+      summary: Create Link Token
+      tags:
+      - tokens
+      operationId: post-link-token
+      responses:
+        '200':
+          description: Create link token
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  linkToken:
+                    type: string
+              examples: {}
+      description: Generates a link token to be used during the authentication flow. This token is passed to either the Vessel Link Component or `useVesselLink` hook.
+      security:
+      - VesselAPIToken: []
+    servers:
+    - url: https://api.vessel.dev
+components:
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-refined-from:
+- vessel-crm-v1-openapi.yml
+- vessel-engagement-v1-openapi.yml

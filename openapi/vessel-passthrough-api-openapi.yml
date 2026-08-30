@@ -1,0 +1,181 @@
+openapi: 3.2.0
+info:
+  title: Vessel Passthrough API
+  version: '1.0'
+  description: 'Operations tagged passthrough across 2 of this provider''s published API definitions: vessel-crm-v1-openapi.yml, vessel-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.vessel.dev
+security:
+- VesselAPIToken: []
+tags:
+- name: passthrough
+paths:
+  /crm/passthrough:
+    post:
+      summary: Passthrough Request
+      tags:
+      - passthrough
+      operationId: post-crm-passthrough
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                properties:
+                  headers:
+                    type: object
+                  url:
+                    type: string
+                    description: The full URL that the request was sent to.
+                  statusCode:
+                    type: number
+                    description: The HTTP status code of the response from the downstream CRM.
+                  body:
+                    AnyValue:
+                      description: The body of the response from the downstream CRM.
+                required:
+                - id
+              examples:
+                example-1:
+                  value:
+                    headers:
+                      content-type: application/json
+                    url: https://mydomain.my.salesforce.com/services/data/v53.0/sobjects/Account
+                    statusCode: 200
+                    body:
+                      id: 0011A00001XQ4QSQAZ
+                      success: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                method:
+                  type: string
+                  enum:
+                  - GET
+                  - POST
+                  - PUT
+                  - PATCH
+                  - DELETE
+                path:
+                  type: string
+                  description: The path to send the request to. Vessel handles the domain so for a request to Salesforce instead of using `https://mydomain.my.salesforce.com/services/data/v52.0/sobjects/Account` you would use `services/data/v52.0/sobjects/Account`.
+                body:
+                  type: object
+                  description: The body of the request.
+                query:
+                  type: object
+                  description: The query parameters to send with the request as key value pairs. These are appended to the URL when the request is sent to the CRM.
+              required:
+              - accessToken
+              - method
+              - path
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  method: PATCH
+                  path: services/data/v53.0/sobjects/Account/0011A00001XQ4ZUQA1
+                  body:
+                  - Name: Vessel
+        description: ''
+      description: Send an authenticated passthrough request to the downstream CRM. This is useful for making requests to endpoints that are not yet supported by Vessel.
+    servers:
+    - url: https://api.vessel.dev
+  /api/passthrough:
+    post:
+      summary: Passthrough Request
+      operationId: passthrough
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                properties:
+                  $native:
+                    type: object
+                    properties:
+                      headers:
+                        type: object
+                      body:
+                        type: object
+                      url:
+                        type: string
+                required:
+                - id
+              examples:
+                example-1:
+                  value:
+                    $native:
+                      headers:
+                        content-type: application/json
+                      body:
+                        id: 123123123123
+                      url: https://test.my.salesforce.com/services/data/v52.0/sobjects/Account/0011A00001XQ4ZUQA1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                method:
+                  type: string
+                  enum:
+                  - GET
+                  - POST
+                  - PUT
+                  - PATCH
+                  - DELETE
+                path:
+                  type: string
+                  description: The path to send the request to. Vessel handles the domain, for example, a request to Salesforce would use `/services/data/v52.0/sobjects/Account` instead of `https://mydomain.my.salesforce.com/services/data/v52.0/sobjects/Account`.
+                json:
+                  type: object
+                  description: The JSON body of the request.
+                query:
+                  type: object
+                  description: The query parameters to send with the request as key value pairs. These are appended to the URL when the request is sent to the integration provider.
+              required:
+              - method
+              - path
+            examples:
+              example-1:
+                value:
+                  method: PATCH
+                  path: /services/data/v53.0/sobjects/Account/0011A00001XQ4ZUQA1
+                  json:
+                  - Name: Vessel
+        description: ''
+      description: Send an authenticated passthrough request to the downstream system. This is useful for making requests to endpoints that are not yet supported by Vessel.
+      tags:
+      - passthrough
+    servers:
+    - url: https://api.vessel.dev
+components:
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-refined-from:
+- vessel-crm-v1-openapi.yml
+- vessel-platform-openapi.yml

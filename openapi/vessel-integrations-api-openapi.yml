@@ -1,0 +1,138 @@
+openapi: 3.2.0
+info:
+  title: Vessel Integrations API
+  version: '1.0'
+  description: 'Operations tagged integrations across 3 of this provider''s published API definitions: vessel-crm-v1-openapi.yml, vessel-engagement-v1-openapi.yml, vessel-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.vessel.dev
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: integrations
+paths:
+  /connection/crm/integrations:
+    parameters: []
+    get:
+      summary: Get CRM Integrations
+      tags:
+      - integrations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  integrations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Integration'
+      operationId: get-all-crm-integrations
+      description: Return all of the CRM integrations supported by Vessel.
+      parameters: []
+    servers:
+    - url: https://api.vessel.dev
+  /api/integrations/list:
+    parameters: []
+    post:
+      summary: List Integrations
+      operationId: get-all-integrations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filters:
+                  type: object
+                  properties:
+                    ids:
+                      type: array
+                      items:
+                        type: string
+            examples:
+              example-1:
+                value:
+                  ids:
+                  - salesforce
+                  - hubspot
+      responses:
+        '200':
+          description: List Integrations
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  integrations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Integration_2'
+              examples:
+                example-1:
+                  value:
+                    integrations:
+                    - id: apollo
+                      display:
+                        name: Apollo
+                        iconURI: 1f12532...
+      description: List all available Integrations.
+      security:
+      - VesselAPIToken: []
+      tags:
+      - integrations
+    servers:
+    - url: https://api.vessel.dev
+components:
+  schemas:
+    Integration:
+      title: Integration
+      type: object
+      properties:
+        integrationId:
+          type: string
+          enum:
+          - salesforce
+          - hubspot
+          - pipedrive
+          - zoho
+        name:
+          type: string
+        iconURL:
+          type: string
+          description: Base 64 data URI
+      examples:
+      - integrationId: hubspot
+        name: Hubspot
+        iconURL: string
+    Integration_2:
+      title: Integration
+      type: object
+      properties:
+        id:
+          type: string
+        display:
+          type: object
+          properties:
+            name:
+              type: string
+            iconURI:
+              type: string
+      examples:
+      - id: apollo
+        display:
+          name: Apollo
+          iconURI: 1f12532...
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-refined-from:
+- vessel-crm-v1-openapi.yml
+- vessel-engagement-v1-openapi.yml
+- vessel-platform-openapi.yml

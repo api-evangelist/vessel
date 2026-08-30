@@ -1,0 +1,277 @@
+openapi: 3.2.0
+info:
+  title: Reference Auth API
+  version: '1.0'
+  summary: API
+servers:
+- url: https://api.vessel.dev
+security:
+- VesselAPIToken: []
+tags:
+- name: Auth
+paths:
+  /api/auth/access-token:
+    parameters: []
+    post:
+      summary: Get Access Token
+      operationId: get-one-access-token
+      responses:
+        '200':
+          description: Exchange Session Token for Access Token
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  connectionId:
+                    type: string
+                  integrationId:
+                    type: string
+              examples: {}
+      description: Exchange the session token for an access token. The access token is the secret key used to refer to a specific connected integration.
+      parameters:
+      - in: header
+        name: x-vessel-session-token
+        schema:
+          type: string
+        required: true
+      security:
+      - VesselAPIToken: []
+      tags:
+      - Auth
+  /api/auth/session-token:
+    parameters: []
+    post:
+      summary: Get Session Token
+      operationId: get-one-session-token
+      responses:
+        '200':
+          description: Get Session Token
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  sessionToken:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    sessionToken: v_session_eb97282c54ff6c5d9bdf4c716a01d6950c02d361183088769acbe302f94caf52
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                integrationId:
+                  type: string
+                  description: Required when creating a session token for a synced connection
+                connection:
+                  type: object
+                  properties:
+                    sync:
+                      type: object
+                      properties:
+                        objects:
+                          description: Set any of these objects to true to sync these objects to the [synced-cache](/pages/home/synced-cache)
+                          type: object
+                          properties:
+                            accounts:
+                              type: boolean
+                            contacts:
+                              type: boolean
+                            deals:
+                              type: boolean
+                            leads:
+                              type: boolean
+                            events:
+                              type: boolean
+                            attendees:
+                              type: boolean
+                            tasks:
+                              type: boolean
+                            notes:
+                              type: boolean
+                            calls:
+                              type: boolean
+                            users:
+                              type: boolean
+                            emails:
+                              type: boolean
+            examples:
+              example-1:
+                value:
+                  id: v_oauthapp_apollo_12312312
+      description: Call this endpoint to start a new Authentication Session before authenticating your User's integration.
+      security:
+      - VesselAPIToken: []
+      tags:
+      - Auth
+  /api/auth/oauth-apps/list:
+    parameters: []
+    post:
+      summary: List OAuth Apps
+      operationId: get-all-oauth-apps
+      responses:
+        '200':
+          description: List OAuth Apps
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  oauthApps:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OAuthApp'
+              examples: {}
+      description: List all OAuth Apps.
+      security:
+      - VesselAPIToken: []
+      tags:
+      - Auth
+  /api/auth/oauth-apps/find:
+    parameters: []
+    post:
+      summary: Find OAuth App
+      operationId: get-one-oauth-app
+      responses:
+        '200':
+          description: Find an OAuth App
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  oauthApp:
+                    $ref: '#/components/schemas/OAuthApp'
+              examples: {}
+      description: Find an OAuth App
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+              required:
+              - id
+            examples:
+              example-1:
+                value:
+                  id: v_oauthapp_apollo_12312312
+      security:
+      - VesselAPIToken: []
+      tags:
+      - Auth
+  /api/auth/oauth-apps/create:
+    parameters: []
+    post:
+      summary: Create OAuth App
+      operationId: post-oauth-app
+      responses:
+        '200':
+          description: Create an OAuth App
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  oauthApp:
+                    $ref: '#/components/schemas/OAuthApp'
+              examples: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                integrationId:
+                  type: string
+                clientId:
+                  type: string
+                clientSecret:
+                  type: string
+                scopes:
+                  type: array
+                  items:
+                    type: string
+              required:
+              - integrationId
+              - clientId
+              - clientSecret
+            examples:
+              example-1:
+                value:
+                  integrationId: apollo
+                  clientId: '123123123'
+                  clientSecret: '123123123'
+                  scopes:
+                  - read
+                  - write
+      description: Create an OAuth App
+      security:
+      - VesselAPIToken: []
+      tags:
+      - Auth
+  /api/auth/oauth-apps/delete:
+    parameters: []
+    post:
+      summary: Delete OAuth App
+      operationId: delete-oauth-app
+      responses:
+        '200':
+          description: Delete an OAuth App
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  id:
+                    type: string
+              examples: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+              required:
+              - id
+            examples:
+              example-1:
+                value:
+                  id: v_oauthapp_apollo_12312312
+      description: Delete an OAuth App
+      security:
+      - VesselAPIToken: []
+      tags:
+      - Auth
+components:
+  schemas:
+    OAuthApp:
+      title: OAuthApp
+      type: object
+      properties:
+        id:
+          type: string
+        integrationId:
+          type: string
+        createdTime:
+          type: string
+      examples:
+      - id: v_oauthapp_apollo_12312312
+        integrationId: apollo
+        createdTime: 2022-11-09 23:11:28.617000+00:00

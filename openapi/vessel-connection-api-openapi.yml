@@ -1,0 +1,78 @@
+openapi: 3.2.0
+info:
+  title: Reference Connection API
+  version: '2.0'
+  summary: API
+  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+servers:
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: Connection
+paths:
+  /connection/engagement/integrations:
+    parameters: []
+    get:
+      summary: Get Engagement Integrations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  integrations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EngIntegration'
+      operationId: get-all-engagement-integrations
+      description: Return all of the Engagement Platform integrations supported by Vessel.
+      parameters: []
+      tags:
+      - Connection
+components:
+  schemas:
+    EngIntegration:
+      title: Integration
+      type: object
+      properties:
+        integrationId:
+          type: string
+          enum:
+          - outreach
+          - salesloft
+          - apollo
+        name:
+          type: string
+        iconURL:
+          type: string
+          description: Base 64 data URI
+      examples:
+      - integrationId: outreach
+        name: Outreach
+        iconURL: string
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-speakeasy-name-override:
+- operationId: post-*
+  methodNameOverride: create
+- operationId: put-*
+  methodNameOverride: update
+- operationId: delete-*
+  methodNameOverride: delete
+- operationId: get-one-*
+  methodNameOverride: find
+- operationId: get-all-*
+  methodNameOverride: list
+- operationId: get-details-*
+  methodNameOverride: details
+- operationId: get-batch-*
+  methodNameOverride: batch
+- operationId: search-*
+  methodNameOverride: search

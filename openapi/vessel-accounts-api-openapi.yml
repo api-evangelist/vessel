@@ -1,0 +1,1249 @@
+openapi: 3.2.0
+info:
+  title: Vessel Accounts API
+  version: '1.0'
+  description: 'Operations tagged accounts across 3 of this provider''s published API definitions: vessel-crm-openapi.yml, vessel-crm-v1-openapi.yml, vessel-engagement-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.vessel.dev
+security:
+- VesselAPIToken: []
+tags:
+- name: accounts
+paths:
+  /api/unifications/crm/accounts/update:
+    post:
+      summary: Update Account
+      tags:
+      - accounts
+      operationId: update-account
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: '0'
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                synced:
+                  $ref: '#/components/schemas/SyncedCache'
+                account:
+                  $ref: '#/components/schemas/AccountUpdate'
+              required:
+              - id
+              - account
+            examples:
+              example-1:
+                value:
+                  id: string
+                  account:
+                    name: Blue Cross
+                    description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+                    industry: TV and Media
+                    annualRevenue: 10000000
+                    numberOfEmployees: 100
+                    website: www.bluecross.penn
+                    createdTime: '2019-08-24T14:15:22Z'
+                    modifiedTime: '2019-08-24T14:15:22Z'
+                    phone: '8192223333'
+                    address:
+                      street: 100 Blue Dr
+                      city: Scranton
+                      state: Pennsylvania
+                      postalCode: '281332'
+                      country: USA
+                    $native: {}
+      description: Update an existing Account
+    servers:
+    - url: https://api.vessel.dev
+  /crm/accounts:
+    parameters: []
+    get:
+      summary: Get All Accounts
+      tags:
+      - accounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Account'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    accounts:
+                    - id: v.account.0dcb45e051315a6ea63b0f16e73689d9
+                      nativeId: '344'
+                      name: Blue Cross
+                      description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+                      industry: TV and Media
+                      annualRevenue: 10000000
+                      numberOfEmployees: 100
+                      website: www.bluecross.penn
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      phone: '8192223333'
+                      address:
+                        street: 100 Blue Dr
+                        city: Scranton
+                        state: Pennsylvania
+                        postalCode: '281332'
+                        country: USA
+                      associations:
+                        dealIds:
+                        - v.deal.497fb529e6805351b5dc8057c74a4a52
+                        contactIds:
+                        - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                        noteIds:
+                        - v.note.006b4db16b6b50c981a174b02753c390
+                        taskIds:
+                        - v.task.2322707bbc41577d9806400e2daa25de
+                        leadIds:
+                        - v.lead.d08f345ace24509e911a0ea8e3d2203c
+                        eventIds:
+                        - v.event.0000d2e83d6c5d52a61f2fb860666477
+                        emailIds:
+                        - v.email.3ab3a9562af957228c1019127e3c81e1
+                        callIds:
+                        - v.call.1222707bbc415ee4806400e2daa25ffa
+                        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+                    nextPageCursor: string
+      operationId: get-all-crm-accounts
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+        required: true
+      - schema:
+          type: string
+        in: query
+        name: cursor
+      - schema:
+          type: number
+        in: query
+        name: limit
+        description: The number of records to return per page.
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      description: Retrieve all Accounts
+    servers:
+    - url: https://api.vessel.dev
+  /crm/accounts/search:
+    post:
+      summary: Search Accounts
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filters:
+                  type: object
+                  properties:
+                    id:
+                      $ref: '#/components/schemas/StringFilter'
+                    nativeId:
+                      $ref: '#/components/schemas/StringFilter'
+                    name:
+                      $ref: '#/components/schemas/StringFilter'
+                    description:
+                      $ref: '#/components/schemas/StringFilter'
+                    industry:
+                      $ref: '#/components/schemas/StringFilter'
+                    website:
+                      $ref: '#/components/schemas/StringFilter'
+                    street:
+                      $ref: '#/components/schemas/StringFilter'
+                    city:
+                      $ref: '#/components/schemas/StringFilter'
+                    state:
+                      $ref: '#/components/schemas/StringFilter'
+                    postalCode:
+                      $ref: '#/components/schemas/StringFilter'
+                    country:
+                      $ref: '#/components/schemas/StringFilter'
+                    phone:
+                      $ref: '#/components/schemas/StringFilter'
+                    annualRevenue:
+                      $ref: '#/components/schemas/NumberFilter'
+                    numberOfEmployees:
+                      $ref: '#/components/schemas/NumberFilter'
+                    createdTime:
+                      $ref: '#/components/schemas/DateFilter'
+                    modifiedTime:
+                      $ref: '#/components/schemas/DateFilter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Account'
+                  nextPageCursor:
+                    type: string
+                title: responseBody
+              examples:
+                example-1:
+                  value:
+                    accounts:
+                    - id: v.account.0dcb45e051315a6ea63b0f16e73689d9
+                      nativeId: '344'
+                      name: Blue Cross
+                      description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+                      industry: TV and Media
+                      annualRevenue: 10000000
+                      numberOfEmployees: 100
+                      website: www.bluecross.penn
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      phone: '8192223333'
+                      address:
+                        street: 100 Blue Dr
+                        city: Scranton
+                        state: Pennsylvania
+                        postalCode: '281332'
+                        country: USA
+                      associations:
+                        dealIds:
+                        - v.deal.497fb529e6805351b5dc8057c74a4a52
+                        contactIds:
+                        - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                        noteIds:
+                        - v.note.006b4db16b6b50c981a174b02753c390
+                        taskIds:
+                        - v.task.2322707bbc41577d9806400e2daa25de
+                        leadIds:
+                        - v.lead.d08f345ace24509e911a0ea8e3d2203c
+                        eventIds:
+                        - v.event.0000d2e83d6c5d52a61f2fb860666477
+                        emailIds:
+                        - v.email.3ab3a9562af957228c1019127e3c81e1
+                        callIds:
+                        - v.call.1222707bbc415ee4806400e2daa25ffa
+                        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+                    nextPageCursor: string
+      operationId: search-crm-accounts
+      description: Search all Accounts using filters
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/allFields'
+    servers:
+    - url: https://api.vessel.dev
+  /crm/account:
+    parameters: []
+    get:
+      summary: Get Account
+      tags:
+      - accounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  account:
+                    $ref: '#/components/schemas/Account'
+              examples:
+                example-1:
+                  value:
+                    account:
+                      id: v.account.0dcb45e051315a6ea63b0f16e73689d9
+                      nativeId: '344'
+                      name: Blue Cross
+                      description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+                      industry: TV and Media
+                      annualRevenue: 10000000
+                      numberOfEmployees: 100
+                      website: www.bluecross.penn
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      phone: '8192223333'
+                      address:
+                        street: 100 Blue Dr
+                        city: Scranton
+                        state: Pennsylvania
+                        postalCode: '281332'
+                        country: USA
+                      associations:
+                        dealIds:
+                        - v.deal.497fb529e6805351b5dc8057c74a4a52
+                        contactIds:
+                        - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                        noteIds:
+                        - v.note.006b4db16b6b50c981a174b02753c390
+                        taskIds:
+                        - v.task.2322707bbc41577d9806400e2daa25de
+                        leadIds:
+                        - v.lead.d08f345ace24509e911a0ea8e3d2203c
+                        eventIds:
+                        - v.event.0000d2e83d6c5d52a61f2fb860666477
+                        emailIds:
+                        - v.email.3ab3a9562af957228c1019127e3c81e1
+                        callIds:
+                        - v.call.1222707bbc415ee4806400e2daa25ffa
+                        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+      operationId: get-one-crm-account
+      parameters:
+      - schema:
+          type: string
+        in: query
+        required: true
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+      - schema:
+          type: string
+        in: query
+        name: id
+        required: true
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      description: Retrieve a single Account by Id
+    post:
+      summary: Create Account
+      tags:
+      - accounts
+      operationId: post-crm-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: '0'
+                properties:
+                  id:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    id: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                account:
+                  $ref: '#/components/schemas/AccountCreate'
+              required:
+              - accessToken
+              - account
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  account:
+                    name: Blue Cross
+                    description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+                    industry: TV and Media
+                    annualRevenue: 10000000
+                    numberOfEmployees: 100
+                    website: www.bluecross.penn
+                    phone: '8192223333'
+                    address:
+                      street: 100 Blue Dr
+                      city: Scranton
+                      state: Pennsylvania
+                      postalCode: '281332'
+                      country: USA
+      description: Create a new Account
+    patch:
+      summary: Update Account
+      tags:
+      - accounts
+      operationId: put-crm-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: '0'
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                id:
+                  type: string
+                account:
+                  $ref: '#/components/schemas/AccountUpdate_2'
+              required:
+              - accessToken
+              - id
+              - account
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  id: string
+                  account:
+                    name: Blue Cross
+                    description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+                    industry: TV and Media
+                    annualRevenue: 10000000
+                    numberOfEmployees: 100
+                    website: www.bluecross.penn
+                    createdTime: '2019-08-24T14:15:22Z'
+                    modifiedTime: '2019-08-24T14:15:22Z'
+                    phone: '8192223333'
+                    address:
+                      street: 100 Blue Dr
+                      city: Scranton
+                      state: Pennsylvania
+                      postalCode: '281332'
+                      country: USA
+      description: Update an existing Account
+      parameters: []
+    servers:
+    - url: https://api.vessel.dev
+  /crm/account/details:
+    get:
+      summary: Get Account Details
+      tags:
+      - accounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  fields:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Field'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    fields:
+                    - key: name
+                      name: Name
+                      type: string
+                      options: null
+                      isArray: false
+                      custom: false
+                      universal: true
+                      required: false
+                      creatable: true
+                      updatable: true
+                    nextPageCursor: string
+      operationId: get-details-crm-account
+      description: 'Get details about all accounts.
+
+        Details include the type, possible values, and other meta data about the fields.'
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+        required: true
+      - schema:
+          type: string
+        in: query
+        name: cursor
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns details about native fields.
+    servers:
+    - url: https://api.vessel.dev
+  /crm/account/batch:
+    parameters: []
+    get:
+      summary: Get Batch Accounts
+      tags:
+      - accounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Account'
+                  invalidIds:
+                    $ref: '#/components/schemas/InvalidIds'
+              examples:
+                example-1:
+                  value:
+                    accounts:
+                    - id: v.account.0dcb45e051315a6ea63b0f16e73689d9
+                      nativeId: '344'
+                      name: Blue Cross
+                      description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+                      industry: TV and Media
+                      annualRevenue: 10000000
+                      numberOfEmployees: 100
+                      website: www.bluecross.penn
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      phone: '8192223333'
+                      address:
+                        street: 100 Blue Dr
+                        city: Scranton
+                        state: Pennsylvania
+                        postalCode: '281332'
+                        country: USA
+                      associations:
+                        dealIds:
+                        - v.deal.497fb529e6805351b5dc8057c74a4a52
+                        contactIds:
+                        - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                        noteIds:
+                        - v.note.006b4db16b6b50c981a174b02753c390
+                        taskIds:
+                        - v.task.2322707bbc41577d9806400e2daa25de
+                        leadIds:
+                        - v.lead.d08f345ace24509e911a0ea8e3d2203c
+                        eventIds:
+                        - v.event.0000d2e83d6c5d52a61f2fb860666477
+                        emailIds:
+                        - v.email.3ab3a9562af957228c1019127e3c81e1
+                        callIds:
+                        - v.call.1222707bbc415ee4806400e2daa25ffa
+                        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+      operationId: get-batch-crm-account
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        required: true
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+      - schema:
+          type: string
+        in: query
+        name: ids
+        description: Comma separated list of Account Id's.
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      description: Retrieve Accounts by a set of Id's
+    servers:
+    - url: https://api.vessel.dev
+  /api/unifications/engagement/accounts/update:
+    parameters: []
+    post:
+      summary: Update Account
+      tags:
+      - accounts
+      operationId: put-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: '0'
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      parameters:
+      - name: x-vessel-access-token
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                account:
+                  $ref: '#/components/schemas/AccountUpdate_3'
+              required:
+              - id
+              - account
+            examples:
+              example-1:
+                value:
+                  id: string
+                  account:
+                    name: Blue Cross
+                    description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+                    industry: TV and Media
+                    numberOfEmployees: 100
+                    website: www.bluecross.penn
+                    phone: '8192223333'
+                    address:
+                      line1: 100 Blue Dr
+                      line2: Suite 100
+                      city: Scranton
+                      state: Pennsylvania
+                      postalCode: '281332'
+                      country: USA
+                    $native: {}
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+      description: Update an existing Account
+    servers:
+    - url: https://api.vessel.dev
+components:
+  schemas:
+    Address:
+      title: Address
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+      examples:
+      - street: 123 Main St
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
+    NativeData:
+      title: Native Data
+      type: object
+      description: Native fields for the connected platform. For reads, this object is only returned if the include.$native field is set to true in the request body.
+    AccountUpdate:
+      title: AccountUpdate
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: Not supported by Pipedrive
+        industry:
+          type: string
+          description: Not supported by Pipedrive
+        website:
+          type: string
+          description: Not supported by Pipedrive
+        numberOfEmployees:
+          type: number
+          description: Not supported by Pipedrive
+        annualRevenue:
+          type: number
+          description: Not supported by Pipedrive
+        phone:
+          type: string
+          description: The primary phone| Not supported by Pipedrive
+        address:
+          $ref: '#/components/schemas/Address'
+        associations:
+          type: object
+          properties:
+            ownerUserId:
+              type: string
+              description: The Id of the User to assign this Account to
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - name
+    SyncedCache:
+      title: Use Synced Cache
+      type: boolean
+      description: If true, will hit the [synced-cache](/pages/home/synced-cache)
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    Field:
+      title: Field
+      type: object
+      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
+      properties:
+        key:
+          type: string
+          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
+        name:
+          type: string
+          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
+        type:
+          type: string
+          enum:
+          - string
+          - number
+          - datetime
+          - date
+          - boolean
+          - reference
+          - phone
+          - url
+          - id
+          - email
+          - percent
+          - singleselect
+          - multiselect
+          - address
+          - decimal
+          - time
+          - daterange
+          - object
+        options:
+          type: array
+          description: Possible options for this field
+          items:
+            type: object
+            properties:
+              key:
+                oneOf:
+                - type: string
+                - type: number
+              name:
+                type: string
+        isArray:
+          type: boolean
+          description: If this field is an array
+        custom:
+          type: boolean
+          description: If this field is a custom field
+        universal:
+          type: boolean
+          description: If this is a field we've unified across CRMs
+        required:
+          type: boolean
+          description: If this field is required when creating the object
+        creatable:
+          type: boolean
+          description: If this field can be used when creating the object
+        updatable:
+          type: boolean
+          description: If this field can be updated
+      required:
+      - key
+      - name
+      - type
+      - custom
+      - universal
+      - required
+      - creatable
+      - updatable
+      examples:
+      - key: numberOfEmployees
+        name: number of employees
+        type: number
+        options: null
+        isArray: false
+        custom: false
+        universal: true
+        required: false
+        creatable: true
+        updatable: true
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+    NumberFilter:
+      type: object
+      properties:
+        equals:
+          type: number
+        gt:
+          type: number
+        lt:
+          type: number
+        lte:
+          type: number
+        gte:
+          type: number
+        not:
+          type: number
+        in:
+          type: array
+          items:
+            type: number
+        notIn:
+          type: array
+          items:
+            type: number
+    AccountUpdate_2:
+      title: AccountUpdate
+      type: object
+      examples:
+      - name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        annualRevenue: 10000000
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+        phone: '8192223333'
+        address:
+          street: 100 Blue Dr
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: Not supported by Pipedrive
+        industry:
+          type: string
+          description: Not supported by Pipedrive
+        website:
+          type: string
+          description: Not supported by Pipedrive
+        numberOfEmployees:
+          type: number
+          description: Not supported by Pipedrive
+        annualRevenue:
+          type: number
+          description: Not supported by Pipedrive
+        phone:
+          type: string
+          description: The primary phone| Not supported by Pipedrive
+        address:
+          $ref: '#/components/schemas/Address'
+        ownerUserId:
+          type: string
+          description: The Id of the User to assign this Account to
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - name
+    Account:
+      title: Account
+      type: object
+      examples:
+      - id: v.account.0dcb45e051315a6ea63b0f16e73689d9
+        nativeId: '344'
+        name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        annualRevenue: 10000000
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+        phone: '8192223333'
+        address:
+          street: 100 Blue Dr
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        associations:
+          dealIds:
+          - v.deal.497fb529e6805351b5dc8057c74a4a52
+          contactIds:
+          - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+          noteIds:
+          - v.note.006b4db16b6b50c981a174b02753c390
+          taskIds:
+          - v.task.2322707bbc41577d9806400e2daa25de
+          leadIds:
+          - v.lead.d08f345ace24509e911a0ea8e3d2203c
+          eventIds:
+          - v.event.0000d2e83d6c5d52a61f2fb860666477
+          emailIds:
+          - v.email.3ab3a9562af957228c1019127e3c81e1
+          callIds:
+          - v.call.1222707bbc415ee4806400e2daa25ffa
+          ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+        additional: {}
+      description: '(Alias: company, organization) An organization involved with your business.'
+      properties:
+        id:
+          type: string
+          description: Unique Vessel Id.
+        nativeId:
+          type: string
+          description: Id of the object in the connected CRM.
+        name:
+          type: string
+        description:
+          type: string
+          description: A description of this Company/Account. Not supported by Pipedrive
+        industry:
+          type: string
+          description: Not supported by Pipedrive
+        annualRevenue:
+          type: number
+          description: Not supported by Pipedrive
+        numberOfEmployees:
+          type: number
+          description: Not supported by Pipedrive
+        website:
+          type: string
+          description: Not supported by Pipedrive
+        phone:
+          type: string
+          description: The primary phone number. Not supported by Pipedrive
+        address:
+          $ref: '#/components/schemas/Address'
+        createdTime:
+          type: string
+          description: The timestamp that the account was created
+        modifiedTime:
+          type: string
+          description: The timestamp the account was last modified
+        associations:
+          type: object
+          required:
+          - dealIds
+          - contactIds
+          - noteIds
+          - taskIds
+          - leadIds
+          - eventIds
+          - emailIds
+          - callIds
+          - ownerUserId
+          properties:
+            dealIds:
+              type: array
+              items:
+                type: string
+            contactIds:
+              type: array
+              items:
+                type: string
+            noteIds:
+              type: array
+              items:
+                type: string
+            taskIds:
+              type: array
+              items:
+                type: string
+            leadIds:
+              type: array
+              items:
+                type: string
+            eventIds:
+              type: array
+              items:
+                type: string
+            emailIds:
+              type: array
+              items:
+                type: string
+            callIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this Account
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream CRM
+      required:
+      - id
+      - nativeId
+      - createdTime
+      - modifiedTime
+      - associations
+    AccountCreate:
+      title: AccountCreate
+      type: object
+      examples:
+      - name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        annualRevenue: 10000000
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        phone: '8192223333'
+        address:
+          street: 100 Blue Dr
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: Not supported by Pipedrive
+        industry:
+          type: string
+          description: Not supported by Pipedrive
+        website:
+          type: string
+          description: Not supported by Pipedrive
+        numberOfEmployees:
+          type: number
+          description: Not supported by Pipedrive
+        annualRevenue:
+          type: number
+          description: Not supported by Pipedrive
+        phone:
+          type: string
+          description: The primary phone | Not supported by Pipedrive
+        ownerUserId:
+          type: string
+          description: The Id of the User to assign this Account to
+        address:
+          $ref: '#/components/schemas/Address'
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - name
+    Address_2:
+      title: Address
+      type: object
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      examples:
+      - line1: 123 Main St
+        line2: Apt 1
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
+    AccountUpdate_3:
+      title: AccountUpdate
+      type: object
+      examples:
+      - name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        phone: '8192223333'
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+      description: Properties that an account can be update with
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: A description of this Company/Account.
+        industry:
+          type: string
+          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
+        numberOfEmployees:
+          type: number
+        website:
+          type: string
+        phone:
+          type: string
+          description: The primary phone number.
+        address:
+          $ref: '#/components/schemas/Address_2'
+        $native:
+          $ref: '#/components/schemas/NativeData'
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-refined-from:
+- vessel-crm-openapi.yml
+- vessel-crm-v1-openapi.yml
+- vessel-engagement-openapi.yml

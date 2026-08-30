@@ -1,0 +1,505 @@
+openapi: 3.2.0
+info:
+  title: Reference Eng Accounts API
+  version: '2.0'
+  summary: API
+  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+servers:
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: engAccounts
+paths:
+  /engagement/accounts:
+    parameters: []
+    get:
+      summary: Get All Accounts
+      tags:
+      - engAccounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EngAccount'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    accounts:
+                    - id: 59f5b4b0b6b650c981a174b02753c390
+                      name: Blue Cross
+                      description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+                      industry: TV and Media
+                      numberOfEmployees: 100
+                      website: www.bluecross.penn
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      phone: '8192223333'
+                      locality: Scranton
+                      address:
+                        line1: 100 Blue Dr
+                        line2: Suite 100
+                        city: Scranton
+                        state: Pennsylvania
+                        postalCode: '281332'
+                        country: USA
+                      associations:
+                        contactIds:
+                        - e5f32d4fd2115220bd20a2ccf81210ec
+                        actionIds:
+                        - 006b4db16b6b50c981a174b02753c390
+                        taskIds:
+                        - 2322707bbc41577d9806400e2daa25de
+                        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+                    nextPageCursor: string
+      operationId: get-all-engagement-accounts
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/allFields'
+      description: Retrieve all Accounts
+  /engagement/account:
+    parameters: []
+    get:
+      summary: Get Account
+      tags:
+      - engAccounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  account:
+                    $ref: '#/components/schemas/EngAccount'
+              examples:
+                example-1:
+                  value:
+                    account:
+                    - id: 59f5b4b0b6b650c981a174b02753c390
+                      name: Blue Cross
+                      description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+                      industry: TV and Media
+                      numberOfEmployees: 100
+                      website: www.bluecross.penn
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      phone: '8192223333'
+                      locality: Scranton
+                      address:
+                        line1: 100 Blue Dr
+                        line2: Suite 100
+                        city: Scranton
+                        state: Pennsylvania
+                        postalCode: '281332'
+                        country: USA
+                      associations:
+                        contactIds:
+                        - e5f32d4fd2115220bd20a2ccf81210ec
+                        actionIds:
+                        - 006b4db16b6b50c981a174b02753c390
+                        taskIds:
+                        - 2322707bbc41577d9806400e2daa25de
+                        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+      operationId: get-one-engagement-account
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/id'
+      - $ref: '#/components/parameters/allFields'
+      description: Retrieve a single Account by Id
+    post:
+      summary: Create Account
+      tags:
+      - engAccounts
+      operationId: post-engagement-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  id:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                account:
+                  $ref: '#/components/schemas/EngAccountCreate'
+              required:
+              - accessToken
+              - account
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  account:
+                    name: Blue Cross
+                    description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+                    industry: TV and Media
+                    numberOfEmployees: 100
+                    website: www.bluecross.penn
+                    phone: '8192223333'
+                    address:
+                      line1: 100 Blue Dr
+                      line2: Suite 100
+                      city: Scranton
+                      state: Pennsylvania
+                      postalCode: '281332'
+                      country: USA
+                    additional: {}
+      description: Create a new account.
+    patch:
+      summary: Update Account
+      tags:
+      - engAccounts
+      operationId: put-engagement-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: '0'
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                id:
+                  type: string
+                account:
+                  $ref: '#/components/schemas/EngAccountUpdate'
+              required:
+              - accessToken
+              - id
+              - account
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  id: string
+                  account:
+                    name: Blue Cross
+                    description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+                    industry: TV and Media
+                    numberOfEmployees: 100
+                    website: www.bluecross.penn
+                    phone: '8192223333'
+                    address:
+                      line1: 100 Blue Dr
+                      line2: Suite 100
+                      city: Scranton
+                      state: Pennsylvania
+                      postalCode: '281332'
+                      country: USA
+                    additional: {}
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+      description: Update an existing account.
+components:
+  schemas:
+    EngAccount:
+      title: Account
+      type: object
+      examples:
+      - id: '344'
+        name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+        phone: '8192223333'
+        locality: Scranton
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        associations:
+          contactIds:
+          - e5f32d4fd2115220bd20a2ccf81210ec
+          actionIds:
+          - 006b4db16b6b50c981a174b02753c390
+          taskIds:
+          - 2322707bbc41577d9806400e2daa25de
+          ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+        additional: {}
+      description: '(Alias: company, organization) An organization involved with your business.'
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Engagement Platform.
+        name:
+          type: string
+        description:
+          type: string
+          description: A description of this Company/Account.
+        industry:
+          type: string
+          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
+        locality:
+          type: string
+        numberOfEmployees:
+          type: number
+        website:
+          type: string
+        phone:
+          type: string
+          description: The primary phone number.
+        address:
+          $ref: '#/components/schemas/EngAddress'
+        createdTime:
+          type: string
+          description: The timestamp that the account was created
+        modifiedTime:
+          type: string
+          description: The timestamp the account was last modified
+        associations:
+          type: object
+          required:
+          - contactIds
+          - actionIds
+          - taskIds
+          - ownerUserId
+          properties:
+            contactIds:
+              type: array
+              items:
+                type: string
+            actionIds:
+              type: array
+              items:
+                type: string
+            taskIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this Account
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream Engagement Platform
+      required:
+      - id
+      - createdTime
+      - modifiedTime
+      - associations
+    EngAddress:
+      title: Address
+      type: object
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+      examples:
+      - line1: 123 Main St
+        line2: Apt 1
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
+    EngAccountCreate:
+      title: AccountCreate
+      type: object
+      examples:
+      - name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        phone: '8192223333'
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        additional: {}
+      description: Properties that an account can be created with
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: A description of this Company/Account.
+        industry:
+          type: string
+          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
+        numberOfEmployees:
+          type: number
+        website:
+          type: string
+        phone:
+          type: string
+          description: The primary phone number.
+        locality:
+          type: string
+          description: The locality of the account (e.g. "Scranton", "New York City", etc.)
+        address:
+          $ref: '#/components/schemas/EngAddress'
+        additional:
+          type: object
+          description: Create any property in the downstream Engagement Platform, such as a custom property.
+      required:
+      - name
+    EngAccountUpdate:
+      title: AccountUpdate
+      type: object
+      examples:
+      - name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        phone: '8192223333'
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        additional: {}
+      description: Properties that an account can be update with
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: A description of this Company/Account.
+        industry:
+          type: string
+          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
+        numberOfEmployees:
+          type: number
+        website:
+          type: string
+        phone:
+          type: string
+          description: The primary phone number.
+        locality:
+          type: string
+          description: The locality of the account (e.g. "Scranton", "New York City", etc.)
+        address:
+          $ref: '#/components/schemas/EngAddress'
+        additional:
+          type: object
+          description: Update any property in the downstream Engagement Platform, such as a custom property.
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    id:
+      name: id
+      in: query
+      description: The id of the object to retrieve
+      required: true
+      schema:
+        type: string
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-speakeasy-name-override:
+- operationId: post-*
+  methodNameOverride: create
+- operationId: put-*
+  methodNameOverride: update
+- operationId: delete-*
+  methodNameOverride: delete
+- operationId: get-one-*
+  methodNameOverride: find
+- operationId: get-all-*
+  methodNameOverride: list
+- operationId: get-details-*
+  methodNameOverride: details
+- operationId: get-batch-*
+  methodNameOverride: batch
+- operationId: search-*
+  methodNameOverride: search

@@ -1,0 +1,837 @@
+openapi: 3.2.0
+info:
+  title: CRM API Reference Events API
+  version: '2.0'
+  summary: API
+servers:
+- url: https://api.vessel.dev
+security:
+- VesselAPIToken: []
+tags:
+- name: events
+paths:
+  /crm/events:
+    get:
+      summary: Get All Events
+      tags:
+      - events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    events:
+                    - id: v.event.0000d2e83d6c5d52a61f2fb860666477
+                      nativeId: '19'
+                      subject: Meeting with Blue Cross
+                      description: Going to get tea with Tom from Blue Cross to discuss his paper needs
+                      type: Meeting
+                      location: 1122 Tea Dr
+                      startDateTime: '2019-08-24T14:15:22Z'
+                      endDateTime: '2019-08-24T14:15:22Z'
+                      isAllDayEvent: true
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        accountIds:
+                        - v.account.0dcb45e051315a6ea63b0f16e73689d9
+                        leadIds:
+                        - v.lead.d08f345ace24509e911a0ea8e3d2203c
+                        contactIds:
+                        - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                        dealIds:
+                        - v.deal.497fb529e6805351b5dc8057c74a4a52
+                        eventAttendeeIds:
+                        - v.attendee.f63c1bd7215f5150b332d31d9509752f
+                        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+                    nextPageCursor: string
+      operationId: get-all-crm-events
+      description: Retrieve all Events
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+      - schema:
+          type: string
+        in: query
+        name: cursor
+      - schema:
+          type: number
+        in: query
+        name: limit
+        description: The number of records to return per page.
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+  /crm/events/search:
+    post:
+      summary: Search Events
+      tags:
+      - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filters:
+                  type: object
+                  properties:
+                    id:
+                      $ref: '#/components/schemas/StringFilter'
+                    nativeId:
+                      $ref: '#/components/schemas/StringFilter'
+                    subject:
+                      $ref: '#/components/schemas/StringFilter'
+                    description:
+                      $ref: '#/components/schemas/StringFilter'
+                    type:
+                      $ref: '#/components/schemas/StringFilter'
+                    location:
+                      $ref: '#/components/schemas/StringFilter'
+                    endDateTime:
+                      $ref: '#/components/schemas/DateFilter'
+                    startDateTime:
+                      $ref: '#/components/schemas/DateFilter'
+                    isAllDayEvent:
+                      $ref: '#/components/schemas/BooleanFilter'
+                    createdTime:
+                      $ref: '#/components/schemas/DateFilter'
+                    modifiedTime:
+                      $ref: '#/components/schemas/DateFilter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
+                  nextPageCursor:
+                    type: string
+                title: responseBody
+              examples:
+                example-1:
+                  value:
+                    events:
+                    - id: v.event.0000d2e83d6c5d52a61f2fb860666477
+                      nativeId: '19'
+                      subject: Meeting with Blue Cross
+                      description: Going to get tea with Tom from Blue Cross to discuss his paper needs
+                      type: Meeting
+                      location: 1122 Tea Dr
+                      startDateTime: '2019-08-24T14:15:22Z'
+                      endDateTime: '2019-08-24T14:15:22Z'
+                      isAllDayEvent: true
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        accountIds:
+                        - v.account.0dcb45e051315a6ea63b0f16e73689d9
+                        leadIds:
+                        - v.lead.d08f345ace24509e911a0ea8e3d2203c
+                        contactIds:
+                        - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                        dealIds:
+                        - v.deal.497fb529e6805351b5dc8057c74a4a52
+                        eventAttendeeIds:
+                        - v.attendee.f63c1bd7215f5150b332d31d9509752f
+                        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+                    nextPageCursor: string
+      operationId: search-crm-events
+      description: Search all Events using filters
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/allFields'
+  /crm/event:
+    parameters: []
+    get:
+      summary: Get Event
+      tags:
+      - events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  event:
+                    $ref: '#/components/schemas/Event'
+              examples:
+                example-1:
+                  value:
+                    event:
+                      id: v.event.0000d2e83d6c5d52a61f2fb860666477
+                      nativeId: '19'
+                      subject: Meeting with Blue Cross
+                      description: Going to get tea with Tom from Blue Cross to discuss his paper needs
+                      type: Meeting
+                      location: 1122 Tea Dr
+                      startDateTime: '2019-08-24T14:15:22Z'
+                      endDateTime: '2019-08-24T14:15:22Z'
+                      isAllDayEvent: true
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        accountIds:
+                        - v.account.0dcb45e051315a6ea63b0f16e73689d9
+                        leadIds:
+                        - v.lead.d08f345ace24509e911a0ea8e3d2203c
+                        contactIds:
+                        - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                        dealIds:
+                        - v.deal.497fb529e6805351b5dc8057c74a4a52
+                        eventAttendeeIds:
+                        - v.attendee.f63c1bd7215f5150b332d31d9509752f
+                        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+      operationId: get-one-crm-event
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+        required: true
+      - schema:
+          type: string
+        in: query
+        name: id
+        required: true
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      description: Retrieve a single Event by Id
+    post:
+      summary: Create Event
+      tags:
+      - events
+      operationId: post-crm-event
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: '0'
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                event:
+                  $ref: '#/components/schemas/EventCreate'
+              required:
+              - accessToken
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  event:
+                    subject: Meeting with Blue Cross
+                    description: Going to get tea with Tom from Blue Cross to discuss his paper needs
+                    type: Meeting
+                    location: 1122 Tea Dr
+                    startDateTime: '2019-08-24T14:15:22Z'
+                    endDateTime: '2019-08-24T14:15:22Z'
+                    isAllDayEvent: true
+                    dealId: v.deal.497fb529e6805351b5dc8057c74a4a52
+                    accountId: v.account.0dcb45e051315a6ea63b0f16e73689d9
+                    contactId: v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                    leadId: v.lead.d08f345ace24509e911a0ea8e3d2203c
+                    ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+        description: ''
+      description: Create a new Event.
+    patch:
+      summary: Update Event
+      tags:
+      - events
+      operationId: put-crm-event
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: '0'
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                id:
+                  type: string
+                event:
+                  $ref: '#/components/schemas/EventUpdate'
+              required:
+              - accessToken
+              - id
+              - event
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  id: string
+                  event:
+                    subject: Meeting with Blue Cross
+                    description: Going to get tea with Tom from Blue Cross to discuss his paper needs
+                    type: Meeting
+                    location: 1122 Tea Dr
+                    startDateTime: '2019-08-24T14:15:22Z'
+                    endDateTime: '2019-08-24T14:15:22Z'
+                    isAllDayEvent: true
+                    ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+      description: Update an existing Event by Id
+  /crm/event/details:
+    get:
+      summary: Get Event Details
+      tags:
+      - events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  fields:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Field'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    fields:
+                    - key: subject
+                      name: Subject
+                      type: string
+                      options: null
+                      isArray: false
+                      custom: false
+                      universal: true
+                      required: false
+                      creatable: true
+                      updatable: true
+                    nextPageCursor: string
+      operationId: get-details-crm-event
+      description: 'Get details about all events.
+
+        Details include the type, possible values, and other meta data about the fields.'
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+        required: true
+      - schema:
+          type: string
+        in: query
+        name: cursor
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns details about native fields.
+  /crm/event/batch:
+    parameters: []
+    get:
+      summary: Get Batch Events
+      tags:
+      - events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
+                  invalidIds:
+                    $ref: '#/components/schemas/InvalidIds'
+              examples:
+                example-1:
+                  value:
+                    events:
+                    - id: v.event.0000d2e83d6c5d52a61f2fb860666477
+                      nativeId: '19'
+                      subject: Meeting with Blue Cross
+                      description: Going to get tea with Tom from Blue Cross to discuss his paper needs
+                      type: Meeting
+                      location: 1122 Tea Dr
+                      startDateTime: '2019-08-24T14:15:22Z'
+                      endDateTime: '2019-08-24T14:15:22Z'
+                      isAllDayEvent: true
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        accountIds:
+                        - v.account.0dcb45e051315a6ea63b0f16e73689d9
+                        leadIds:
+                        - v.lead.d08f345ace24509e911a0ea8e3d2203c
+                        contactIds:
+                        - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+                        dealIds:
+                        - v.deal.497fb529e6805351b5dc8057c74a4a52
+                        eventAttendeeIds:
+                        - v.attendee.f63c1bd7215f5150b332d31d9509752f
+                        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+                      additional: {}
+      operationId: get-batch-crm-event
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        required: true
+        description: The token for the customer's CRM account. This was generated when they connected their account
+      - schema:
+          type: string
+        in: query
+        name: ids
+        description: Comma separated list of Event Id's.
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response.
+      description: Retrieve Events by a set of Id's
+components:
+  schemas:
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    Event:
+      title: Event
+      type: object
+      description: 'Events are a type of activity that has attendees and takes place at a certain point in time (i.e., has a start and end date).
+
+        For the currently supported CRMs, these are the objects Events most closely maps to:
+
+        - Salesforce = Events
+
+        - HubSpot = Meetings
+
+        - Pipedrive = Activities
+
+        - Zoho = Events'
+      examples:
+      - id: v.event.0000d2e83d6c5d52a61f2fb860666477
+        nativeId: '19'
+        subject: Meeting with Blue Cross
+        description: Going to get tea with Tom from Blue Cross to discuss his paper needs
+        type: Meeting
+        location: 1122 Tea Dr
+        startDateTime: '2019-08-24T14:15:22Z'
+        endDateTime: '2019-08-24T14:15:22Z'
+        isAllDayEvent: true
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+        associations:
+          accountIds:
+          - v.account.0dcb45e051315a6ea63b0f16e73689d9
+          leadIds:
+          - v.lead.d08f345ace24509e911a0ea8e3d2203c
+          contactIds:
+          - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+          dealIds:
+          - v.deal.497fb529e6805351b5dc8057c74a4a52
+          eventAttendeeIds:
+          - v.attendee.f63c1bd7215f5150b332d31d9509752f
+          ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+        additional: {}
+      properties:
+        id:
+          type: string
+          description: Unique Vessel Id.
+        nativeId:
+          type: string
+          description: Id of the object in the connected CRM.
+        subject:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        location:
+          type: string
+          description: Where this event takes place. Can be virtual
+        startDateTime:
+          type: string
+        endDateTime:
+          type: string
+        isAllDayEvent:
+          type: boolean
+        createdTime:
+          type: string
+          description: The timestamp that the event was created
+        modifiedTime:
+          type: string
+          description: The timestamp the event was last modified
+        associations:
+          type: object
+          required:
+          - accountIds
+          - leadIds
+          - contactIds
+          - dealIds
+          - eventAttendeeIds
+          - ownerUserId
+          properties:
+            accountIds:
+              type: array
+              items:
+                type: string
+            leadIds:
+              type: array
+              items:
+                type: string
+            contactIds:
+              type: array
+              items:
+                type: string
+            dealIds:
+              type: array
+              items:
+                type: string
+            eventAttendeeIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this event
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream CRM
+      required:
+      - id
+      - nativeId
+      - createdTime
+      - modifiedTime
+      - associations
+    BooleanFilter:
+      type: object
+      properties:
+        equals:
+          type: boolean
+        not:
+          type: boolean
+    EventCreate:
+      title: EventCreate
+      type: object
+      description: ''
+      properties:
+        subject:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        location:
+          type: string
+        startDateTime:
+          type: string
+        endDateTime:
+          type: string
+        isAllDayEvent:
+          type: boolean
+          description: Not supported by HubSpot and Pipedrive
+        dealId:
+          type: string
+        accountId:
+          type: string
+        contactId:
+          type: string
+        leadId:
+          type: string
+        ownerUserId:
+          type: string
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - startDateTime
+      - endDateTime
+      examples:
+      - subject: Meeting with Blue Cross
+        description: Going to get tea with Tom from Blue Cross to discuss his paper needs
+        type: Meeting
+        location: 1122 Tea Dr
+        startDateTime: '2019-08-24T14:15:22Z'
+        endDateTime: '2019-08-24T14:15:22Z'
+        isAllDayEvent: true
+        dealId: v.deal.497fb529e6805351b5dc8057c74a4a52
+        accountId: v.account.0dcb45e051315a6ea63b0f16e73689d9
+        contactId: v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+        leadId: v.lead.d08f345ace24509e911a0ea8e3d2203c
+        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+    Field:
+      title: Field
+      type: object
+      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
+      properties:
+        key:
+          type: string
+          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
+        name:
+          type: string
+          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
+        type:
+          type: string
+          enum:
+          - string
+          - number
+          - datetime
+          - date
+          - boolean
+          - reference
+          - phone
+          - url
+          - id
+          - email
+          - percent
+          - singleselect
+          - multiselect
+          - address
+          - decimal
+          - time
+          - daterange
+          - object
+        options:
+          type: array
+          description: Possible options for this field
+          items:
+            type: object
+            properties:
+              key:
+                oneOf:
+                - type: string
+                - type: number
+              name:
+                type: string
+        isArray:
+          type: boolean
+          description: If this field is an array
+        custom:
+          type: boolean
+          description: If this field is a custom field
+        universal:
+          type: boolean
+          description: If this is a field we've unified across CRMs
+        required:
+          type: boolean
+          description: If this field is required when creating the object
+        creatable:
+          type: boolean
+          description: If this field can be used when creating the object
+        updatable:
+          type: boolean
+          description: If this field can be updated
+      required:
+      - key
+      - name
+      - type
+      - custom
+      - universal
+      - required
+      - creatable
+      - updatable
+      examples:
+      - key: numberOfEmployees
+        name: number of employees
+        type: number
+        options: null
+        isArray: false
+        custom: false
+        universal: true
+        required: false
+        creatable: true
+        updatable: true
+    EventUpdate:
+      title: EventUpdate
+      type: object
+      properties:
+        subject:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        location:
+          type: string
+        startDateTime:
+          type: string
+        endDateTime:
+          type: string
+        isAllDayEvent:
+          type: boolean
+          description: Not supported by HubSpot and Pipedrive
+        ownerUserId:
+          type: string
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      examples:
+      - subject: Meeting with Blue Cross
+        description: Going to get tea with Tom from Blue Cross to discuss his paper needs
+        type: Meeting
+        location: 1122 Tea Dr
+        startDateTime: '2019-08-24T14:15:22Z'
+        endDateTime: '2019-08-24T14:15:22Z'
+        isAllDayEvent: true
+        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header

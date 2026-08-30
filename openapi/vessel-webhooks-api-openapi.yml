@@ -1,0 +1,283 @@
+openapi: 3.2.0
+info:
+  title: Vessel Webhooks API
+  version: '1.0'
+  description: 'Operations tagged webhooks across 3 of this provider''s published API definitions: vessel-crm-v1-openapi.yml, vessel-engagement-v1-openapi.yml, vessel-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.vessel.dev
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: webhooks
+paths:
+  /connection/webhook:
+    get:
+      summary: Get Webhook
+      tags:
+      - webhooks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  webhook:
+                    $ref: '#/components/schemas/WebhookMetadata'
+      operationId: get-one-webhook
+      description: Retrieve information about a webhook for a given connection and id
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+      - schema:
+          type: string
+        in: query
+        name: webhookId
+    post:
+      summary: Create Webhook
+      tags:
+      - webhooks
+      operationId: post-webhook
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  webhook:
+                    $ref: '#/components/schemas/WebhookMetadata'
+      description: Create a new webhook for a given connection
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                webhook:
+                  $ref: '#/components/schemas/WebhookMetadataCreate'
+    delete:
+      summary: Remove Webhook
+      tags:
+      - webhooks
+      operationId: delete-webhook
+      responses:
+        '200':
+          description: OK
+      description: Removes a webhook for a given connection and id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                webhookId:
+                  type: string
+    servers:
+    - url: https://api.vessel.dev
+  /webhooks/list:
+    post:
+      summary: List Webhooks
+      operationId: list-webhooks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  webhooks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        projectId:
+                          type: string
+                        url:
+                          type: string
+                        createdTime:
+                          type: string
+              examples:
+                example-1:
+                  value:
+                    webhooks:
+                    - id: v_webhook_1231241
+                      projectId: v_project_c63a7fbd9123123
+                      url: https://mycompany.io/webhooks/12312312
+                      createdTime: '2021-10-20T23:11:28.617Z'
+      tags:
+      - webhooks
+    servers:
+    - url: https://api.vessel.dev
+  /webhooks/find:
+    post:
+      summary: Find Webhook
+      operationId: find-webhook
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  webhook:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      projectId:
+                        type: string
+                      url:
+                        type: string
+                      createdTime:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    webhook:
+                      id: v_webhook_1231241
+                      projectId: v_project_c63a7fbd9123123
+                      url: https://mycompany.io/webhooks/12312312
+                      createdTime: '2021-10-20T23:11:28.617Z'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+              required:
+              - id
+      tags:
+      - webhooks
+    servers:
+    - url: https://api.vessel.dev
+  /webhooks/create:
+    post:
+      summary: Create Webhook
+      operationId: create-webhook
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  webhook:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      projectId:
+                        type: string
+                      url:
+                        type: string
+                      createdTime:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    webhook:
+                      id: v_webhook_1231241
+                      projectId: v_project_c63a7fbd9123123
+                      url: https://mycompany.io/webhooks/12312312
+                      createdTime: '2021-10-20T23:11:28.617Z'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+              required:
+              - url
+      tags:
+      - webhooks
+    servers:
+    - url: https://api.vessel.dev
+  /webhooks/delete:
+    post:
+      summary: Delete Webhook
+      operationId: delete-webhook
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  id:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    id: v_webhook_1231241
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+              required:
+              - id
+      tags:
+      - webhooks
+    servers:
+    - url: https://api.vessel.dev
+components:
+  schemas:
+    WebhookMetadataCreate:
+      title: WebhookMetadataCreate
+      type: object
+      description: Information describing a webhook
+      properties:
+        webhookUrl:
+          type: string
+          description: a valid URL
+    WebhookMetadata:
+      title: WebhookMetadata
+      type: object
+      properties:
+        webhookId:
+          type: string
+        connectionId:
+          type: string
+        webhookUrl:
+          type: string
+        createdTime:
+          type: string
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-refined-from:
+- vessel-crm-v1-openapi.yml
+- vessel-engagement-v1-openapi.yml
+- vessel-platform-openapi.yml

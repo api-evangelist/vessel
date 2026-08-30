@@ -1,0 +1,144 @@
+openapi: 3.2.0
+info:
+  title: Reference Eng Custom Fields API
+  version: '2.0'
+  summary: API
+  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+servers:
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: engCustomFields
+paths:
+  /engagement/contact/custom-fields:
+    get:
+      summary: Get All Custom Fields
+      tags:
+      - engCustomFields
+      operationId: get-all-engagement-customFields
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  customFields:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EngContactCustomField'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    customFields:
+                    - key: customField1
+                      name: Custom Field
+                      type: string
+                      additional: {}
+                    nextPageCursor: d9806400e2daa25de2322707bbc41577
+      description: Get all contact custom fields
+  /engagement/contact/custom-field:
+    post:
+      summary: Create Custom Field
+      tags:
+      - engCustomFields
+      operationId: post-engagement-customFields
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  key:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    key: customField1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                customField:
+                  $ref: '#/components/schemas/EngContactCustomFieldCreate'
+              required:
+              - accessToken
+              - customField
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  customField:
+                    key: customField1
+      description: Create a contact custom field
+components:
+  schemas:
+    EngContactCustomField:
+      title: ContactCustomField
+      type: object
+      examples:
+      - key: customField1
+        name: Custom Field
+        type: string
+        additional: {}
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - string
+          description: Only string custom fields are currently supported
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream Engagement Platform
+      required:
+      - key
+      - type
+      - additional
+    EngContactCustomFieldCreate:
+      title: ContactCustomFieldCreate
+      type: object
+      examples:
+      - key: customField1
+      properties:
+        key:
+          type: string
+      required:
+      - key
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-speakeasy-name-override:
+- operationId: post-*
+  methodNameOverride: create
+- operationId: put-*
+  methodNameOverride: update
+- operationId: delete-*
+  methodNameOverride: delete
+- operationId: get-one-*
+  methodNameOverride: find
+- operationId: get-all-*
+  methodNameOverride: list
+- operationId: get-details-*
+  methodNameOverride: details
+- operationId: get-batch-*
+  methodNameOverride: batch
+- operationId: search-*
+  methodNameOverride: search

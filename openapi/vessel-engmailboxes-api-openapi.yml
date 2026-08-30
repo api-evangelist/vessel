@@ -1,0 +1,132 @@
+openapi: 3.2.0
+info:
+  title: Reference Eng Mailboxes API
+  version: '2.0'
+  summary: API
+  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+servers:
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: engMailboxes
+paths:
+  /engagement/mailboxes:
+    parameters: []
+    get:
+      summary: Get All Mailboxes
+      tags:
+      - engMailboxes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  mailboxes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EngMailbox'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    mailboxes:
+                    - id: 2322707bbc41577d9806400e2daa25de
+                      email: fake@email.com
+                      isDefault: true
+                      associations:
+                        ownerUserId: d9806400e2daa25de2322707bbc41577
+                    nextPageCursor: d9806400e2daa25de2322707bbc41577
+      operationId: get-all-engagement-mailboxes
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/allFields'
+      description: Retrieve all Mailboxes
+      security:
+      - VesselAPIToken: []
+components:
+  schemas:
+    EngMailbox:
+      title: Mailbox
+      type: object
+      description: Mailboxes in the connected engagement platform. These are email accounts that outbound emails will be sent from.
+      examples:
+      - id: 2322707bbc41577d9806400e2daa25de
+        email: fake@email.com
+        isDefault: true
+        associations:
+          ownerUserId: d9806400e2daa25de2322707bbc41577
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        isDefault:
+          type: boolean
+          description: Not supported by Outreach.
+        createdTime:
+          type: string
+          description: Not supported by Apollo. The timestamp that the user was created
+        modifiedTime:
+          type: string
+          description: Not supported by Apollo. The timestamp the user was last modified
+        associations:
+          type: object
+          properties:
+            ownerUserId:
+              type: string
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-speakeasy-name-override:
+- operationId: post-*
+  methodNameOverride: create
+- operationId: put-*
+  methodNameOverride: update
+- operationId: delete-*
+  methodNameOverride: delete
+- operationId: get-one-*
+  methodNameOverride: find
+- operationId: get-all-*
+  methodNameOverride: list
+- operationId: get-details-*
+  methodNameOverride: details
+- operationId: get-batch-*
+  methodNameOverride: batch
+- operationId: search-*
+  methodNameOverride: search

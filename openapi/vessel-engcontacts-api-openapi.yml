@@ -1,0 +1,664 @@
+openapi: 3.2.0
+info:
+  title: Reference Eng Contacts API
+  version: '2.0'
+  summary: API
+  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+servers:
+- url: https://api.vessel.land
+security:
+- VesselAPIToken: []
+tags:
+- name: engContacts
+paths:
+  /engagement/contacts:
+    parameters: []
+    get:
+      summary: Get All Contacts
+      tags:
+      - engContacts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  contacts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EngContact'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    contacts:
+                    - id: 34f5b4b0b6b650c981a174b02753c390
+                      firstName: Tom
+                      lastName: Smith
+                      jobTitle: Director of Operations
+                      phones:
+                      - number: '8192223333'
+                        type: work
+                        isPrimary: true
+                      emails:
+                      - address: tom@dunder.com
+                        type: work
+                        isPrimary: true
+                      address:
+                        line1: 100 Blue Dr
+                        line2: Suite 100
+                        city: Scranton
+                        state: Pennsylvania
+                        postalCode: '281332'
+                        country: USA
+                      openCount: 0
+                      clickCount: 3
+                      replyCount: 1
+                      bouncedCount: 1
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        accountId: 0dcb45e051315a6ea63b0f16e73689d9
+                        actionIds:
+                        - 006b4db16b6b50c981a174b02753c390
+                        taskIds:
+                        - 2322707bbc41577d9806400e2daa25de
+                        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+                      customFields: {}
+                      additional: {}
+                    nextPageCursor: string
+      operationId: get-all-engagement-contacts
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/allFields'
+      description: Retrieve all Contacts
+  /engagement/contact:
+    parameters: []
+    get:
+      summary: Get Contact
+      tags:
+      - engContacts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  contact:
+                    $ref: '#/components/schemas/EngContact'
+              examples:
+                example-1:
+                  value:
+                    contact:
+                      id: 34f5b4b0b6b650c981a174b02753c390
+                      firstName: Tom
+                      lastName: Smith
+                      jobTitle: Director of Operations
+                      phones:
+                      - number: '8192223333'
+                        type: work
+                        isPrimary: true
+                      emails:
+                      - address: tom@dunder.com
+                        type: work
+                        isPrimary: true
+                      address:
+                        line1: 100 Blue Dr
+                        line2: Suite 100
+                        city: Scranton
+                        state: Pennsylvania
+                        postalCode: '281332'
+                        country: USA
+                      openCount: 0
+                      clickCount: 3
+                      replyCount: 1
+                      bouncedCount: 1
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        accountId: 0dcb45e051315a6ea63b0f16e73689d9
+                        actionIds:
+                        - 006b4db16b6b50c981a174b02753c390
+                        taskIds:
+                        - 2322707bbc41577d9806400e2daa25de
+                        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+                      customFields: {}
+                      additional: {}
+      operationId: get-one-engagement-contact
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/id'
+      - $ref: '#/components/parameters/allFields'
+      description: Retrieve a Contact by Id.
+    post:
+      summary: Create Contact
+      tags:
+      - engContacts
+      operationId: post-engagement-contact
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  id:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                contact:
+                  $ref: '#/components/schemas/EngContactCreate'
+              required:
+              - accessToken
+              - contact
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  contact:
+                    firstName: Tom
+                    lastName: Smith
+                    jobTitle: Director of Operations
+                    address:
+                      line1: 100 Blue Dr
+                      line2: Suite 100
+                      city: Scranton
+                      state: Pennsylvania
+                      postalCode: '281332'
+                      country: USA
+                    customFields: {}
+                    additional: {}
+      description: Create a new contact.
+    patch:
+      summary: Update Contact
+      tags:
+      - engContacts
+      operationId: put-engagement-contact
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: '0'
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+              examples:
+                example-1:
+                  value:
+                    id: '0'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                id:
+                  type: string
+                contact:
+                  $ref: '#/components/schemas/EngContactUpdate'
+              required:
+              - accessToken
+              - id
+              - contact
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  id: string
+                  contact:
+                    firstName: Tom
+                    lastName: Smith
+                    jobTitle: Director of Operations
+                    address:
+                      line1: 100 Blue Dr
+                      line2: Suite 100
+                      city: Scranton
+                      state: Pennsylvania
+                      postalCode: '281332'
+                      country: USA
+                    customFields: {}
+                    additional: {}
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+      description: Update an existing Contact.
+  /engagement/contacts/search:
+    post:
+      summary: Search Contacts
+      tags:
+      - engContacts
+      operationId: search-engagement-contact
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  contacts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EngContact'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    contacts:
+                    - id: 34f5b4b0b6b650c981a174b02753c390
+                      firstName: Tom
+                      lastName: Smith
+                      jobTitle: Director of Operations
+                      phones:
+                      - number: '8192223333'
+                        type: work
+                        isPrimary: true
+                      emails:
+                      - address: tom@dunder.com
+                        type: work
+                        isPrimary: true
+                      address:
+                        line1: 100 Blue Dr
+                        line2: Suite 100
+                        city: Scranton
+                        state: Pennsylvania
+                        postalCode: '281332'
+                        country: USA
+                      openCount: 0
+                      clickCount: 3
+                      replyCount: 1
+                      bouncedCount: 1
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        accountId: 0dcb45e051315a6ea63b0f16e73689d9
+                        actionIds:
+                        - 006b4db16b6b50c981a174b02753c390
+                        taskIds:
+                        - 2322707bbc41577d9806400e2daa25de
+                        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+                      customFields: {}
+                      additional: {}
+                    nextPageCursor: d9806400e2daa25de2322707bbc41577
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                filters:
+                  type: object
+                  properties:
+                    emails:
+                      type: object
+                      properties:
+                        address:
+                          type: object
+                          properties:
+                            equals:
+                              type: string
+                          required: equals
+                      required: address
+                  required: emails
+              required:
+              - accessToken
+              - filters
+            examples:
+              example-1:
+                value:
+                  accessToken: string
+                  filters:
+                    emails:
+                      address:
+                        equals: fake@email.com
+      description: Search contacts.
+components:
+  schemas:
+    EngAddress:
+      title: Address
+      type: object
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+      examples:
+      - line1: 123 Main St
+        line2: Apt 1
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
+    EmailEngAddress:
+      title: EmailAddress
+      type: object
+      properties:
+        address:
+          type: string
+          description: The email address
+        type:
+          type: string
+          enum:
+          - work
+          - personal
+        isPrimary:
+          type: boolean
+          description: Whether this is the primary email address
+      example:
+        address: tom@dunder.com
+        type: work
+        isPrimary: true
+    EngContactUpdate:
+      title: ContactUpdate
+      type: object
+      examples:
+      - firstName: Tom
+        lastName: Smith
+        jobTitle: Director of Operations
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        customFields: {}
+        additional: {}
+      description: Properties that a contact can be updated with
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+        address:
+          $ref: '#/components/schemas/EngAddress'
+        customFields:
+          type: object
+          description: Update any custom fields.
+        additional:
+          type: object
+          description: Update any property in the downstream Engagement Platform, such as a custom property.
+    Phone:
+      title: Phone
+      type: object
+      properties:
+        number:
+          type: string
+          description: The phone number
+        type:
+          type: string
+          enum:
+          - work
+          - personal
+          - other
+        isPrimary:
+          type: boolean
+          description: Whether this is the primary phone number
+      example:
+        number: 555-555-5555
+        type: work
+        isPrimary: true
+    EngContactCreate:
+      title: ContactCreate
+      type: object
+      examples:
+      - firstName: Tom
+        lastName: Smith
+        jobTitle: Director of Operations
+        emails:
+        - address: fake@email.com
+          type: work
+          isPrimary: true
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        customFields: {}
+        additional: {}
+      description: Properties that a contact can be created with
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+        address:
+          $ref: '#/components/schemas/EngAddress'
+        emails:
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                type: string
+              isPrimary:
+                type: boolean
+              type:
+                type: string
+                enum:
+                - work
+                - personal
+            required:
+            - address
+        customFields:
+          type: object
+          description: Set any custom fields on this contact's creation.
+        additional:
+          type: object
+          description: Create any property in the downstream Engagement Platform, such as a custom property.
+    EngContact:
+      title: Contact
+      type: object
+      examples:
+      - id: e5f32d4fd2115220bd20a2ccf81210ec
+        firstName: Tom
+        lastName: Smith
+        jobTitle: Director of Operations
+        phones:
+        - number: '8192223333'
+          type: work
+          isPrimary: true
+        emails:
+        - address: tom@dunder.com
+          type: work
+          isPrimary: true
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        openCount: 0
+        clickCount: 3
+        replyCount: 1
+        bouncedCount: 1
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+        associations:
+          accountId: 0dcb45e051315a6ea63b0f16e73689d9
+          actionIds:
+          - 006b4db16b6b50c981a174b02753c390
+          taskIds:
+          - 2322707bbc41577d9806400e2daa25de
+          ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+        customFields: {}
+        additional: {}
+      description: An known individual affiliated with an Account, Deal, etc
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Engagement Platform.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+        address:
+          $ref: '#/components/schemas/EngAddress'
+          description: Not supported by Apollo
+        emails:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailEngAddress'
+        phones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phone'
+        openCount:
+          type: number
+          description: Not supported by Apollo
+        clickCount:
+          type: number
+          description: Not supported by Apollo
+        replyCount:
+          type: number
+          description: Not supported by Apollo
+        bouncedCount:
+          type: number
+          description: Not supported by Outreach & Apollo
+        createdTime:
+          type: string
+          description: The timestamp that the contact was created
+        modifiedTime:
+          type: string
+          description: The timestamp the contact was last modified
+        associations:
+          type: object
+          required:
+          - accountId
+          - actionIds
+          - eventIds
+          - ownerUserId
+          properties:
+            accountId:
+              type: string
+            actionIds:
+              type: array
+              items:
+                type: string
+            taskIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+        customFields:
+          type: object
+          description: Any custom fields associated with this contact
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream Engagement Platform
+      required:
+      - id
+      - createdTime
+      - modifiedTime
+      - associations
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    id:
+      name: id
+      in: query
+      description: The id of the object to retrieve
+      required: true
+      schema:
+        type: string
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
+x-speakeasy-name-override:
+- operationId: post-*
+  methodNameOverride: create
+- operationId: put-*
+  methodNameOverride: update
+- operationId: delete-*
+  methodNameOverride: delete
+- operationId: get-one-*
+  methodNameOverride: find
+- operationId: get-all-*
+  methodNameOverride: list
+- operationId: get-details-*
+  methodNameOverride: details
+- operationId: get-batch-*
+  methodNameOverride: batch
+- operationId: search-*
+  methodNameOverride: search

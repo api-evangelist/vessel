@@ -1,0 +1,617 @@
+openapi: 3.2.0
+info:
+  title: CRM API Reference Attendees API
+  version: '2.0'
+  summary: API
+servers:
+- url: https://api.vessel.dev
+security:
+- VesselAPIToken: []
+tags:
+- name: attendees
+paths:
+  /crm/event/attendees:
+    get:
+      summary: Get All Event Attendees
+      tags:
+      - attendees
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  eventAttendees:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EventAttendee'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    eventAttendees:
+                    - id: v.attendee.f63c1bd7215f5150b332d31d9509752f
+                      associatedObjectType: Contact
+                      status: Confirmed
+                      email: null
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        eventId: v.event.0000d2e83d6c5d52a61f2fb860666477
+                        associationId: fbdb8b1e827609f50c25b4d52a7b6f57
+                      additional: {}
+                    nextPageCursor: string
+      operationId: get-all-crm-event-attendees
+      description: Retrieve all Attendees for all Events
+      parameters:
+      - schema:
+          type: string
+        in: query
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+        name: accessToken
+      - schema:
+          type: string
+        in: query
+        name: cursor
+      - schema:
+          type: number
+        in: query
+        name: limit
+        description: The number of records to return per page.
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+  /crm/event/attendees/search:
+    post:
+      summary: Search Event Attendees
+      tags:
+      - attendees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filters:
+                  type: object
+                  properties:
+                    id:
+                      $ref: '#/components/schemas/StringFilter'
+                    nativeId:
+                      $ref: '#/components/schemas/StringFilter'
+                    email:
+                      $ref: '#/components/schemas/StringFilter'
+                    status:
+                      $ref: '#/components/schemas/StringFilter'
+                    associatedObjectType:
+                      $ref: '#/components/schemas/StringFilter'
+                    createdTime:
+                      $ref: '#/components/schemas/DateFilter'
+                    modifiedTime:
+                      $ref: '#/components/schemas/DateFilter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  eventAttendees:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EventAttendee'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    eventAttendees:
+                    - id: v.attendee.f63c1bd7215f5150b332d31d9509752f
+                      associatedObjectType: Contact
+                      status: Confirmed
+                      email: null
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        eventId: v.event.0000d2e83d6c5d52a61f2fb860666477
+                        associationId: fbdb8b1e827609f50c25b4d52a7b6f57
+                      additional: {}
+                    nextPageCursor: string
+      operationId: search-crm-event-attendees
+      description: Search all Event Attendees using filters
+      parameters:
+      - $ref: '#/components/parameters/accessToken'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/allFields'
+  /crm/event/attendee:
+    parameters: []
+    get:
+      summary: Get Event Attendee
+      tags:
+      - attendees
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  eventAttendee:
+                    $ref: '#/components/schemas/EventAttendee'
+              examples:
+                example-1:
+                  value:
+                    eventAttendee:
+                      id: v.attendee.f63c1bd7215f5150b332d31d9509752f
+                      associatedObjectType: Contact
+                      status: Confirmed
+                      email: null
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        eventId: v.event.0000d2e83d6c5d52a61f2fb860666477
+                        associationId: fbdb8b1e827609f50c25b4d52a7b6f57
+                      additional: {}
+      operationId: get-one-crm-event-attendee
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+        required: true
+      - schema:
+          type: string
+        in: query
+        name: id
+        required: true
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      description: Retrieve a single Event Attendee by Id
+    post:
+      summary: Create Event Attendee
+      tags:
+      - attendees
+      operationId: post-crm-event-attendee
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  eventAttendee:
+                    $ref: '#/components/schemas/EventAttendeeCreate'
+              examples:
+                example-1:
+                  value:
+                    accessToken: string
+                    eventAttendee:
+                      email: null
+                      associatedObjectType: Contact
+                      status: Declined
+                      associationId: 98201f83c3f1c36dbcb36804c572c3ca
+                      eventId: v.event.0000d2e83d6c5d52a61f2fb860666477
+      description: Add an Attendee to an Event
+    patch:
+      summary: Update Event Attendee
+      tags:
+      - attendees
+      operationId: put-crm-event-attendee
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  id:
+                    type: string
+                  eventAttendee:
+                    $ref: '#/components/schemas/EventAttendeeUpdate'
+                required:
+                - accessToken
+                - id
+                - eventAttendee
+              examples:
+                example-1:
+                  value:
+                    accessToken: string
+                    eventAttendee:
+                      status: Declined
+      description: Update the status of an event attendee
+  /crm/event/attendee/details:
+    get:
+      summary: Get Event Attendee Details
+      tags:
+      - attendees
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  fields:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Field'
+                  nextPageCursor:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    fields:
+                    - key: email
+                      name: Email
+                      type: email
+                      options: null
+                      isArray: false
+                      custom: false
+                      universal: true
+                      required: false
+                      creatable: true
+                      updatable: true
+                    nextPageCursor: string
+      operationId: get-details-crm-event-attendee
+      description: 'Get details about all event attendees.
+
+        Details include the type, possible values, and other meta data about the fields.'
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+        required: true
+      - schema:
+          type: string
+        in: query
+        name: cursor
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns details about native fields.
+  /crm/event/attendee/batch:
+    parameters: []
+    get:
+      summary: Get Batch Event Attendees
+      tags:
+      - attendees
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: responseBody
+                type: object
+                properties:
+                  eventAttendees:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EventAttendee'
+                  invalidIds:
+                    $ref: '#/components/schemas/InvalidIds'
+              examples:
+                example-1:
+                  value:
+                    eventAttendees:
+                    - id: v.attendee.f63c1bd7215f5150b332d31d9509752f
+                      associatedObjectType: Contact
+                      status: Confirmed
+                      email: null
+                      createdTime: '2019-08-24T14:15:22Z'
+                      modifiedTime: '2019-08-24T14:15:22Z'
+                      associations:
+                        eventId: v.event.0000d2e83d6c5d52a61f2fb860666477
+                        associationId: fbdb8b1e827609f50c25b4d52a7b6f57
+                      additional: {}
+      operationId: get-batch-crm-event-attendee
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: accessToken
+        required: true
+        description: The token for the customer's CRM account. This was generated when they connected their account.
+      - schema:
+          type: string
+        in: query
+        name: ids
+        description: Comma separated list of Event Attendee Id's.
+      - schema:
+          type: boolean
+        in: query
+        name: allFields
+        description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      description: Retrieve Event Attendees by a set of Id's
+components:
+  schemas:
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    EventAttendeeUpdate:
+      title: EventAttendeeUpdate
+      type: object
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Declined
+      description: ''
+    Field:
+      title: Field
+      type: object
+      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
+      properties:
+        key:
+          type: string
+          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
+        name:
+          type: string
+          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
+        type:
+          type: string
+          enum:
+          - string
+          - number
+          - datetime
+          - date
+          - boolean
+          - reference
+          - phone
+          - url
+          - id
+          - email
+          - percent
+          - singleselect
+          - multiselect
+          - address
+          - decimal
+          - time
+          - daterange
+          - object
+        options:
+          type: array
+          description: Possible options for this field
+          items:
+            type: object
+            properties:
+              key:
+                oneOf:
+                - type: string
+                - type: number
+              name:
+                type: string
+        isArray:
+          type: boolean
+          description: If this field is an array
+        custom:
+          type: boolean
+          description: If this field is a custom field
+        universal:
+          type: boolean
+          description: If this is a field we've unified across CRMs
+        required:
+          type: boolean
+          description: If this field is required when creating the object
+        creatable:
+          type: boolean
+          description: If this field can be used when creating the object
+        updatable:
+          type: boolean
+          description: If this field can be updated
+      required:
+      - key
+      - name
+      - type
+      - custom
+      - universal
+      - required
+      - creatable
+      - updatable
+      examples:
+      - key: numberOfEmployees
+        name: number of employees
+        type: number
+        options: null
+        isArray: false
+        custom: false
+        universal: true
+        required: false
+        creatable: true
+        updatable: true
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+    EventAttendee:
+      title: EventAttendee
+      type: object
+      description: Event Attendees hold information about someone who attendeed or was invited to an event. Attendees are always associated with some Event and another person object such as a Contact, Lead, or Other.
+      examples:
+      - id: v.attendee.f63c1bd7215f5150b332d31d9509752f
+        associatedObjectType: Contact
+        status: Confirmed
+        email: null
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+        associations:
+          eventId: v.event.0000d2e83d6c5d52a61f2fb860666477
+          associationId: v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+        additional: {}
+      properties:
+        id:
+          type: string
+          description: Unique Vessel Id.
+        nativeId:
+          type: string
+          description: Id of the object in the connected CRM.
+        status:
+          type: string
+        associatedObjectType:
+          type: string
+          description: The object type of the associated object (e.g., Contact, Lead, etc) or Other if this Attendee is not associated with a CRM object
+        email:
+          type: string
+          description: Optional unless `associationId` is null
+        createdTime:
+          type: string
+          description: The timestamp that the event attendee was created
+        modifiedTime:
+          type: string
+          description: The timestamp the event attendee was last modified
+        associations:
+          type: object
+          required:
+          - eventId
+          - associationId
+          properties:
+            eventId:
+              type: string
+            associationId:
+              type: string
+              description: The id of the associated object, if this Attendee is not associated with a CRM object, this id is null and the `email` field will be present
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream CRM
+      required:
+      - id
+      - nativeId
+      - associatedObjectType
+      - createdTime
+      - modifiedTime
+      - associations
+    EventAttendeeCreate:
+      title: EventAttendeeCreate
+      type: object
+      description: ''
+      examples:
+      - email: null
+        associatedObjectType: Contact
+        status: Declined
+        associationId: 98201f83c3f1c36dbcb36804c572c3ca
+        eventId: v.event.0000d2e83d6c5d52a61f2fb860666477
+      properties:
+        email:
+          type: string
+          description: 'Required if associationId is not present and the CRM supports "Other" for attendee associatedObjectType '
+        associatedObjectType:
+          type: string
+          description: The object type of the associated object (e.g., Contact, Lead, etc) or Other if this Attendee is not associated with a CRM object
+        status:
+          type: string
+        associationId:
+          type: string
+          description: Required unless email is present and CRM supports "Other" for associatedObjectType
+        eventId:
+          type: string
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - associatedObjectType
+      - eventId
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+  securitySchemes:
+    VesselAPIToken:
+      name: vessel-api-token
+      type: apiKey
+      in: header
