@@ -44,7 +44,7 @@ tags:
 - Chat
 - Dialer
 - Embedded Integrations
-- Go-To-Market
+- GTM
 - Integration
 - iPaaS
 - Marketing Automation
@@ -74,6 +74,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Account
+  tags_raw:
   - accounts
   properties:
   - type: OpenAPI
@@ -110,6 +112,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Attendees
+  tags_raw:
   - attendees
   properties:
   - type: OpenAPI
@@ -128,6 +132,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
@@ -164,6 +170,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Connections
+  tags_raw:
   - connections
   properties:
   - type: OpenAPI
@@ -182,6 +190,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Contact Custom Fields
+  tags_raw:
   - contactCustomFields
   properties:
   - type: OpenAPI
@@ -200,6 +210,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Contacts
+  tags_raw:
   - contacts
   properties:
   - type: OpenAPI
@@ -218,6 +230,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - CRM
+  tags_raw:
   - Crm
   properties:
   - type: OpenAPI
@@ -236,6 +250,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Deals
+  tags_raw:
   - deals
   properties:
   - type: OpenAPI
@@ -254,6 +270,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Emails
+  tags_raw:
   - emails
   properties:
   - type: OpenAPI
@@ -271,7 +289,8 @@ apis:
   description: The engAccounts API from Vessel — 2 operation(s) for engaccounts.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - engAccounts
   properties:
   - type: OpenAPI
@@ -289,7 +308,8 @@ apis:
   description: The engAccountss API from Vessel — 1 operation(s) for engaccountss.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - engAccountss
   properties:
   - type: OpenAPI
@@ -307,7 +327,8 @@ apis:
   description: The engActions API from Vessel — 3 operation(s) for engactions.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - engActions
   properties:
   - type: OpenAPI
@@ -325,7 +346,8 @@ apis:
   description: The engCalls API from Vessel — 2 operation(s) for engcalls.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - engCalls
   properties:
   - type: OpenAPI
@@ -343,7 +365,8 @@ apis:
   description: The engContacts API from Vessel — 3 operation(s) for engcontacts.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - engContacts
   properties:
   - type: OpenAPI
@@ -361,7 +384,8 @@ apis:
   description: The engCustomFields API from Vessel — 2 operation(s) for engcustomfields.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - engCustomFields
   properties:
   - type: OpenAPI
@@ -379,7 +403,8 @@ apis:
   description: The engDispositions API from Vessel — 1 operation(s) for engdispositions.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - engDispositions
   properties:
   - type: OpenAPI
@@ -397,7 +422,8 @@ apis:
   description: The engEmails API from Vessel — 3 operation(s) for engemails.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - engEmails
   properties:
   - type: OpenAPI
@@ -415,7 +441,8 @@ apis:
   description: The engMailboxes API from Vessel — 1 operation(s) for engmailboxes.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - engMailboxes
   properties:
   - type: OpenAPI
@@ -433,7 +460,8 @@ apis:
   description: The engPassthrough API from Vessel — 1 operation(s) for engpassthrough.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - engPassthrough
   properties:
   - type: OpenAPI
@@ -451,7 +479,8 @@ apis:
   description: The engSequences API from Vessel — 4 operation(s) for engsequences.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - engSequences
   properties:
   - type: OpenAPI
@@ -469,7 +498,8 @@ apis:
   description: The engTasks API from Vessel — 3 operation(s) for engtasks.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - engTasks
   properties:
   - type: OpenAPI
@@ -487,7 +517,8 @@ apis:
   description: The engUsers API from Vessel — 2 operation(s) for engusers.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - engUsers
   properties:
   - type: OpenAPI
@@ -506,6 +537,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Event
+  tags_raw:
   - events
   properties:
   - type: OpenAPI
@@ -524,6 +557,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Integration
+  tags_raw:
   - integrations
   properties:
   - type: OpenAPI
@@ -541,7 +576,8 @@ apis:
   description: The leadCustomFields API from Vessel — 1 operation(s) for leadcustomfields.
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
-  tags:
+  tags: []
+  tags_raw:
   - leadCustomFields
   properties:
   - type: OpenAPI
@@ -560,6 +596,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Leads
+  tags_raw:
   - leads
   properties:
   - type: OpenAPI
@@ -578,6 +616,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Links
+  tags_raw:
   - links
   properties:
   - type: OpenAPI
@@ -596,6 +636,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - List
+  tags_raw:
   - lists
   properties:
   - type: OpenAPI
@@ -614,6 +656,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Notes
+  tags_raw:
   - notes
   properties:
   - type: OpenAPI
@@ -632,6 +676,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Passthrough
+  tags_raw:
   - passthrough
   properties:
   - type: OpenAPI
@@ -650,6 +696,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Task
+  tags_raw:
   - tasks
   properties:
   - type: OpenAPI
@@ -668,6 +716,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Tokens
+  tags_raw:
   - tokens
   properties:
   - type: OpenAPI
@@ -704,6 +754,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - User
+  tags_raw:
   - users
   properties:
   - type: OpenAPI
@@ -722,6 +774,8 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
+  - Webhook
+  tags_raw:
   - webhooks
   properties:
   - type: OpenAPI
