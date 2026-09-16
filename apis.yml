@@ -187,26 +187,6 @@ apis:
     url: https://github.com/vesselapi/all-api-docs
   - type: SpectralRuleset
     url: rules/vessel-api-rules.yml
-- aid: vessel:vessel-contactcustomfields-api
-  name: Vessel Contact Custom Fields API
-  description: The contactCustomFields API from Vessel — 1 operation(s) for contactcustomfields.
-  humanURL: https://www.vessel.dev/
-  baseURL: https://api.vessel.dev
-  tags:
-  - Contact Custom Fields
-  tags_raw:
-  - contactCustomFields
-  properties:
-  - type: OpenAPI
-    url: openapi/vessel-contactcustomfields-api-openapi.yml
-  - type: Documentation
-    url: https://github.com/vesselapi/all-api-docs
-  - type: APIReference
-    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
-  - type: GitHubRepository
-    url: https://github.com/vesselapi/all-api-docs
-  - type: SpectralRuleset
-    url: rules/vessel-api-rules.yml
 - aid: vessel:vessel-contacts-api
   name: Vessel Contacts API
   description: The contacts API from Vessel — 5 operation(s) for contacts.
@@ -783,6 +763,24 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/vessel-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/vesselapi/all-api-docs
+  - type: APIReference
+    url: https://github.com/vesselapi/all-api-docs/tree/main/docs/pages
+  - type: GitHubRepository
+    url: https://github.com/vesselapi/all-api-docs
+  - type: SpectralRuleset
+    url: rules/vessel-api-rules.yml
+- aid: vessel:vessel-contact-custom-fields-api
+  name: Vessel Contact Custom Fields API
+  description: The Contact Custom Fields API from Vessel — 1 operation(s) for contact custom fields.
+  humanURL: https://www.vessel.dev/
+  baseURL: https://api.vessel.dev
+  tags:
+  - Contact Custom Fields
+  properties:
+  - type: OpenAPI
+    url: openapi/vessel-contact-custom-fields-api-openapi.yml
   - type: Documentation
     url: https://github.com/vesselapi/all-api-docs
   - type: APIReference
