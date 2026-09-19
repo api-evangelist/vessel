@@ -253,7 +253,7 @@ apis:
   humanURL: https://www.vessel.dev/
   baseURL: https://api.vessel.dev
   tags:
-  - Emails
+  - Email
   tags_raw:
   - emails
   properties:
