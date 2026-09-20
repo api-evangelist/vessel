@@ -1,0 +1,70 @@
+slug: vessel
+provider: Vessel
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Telecommunications
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 5
+edges:
+- tag: contacts
+  spec_file: vessel-contacts-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.85
+  evidence: GET /crm/contacts Get All Contacts; POST /crm/contact Create Contact; PATCH /crm/contact Update
+    Contact
+  reason: Full CRUD and search over CRM contact records, i.e. maintenance of the customer/contact master
+    data through a unified CRM contract.
+- tag: leads
+  spec_file: vessel-leads-api-openapi.yml
+  capability_id: BC-410.30
+  capability_id_l1: BC-410
+  capability_name: Opportunity & Pipeline Management
+  confidence: 0.85
+  evidence: GET /crm/leads  Get All Leads; POST /crm/lead  post-crm-lead  Create Lead; schema LeadCreate,
+    LeadUpdate
+  reason: Full CRUD and search over CRM Lead records, which is the lead stage of the lead/opportunity/deal
+    lifecycle.
+- tag: webhooks
+  spec_file: vessel-webhooks-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.75
+  evidence: 'POST /connection/webhook  post-webhook  Create Webhook; POST /webhooks/list  list-webhooks  List
+    Webhooks; schemas: WebhookMetadataCreate, WebhookMetadata'
+  reason: Vessel is a developer-first embedded integrations platform, and this tag is the lifecycle of
+    outbound event subscriptions its API consumers create/list/delete (WebhookMetadata). That is precisely
+    'Lifecycle of outbound webhook subscriptions, event schemas, and delivery reliability' under Developer
+    Platform & API Ecosystem Management. Confidence held below 0.8 because webhook endpoints are often
+    pure plumbing rather than a managed product capability.
+  recovered_from: sweep-20260829T005356Z-edges.json
+- tag: accounts
+  spec_file: vessel-accounts-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.7
+  evidence: POST /crm/account post-crm-account Create Account; GET /crm/account/details Get Account Details;
+    schemas Account, AccountCreate, AccountUpdate
+  reason: Full CRUD and search over CRM account (company) records — maintenance of the customer master
+    record. 'Accounts' here is the CRM object, not financial accounts.
+- tag: engContacts
+  spec_file: vessel-engcontacts-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.7
+  evidence: GET /engagement/contacts Get All Contacts; POST /engagement/contact Create Contact; POST /engagement/contacts/search
+    Search Contacts (schemas EngContact, Phone, EmailEngAddress)
+  reason: CRUD and search over prospect/contact records with addresses, phones and emails in a sales-engagement
+    system — maintenance of contact master data. Could alternatively be read as lead management, hence
+    0.7.
