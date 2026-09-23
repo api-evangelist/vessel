@@ -9,14 +9,14 @@ servers:
 security:
 - VesselAPIToken: []
 tags:
-- name: integrations
+- name: Integrations
 paths:
   /connection/crm/integrations:
     parameters: []
     get:
       summary: Get CRM Integrations
       tags:
-      - integrations
+      - Integrations
       responses:
         '200':
           description: OK
@@ -84,7 +84,7 @@ paths:
       security:
       - VesselAPIToken: []
       tags:
-      - integrations
+      - Integrations
     servers:
     - url: https://api.vessel.dev
 components:

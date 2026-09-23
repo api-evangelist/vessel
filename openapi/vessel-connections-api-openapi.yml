@@ -9,14 +9,14 @@ servers:
 security:
 - VesselAPIToken: []
 tags:
-- name: connections
+- name: Connections
 paths:
   /connection/connection:
     parameters: []
     get:
       summary: Get Connection
       tags:
-      - connections
+      - Connections
       responses:
         '200':
           description: OK
@@ -40,7 +40,7 @@ paths:
     delete:
       summary: Delete Connection
       tags:
-      - connections
+      - Connections
       operationId: delete-connection
       responses:
         '200':
@@ -64,7 +64,7 @@ paths:
     get:
       summary: Get All Connections
       tags:
-      - connections
+      - Connections
       responses:
         '200':
           description: OK
@@ -113,7 +113,7 @@ paths:
       security:
       - VesselAPIToken: []
       tags:
-      - connections
+      - Connections
     servers:
     - url: https://api.vessel.dev
   /api/connections/find:
@@ -159,7 +159,7 @@ paths:
       security:
       - VesselAPIToken: []
       tags:
-      - connections
+      - Connections
     servers:
     - url: https://api.vessel.dev
   /api/connections/delete:
@@ -196,7 +196,7 @@ paths:
       security:
       - VesselAPIToken: []
       tags:
-      - connections
+      - Connections
     servers:
     - url: https://api.vessel.dev
 components:

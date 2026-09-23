@@ -8,14 +8,14 @@ servers:
 security:
 - VesselAPIToken: []
 tags:
-- name: tasks
+- name: Tasks
 paths:
   /crm/tasks:
     parameters: []
     get:
       summary: Get All Tasks
       tags:
-      - tasks
+      - Tasks
       responses:
         '200':
           description: OK
@@ -84,7 +84,7 @@ paths:
     post:
       summary: Search Tasks
       tags:
-      - tasks
+      - Tasks
       requestBody:
         content:
           application/json:
@@ -170,7 +170,7 @@ paths:
     get:
       summary: Get Task
       tags:
-      - tasks
+      - Tasks
       responses:
         '200':
           description: OK
@@ -229,7 +229,7 @@ paths:
     post:
       summary: Create Task
       tags:
-      - tasks
+      - Tasks
       operationId: post-crm-task
       responses:
         '200':
@@ -289,7 +289,7 @@ paths:
     patch:
       summary: Update Task
       tags:
-      - tasks
+      - Tasks
       operationId: put-crm-task
       responses:
         '200':
@@ -346,7 +346,7 @@ paths:
     get:
       summary: Get Task Details
       tags:
-      - tasks
+      - Tasks
       responses:
         '200':
           description: OK
@@ -402,7 +402,7 @@ paths:
     get:
       summary: Get Batch Tasks
       tags:
-      - tasks
+      - Tasks
       responses:
         '200':
           description: OK
@@ -463,30 +463,40 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve Tasks by a set of Id's
 components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
   schemas:
-    DateFilter:
+    BooleanFilter:
       type: object
       properties:
         equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
+          type: boolean
         not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
+          type: boolean
     InvalidIds:
       type: array
       items:
@@ -582,13 +592,87 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    BooleanFilter:
+    DateFilter:
       type: object
       properties:
         equals:
-          type: boolean
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
         not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+    TaskUpdate:
+      title: TaskUpdate
+      type: object
+      description: ''
+      examples:
+      - body: This task needs to be done very soon!
+        subject: High Priority Task
+        dueDate: '2019-09-24T14:15:22Z'
+        isDone: false
+        ownerUserId: v.user.79d154aa0c7a571295a157369d448e65
+        priority: High
+        status: Not Done
+      properties:
+        body:
+          type: string
+        subject:
+          type: string
+        dueDate:
+          type: string
+        ownerUserId:
+          type: string
+        priority:
+          type: string
+          description: Not supported by Pipedrive
+        status:
+          type: string
+          description: Not supported by Pipedrive
+        isDone:
           type: boolean
+          description: If both `isDone` and `status` are included, `isDone` will take precedence and automatically set `status` to either the default or a 'closed' status depending on the `isDone` value.
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
     Field:
       title: Field
       type: object
@@ -671,64 +755,6 @@ components:
         required: false
         creatable: true
         updatable: true
-    StringFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
-    TaskUpdate:
-      title: TaskUpdate
-      type: object
-      description: ''
-      examples:
-      - body: This task needs to be done very soon!
-        subject: High Priority Task
-        dueDate: '2019-09-24T14:15:22Z'
-        isDone: false
-        ownerUserId: v.user.79d154aa0c7a571295a157369d448e65
-        priority: High
-        status: Not Done
-      properties:
-        body:
-          type: string
-        subject:
-          type: string
-        dueDate:
-          type: string
-        ownerUserId:
-          type: string
-        priority:
-          type: string
-          description: Not supported by Pipedrive
-        status:
-          type: string
-          description: Not supported by Pipedrive
-        isDone:
-          type: boolean
-          description: If both `isDone` and `status` are included, `isDone` will take precedence and automatically set `status` to either the default or a 'closed' status depending on the `isDone` value.
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
     TaskCreate:
       title: TaskCreate
       type: object
@@ -778,32 +804,6 @@ components:
         additional:
           type: object
           description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
-  parameters:
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

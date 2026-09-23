@@ -3,7 +3,17 @@ info:
   title: Reference Eng Accounts API
   version: '2.0'
   summary: API
-  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+  description: 'Vessel''s APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:
+
+
+    Key | Value | Description
+
+    ---------|----------|----------
+
+    vessel-api-token | `` | The API token provided by us
+
+
+    Additionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access.'
 servers:
 - url: https://api.vessel.land
 security:
@@ -245,6 +255,39 @@ paths:
         description: ''
       description: Update an existing account.
 components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    id:
+      name: id
+      in: query
+      description: The id of the object to retrieve
+      required: true
+      schema:
+        type: string
   schemas:
     EngAccount:
       title: Account
@@ -337,29 +380,49 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    EngAddress:
-      title: Address
+    EngAccountUpdate:
+      title: AccountUpdate
       type: object
-      properties:
-        line1:
-          type: string
-        line2:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
       examples:
-      - line1: 123 Main St
-        line2: Apt 1
-        city: San Francisco
-        state: CA
-        postalCode: 94105
-        country: US
+      - name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        phone: '8192223333'
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        additional: {}
+      description: Properties that an account can be update with
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: A description of this Company/Account.
+        industry:
+          type: string
+          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
+        numberOfEmployees:
+          type: number
+        website:
+          type: string
+        phone:
+          type: string
+          description: The primary phone number.
+        locality:
+          type: string
+          description: The locality of the account (e.g. "Scranton", "New York City", etc.)
+        address:
+          $ref: '#/components/schemas/EngAddress'
+        additional:
+          type: object
+          description: Update any property in the downstream Engagement Platform, such as a custom property.
     EngAccountCreate:
       title: AccountCreate
       type: object
@@ -405,82 +468,29 @@ components:
           description: Create any property in the downstream Engagement Platform, such as a custom property.
       required:
       - name
-    EngAccountUpdate:
-      title: AccountUpdate
+    EngAddress:
+      title: Address
       type: object
-      examples:
-      - name: Blue Cross
-        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
-        industry: TV and Media
-        numberOfEmployees: 100
-        website: www.bluecross.penn
-        phone: '8192223333'
-        address:
-          line1: 100 Blue Dr
-          line2: Suite 100
-          city: Scranton
-          state: Pennsylvania
-          postalCode: '281332'
-          country: USA
-        additional: {}
-      description: Properties that an account can be update with
       properties:
-        name:
+        line1:
           type: string
-        description:
+        line2:
           type: string
-          description: A description of this Company/Account.
-        industry:
+        city:
           type: string
-          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
-        numberOfEmployees:
-          type: number
-        website:
+        state:
           type: string
-        phone:
+        postalCode:
           type: string
-          description: The primary phone number.
-        locality:
+        country:
           type: string
-          description: The locality of the account (e.g. "Scranton", "New York City", etc.)
-        address:
-          $ref: '#/components/schemas/EngAddress'
-        additional:
-          type: object
-          description: Update any property in the downstream Engagement Platform, such as a custom property.
-  parameters:
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    id:
-      name: id
-      in: query
-      description: The id of the object to retrieve
-      required: true
-      schema:
-        type: string
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
+      examples:
+      - line1: 123 Main St
+        line2: Apt 1
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

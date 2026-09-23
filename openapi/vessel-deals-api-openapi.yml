@@ -8,14 +8,14 @@ servers:
 security:
 - VesselAPIToken: []
 tags:
-- name: deals
+- name: Deals
 paths:
   /crm/deals:
     parameters: []
     get:
       summary: Get All Deals
       tags:
-      - deals
+      - Deals
       responses:
         '200':
           description: OK
@@ -92,7 +92,7 @@ paths:
     post:
       summary: Search Deals
       tags:
-      - deals
+      - Deals
       requestBody:
         content:
           application/json:
@@ -187,7 +187,7 @@ paths:
     get:
       summary: Get Deal
       tags:
-      - deals
+      - Deals
       responses:
         '200':
           description: OK
@@ -254,7 +254,7 @@ paths:
     post:
       summary: Create Deal
       tags:
-      - deals
+      - Deals
       operationId: post-crm-deal
       responses:
         '200':
@@ -306,7 +306,7 @@ paths:
     patch:
       summary: Update Deal
       tags:
-      - deals
+      - Deals
       operationId: put-crm-deal
       responses:
         '200':
@@ -362,7 +362,7 @@ paths:
     get:
       summary: Get Deal Details
       tags:
-      - deals
+      - Deals
       responses:
         '200':
           description: OK
@@ -423,7 +423,7 @@ paths:
     get:
       summary: Get Batch Deals
       tags:
-      - deals
+      - Deals
       responses:
         '200':
           description: OK
@@ -492,30 +492,45 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve Deals by a set of Id's
 components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
   schemas:
-    DateFilter:
+    BooleanFilter:
       type: object
       properties:
         equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
+          type: boolean
         not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
+          type: boolean
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
     Deal:
       title: Deal
       type: object
@@ -644,18 +659,54 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    InvalidIds:
-      type: array
-      items:
-        type: string
-      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
-    BooleanFilter:
+    DateFilter:
       type: object
       properties:
         equals:
-          type: boolean
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
         not:
-          type: boolean
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
     Field:
       title: Field
       type: object
@@ -818,57 +869,6 @@ components:
       required:
       - name
       - closeDate
-    StringFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
-  parameters:
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Vessel Actions API
   version: '1.0'
-  description: 'Operations tagged Actions across 12 of this provider''s published API definitions: vessel-activecampaign-actions-openapi.yml, vessel-aircall-actions-openapi.yml, vessel-apollo-actions-openapi.yml, vessel-dialpad-actions-openapi.yml, vessel-mailchimp-actions-openapi.yml, vessel-monday-actions-openapi.yml, vessel-outreach-actions-openapi.yml, vessel-ringcentral-actions-openapi.yml, vessel-salesforce-actions-openapi.yml, vessel-salesloft-actions-openapi.yml, vessel-slack-actions-openapi.yml, vessel-teams-actions-openapi.yml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Actions across 12 of this provider''s published API definitions: vessel-activecampaign-actions-openapi.yml, vessel-aircall-actions-openapi.yml, vessel-apollo-actions-openapi.yml, vessel-dialpad-actions-openapi.yml, vessel-mailchimp-actions-openapi.yml, vessel-monday-actions-openapi.yml, vessel-outreach-actions-openapi.yml, vessel-ringcentral-actions-openapi.yml, vessel-salesforce-actions-openapi.yml, vessel-salesloft-actions-openapi.yml, vessel-slack-actions-openapi.yml…'
 servers:
 - url: https://api.vessel.dev
 security:
@@ -90,6 +90,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/activecampaign/contacts/find:
@@ -163,6 +165,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/activecampaign/contacts/list:
@@ -235,6 +239,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List contacts
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/activecampaign/contacts/update:
@@ -320,6 +326,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Update contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/activecampaign/lists/find:
@@ -376,6 +384,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find list
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/activecampaign/lists/list:
@@ -434,6 +444,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List lists
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/activecampaign/users/list:
@@ -500,6 +512,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List users
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/users/list:
@@ -647,6 +661,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List users
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/users/find:
@@ -747,6 +763,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find user
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/users/start-call:
@@ -795,6 +813,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Start user call
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/contacts/create:
@@ -970,6 +990,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/contacts/find:
@@ -1105,6 +1127,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/contacts/list:
@@ -1297,6 +1321,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List contacts
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/contacts/update:
@@ -1447,6 +1473,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Update contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/calls/find:
@@ -1757,6 +1785,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find call
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/calls/list:
@@ -2128,6 +2158,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List calls
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/accounts/create:
@@ -2267,6 +2299,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create account
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/accounts/search:
@@ -2422,6 +2456,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Search account
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/accounts/update:
@@ -2564,6 +2600,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Update account
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/activities/list:
@@ -2710,6 +2748,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List activities
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/contacts/create:
@@ -2927,6 +2967,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/contacts/search:
@@ -3118,6 +3160,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Search contacts
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/contacts/update:
@@ -3334,6 +3378,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Update contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/custom-fields/create:
@@ -3402,6 +3448,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create custom fields
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/custom-fields/list:
@@ -3463,6 +3511,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List custom fields
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/emails/search:
@@ -3588,6 +3638,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Search emails
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/email-accounts/list:
@@ -3651,6 +3703,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List email accounts
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/labels/search:
@@ -3718,6 +3772,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Search labels
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/people/search:
@@ -3923,6 +3979,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Search people
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/tasks/search:
@@ -4133,6 +4191,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Search tasks
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/tasks/mark-complete:
@@ -4187,6 +4247,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Tasks mark complete
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/calls/create:
@@ -4340,6 +4402,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create call
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/calls/details:
@@ -4464,6 +4528,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create call
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/sequences/create:
@@ -4659,6 +4725,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create sequences
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/sequences/search:
@@ -4870,6 +4938,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Search sequences
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/sequences/start:
@@ -5184,6 +5254,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Start sequences
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/sequence-steps/create:
@@ -5267,6 +5339,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create sequence steps
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/sequence-templates/update:
@@ -5360,6 +5434,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Update sequence templates
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/users/search:
@@ -5457,6 +5533,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Search users
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/users/list:
@@ -5611,6 +5689,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List users
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/users/find:
@@ -5733,6 +5813,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find user
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/contacts/find:
@@ -5825,6 +5907,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/contacts/list:
@@ -5939,6 +6023,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List contacts
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/contacts/create:
@@ -6061,6 +6147,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Contacts create
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/contacts/update:
@@ -6186,6 +6274,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Contacts update
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/calls/find:
@@ -6516,6 +6606,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find call
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/calls/list:
@@ -6893,6 +6985,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List calls
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/calls/start:
@@ -6952,6 +7046,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Start call
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/mailchimp/members/create:
@@ -7017,6 +7113,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create member
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/mailchimp/members/update:
@@ -7086,6 +7184,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Update member
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/mailchimp/members/search:
@@ -7188,6 +7288,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Search members
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/mailchimp/lists/find:
@@ -7247,6 +7349,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find list
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/mailchimp/lists/list:
@@ -7308,6 +7412,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List lists
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/monday/graphql/query:
@@ -7356,6 +7462,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Graphql query
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/monday/items/create:
@@ -7415,6 +7523,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create items
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/monday/groups/create:
@@ -7464,6 +7574,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create groups
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/monday/boards/list:
@@ -7563,6 +7675,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List boards
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/accounts/find:
@@ -7696,6 +7810,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find account
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/accounts/list:
@@ -7859,6 +7975,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List accounts
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/mailboxes/list:
@@ -7950,6 +8068,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List mailboxes
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/mailings/find:
@@ -8102,6 +8222,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find mailing
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/mailings/list:
@@ -8284,6 +8406,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List mailings
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/prospects/create:
@@ -8548,6 +8672,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create prospect
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/prospects/find:
@@ -8752,6 +8878,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find prospect
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/prospects/list:
@@ -8982,6 +9110,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List prospects
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/prospects/update:
@@ -9235,6 +9365,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Update prospect
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/sequence-states/create:
@@ -9327,6 +9459,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create sequence state
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/sequences/find:
@@ -9448,6 +9582,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find sequence
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/sequences/list:
@@ -9589,6 +9725,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List sequences
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/users/find:
@@ -9669,6 +9807,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find user
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/users/list:
@@ -9769,6 +9909,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List users
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/sequences/create:
@@ -9911,6 +10053,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create sequence
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/templates/create:
@@ -9976,6 +10120,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create template
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/sequence-templates/create:
@@ -10042,6 +10188,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create sequence template
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/ringcentral/extensions/find:
@@ -10146,6 +10294,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find extension
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/ringcentral/extensions/list:
@@ -10319,6 +10469,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List extensions
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/ringcentral/extensions/ring-out:
@@ -10437,6 +10589,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Extension ring out
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/ringcentral/call-logs/list:
@@ -10607,6 +10761,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List call logs
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/ringcentral/call-logs/find:
@@ -10703,6 +10859,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find call log
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/ringcentral/contacts/list:
@@ -10827,6 +10985,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List contacts
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/ringcentral/contacts/find:
@@ -10883,6 +11043,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/ringcentral/contacts/create:
@@ -10951,6 +11113,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/ringcentral/contacts/update:
@@ -11022,6 +11186,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Update contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/soql/query:
@@ -11063,6 +11229,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Query soql
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/contacts/create:
@@ -11126,6 +11294,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/contacts/find:
@@ -11200,6 +11370,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/contacts/list:
@@ -11295,6 +11467,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List contacts
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/contacts/update:
@@ -11398,6 +11572,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Update contact
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/list-views/find:
@@ -11453,6 +11629,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find list view
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/list-views/list:
@@ -11526,6 +11704,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List list views
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/list-view-results/find:
@@ -11605,6 +11785,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find list view results
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/users/list:
@@ -11680,6 +11862,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List users
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/users/find:
@@ -11739,6 +11923,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find user
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/cadence-memberships/create:
@@ -11896,6 +12082,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create cadence memberships
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/cadences/import:
@@ -12070,6 +12258,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Import cadences
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/cadences/list:
@@ -12254,6 +12444,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List cadences
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/custom-fields/create:
@@ -12326,6 +12518,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create custom field
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/custom-fields/list:
@@ -12432,6 +12626,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List custom fields
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/emailBodies/find:
@@ -12493,6 +12689,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find email body
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/emails/list:
@@ -12683,6 +12881,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List emails
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/emails/find:
@@ -12838,6 +13038,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find email
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/people/create:
@@ -13064,6 +13266,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create people
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/people/list:
@@ -13276,6 +13480,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List people
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/people/find:
@@ -13454,6 +13660,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find people
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/people/update:
@@ -13682,6 +13890,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Update people
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/users/find:
@@ -13857,6 +14067,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Find user
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/users/list:
@@ -14066,6 +14278,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List users
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/slack/messages/create:
@@ -14110,6 +14324,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create message
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/slack/messages/update:
@@ -14157,6 +14373,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Update message
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/slack/users/list:
@@ -14223,6 +14441,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List users
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/slack/conversations/list:
@@ -14289,6 +14509,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List conversations
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/teams/messages/create:
@@ -14362,6 +14584,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: Create message
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/teams/channels/list:
@@ -14427,6 +14651,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List channels
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/teams/members/list:
@@ -14486,6 +14712,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List members
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
   /api/actions/teams/teams/list:
@@ -14542,6 +14770,8 @@ paths:
           type: string
       tags:
       - Actions
+      summary: List teams
+      x-summary-source: derived
     servers:
     - url: https://api.vessel.dev
 x-refined-from:

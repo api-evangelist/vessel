@@ -3,7 +3,17 @@ info:
   title: Reference Eng Dispositions API
   version: '2.0'
   summary: API
-  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+  description: 'Vessel''s APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:
+
+
+    Key | Value | Description
+
+    ---------|----------|----------
+
+    vessel-api-token | `` | The API token provided by us
+
+
+    Additionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access.'
 servers:
 - url: https://api.vessel.land
 security:
@@ -53,12 +63,18 @@ paths:
       description: Retrieve all Call Dispositions
 components:
   parameters:
-    cursor:
-      name: cursor
+    limit:
+      name: limit
       in: query
-      description: The cursor to use for pagination
+      description: The number of records to return per page.
       schema:
-        type: string
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
     accessToken:
       name: accessToken
       in: query
@@ -66,18 +82,12 @@ components:
       required: true
       schema:
         type: string
-    allFields:
-      name: allFields
+    cursor:
+      name: cursor
       in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      description: The cursor to use for pagination
       schema:
-        type: boolean
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
+        type: string
   schemas:
     CallDisposition:
       title: Call Disposition

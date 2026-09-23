@@ -8,14 +8,14 @@ servers:
 security:
 - VesselAPIToken: []
 tags:
-- name: users
+- name: Users
 paths:
   /crm/users:
     parameters: []
     get:
       summary: Get All Users
       tags:
-      - users
+      - Users
       responses:
         '200':
           description: OK
@@ -76,7 +76,7 @@ paths:
     post:
       summary: Search Users
       tags:
-      - users
+      - Users
       requestBody:
         content:
           application/json:
@@ -140,7 +140,7 @@ paths:
     get:
       summary: Get User
       tags:
-      - users
+      - Users
       responses:
         '200':
           description: OK
@@ -187,7 +187,7 @@ paths:
     get:
       summary: Get User Details
       tags:
-      - users
+      - Users
       responses:
         '200':
           description: OK
@@ -243,7 +243,7 @@ paths:
     get:
       summary: Get Batch Users
       tags:
-      - users
+      - Users
       responses:
         '200':
           description: OK
@@ -291,30 +291,33 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve Users by a set of Id's
 components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
   schemas:
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
     InvalidIds:
       type: array
       items:
@@ -366,6 +369,54 @@ components:
       - createdTime
       - modifiedTime
       - associations
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
     Field:
       title: Field
       type: object
@@ -448,57 +499,6 @@ components:
         required: false
         creatable: true
         updatable: true
-    StringFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
-  parameters:
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

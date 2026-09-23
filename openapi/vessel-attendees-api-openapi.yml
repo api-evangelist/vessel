@@ -8,13 +8,13 @@ servers:
 security:
 - VesselAPIToken: []
 tags:
-- name: attendees
+- name: Attendees
 paths:
   /crm/event/attendees:
     get:
       summary: Get All Event Attendees
       tags:
-      - attendees
+      - Attendees
       responses:
         '200':
           description: OK
@@ -71,7 +71,7 @@ paths:
     post:
       summary: Search Event Attendees
       tags:
-      - attendees
+      - Attendees
       requestBody:
         content:
           application/json:
@@ -137,7 +137,7 @@ paths:
     get:
       summary: Get Event Attendee
       tags:
-      - attendees
+      - Attendees
       responses:
         '200':
           description: OK
@@ -185,7 +185,7 @@ paths:
     post:
       summary: Create Event Attendee
       tags:
-      - attendees
+      - Attendees
       operationId: post-crm-event-attendee
       responses:
         '200':
@@ -214,7 +214,7 @@ paths:
     patch:
       summary: Update Event Attendee
       tags:
-      - attendees
+      - Attendees
       operationId: put-crm-event-attendee
       responses:
         '200':
@@ -246,7 +246,7 @@ paths:
     get:
       summary: Get Event Attendee Details
       tags:
-      - attendees
+      - Attendees
       responses:
         '200':
           description: OK
@@ -302,7 +302,7 @@ paths:
     get:
       summary: Get Batch Event Attendees
       tags:
-      - attendees
+      - Attendees
       responses:
         '200':
           description: OK
@@ -352,7 +352,77 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve Event Attendees by a set of Id's
 components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
   schemas:
+    EventAttendeeUpdate:
+      title: EventAttendeeUpdate
+      type: object
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Declined
+      description: ''
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    EventAttendeeCreate:
+      title: EventAttendeeCreate
+      type: object
+      description: ''
+      examples:
+      - email: null
+        associatedObjectType: Contact
+        status: Declined
+        associationId: 98201f83c3f1c36dbcb36804c572c3ca
+        eventId: v.event.0000d2e83d6c5d52a61f2fb860666477
+      properties:
+        email:
+          type: string
+          description: 'Required if associationId is not present and the CRM supports "Other" for attendee associatedObjectType '
+        associatedObjectType:
+          type: string
+          description: The object type of the associated object (e.g., Contact, Lead, etc) or Other if this Attendee is not associated with a CRM object
+        status:
+          type: string
+        associationId:
+          type: string
+          description: Required unless email is present and CRM supports "Other" for associatedObjectType
+        eventId:
+          type: string
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - associatedObjectType
+      - eventId
     DateFilter:
       type: object
       properties:
@@ -376,102 +446,6 @@ components:
           type: array
           items:
             type: string
-    InvalidIds:
-      type: array
-      items:
-        type: string
-      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
-    EventAttendeeUpdate:
-      title: EventAttendeeUpdate
-      type: object
-      properties:
-        status:
-          type: string
-      examples:
-      - status: Declined
-      description: ''
-    Field:
-      title: Field
-      type: object
-      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
-      properties:
-        key:
-          type: string
-          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
-        name:
-          type: string
-          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
-        type:
-          type: string
-          enum:
-          - string
-          - number
-          - datetime
-          - date
-          - boolean
-          - reference
-          - phone
-          - url
-          - id
-          - email
-          - percent
-          - singleselect
-          - multiselect
-          - address
-          - decimal
-          - time
-          - daterange
-          - object
-        options:
-          type: array
-          description: Possible options for this field
-          items:
-            type: object
-            properties:
-              key:
-                oneOf:
-                - type: string
-                - type: number
-              name:
-                type: string
-        isArray:
-          type: boolean
-          description: If this field is an array
-        custom:
-          type: boolean
-          description: If this field is a custom field
-        universal:
-          type: boolean
-          description: If this is a field we've unified across CRMs
-        required:
-          type: boolean
-          description: If this field is required when creating the object
-        creatable:
-          type: boolean
-          description: If this field can be used when creating the object
-        updatable:
-          type: boolean
-          description: If this field can be updated
-      required:
-      - key
-      - name
-      - type
-      - custom
-      - universal
-      - required
-      - creatable
-      - updatable
-      examples:
-      - key: numberOfEmployees
-        name: number of employees
-        type: number
-        options: null
-        isArray: false
-        custom: false
-        universal: true
-        required: false
-        creatable: true
-        updatable: true
     StringFilter:
       type: object
       properties:
@@ -554,62 +528,88 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    EventAttendeeCreate:
-      title: EventAttendeeCreate
+    Field:
+      title: Field
       type: object
-      description: ''
-      examples:
-      - email: null
-        associatedObjectType: Contact
-        status: Declined
-        associationId: 98201f83c3f1c36dbcb36804c572c3ca
-        eventId: v.event.0000d2e83d6c5d52a61f2fb860666477
+      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
       properties:
-        email:
+        key:
           type: string
-          description: 'Required if associationId is not present and the CRM supports "Other" for attendee associatedObjectType '
-        associatedObjectType:
+          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
+        name:
           type: string
-          description: The object type of the associated object (e.g., Contact, Lead, etc) or Other if this Attendee is not associated with a CRM object
-        status:
+          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
+        type:
           type: string
-        associationId:
-          type: string
-          description: Required unless email is present and CRM supports "Other" for associatedObjectType
-        eventId:
-          type: string
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+          enum:
+          - string
+          - number
+          - datetime
+          - date
+          - boolean
+          - reference
+          - phone
+          - url
+          - id
+          - email
+          - percent
+          - singleselect
+          - multiselect
+          - address
+          - decimal
+          - time
+          - daterange
+          - object
+        options:
+          type: array
+          description: Possible options for this field
+          items:
+            type: object
+            properties:
+              key:
+                oneOf:
+                - type: string
+                - type: number
+              name:
+                type: string
+        isArray:
+          type: boolean
+          description: If this field is an array
+        custom:
+          type: boolean
+          description: If this field is a custom field
+        universal:
+          type: boolean
+          description: If this is a field we've unified across CRMs
+        required:
+          type: boolean
+          description: If this field is required when creating the object
+        creatable:
+          type: boolean
+          description: If this field can be used when creating the object
+        updatable:
+          type: boolean
+          description: If this field can be updated
       required:
-      - associatedObjectType
-      - eventId
-  parameters:
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
+      - key
+      - name
+      - type
+      - custom
+      - universal
+      - required
+      - creatable
+      - updatable
+      examples:
+      - key: numberOfEmployees
+        name: number of employees
         type: number
+        options: null
+        isArray: false
+        custom: false
+        universal: true
+        required: false
+        creatable: true
+        updatable: true
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

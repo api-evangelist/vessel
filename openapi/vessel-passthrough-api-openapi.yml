@@ -8,13 +8,13 @@ servers:
 security:
 - VesselAPIToken: []
 tags:
-- name: passthrough
+- name: Passthrough
 paths:
   /crm/passthrough:
     post:
       summary: Passthrough Request
       tags:
-      - passthrough
+      - Passthrough
       operationId: post-crm-passthrough
       responses:
         '200':
@@ -167,7 +167,7 @@ paths:
         description: ''
       description: Send an authenticated passthrough request to the downstream system. This is useful for making requests to endpoints that are not yet supported by Vessel.
       tags:
-      - passthrough
+      - Passthrough
     servers:
     - url: https://api.vessel.dev
 components:

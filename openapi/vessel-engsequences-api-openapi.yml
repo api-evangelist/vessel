@@ -3,7 +3,17 @@ info:
   title: Reference Eng Sequences API
   version: '2.0'
   summary: API
-  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+  description: 'Vessel''s APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:
+
+
+    Key | Value | Description
+
+    ---------|----------|----------
+
+    vessel-api-token | `` | The API token provided by us
+
+
+    Additionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access.'
 servers:
 - url: https://api.vessel.land
 security:
@@ -197,30 +207,33 @@ paths:
       security:
       - VesselAPIToken: []
 components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
   schemas:
-    EngSequenceCreate:
-      title: Create Sequence
-      type: object
-      description: null
-      examples:
-      - name: Email Sequence
-        shareType: team
-        additional: {}
-      properties:
-        name:
-          type: string
-        shareType:
-          type: string
-          enum:
-          - team
-          - private
-          description: '''team'' will share the sequence with all users in the team. ''private'' will only share the sequence with the user that created it.'
-        additional:
-          type: object
-          description: Create any property in the downstream Engagement Platform, such as a custom property.
-      required:
-      - name
-      - shareType
     EngSequence:
       title: Sequence
       type: object
@@ -334,32 +347,29 @@ components:
           type: string
         mailboxId:
           type: string
-  parameters:
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
+    EngSequenceCreate:
+      title: Create Sequence
+      type: object
+      description: null
+      examples:
+      - name: Email Sequence
+        shareType: team
+        additional: {}
+      properties:
+        name:
+          type: string
+        shareType:
+          type: string
+          enum:
+          - team
+          - private
+          description: '''team'' will share the sequence with all users in the team. ''private'' will only share the sequence with the user that created it.'
+        additional:
+          type: object
+          description: Create any property in the downstream Engagement Platform, such as a custom property.
+      required:
+      - name
+      - shareType
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

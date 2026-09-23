@@ -3,7 +3,17 @@ info:
   title: Reference Eng Tasks API
   version: '2.0'
   summary: API
-  description: "Vessel's APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:\n\nKey | Value | Description\n---------|----------|----------\n vessel-api-token | `<VESSEL_API_TOKEN>` | The API token provided by us\n \nAdditionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access."
+  description: 'Vessel''s APIs requires an access token to be used together with your Vessel API token. Ensure the following headers are provided when making API calls:
+
+
+    Key | Value | Description
+
+    ---------|----------|----------
+
+    vessel-api-token | `` | The API token provided by us
+
+
+    Additionally, in the query or body parameters of each request depending on whether it is a GET or POST, make sure to include the `accessToken` for the connection you want to access.'
 servers:
 - url: https://api.vessel.land
 security:
@@ -254,6 +264,39 @@ paths:
                     dispositionKey: answered_meeting_set
       description: Complete a task.
 components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    id:
+      name: id
+      in: query
+      description: The id of the object to retrieve
+      required: true
+      schema:
+        type: string
   schemas:
     EngTaskUpdate:
       title: TaskUpdate
@@ -271,34 +314,6 @@ components:
         additional:
           type: object
           description: Update any property in the downstream Engagement Platform, such as a custom property.
-    EngTaskComplete:
-      title: TaskComplete
-      type: object
-      examples:
-      - type: call
-        durationSeconds: 120
-        phone: '8192223333'
-        body: Call went well, they'll likely buy our paper.
-        dispositionKey: answered_meeting_set
-      description: Complete a call or other task.
-      properties:
-        type:
-          type: string
-          enum:
-          - call
-          - other
-          description: The type of the action that was completed. Only call and other actions are currently supported.
-        body:
-          type: string
-        durationSeconds:
-          type: number
-          description: Supported for call actions. How long the call lasted, in seconds.
-        phone:
-          type: string
-          description: Supported for call actions. The phone number called.
-        dispositionKey:
-          type: string
-          description: Supported for call actions. The key of the disposition selected for the call. Call /call-dispositions for possible values.
     EngTaskCreate:
       title: TaskCreate
       type: object
@@ -404,39 +419,34 @@ components:
       - createdTime
       - modifiedTime
       - associations
-  parameters:
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    id:
-      name: id
-      in: query
-      description: The id of the object to retrieve
-      required: true
-      schema:
-        type: string
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
+    EngTaskComplete:
+      title: TaskComplete
+      type: object
+      examples:
+      - type: call
+        durationSeconds: 120
+        phone: '8192223333'
+        body: Call went well, they'll likely buy our paper.
+        dispositionKey: answered_meeting_set
+      description: Complete a call or other task.
+      properties:
+        type:
+          type: string
+          enum:
+          - call
+          - other
+          description: The type of the action that was completed. Only call and other actions are currently supported.
+        body:
+          type: string
+        durationSeconds:
+          type: number
+          description: Supported for call actions. How long the call lasted, in seconds.
+        phone:
+          type: string
+          description: Supported for call actions. The phone number called.
+        dispositionKey:
+          type: string
+          description: Supported for call actions. The key of the disposition selected for the call. Call /call-dispositions for possible values.
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

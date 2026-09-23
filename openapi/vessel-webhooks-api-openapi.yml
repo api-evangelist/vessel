@@ -9,13 +9,13 @@ servers:
 security:
 - VesselAPIToken: []
 tags:
-- name: webhooks
+- name: Webhooks
 paths:
   /connection/webhook:
     get:
       summary: Get Webhook
       tags:
-      - webhooks
+      - Webhooks
       responses:
         '200':
           description: OK
@@ -42,7 +42,7 @@ paths:
     post:
       summary: Create Webhook
       tags:
-      - webhooks
+      - Webhooks
       operationId: post-webhook
       responses:
         '200':
@@ -69,7 +69,7 @@ paths:
     delete:
       summary: Remove Webhook
       tags:
-      - webhooks
+      - Webhooks
       operationId: delete-webhook
       responses:
         '200':
@@ -122,7 +122,7 @@ paths:
                       url: https://mycompany.io/webhooks/12312312
                       createdTime: '2021-10-20T23:11:28.617Z'
       tags:
-      - webhooks
+      - Webhooks
     servers:
     - url: https://api.vessel.dev
   /webhooks/find:
@@ -168,7 +168,7 @@ paths:
               required:
               - id
       tags:
-      - webhooks
+      - Webhooks
     servers:
     - url: https://api.vessel.dev
   /webhooks/create:
@@ -214,7 +214,7 @@ paths:
               required:
               - url
       tags:
-      - webhooks
+      - Webhooks
     servers:
     - url: https://api.vessel.dev
   /webhooks/delete:
@@ -247,19 +247,11 @@ paths:
               required:
               - id
       tags:
-      - webhooks
+      - Webhooks
     servers:
     - url: https://api.vessel.dev
 components:
   schemas:
-    WebhookMetadataCreate:
-      title: WebhookMetadataCreate
-      type: object
-      description: Information describing a webhook
-      properties:
-        webhookUrl:
-          type: string
-          description: a valid URL
     WebhookMetadata:
       title: WebhookMetadata
       type: object
@@ -272,6 +264,14 @@ components:
           type: string
         createdTime:
           type: string
+    WebhookMetadataCreate:
+      title: WebhookMetadataCreate
+      type: object
+      description: Information describing a webhook
+      properties:
+        webhookUrl:
+          type: string
+          description: a valid URL
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

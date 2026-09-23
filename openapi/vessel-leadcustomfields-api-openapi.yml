@@ -51,14 +51,6 @@ paths:
               - accessToken
               - customField
 components:
-  parameters:
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
   schemas:
     CustomFieldCreate:
       type: object
@@ -93,6 +85,14 @@ components:
       required:
       - name
       - type
+  parameters:
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

@@ -9,14 +9,14 @@ servers:
 security:
 - VesselAPIToken: []
 tags:
-- name: tokens
+- name: Tokens
 paths:
   /link/token:
     parameters: []
     post:
       summary: Create Link Token
       tags:
-      - tokens
+      - Tokens
       operationId: post-link-token
       responses:
         '200':

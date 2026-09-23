@@ -8,13 +8,13 @@ servers:
 security:
 - VesselAPIToken: []
 tags:
-- name: notes
+- name: Notes
 paths:
   /crm/notes:
     get:
       summary: Get All Notes
       tags:
-      - notes
+      - Notes
       responses:
         '200':
           description: OK
@@ -78,7 +78,7 @@ paths:
     post:
       summary: Search Notes
       tags:
-      - notes
+      - Notes
       requestBody:
         content:
           application/json:
@@ -149,7 +149,7 @@ paths:
     get:
       summary: Get Note
       tags:
-      - notes
+      - Notes
       responses:
         '200':
           description: OK
@@ -203,7 +203,7 @@ paths:
     post:
       summary: Create Note
       tags:
-      - notes
+      - Notes
       operationId: post-crm-note
       responses:
         '200':
@@ -259,7 +259,7 @@ paths:
     patch:
       summary: Update Note
       tags:
-      - notes
+      - Notes
       operationId: put-crm-note
       responses:
         '200':
@@ -311,7 +311,7 @@ paths:
     get:
       summary: Get Note Details
       tags:
-      - notes
+      - Notes
       responses:
         '200':
           description: OK
@@ -367,7 +367,7 @@ paths:
     get:
       summary: Get Batch Notes
       tags:
-      - notes
+      - Notes
       responses:
         '200':
           description: OK
@@ -423,7 +423,132 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve Notes by a set of Id's
 components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
   schemas:
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    NoteUpdate:
+      title: NoteUpdate
+      type: object
+      description: Update an existing Note. Please note that updating associations is not currently supported.
+      examples:
+      - content: This note has some interesting content in it!
+        ownerUserId: v.user.79d154aa0c7a571295a157369d448e65
+      properties:
+        content:
+          type: string
+          description: The body of the note
+        ownerUserId:
+          type: string
+          description: Only Admins can change this property
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+    Note:
+      title: Note
+      type: object
+      description: 'A Note attached to some CRM Object. '
+      examples:
+      - id: v.note.006b4db16b6b50c981a174b02753c390
+        nativeId: '34'
+        content: This note has some interesting content in it!
+        modifiedTime: '2019-08-24T14:15:22Z'
+        createdTime: '2019-08-24T14:15:22Z'
+        associations:
+          dealIds:
+          - v.deal.497fb529e6805351b5dc8057c74a4a52
+          contactIds:
+          - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+          accountIds:
+          - v.account.0dcb45e051315a6ea63b0f16e73689d9
+          leadIds:
+          - v.lead.d08f345ace24509e911a0ea8e3d2203c
+          ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+        additional: {}
+      properties:
+        id:
+          type: string
+          description: Unique Vessel Id.
+        nativeId:
+          type: string
+          description: Id of the object in the connected CRM.
+        contentHtml:
+          type: string
+          description: The body of the note (populated if CRM notes support html)
+        contentText:
+          type: string
+          description: The body of the note (populated if CRM notes only support plaintext)
+        createdTime:
+          type: string
+          description: The timestamp that the note was created
+        modifiedTime:
+          type: string
+          description: The timestamp the note was last modified
+        associations:
+          type: object
+          required:
+          - dealIds
+          - contactIds
+          - accountIds
+          - leadIds
+          - ownerUserId
+          properties:
+            dealIds:
+              type: array
+              items:
+                type: string
+            contactIds:
+              type: array
+              items:
+                type: string
+            accountIds:
+              type: array
+              items:
+                type: string
+            leadIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this note
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream CRM
+      required:
+      - id
+      - nativeId
+      - createdTime
+      - modifiedTime
+      - associations
     DateFilter:
       type: object
       properties:
@@ -447,61 +572,31 @@ components:
           type: array
           items:
             type: string
-    InvalidIds:
-      type: array
-      items:
-        type: string
-      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
-    NoteCreate:
-      title: NoteCreate
+    StringFilter:
       type: object
-      description: Create a new Note. You may only associate a note with at most one entity of each type upon creation.
-      examples:
-      - content: This note has some interesting content in it!
-        ownerUserId: v.user.79d154aa0c7a571295a157369d448e65
-        dealId: v.deal.497fb529e6805351b5dc8057c74a4a52
-        leadId: v.lead.d08f345ace24509e911a0ea8e3d2203c
-        accountId: v.account.0dcb45e051315a6ea63b0f16e73689d9
-        contactId: v.contact.e5f32d4fd2115220bd20a2ccf81210ec
       properties:
-        content:
+        equals:
           type: string
-          description: The body of the note
-        ownerUserId:
+        contains:
           type: string
-          description: The user to assign this note to. If there is no ownerUserId provided, the behavior is defined by the downstream system (either assigned to no user or to the user that installed the app).
-        dealId:
+        startsWith:
           type: string
-          description: Required unless leadId/accountId/contactId are specified.
-        leadId:
+        endsWith:
           type: string
-          description: Required unless dealId/accountId/contactId are specified.
-        accountId:
+        not:
           type: string
-          description: Required unless leadId/dealId/contactId are specified.
-        contactId:
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
           type: string
-          description: Required unless leadId/accountId/dealId are specified.
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
-    NoteUpdate:
-      title: NoteUpdate
-      type: object
-      description: Update an existing Note. Please note that updating associations is not currently supported.
-      examples:
-      - content: This note has some interesting content in it!
-        ownerUserId: v.user.79d154aa0c7a571295a157369d448e65
-      properties:
-        content:
-          type: string
-          description: The body of the note
-        ownerUserId:
-          type: string
-          description: Only Admins can change this property
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+          enum:
+          - insensitive
     Field:
       title: Field
       type: object
@@ -584,134 +679,39 @@ components:
         required: false
         creatable: true
         updatable: true
-    StringFilter:
+    NoteCreate:
+      title: NoteCreate
       type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
-    Note:
-      title: Note
-      type: object
-      description: 'A Note attached to some CRM Object. '
+      description: Create a new Note. You may only associate a note with at most one entity of each type upon creation.
       examples:
-      - id: v.note.006b4db16b6b50c981a174b02753c390
-        nativeId: '34'
-        content: This note has some interesting content in it!
-        modifiedTime: '2019-08-24T14:15:22Z'
-        createdTime: '2019-08-24T14:15:22Z'
-        associations:
-          dealIds:
-          - v.deal.497fb529e6805351b5dc8057c74a4a52
-          contactIds:
-          - v.contact.e5f32d4fd2115220bd20a2ccf81210ec
-          accountIds:
-          - v.account.0dcb45e051315a6ea63b0f16e73689d9
-          leadIds:
-          - v.lead.d08f345ace24509e911a0ea8e3d2203c
-          ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
-        additional: {}
+      - content: This note has some interesting content in it!
+        ownerUserId: v.user.79d154aa0c7a571295a157369d448e65
+        dealId: v.deal.497fb529e6805351b5dc8057c74a4a52
+        leadId: v.lead.d08f345ace24509e911a0ea8e3d2203c
+        accountId: v.account.0dcb45e051315a6ea63b0f16e73689d9
+        contactId: v.contact.e5f32d4fd2115220bd20a2ccf81210ec
       properties:
-        id:
+        content:
           type: string
-          description: Unique Vessel Id.
-        nativeId:
+          description: The body of the note
+        ownerUserId:
           type: string
-          description: Id of the object in the connected CRM.
-        contentHtml:
+          description: The user to assign this note to. If there is no ownerUserId provided, the behavior is defined by the downstream system (either assigned to no user or to the user that installed the app).
+        dealId:
           type: string
-          description: The body of the note (populated if CRM notes support html)
-        contentText:
+          description: Required unless leadId/accountId/contactId are specified.
+        leadId:
           type: string
-          description: The body of the note (populated if CRM notes only support plaintext)
-        createdTime:
+          description: Required unless dealId/accountId/contactId are specified.
+        accountId:
           type: string
-          description: The timestamp that the note was created
-        modifiedTime:
+          description: Required unless leadId/dealId/contactId are specified.
+        contactId:
           type: string
-          description: The timestamp the note was last modified
-        associations:
-          type: object
-          required:
-          - dealIds
-          - contactIds
-          - accountIds
-          - leadIds
-          - ownerUserId
-          properties:
-            dealIds:
-              type: array
-              items:
-                type: string
-            contactIds:
-              type: array
-              items:
-                type: string
-            accountIds:
-              type: array
-              items:
-                type: string
-            leadIds:
-              type: array
-              items:
-                type: string
-            ownerUserId:
-              type: string
-              description: The Id of the User that owns this note
+          description: Required unless leadId/accountId/dealId are specified.
         additional:
           type: object
-          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream CRM
-      required:
-      - id
-      - nativeId
-      - createdTime
-      - modifiedTime
-      - associations
-  parameters:
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

@@ -8,13 +8,13 @@ servers:
 security:
 - VesselAPIToken: []
 tags:
-- name: leads
+- name: Leads
 paths:
   /crm/leads:
     get:
       summary: Get All Leads
       tags:
-      - leads
+      - Leads
       responses:
         '200':
           description: OK
@@ -95,7 +95,7 @@ paths:
     post:
       summary: Search Leads
       tags:
-      - leads
+      - Leads
       requestBody:
         content:
           application/json:
@@ -187,7 +187,7 @@ paths:
     get:
       summary: Get Lead
       tags:
-      - leads
+      - Leads
       responses:
         '200':
           description: OK
@@ -255,7 +255,7 @@ paths:
     post:
       summary: Create Lead
       tags:
-      - leads
+      - Leads
       operationId: post-crm-lead
       responses:
         '200':
@@ -307,7 +307,7 @@ paths:
     patch:
       summary: Update Lead
       tags:
-      - leads
+      - Leads
       operationId: put-crm-lead
       responses:
         '200':
@@ -363,7 +363,7 @@ paths:
     get:
       summary: Get Lead Details
       tags:
-      - leads
+      - Leads
       responses:
         '200':
           description: OK
@@ -419,7 +419,7 @@ paths:
     get:
       summary: Get Batch Leads
       tags:
-      - leads
+      - Leads
       responses:
         '200':
           description: OK
@@ -488,51 +488,38 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve Leads by a set of Id's
 components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
   schemas:
-    LeadCreate:
-      description: ''
-      type: object
-      x-examples:
-        example-1:
-          firstName: Tony
-          lastName: Stark
-          jobTitle: CEO
-          email: tony@starkindustries.com
-          phones:
-          - value: '0001112222'
-            type: Home
-      examples:
-      - firstName: Tom
-        lastName: Smith
-        jobTitle: Director of Operations
-        email: tom@bluecross.com
-        account: Blue Cross
-        phone: '1234445555'
-        mobilePhone: '2338889999'
-      title: LeadCreate
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        jobTitle:
-          type: string
-        email:
-          type: string
-        account:
-          type: string
-          description: 'Name of the Account associated with this lead. Not supported for Pipedrive. Defaults to `[TODO]: Fill in Company Name` in Salesforce'
-        phone:
-          type: string
-          description: The primary phone number for this lead
-        mobilePhone:
-          type: string
-          description: The primary mobile phone number for this lead. Possibly the same as the phone number.
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
-      required:
-      - lastName
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
     DateFilter:
       type: object
       properties:
@@ -556,11 +543,31 @@ components:
           type: array
           items:
             type: string
-    InvalidIds:
-      type: array
-      items:
-        type: string
-      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
     LeadUpdate:
       description: ''
       type: object
@@ -690,31 +697,50 @@ components:
         required: false
         creatable: true
         updatable: true
-    StringFilter:
+    LeadCreate:
+      description: ''
       type: object
+      x-examples:
+        example-1:
+          firstName: Tony
+          lastName: Stark
+          jobTitle: CEO
+          email: tony@starkindustries.com
+          phones:
+          - value: '0001112222'
+            type: Home
+      examples:
+      - firstName: Tom
+        lastName: Smith
+        jobTitle: Director of Operations
+        email: tom@bluecross.com
+        account: Blue Cross
+        phone: '1234445555'
+        mobilePhone: '2338889999'
+      title: LeadCreate
       properties:
-        equals:
+        firstName:
           type: string
-        contains:
+        lastName:
           type: string
-        startsWith:
+        jobTitle:
           type: string
-        endsWith:
+        email:
           type: string
-        not:
+        account:
           type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
+          description: 'Name of the Account associated with this lead. Not supported for Pipedrive. Defaults to `[TODO]: Fill in Company Name` in Salesforce'
+        phone:
           type: string
-          enum:
-          - insensitive
+          description: The primary phone number for this lead
+        mobilePhone:
+          type: string
+          description: The primary mobile phone number for this lead. Possibly the same as the phone number.
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - lastName
     Lead:
       title: Lead
       type: object
@@ -836,32 +862,6 @@ components:
       - createdTime
       - modifiedTime
       - associations
-  parameters:
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

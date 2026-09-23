@@ -8,7 +8,7 @@ servers:
 security:
 - VesselAPIToken: []
 tags:
-- name: Crm
+- name: CRM
 paths:
   /crm/users/associations:
     post:
@@ -41,7 +41,7 @@ paths:
       operationId: get-all-crm-users-associations
       description: Associations for given User Ids
       tags:
-      - Crm
+      - CRM
   /crm/contact/custom-field:
     patch:
       summary: Update Contact Custom Field
@@ -81,7 +81,7 @@ paths:
               - accessToken
               - customField
       tags:
-      - Crm
+      - CRM
   /crm/account/custom-field:
     patch:
       summary: Update Account Custom Field
@@ -121,7 +121,7 @@ paths:
               - accessToken
               - customField
       tags:
-      - Crm
+      - CRM
   /crm/lead/custom-field:
     patch:
       summary: Update Lead Custom Field
@@ -161,7 +161,7 @@ paths:
               - accessToken
               - customField
       tags:
-      - Crm
+      - CRM
   /crm/calls:
     parameters: []
     get:
@@ -230,7 +230,7 @@ paths:
         name: allFields
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       tags:
-      - Crm
+      - CRM
   /crm/calls/search:
     post:
       summary: Search Calls
@@ -319,7 +319,7 @@ paths:
       - $ref: '#/components/parameters/limit'
       - $ref: '#/components/parameters/allFields'
       tags:
-      - Crm
+      - CRM
   /crm/call:
     parameters: []
     get:
@@ -379,7 +379,7 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve a single Call by Id
       tags:
-      - Crm
+      - CRM
     post:
       summary: Create Call
       operationId: post-crm-call
@@ -434,7 +434,7 @@ paths:
         description: ''
       description: Create a new Call.
       tags:
-      - Crm
+      - CRM
     patch:
       summary: Update Call
       operationId: put-crm-call
@@ -486,7 +486,7 @@ paths:
                     additional: {}
       description: Update an Call by Id.
       tags:
-      - Crm
+      - CRM
   /crm/call/details:
     get:
       summary: Get Call Details
@@ -541,7 +541,7 @@ paths:
         name: allFields
         description: Returns details about native fields.
       tags:
-      - Crm
+      - CRM
   /crm/call/batch:
     parameters: []
     post:
@@ -614,37 +614,60 @@ paths:
                   - v.call.xyz
       description: Retrieve Call by a set of Id's
       tags:
-      - Crm
+      - CRM
 components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
   schemas:
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
     InvalidIds:
       type: array
       items:
         type: string
       description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    CustomFieldUpdate:
+      type: object
+      description: ''
+      properties:
+        key:
+          type: string
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              key:
+                type: string
+            required:
+            - name
+            - key
+      required:
+      - key
     Call:
       title: Call
       type: object
@@ -782,6 +805,65 @@ components:
       - disposition
       - direction
       - date
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+    CallUpdate:
+      title: CallUpdate
+      type: object
+      properties:
+        disposition:
+          type: string
+          description: See /details endpoint for possible values.
+        ownerUserId:
+          type: string
+      required:
+      - disposition
     Field:
       title: Field
       type: object
@@ -887,88 +969,6 @@ components:
           type: array
           items:
             type: number
-    CallUpdate:
-      title: CallUpdate
-      type: object
-      properties:
-        disposition:
-          type: string
-          description: See /details endpoint for possible values.
-        ownerUserId:
-          type: string
-      required:
-      - disposition
-    StringFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
-    CustomFieldUpdate:
-      type: object
-      description: ''
-      properties:
-        key:
-          type: string
-        options:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              key:
-                type: string
-            required:
-            - name
-            - key
-      required:
-      - key
-  parameters:
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

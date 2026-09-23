@@ -9,14 +9,14 @@ servers:
 security:
 - VesselAPIToken: []
 tags:
-- name: links
+- name: Links
 paths:
   /link/exchange:
     parameters: []
     post:
       summary: Exchange Public Token for Access Token
       tags:
-      - links
+      - Links
       operationId: post-link-exchange
       responses:
         '200':
