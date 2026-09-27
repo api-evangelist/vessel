@@ -517,211 +517,12 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve Email by a set of Id's
 components:
-  parameters:
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
   schemas:
-    StringListFilter:
-      type: object
-      properties:
-        has:
-          type: string
-        hasEvery:
-          type: array
-          items:
-            type: string
-        hasSome:
-          type: array
-          items:
-            type: string
-        isEmpty:
-          type: boolean
-    BooleanFilter:
-      type: object
-      properties:
-        equals:
-          type: boolean
-        not:
-          type: boolean
     InvalidIds:
       type: array
       items:
         type: string
       description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-    EmailCreate:
-      title: EmailCreate
-      type: object
-      description: ''
-      examples:
-      - from: michael@dunder.mifflin
-        to:
-        - greg@bluecross.com
-        cc:
-        - betty@bluecross.com
-        bcc:
-        - carl@bluecross.com
-        subject: BlueCross <> Dunder Mifflin
-        body: Hi Greg, need any paper? - Michael
-        bodyHtml: <p>Hi Greg, need any paper? - Michael</p>
-        messageDate: '2019-08-24T14:15:22Z'
-        isIncoming: false
-        status: SENT
-        accountId: v.account.0dcb45e051315a6ea63b0f16e73689d9
-        dealId: v.deal.497fb529e6805351b5dc8057c74a4a52
-        leads:
-        - id: v.lead.d08f345ace24509e911a0ea8e3d2203c
-          role: to
-        contacts:
-        - id: v.contact.e5f32d4fd2115220bd20a2ccf81210ec
-          role: cc
-        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
-        additional: {}
-      properties:
-        from:
-          type: string
-          description: The email address that sent the email
-        to:
-          type: array
-          description: The email addresses that received the email
-          items:
-            type: string
-        cc:
-          type: array
-          description: The email addresses that received a copy of the email
-          items:
-            type: string
-        bcc:
-          type: array
-          description: The email addresses that received a blind copy of the email
-          items:
-            type: string
-        subject:
-          type: string
-          description: The subject of the email
-        body:
-          type: string
-          description: The text formatted body of the email
-        bodyHtml:
-          type: string
-          description: The html formatted body of the email
-        messageDate:
-          type: string
-          description: The date the email was created. This can be set when creating the email object and is not necessarily the same as the `createdTime` field.
-        isIncoming:
-          type: boolean
-          description: If this email was sent to the user or sent by the user
-        status:
-          type: string
-          description: The status of the email (CRM specific, see /details).
-        accountId:
-          type: string
-        dealId:
-          type: string
-        lead:
-          type: object
-          description: Associated Leads must participate in the email (i.e., have a role).
-          properties:
-            id:
-              type: string
-            role:
-              enum:
-              - from
-              - to
-              - cc
-              - bcc
-        contact:
-          type: object
-          description: Associated Contacts must participate in the email (i.e., have a role).
-          properties:
-            id:
-              type: string
-            role:
-              enum:
-              - from
-              - to
-              - cc
-              - bcc
-        ownerUserId:
-          type: string
-          description: The Id of the User that owns this email
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
-      required:
-      - from
-      - to
-      - subject
-    StringFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
     Field:
       title: Field
       type: object
@@ -956,6 +757,205 @@ components:
       - createdTime
       - modifiedTime
       - associations
+    StringListFilter:
+      type: object
+      properties:
+        has:
+          type: string
+        hasEvery:
+          type: array
+          items:
+            type: string
+        hasSome:
+          type: array
+          items:
+            type: string
+        isEmpty:
+          type: boolean
+    EmailCreate:
+      title: EmailCreate
+      type: object
+      description: ''
+      examples:
+      - from: michael@dunder.mifflin
+        to:
+        - greg@bluecross.com
+        cc:
+        - betty@bluecross.com
+        bcc:
+        - carl@bluecross.com
+        subject: BlueCross <> Dunder Mifflin
+        body: Hi Greg, need any paper? - Michael
+        bodyHtml: <p>Hi Greg, need any paper? - Michael</p>
+        messageDate: '2019-08-24T14:15:22Z'
+        isIncoming: false
+        status: SENT
+        accountId: v.account.0dcb45e051315a6ea63b0f16e73689d9
+        dealId: v.deal.497fb529e6805351b5dc8057c74a4a52
+        leads:
+        - id: v.lead.d08f345ace24509e911a0ea8e3d2203c
+          role: to
+        contacts:
+        - id: v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+          role: cc
+        ownerUserId: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+        additional: {}
+      properties:
+        from:
+          type: string
+          description: The email address that sent the email
+        to:
+          type: array
+          description: The email addresses that received the email
+          items:
+            type: string
+        cc:
+          type: array
+          description: The email addresses that received a copy of the email
+          items:
+            type: string
+        bcc:
+          type: array
+          description: The email addresses that received a blind copy of the email
+          items:
+            type: string
+        subject:
+          type: string
+          description: The subject of the email
+        body:
+          type: string
+          description: The text formatted body of the email
+        bodyHtml:
+          type: string
+          description: The html formatted body of the email
+        messageDate:
+          type: string
+          description: The date the email was created. This can be set when creating the email object and is not necessarily the same as the `createdTime` field.
+        isIncoming:
+          type: boolean
+          description: If this email was sent to the user or sent by the user
+        status:
+          type: string
+          description: The status of the email (CRM specific, see /details).
+        accountId:
+          type: string
+        dealId:
+          type: string
+        lead:
+          type: object
+          description: Associated Leads must participate in the email (i.e., have a role).
+          properties:
+            id:
+              type: string
+            role:
+              enum:
+              - from
+              - to
+              - cc
+              - bcc
+        contact:
+          type: object
+          description: Associated Contacts must participate in the email (i.e., have a role).
+          properties:
+            id:
+              type: string
+            role:
+              enum:
+              - from
+              - to
+              - cc
+              - bcc
+        ownerUserId:
+          type: string
+          description: The Id of the User that owns this email
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - from
+      - to
+      - subject
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+    BooleanFilter:
+      type: object
+      properties:
+        equals:
+          type: boolean
+        not:
+          type: boolean
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

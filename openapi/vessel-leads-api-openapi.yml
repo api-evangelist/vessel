@@ -488,133 +488,12 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve Leads by a set of Id's
 components:
-  parameters:
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
   schemas:
     InvalidIds:
       type: array
       items:
         type: string
       description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-    StringFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
-    LeadUpdate:
-      description: ''
-      type: object
-      x-examples:
-        example-1:
-          firstName: string
-          lastName: string
-          jobTitle: string
-          email: string
-          phones:
-          - value: '0001112222'
-            type: Home
-          modifiedTime: string
-          createdTime: string
-      examples:
-      - firstName: Tom
-        lastName: Smith
-        jobTitle: Director of Operations
-        email: tom@bluecross.com
-        account: Blue Cross
-        phone: '1234445555'
-        mobilePhone: '2338889999'
-      title: LeadUpdate
-      properties:
-        firstName:
-          type: string
-          description: Not supported for Pipedrive
-        lastName:
-          type: string
-          description: Not supported for Pipedrive
-        jobTitle:
-          type: string
-        email:
-          type: string
-          description: Not supported for Pipedrive
-        account:
-          type: string
-          description: Name of the Account associated with this lead. Not supported for Pipedrive
-        phone:
-          type: string
-          description: The primary phone. Not supported for Pipedrive
-        mobilePhone:
-          type: string
-          description: The primary mobile phone number for this lead. Possibly the same as the phone number. Not supported for Pipedrive
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
     Field:
       title: Field
       type: object
@@ -862,6 +741,127 @@ components:
       - createdTime
       - modifiedTime
       - associations
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+    LeadUpdate:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          firstName: string
+          lastName: string
+          jobTitle: string
+          email: string
+          phones:
+          - value: '0001112222'
+            type: Home
+          modifiedTime: string
+          createdTime: string
+      examples:
+      - firstName: Tom
+        lastName: Smith
+        jobTitle: Director of Operations
+        email: tom@bluecross.com
+        account: Blue Cross
+        phone: '1234445555'
+        mobilePhone: '2338889999'
+      title: LeadUpdate
+      properties:
+        firstName:
+          type: string
+          description: Not supported for Pipedrive
+        lastName:
+          type: string
+          description: Not supported for Pipedrive
+        jobTitle:
+          type: string
+        email:
+          type: string
+          description: Not supported for Pipedrive
+        account:
+          type: string
+          description: Name of the Account associated with this lead. Not supported for Pipedrive
+        phone:
+          type: string
+          description: The primary phone. Not supported for Pipedrive
+        mobilePhone:
+          type: string
+          description: The primary mobile phone number for this lead. Possibly the same as the phone number. Not supported for Pipedrive
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

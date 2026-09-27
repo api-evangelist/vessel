@@ -423,38 +423,127 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve Notes by a set of Id's
 components:
-  parameters:
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
   schemas:
     InvalidIds:
       type: array
       items:
         type: string
       description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    Field:
+      title: Field
+      type: object
+      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
+      properties:
+        key:
+          type: string
+          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
+        name:
+          type: string
+          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
+        type:
+          type: string
+          enum:
+          - string
+          - number
+          - datetime
+          - date
+          - boolean
+          - reference
+          - phone
+          - url
+          - id
+          - email
+          - percent
+          - singleselect
+          - multiselect
+          - address
+          - decimal
+          - time
+          - daterange
+          - object
+        options:
+          type: array
+          description: Possible options for this field
+          items:
+            type: object
+            properties:
+              key:
+                oneOf:
+                - type: string
+                - type: number
+              name:
+                type: string
+        isArray:
+          type: boolean
+          description: If this field is an array
+        custom:
+          type: boolean
+          description: If this field is a custom field
+        universal:
+          type: boolean
+          description: If this is a field we've unified across CRMs
+        required:
+          type: boolean
+          description: If this field is required when creating the object
+        creatable:
+          type: boolean
+          description: If this field can be used when creating the object
+        updatable:
+          type: boolean
+          description: If this field can be updated
+      required:
+      - key
+      - name
+      - type
+      - custom
+      - universal
+      - required
+      - creatable
+      - updatable
+      examples:
+      - key: numberOfEmployees
+        name: number of employees
+        type: number
+        options: null
+        isArray: false
+        custom: false
+        universal: true
+        required: false
+        creatable: true
+        updatable: true
+    NoteCreate:
+      title: NoteCreate
+      type: object
+      description: Create a new Note. You may only associate a note with at most one entity of each type upon creation.
+      examples:
+      - content: This note has some interesting content in it!
+        ownerUserId: v.user.79d154aa0c7a571295a157369d448e65
+        dealId: v.deal.497fb529e6805351b5dc8057c74a4a52
+        leadId: v.lead.d08f345ace24509e911a0ea8e3d2203c
+        accountId: v.account.0dcb45e051315a6ea63b0f16e73689d9
+        contactId: v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+      properties:
+        content:
+          type: string
+          description: The body of the note
+        ownerUserId:
+          type: string
+          description: The user to assign this note to. If there is no ownerUserId provided, the behavior is defined by the downstream system (either assigned to no user or to the user that installed the app).
+        dealId:
+          type: string
+          description: Required unless leadId/accountId/contactId are specified.
+        leadId:
+          type: string
+          description: Required unless dealId/accountId/contactId are specified.
+        accountId:
+          type: string
+          description: Required unless leadId/dealId/contactId are specified.
+        contactId:
+          type: string
+          description: Required unless leadId/accountId/dealId are specified.
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
     NoteUpdate:
       title: NoteUpdate
       type: object
@@ -597,121 +686,32 @@ components:
           type: string
           enum:
           - insensitive
-    Field:
-      title: Field
-      type: object
-      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
-      properties:
-        key:
-          type: string
-          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
-        name:
-          type: string
-          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
-        type:
-          type: string
-          enum:
-          - string
-          - number
-          - datetime
-          - date
-          - boolean
-          - reference
-          - phone
-          - url
-          - id
-          - email
-          - percent
-          - singleselect
-          - multiselect
-          - address
-          - decimal
-          - time
-          - daterange
-          - object
-        options:
-          type: array
-          description: Possible options for this field
-          items:
-            type: object
-            properties:
-              key:
-                oneOf:
-                - type: string
-                - type: number
-              name:
-                type: string
-        isArray:
-          type: boolean
-          description: If this field is an array
-        custom:
-          type: boolean
-          description: If this field is a custom field
-        universal:
-          type: boolean
-          description: If this is a field we've unified across CRMs
-        required:
-          type: boolean
-          description: If this field is required when creating the object
-        creatable:
-          type: boolean
-          description: If this field can be used when creating the object
-        updatable:
-          type: boolean
-          description: If this field can be updated
-      required:
-      - key
-      - name
-      - type
-      - custom
-      - universal
-      - required
-      - creatable
-      - updatable
-      examples:
-      - key: numberOfEmployees
-        name: number of employees
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
         type: number
-        options: null
-        isArray: false
-        custom: false
-        universal: true
-        required: false
-        creatable: true
-        updatable: true
-    NoteCreate:
-      title: NoteCreate
-      type: object
-      description: Create a new Note. You may only associate a note with at most one entity of each type upon creation.
-      examples:
-      - content: This note has some interesting content in it!
-        ownerUserId: v.user.79d154aa0c7a571295a157369d448e65
-        dealId: v.deal.497fb529e6805351b5dc8057c74a4a52
-        leadId: v.lead.d08f345ace24509e911a0ea8e3d2203c
-        accountId: v.account.0dcb45e051315a6ea63b0f16e73689d9
-        contactId: v.contact.e5f32d4fd2115220bd20a2ccf81210ec
-      properties:
-        content:
-          type: string
-          description: The body of the note
-        ownerUserId:
-          type: string
-          description: The user to assign this note to. If there is no ownerUserId provided, the behavior is defined by the downstream system (either assigned to no user or to the user that installed the app).
-        dealId:
-          type: string
-          description: Required unless leadId/accountId/contactId are specified.
-        leadId:
-          type: string
-          description: Required unless dealId/accountId/contactId are specified.
-        accountId:
-          type: string
-          description: Required unless leadId/dealId/contactId are specified.
-        contactId:
-          type: string
-          description: Required unless leadId/accountId/dealId are specified.
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

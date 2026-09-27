@@ -52,7 +52,7 @@ tags:
 - iPaaS
 - Marketing Automation
 - Sales Engagement
-- Unified-API
+- Unified API
 - Webhook
 tags_raw:
 - CRM
@@ -66,6 +66,7 @@ tags_raw:
 - Sales Engagement
 - Unified API
 - Webhooks
+- Unified-API
 url: https://raw.githubusercontent.com/api-evangelist/vessel/refs/heads/main/apis.yml
 created: '2026-05-03'
 modified: '2026-08-13'

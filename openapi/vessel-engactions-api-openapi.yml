@@ -160,68 +160,7 @@ paths:
                     dispositionKey: answered_meeting_set
       description: Complete an action to move a prospect to the next step of a sequence.
 components:
-  parameters:
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    id:
-      name: id
-      in: query
-      description: The id of the object to retrieve
-      required: true
-      schema:
-        type: string
   schemas:
-    ActionComplete:
-      title: ActionComplete
-      type: object
-      examples:
-      - type: call
-        durationSeconds: 120
-        phone: '8192223333'
-        body: Call went well, they'll likely buy our paper.
-        dispositionKey: answered_meeting_set
-      description: Complete a call or other action to move a prospect in a sequence to the next step.
-      properties:
-        type:
-          type: string
-          enum:
-          - call
-          - other
-          description: The type of the action that was completed. Only call and other actions are currently supported.
-        body:
-          type: string
-        durationSeconds:
-          type: number
-          description: Supported for call actions. How long the call lasted, in seconds.
-        phone:
-          type: string
-          description: Supported for call actions. The phone number called.
-        dispositionKey:
-          type: string
-          description: Supported for call actions. The key of the disposition selected for the call. Call /call-dispositions for possible values.
     Action:
       title: Action
       type: object
@@ -289,6 +228,67 @@ components:
       - createdTime
       - modifiedTime
       - associations
+    ActionComplete:
+      title: ActionComplete
+      type: object
+      examples:
+      - type: call
+        durationSeconds: 120
+        phone: '8192223333'
+        body: Call went well, they'll likely buy our paper.
+        dispositionKey: answered_meeting_set
+      description: Complete a call or other action to move a prospect in a sequence to the next step.
+      properties:
+        type:
+          type: string
+          enum:
+          - call
+          - other
+          description: The type of the action that was completed. Only call and other actions are currently supported.
+        body:
+          type: string
+        durationSeconds:
+          type: number
+          description: Supported for call actions. How long the call lasted, in seconds.
+        phone:
+          type: string
+          description: Supported for call actions. The phone number called.
+        dispositionKey:
+          type: string
+          description: Supported for call actions. The key of the disposition selected for the call. Call /call-dispositions for possible values.
+  parameters:
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    id:
+      name: id
+      in: query
+      description: The id of the object to retrieve
+      required: true
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

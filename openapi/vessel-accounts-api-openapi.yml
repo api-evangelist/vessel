@@ -696,34 +696,6 @@ paths:
     - url: https://api.vessel.dev
 components:
   schemas:
-    NativeData:
-      title: Native Data
-      type: object
-      description: Native fields for the connected platform. For reads, this object is only returned if the include.$native field is set to true in the request body.
-    SyncedCache:
-      title: Use Synced Cache
-      type: boolean
-      description: If true, will hit the [synced-cache](/pages/home/synced-cache)
-    Address:
-      title: Address
-      type: object
-      properties:
-        street:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-      examples:
-      - street: 123 Main St
-        city: San Francisco
-        state: CA
-        postalCode: 94105
-        country: US
     AccountUpdate:
       title: AccountUpdate
       type: object
@@ -760,11 +732,169 @@ components:
           $ref: '#/components/schemas/NativeData'
       required:
       - name
+    NativeData:
+      title: Native Data
+      type: object
+      description: Native fields for the connected platform. For reads, this object is only returned if the include.$native field is set to true in the request body.
+    SyncedCache:
+      title: Use Synced Cache
+      type: boolean
+      description: If true, will hit the [synced-cache](/pages/home/synced-cache)
+    Address:
+      title: Address
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+      examples:
+      - street: 123 Main St
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
     InvalidIds:
       type: array
       items:
         type: string
       description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    AccountCreate:
+      title: AccountCreate
+      type: object
+      examples:
+      - name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        annualRevenue: 10000000
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        phone: '8192223333'
+        address:
+          street: 100 Blue Dr
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: Not supported by Pipedrive
+        industry:
+          type: string
+          description: Not supported by Pipedrive
+        website:
+          type: string
+          description: Not supported by Pipedrive
+        numberOfEmployees:
+          type: number
+          description: Not supported by Pipedrive
+        annualRevenue:
+          type: number
+          description: Not supported by Pipedrive
+        phone:
+          type: string
+          description: The primary phone | Not supported by Pipedrive
+        ownerUserId:
+          type: string
+          description: The Id of the User to assign this Account to
+        address:
+          $ref: '#/components/schemas/Address'
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - name
+    Field:
+      title: Field
+      type: object
+      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
+      properties:
+        key:
+          type: string
+          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
+        name:
+          type: string
+          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
+        type:
+          type: string
+          enum:
+          - string
+          - number
+          - datetime
+          - date
+          - boolean
+          - reference
+          - phone
+          - url
+          - id
+          - email
+          - percent
+          - singleselect
+          - multiselect
+          - address
+          - decimal
+          - time
+          - daterange
+          - object
+        options:
+          type: array
+          description: Possible options for this field
+          items:
+            type: object
+            properties:
+              key:
+                oneOf:
+                - type: string
+                - type: number
+              name:
+                type: string
+        isArray:
+          type: boolean
+          description: If this field is an array
+        custom:
+          type: boolean
+          description: If this field is a custom field
+        universal:
+          type: boolean
+          description: If this is a field we've unified across CRMs
+        required:
+          type: boolean
+          description: If this field is required when creating the object
+        creatable:
+          type: boolean
+          description: If this field can be used when creating the object
+        updatable:
+          type: boolean
+          description: If this field can be updated
+      required:
+      - key
+      - name
+      - type
+      - custom
+      - universal
+      - required
+      - creatable
+      - updatable
+      examples:
+      - key: numberOfEmployees
+        name: number of employees
+        type: number
+        options: null
+        isArray: false
+        custom: false
+        universal: true
+        required: false
+        creatable: true
+        updatable: true
     AccountUpdate_2:
       title: AccountUpdate
       type: object
@@ -815,102 +945,6 @@ components:
           description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
       required:
       - name
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-    AccountCreate:
-      title: AccountCreate
-      type: object
-      examples:
-      - name: Blue Cross
-        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
-        industry: TV and Media
-        annualRevenue: 10000000
-        numberOfEmployees: 100
-        website: www.bluecross.penn
-        phone: '8192223333'
-        address:
-          street: 100 Blue Dr
-          city: Scranton
-          state: Pennsylvania
-          postalCode: '281332'
-          country: USA
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-          description: Not supported by Pipedrive
-        industry:
-          type: string
-          description: Not supported by Pipedrive
-        website:
-          type: string
-          description: Not supported by Pipedrive
-        numberOfEmployees:
-          type: number
-          description: Not supported by Pipedrive
-        annualRevenue:
-          type: number
-          description: Not supported by Pipedrive
-        phone:
-          type: string
-          description: The primary phone | Not supported by Pipedrive
-        ownerUserId:
-          type: string
-          description: The Id of the User to assign this Account to
-        address:
-          $ref: '#/components/schemas/Address'
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
-      required:
-      - name
-    StringFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
     Account:
       title: Account
       type: object
@@ -1044,88 +1078,6 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    Field:
-      title: Field
-      type: object
-      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
-      properties:
-        key:
-          type: string
-          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
-        name:
-          type: string
-          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
-        type:
-          type: string
-          enum:
-          - string
-          - number
-          - datetime
-          - date
-          - boolean
-          - reference
-          - phone
-          - url
-          - id
-          - email
-          - percent
-          - singleselect
-          - multiselect
-          - address
-          - decimal
-          - time
-          - daterange
-          - object
-        options:
-          type: array
-          description: Possible options for this field
-          items:
-            type: object
-            properties:
-              key:
-                oneOf:
-                - type: string
-                - type: number
-              name:
-                type: string
-        isArray:
-          type: boolean
-          description: If this field is an array
-        custom:
-          type: boolean
-          description: If this field is a custom field
-        universal:
-          type: boolean
-          description: If this is a field we've unified across CRMs
-        required:
-          type: boolean
-          description: If this field is required when creating the object
-        creatable:
-          type: boolean
-          description: If this field can be used when creating the object
-        updatable:
-          type: boolean
-          description: If this field can be updated
-      required:
-      - key
-      - name
-      - type
-      - custom
-      - universal
-      - required
-      - creatable
-      - updatable
-      examples:
-      - key: numberOfEmployees
-        name: number of employees
-        type: number
-        options: null
-        isArray: false
-        custom: false
-        universal: true
-        required: false
-        creatable: true
-        updatable: true
     NumberFilter:
       type: object
       properties:
@@ -1149,31 +1101,54 @@ components:
           type: array
           items:
             type: number
-    Address_2:
-      title: Address
+    DateFilter:
       type: object
       properties:
-        line1:
+        equals:
           type: string
-        line2:
+        gt:
           type: string
-        city:
+        lt:
           type: string
-        state:
+        lte:
           type: string
-        postalCode:
+        gte:
           type: string
-        country:
+        not:
           type: string
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      examples:
-      - line1: 123 Main St
-        line2: Apt 1
-        city: San Francisco
-        state: CA
-        postalCode: 94105
-        country: US
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
     AccountUpdate_3:
       title: AccountUpdate
       type: object
@@ -1212,30 +1187,55 @@ components:
           $ref: '#/components/schemas/Address_2'
         $native:
           $ref: '#/components/schemas/NativeData'
+    Address_2:
+      title: Address
+      type: object
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      examples:
+      - line1: 123 Main St
+        line2: Apt 1
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
   parameters:
-    limit:
-      name: limit
+    cursor:
+      name: cursor
       in: query
-      description: The number of records to return per page.
+      description: The cursor to use for pagination
       schema:
-        type: number
+        type: string
     allFields:
       name: allFields
       in: query
       description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       schema:
         type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
     accessToken:
       name: accessToken
       in: query
       description: The token for the customer's account. This was generated when they connected their account.
       required: true
-      schema:
-        type: string
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
       schema:
         type: string
   securitySchemes:

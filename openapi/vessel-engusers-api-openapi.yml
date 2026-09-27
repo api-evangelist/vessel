@@ -107,25 +107,12 @@ paths:
       description: Retrieve a single User by Id
 components:
   parameters:
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
     allFields:
       name: allFields
       in: query
       description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       schema:
         type: boolean
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
     cursor:
       name: cursor
       in: query
@@ -136,6 +123,19 @@ components:
       name: id
       in: query
       description: The id of the object to retrieve
+      required: true
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
       required: true
       schema:
         type: string

@@ -651,7 +651,7 @@ paths:
                   from: dolore fugiat
                   perPage: -62917728.630286396
                   nextPageLink: aliqua
-      operationId: list-users
+      operationId: postApiActionsAircallUsersList
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -663,6 +663,8 @@ paths:
       - Actions
       summary: List users
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list-users
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/users/find:
@@ -980,7 +982,7 @@ paths:
                   phoneNumbers:
                   - value: ex exercitation
                     label: in
-      operationId: create-contact
+      operationId: postApiActionsAircallContactsCreate
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -992,6 +994,8 @@ paths:
       - Actions
       summary: Create contact
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: create-contact
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/contacts/find:
@@ -1117,7 +1121,7 @@ paths:
               example-1:
                 value:
                   id: -36096015.86504509
-      operationId: find-contact
+      operationId: postApiActionsAircallContactsFind
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -1129,6 +1133,8 @@ paths:
       - Actions
       summary: Find contact
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: find-contact
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/contacts/list:
@@ -1311,7 +1317,7 @@ paths:
                   from: ad
                   perPage: -7016389.1691586375
                   nextPageLink: sed adipisicing ad culpa
-      operationId: list-contacts
+      operationId: postApiActionsAircallContactsList
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -1323,6 +1329,8 @@ paths:
       - Actions
       summary: List contacts
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list-contacts
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/contacts/update:
@@ -1463,7 +1471,7 @@ paths:
                   lastName: anim
                   companyName: exercitation
                   information: et
-      operationId: update-contact
+      operationId: postApiActionsAircallContactsUpdate
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -1475,6 +1483,8 @@ paths:
       - Actions
       summary: Update contact
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: update-contact
     servers:
     - url: https://api.vessel.dev
   /api/actions/aircall/calls/find:
@@ -2957,7 +2967,7 @@ paths:
                   contactStageId: null
                   presentRawAddress: ipsum ex
                   labelNames: null
-      operationId: create-contact
+      operationId: postApiActionsApolloContactsCreate
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -2969,6 +2979,8 @@ paths:
       - Actions
       summary: Create contact
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: create-contact
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/contacts/search:
@@ -3368,7 +3380,7 @@ paths:
                   presentRawAddress: ea id
                   labelNames:
                   - enim
-      operationId: update-contact
+      operationId: postApiActionsApolloContactsUpdate
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -3380,6 +3392,8 @@ paths:
       - Actions
       summary: Update contact
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: update-contact
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/custom-fields/create:
@@ -4518,7 +4532,7 @@ paths:
                   contactId: '456456'
                   dispositionId: '789789'
                   note: example note
-      operationId: create-call
+      operationId: postApiActionsApolloCallsDetails
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -4530,6 +4544,8 @@ paths:
       - Actions
       summary: Create call
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: create-call
     servers:
     - url: https://api.vessel.dev
   /api/actions/apollo/sequences/create:
@@ -5679,7 +5695,7 @@ paths:
               example-1:
                 value:
                   cursor: nostrud
-      operationId: list-users
+      operationId: postApiActionsDialpadUsersList
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -5691,6 +5707,8 @@ paths:
       - Actions
       summary: List users
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list-users
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/users/find:
@@ -5803,7 +5821,7 @@ paths:
               example-1:
                 value:
                   id: magna ut
-      operationId: find-user
+      operationId: postApiActionsDialpadUsersFind
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -5815,6 +5833,8 @@ paths:
       - Actions
       summary: Find user
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: find-user
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/contacts/find:
@@ -5897,7 +5917,7 @@ paths:
               example-1:
                 value:
                   id: nostrud laborum sed ut
-      operationId: find-contact
+      operationId: postApiActionsDialpadContactsFind
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -5909,6 +5929,8 @@ paths:
       - Actions
       summary: Find contact
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: find-contact
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/contacts/list:
@@ -6013,7 +6035,7 @@ paths:
               example-1:
                 value:
                   cursor: dolor
-      operationId: list-contacts
+      operationId: postApiActionsDialpadContactsList
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -6025,6 +6047,8 @@ paths:
       - Actions
       summary: List contacts
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list-contacts
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/contacts/create:
@@ -6596,7 +6620,7 @@ paths:
               example-1:
                 value:
                   id: in
-      operationId: find-call
+      operationId: postApiActionsDialpadCallsFind
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -6608,6 +6632,8 @@ paths:
       - Actions
       summary: Find call
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: find-call
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/calls/list:
@@ -6975,7 +7001,7 @@ paths:
               example-1:
                 value:
                   cursor: non dolor veniam do
-      operationId: list-calls
+      operationId: postApiActionsDialpadCallsList
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -6987,6 +7013,8 @@ paths:
       - Actions
       summary: List calls
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list-calls
     servers:
     - url: https://api.vessel.dev
   /api/actions/dialpad/calls/start:
@@ -7339,7 +7367,7 @@ paths:
               example-1:
                 value:
                   id: fugiat mollit Excepteur nulla
-      operationId: find-list
+      operationId: postApiActionsMailchimpListsFind
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -7351,6 +7379,8 @@ paths:
       - Actions
       summary: Find list
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: find-list
     servers:
     - url: https://api.vessel.dev
   /api/actions/mailchimp/lists/list:
@@ -7402,7 +7432,7 @@ paths:
                 value:
                   count: -87514915.5288328
                   offset: 45925499.292773694
-      operationId: list-lists
+      operationId: postApiActionsMailchimpListsList
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -7414,6 +7444,8 @@ paths:
       - Actions
       summary: List lists
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list-lists
     servers:
     - url: https://api.vessel.dev
   /api/actions/monday/graphql/query:
@@ -9797,7 +9829,7 @@ paths:
               example-1:
                 value:
                   id: -88922724.81974715
-      operationId: find-user
+      operationId: postApiActionsOutreachUsersFind
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -9809,6 +9841,8 @@ paths:
       - Actions
       summary: Find user
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: find-user
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/users/list:
@@ -9899,7 +9933,7 @@ paths:
               example-1:
                 value:
                   cursor: enim
-      operationId: list-users
+      operationId: postApiActionsOutreachUsersList
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -9911,6 +9945,8 @@ paths:
       - Actions
       summary: List users
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list-users
     servers:
     - url: https://api.vessel.dev
   /api/actions/outreach/sequences/create:
@@ -10975,7 +11011,7 @@ paths:
                 value:
                   page: 45710349.24480158
                   perPage: -86985892.37188657
-      operationId: list-contacts
+      operationId: postApiActionsRingcentralContactsList
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -10987,6 +11023,8 @@ paths:
       - Actions
       summary: List contacts
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list-contacts
     servers:
     - url: https://api.vessel.dev
   /api/actions/ringcentral/contacts/find:
@@ -11033,7 +11071,7 @@ paths:
               example-1:
                 value:
                   id: Duis sint et esse est
-      operationId: find-contact
+      operationId: postApiActionsRingcentralContactsFind
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -11045,6 +11083,8 @@ paths:
       - Actions
       summary: Find contact
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: find-contact
     servers:
     - url: https://api.vessel.dev
   /api/actions/ringcentral/contacts/create:
@@ -11103,7 +11143,7 @@ paths:
                   company: dolor aliquip
                   email: nostrud cillum
                   businessPhone: dolore dolor ullamco
-      operationId: create-contact
+      operationId: postApiActionsRingcentralContactsCreate
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -11115,6 +11155,8 @@ paths:
       - Actions
       summary: Create contact
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: create-contact
     servers:
     - url: https://api.vessel.dev
   /api/actions/ringcentral/contacts/update:
@@ -11176,7 +11218,7 @@ paths:
                   company: cupidatat cillum magna veniam culpa
                   email: officia Excepteur esse exercitation
                   businessPhone: aliquip elit ea cupidatat
-      operationId: update-contact
+      operationId: postApiActionsRingcentralContactsUpdate
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -11188,6 +11230,8 @@ paths:
       - Actions
       summary: Update contact
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: update-contact
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/soql/query:
@@ -11284,7 +11328,7 @@ paths:
                   mobilePhone: adipisicing esse ullamco
                   accountId: consequat quis dolore laborum tempor
                   ownerId: do
-      operationId: create-contact
+      operationId: postApiActionsSalesforceContactsCreate
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -11296,6 +11340,8 @@ paths:
       - Actions
       summary: Create contact
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: create-contact
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/contacts/find:
@@ -11360,7 +11406,7 @@ paths:
               example-1:
                 value:
                   id: minim tempor Excepteur adipisicing
-      operationId: find-contact
+      operationId: postApiActionsSalesforceContactsFind
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -11372,6 +11418,8 @@ paths:
       - Actions
       summary: Find contact
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: find-contact
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/contacts/list:
@@ -11457,7 +11505,7 @@ paths:
               example-1:
                 value:
                   cursor: consectetur in enim nulla occaecat
-      operationId: list-contacts
+      operationId: postApiActionsSalesforceContactsList
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -11469,6 +11517,8 @@ paths:
       - Actions
       summary: List contacts
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list-contacts
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/contacts/update:
@@ -11562,7 +11612,7 @@ paths:
                     accountId: quis occaecat labore Ut ea
                     mobilePhone: quis sunt ea
                     ownerId: exercitation sed nulla sint et
-      operationId: update-contact
+      operationId: postApiActionsSalesforceContactsUpdate
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -11574,6 +11624,8 @@ paths:
       - Actions
       summary: Update contact
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: update-contact
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/list-views/find:
@@ -11852,7 +11904,7 @@ paths:
               example-1:
                 value:
                   cursor: elit Duis tempor
-      operationId: list-users
+      operationId: postApiActionsSalesforceUsersList
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -11864,6 +11916,8 @@ paths:
       - Actions
       summary: List users
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list-users
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesforce/users/find:
@@ -11913,7 +11967,7 @@ paths:
               example-1:
                 value:
                   id: sit ipsum Duis
-      operationId: find-user
+      operationId: postApiActionsSalesforceUsersFind
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -11925,6 +11979,8 @@ paths:
       - Actions
       summary: Find user
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: find-user
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/cadence-memberships/create:
@@ -12616,7 +12672,7 @@ paths:
                   perPage: 54485764.757252544
                   page: 69047773.496629
                   fieldType: esse
-      operationId: list-custom-fields
+      operationId: postApiActionsSalesloftCustomFieldsList
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -12628,6 +12684,8 @@ paths:
       - Actions
       summary: List custom fields
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list-custom-fields
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/emailBodies/find:
@@ -14057,7 +14115,7 @@ paths:
               example-1:
                 value:
                   id: sit enim sed in
-      operationId: find-user
+      operationId: postApiActionsSalesloftUsersFind
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -14069,6 +14127,8 @@ paths:
       - Actions
       summary: Find user
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: find-user
     servers:
     - url: https://api.vessel.dev
   /api/actions/salesloft/users/list:
@@ -14268,7 +14328,7 @@ paths:
                 value:
                   perPage: 27213817.92262952
                   page: 44822802.619262755
-      operationId: list-users
+      operationId: postApiActionsSalesloftUsersList
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -14280,6 +14340,8 @@ paths:
       - Actions
       summary: List users
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list-users
     servers:
     - url: https://api.vessel.dev
   /api/actions/slack/messages/create:
@@ -14431,7 +14493,7 @@ paths:
               example-1:
                 value:
                   cursor: do
-      operationId: list-users
+      operationId: postApiActionsSlackUsersList
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -14443,6 +14505,8 @@ paths:
       - Actions
       summary: List users
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: list-users
     servers:
     - url: https://api.vessel.dev
   /api/actions/slack/conversations/list:
@@ -14574,7 +14638,7 @@ paths:
                   text: sunt enim consequat ea dolore
                   channelId: fugiat cupidatat
                   teamId: enim commodo eiusmod laborum in
-      operationId: create-message
+      operationId: postApiActionsTeamsMessagesCreate
       parameters:
       - name: x-vessel-access-token
         in: header
@@ -14586,6 +14650,8 @@ paths:
       - Actions
       summary: Create message
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: create-message
     servers:
     - url: https://api.vessel.dev
   /api/actions/teams/channels/list:

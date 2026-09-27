@@ -120,7 +120,7 @@ paths:
     parameters: []
     post:
       summary: Find Connection
-      operationId: get-one-connection
+      operationId: postApiConnectionsFind
       responses:
         '200':
           description: Find a Connection
@@ -160,6 +160,8 @@ paths:
       - VesselAPIToken: []
       tags:
       - Connections
+      x-operation-id-source: normalized
+      x-operation-id-original: get-one-connection
     servers:
     - url: https://api.vessel.dev
   /api/connections/delete:

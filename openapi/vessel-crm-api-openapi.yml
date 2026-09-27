@@ -616,58 +616,12 @@ paths:
       tags:
       - CRM
 components:
-  parameters:
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
   schemas:
     InvalidIds:
       type: array
       items:
         type: string
       description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
-    CustomFieldUpdate:
-      type: object
-      description: ''
-      properties:
-        key:
-          type: string
-        options:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              key:
-                type: string
-            required:
-            - name
-            - key
-      required:
-      - key
     Call:
       title: Call
       type: object
@@ -751,119 +705,6 @@ components:
               description: The Id of the User that owns this call
         additional:
           type: object
-    CallCreate:
-      title: CallCreate
-      type: object
-      properties:
-        subject:
-          type: string
-        disposition:
-          type: string
-          description: See /details endpoint for possible values.
-        direction:
-          type: string
-          enum:
-          - inbound
-          - outbound
-          - internal
-        description:
-          type: string
-        date:
-          type: string
-          description: ISO Formatted date for when the call occurred
-        status:
-          type: string
-          description: Possibly an enum, See /details endpoint for values.
-        duration:
-          type: integer
-          description: The duration of the call.
-        to:
-          type: string
-          description: 'The phone number that was called.
-
-            *CRM Caveats* Only supported for HubSpot.'
-        from:
-          type: string
-          description: 'The phone number called from.
-
-            *CRM Caveats* Only supported for HubSpot.'
-        recordingUrl:
-          type: string
-          description: 'The URL of the recording of the call.
-
-            *CRM Caveats* Only supported for HubSpot.'
-        contactIds:
-          type: array
-          description: The participants involved in this call. If this is an inbound call, this is the contacts that called, if this is an outbound call, this is the contacts that were called.
-          items:
-            type: string
-        accountId:
-          type: string
-        ownerUserId:
-          type: string
-      required:
-      - disposition
-      - direction
-      - date
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-    StringFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
-    CallUpdate:
-      title: CallUpdate
-      type: object
-      properties:
-        disposition:
-          type: string
-          description: See /details endpoint for possible values.
-        ownerUserId:
-          type: string
-      required:
-      - disposition
     Field:
       title: Field
       type: object
@@ -946,6 +787,37 @@ components:
         required: false
         creatable: true
         updatable: true
+    CallUpdate:
+      title: CallUpdate
+      type: object
+      properties:
+        disposition:
+          type: string
+          description: See /details endpoint for possible values.
+        ownerUserId:
+          type: string
+      required:
+      - disposition
+    CustomFieldUpdate:
+      type: object
+      description: ''
+      properties:
+        key:
+          type: string
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              key:
+                type: string
+            required:
+            - name
+            - key
+      required:
+      - key
     NumberFilter:
       type: object
       properties:
@@ -969,6 +841,134 @@ components:
           type: array
           items:
             type: number
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+    CallCreate:
+      title: CallCreate
+      type: object
+      properties:
+        subject:
+          type: string
+        disposition:
+          type: string
+          description: See /details endpoint for possible values.
+        direction:
+          type: string
+          enum:
+          - inbound
+          - outbound
+          - internal
+        description:
+          type: string
+        date:
+          type: string
+          description: ISO Formatted date for when the call occurred
+        status:
+          type: string
+          description: Possibly an enum, See /details endpoint for values.
+        duration:
+          type: integer
+          description: The duration of the call.
+        to:
+          type: string
+          description: 'The phone number that was called.
+
+            *CRM Caveats* Only supported for HubSpot.'
+        from:
+          type: string
+          description: 'The phone number called from.
+
+            *CRM Caveats* Only supported for HubSpot.'
+        recordingUrl:
+          type: string
+          description: 'The URL of the recording of the call.
+
+            *CRM Caveats* Only supported for HubSpot.'
+        contactIds:
+          type: array
+          description: The participants involved in this call. If this is an inbound call, this is the contacts that called, if this is an outbound call, this is the contacts that were called.
+          items:
+            type: string
+        accountId:
+          type: string
+        ownerUserId:
+          type: string
+      required:
+      - disposition
+      - direction
+      - date
+  parameters:
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

@@ -352,182 +352,12 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve Event Attendees by a set of Id's
 components:
-  parameters:
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
   schemas:
-    EventAttendeeUpdate:
-      title: EventAttendeeUpdate
-      type: object
-      properties:
-        status:
-          type: string
-      examples:
-      - status: Declined
-      description: ''
     InvalidIds:
       type: array
       items:
         type: string
       description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
-    EventAttendeeCreate:
-      title: EventAttendeeCreate
-      type: object
-      description: ''
-      examples:
-      - email: null
-        associatedObjectType: Contact
-        status: Declined
-        associationId: 98201f83c3f1c36dbcb36804c572c3ca
-        eventId: v.event.0000d2e83d6c5d52a61f2fb860666477
-      properties:
-        email:
-          type: string
-          description: 'Required if associationId is not present and the CRM supports "Other" for attendee associatedObjectType '
-        associatedObjectType:
-          type: string
-          description: The object type of the associated object (e.g., Contact, Lead, etc) or Other if this Attendee is not associated with a CRM object
-        status:
-          type: string
-        associationId:
-          type: string
-          description: Required unless email is present and CRM supports "Other" for associatedObjectType
-        eventId:
-          type: string
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
-      required:
-      - associatedObjectType
-      - eventId
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-    StringFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
-    EventAttendee:
-      title: EventAttendee
-      type: object
-      description: Event Attendees hold information about someone who attendeed or was invited to an event. Attendees are always associated with some Event and another person object such as a Contact, Lead, or Other.
-      examples:
-      - id: v.attendee.f63c1bd7215f5150b332d31d9509752f
-        associatedObjectType: Contact
-        status: Confirmed
-        email: null
-        createdTime: '2019-08-24T14:15:22Z'
-        modifiedTime: '2019-08-24T14:15:22Z'
-        associations:
-          eventId: v.event.0000d2e83d6c5d52a61f2fb860666477
-          associationId: v.contact.e5f32d4fd2115220bd20a2ccf81210ec
-        additional: {}
-      properties:
-        id:
-          type: string
-          description: Unique Vessel Id.
-        nativeId:
-          type: string
-          description: Id of the object in the connected CRM.
-        status:
-          type: string
-        associatedObjectType:
-          type: string
-          description: The object type of the associated object (e.g., Contact, Lead, etc) or Other if this Attendee is not associated with a CRM object
-        email:
-          type: string
-          description: Optional unless `associationId` is null
-        createdTime:
-          type: string
-          description: The timestamp that the event attendee was created
-        modifiedTime:
-          type: string
-          description: The timestamp the event attendee was last modified
-        associations:
-          type: object
-          required:
-          - eventId
-          - associationId
-          properties:
-            eventId:
-              type: string
-            associationId:
-              type: string
-              description: The id of the associated object, if this Attendee is not associated with a CRM object, this id is null and the `email` field will be present
-        additional:
-          type: object
-          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream CRM
-      required:
-      - id
-      - nativeId
-      - associatedObjectType
-      - createdTime
-      - modifiedTime
-      - associations
     Field:
       title: Field
       type: object
@@ -610,6 +440,176 @@ components:
         required: false
         creatable: true
         updatable: true
+    EventAttendeeUpdate:
+      title: EventAttendeeUpdate
+      type: object
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Declined
+      description: ''
+    EventAttendee:
+      title: EventAttendee
+      type: object
+      description: Event Attendees hold information about someone who attendeed or was invited to an event. Attendees are always associated with some Event and another person object such as a Contact, Lead, or Other.
+      examples:
+      - id: v.attendee.f63c1bd7215f5150b332d31d9509752f
+        associatedObjectType: Contact
+        status: Confirmed
+        email: null
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+        associations:
+          eventId: v.event.0000d2e83d6c5d52a61f2fb860666477
+          associationId: v.contact.e5f32d4fd2115220bd20a2ccf81210ec
+        additional: {}
+      properties:
+        id:
+          type: string
+          description: Unique Vessel Id.
+        nativeId:
+          type: string
+          description: Id of the object in the connected CRM.
+        status:
+          type: string
+        associatedObjectType:
+          type: string
+          description: The object type of the associated object (e.g., Contact, Lead, etc) or Other if this Attendee is not associated with a CRM object
+        email:
+          type: string
+          description: Optional unless `associationId` is null
+        createdTime:
+          type: string
+          description: The timestamp that the event attendee was created
+        modifiedTime:
+          type: string
+          description: The timestamp the event attendee was last modified
+        associations:
+          type: object
+          required:
+          - eventId
+          - associationId
+          properties:
+            eventId:
+              type: string
+            associationId:
+              type: string
+              description: The id of the associated object, if this Attendee is not associated with a CRM object, this id is null and the `email` field will be present
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream CRM
+      required:
+      - id
+      - nativeId
+      - associatedObjectType
+      - createdTime
+      - modifiedTime
+      - associations
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+    EventAttendeeCreate:
+      title: EventAttendeeCreate
+      type: object
+      description: ''
+      examples:
+      - email: null
+        associatedObjectType: Contact
+        status: Declined
+        associationId: 98201f83c3f1c36dbcb36804c572c3ca
+        eventId: v.event.0000d2e83d6c5d52a61f2fb860666477
+      properties:
+        email:
+          type: string
+          description: 'Required if associationId is not present and the CRM supports "Other" for attendee associatedObjectType '
+        associatedObjectType:
+          type: string
+          description: The object type of the associated object (e.g., Contact, Lead, etc) or Other if this Attendee is not associated with a CRM object
+        status:
+          type: string
+        associationId:
+          type: string
+          description: Required unless email is present and CRM supports "Other" for associatedObjectType
+        eventId:
+          type: string
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - associatedObjectType
+      - eventId
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

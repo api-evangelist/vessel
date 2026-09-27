@@ -220,7 +220,7 @@ paths:
   /webhooks/delete:
     post:
       summary: Delete Webhook
-      operationId: delete-webhook
+      operationId: postWebhooksDelete
       responses:
         '200':
           description: OK
@@ -248,10 +248,20 @@ paths:
               - id
       tags:
       - Webhooks
+      x-operation-id-source: normalized
+      x-operation-id-original: delete-webhook
     servers:
     - url: https://api.vessel.dev
 components:
   schemas:
+    WebhookMetadataCreate:
+      title: WebhookMetadataCreate
+      type: object
+      description: Information describing a webhook
+      properties:
+        webhookUrl:
+          type: string
+          description: a valid URL
     WebhookMetadata:
       title: WebhookMetadata
       type: object
@@ -264,14 +274,6 @@ components:
           type: string
         createdTime:
           type: string
-    WebhookMetadataCreate:
-      title: WebhookMetadataCreate
-      type: object
-      description: Information describing a webhook
-      properties:
-        webhookUrl:
-          type: string
-          description: a valid URL
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token
