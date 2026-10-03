@@ -254,14 +254,6 @@ paths:
     - url: https://api.vessel.dev
 components:
   schemas:
-    WebhookMetadataCreate:
-      title: WebhookMetadataCreate
-      type: object
-      description: Information describing a webhook
-      properties:
-        webhookUrl:
-          type: string
-          description: a valid URL
     WebhookMetadata:
       title: WebhookMetadata
       type: object
@@ -274,6 +266,14 @@ components:
           type: string
         createdTime:
           type: string
+    WebhookMetadataCreate:
+      title: WebhookMetadataCreate
+      type: object
+      description: Information describing a webhook
+      properties:
+        webhookUrl:
+          type: string
+          description: a valid URL
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

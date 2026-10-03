@@ -616,12 +616,276 @@ paths:
       tags:
       - CRM
 components:
+  parameters:
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
   schemas:
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    Field:
+      title: Field
+      type: object
+      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
+      properties:
+        key:
+          type: string
+          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
+        name:
+          type: string
+          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
+        type:
+          type: string
+          enum:
+          - string
+          - number
+          - datetime
+          - date
+          - boolean
+          - reference
+          - phone
+          - url
+          - id
+          - email
+          - percent
+          - singleselect
+          - multiselect
+          - address
+          - decimal
+          - time
+          - daterange
+          - object
+        options:
+          type: array
+          description: Possible options for this field
+          items:
+            type: object
+            properties:
+              key:
+                oneOf:
+                - type: string
+                - type: number
+              name:
+                type: string
+        isArray:
+          type: boolean
+          description: If this field is an array
+        custom:
+          type: boolean
+          description: If this field is a custom field
+        universal:
+          type: boolean
+          description: If this is a field we've unified across CRMs
+        required:
+          type: boolean
+          description: If this field is required when creating the object
+        creatable:
+          type: boolean
+          description: If this field can be used when creating the object
+        updatable:
+          type: boolean
+          description: If this field can be updated
+      required:
+      - key
+      - name
+      - type
+      - custom
+      - universal
+      - required
+      - creatable
+      - updatable
+      examples:
+      - key: numberOfEmployees
+        name: number of employees
+        type: number
+        options: null
+        isArray: false
+        custom: false
+        universal: true
+        required: false
+        creatable: true
+        updatable: true
+    NumberFilter:
+      type: object
+      properties:
+        equals:
+          type: number
+        gt:
+          type: number
+        lt:
+          type: number
+        lte:
+          type: number
+        gte:
+          type: number
+        not:
+          type: number
+        in:
+          type: array
+          items:
+            type: number
+        notIn:
+          type: array
+          items:
+            type: number
     InvalidIds:
       type: array
       items:
         type: string
       description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    CustomFieldUpdate:
+      type: object
+      description: ''
+      properties:
+        key:
+          type: string
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              key:
+                type: string
+            required:
+            - name
+            - key
+      required:
+      - key
+    CallCreate:
+      title: CallCreate
+      type: object
+      properties:
+        subject:
+          type: string
+        disposition:
+          type: string
+          description: See /details endpoint for possible values.
+        direction:
+          type: string
+          enum:
+          - inbound
+          - outbound
+          - internal
+        description:
+          type: string
+        date:
+          type: string
+          description: ISO Formatted date for when the call occurred
+        status:
+          type: string
+          description: Possibly an enum, See /details endpoint for values.
+        duration:
+          type: integer
+          description: The duration of the call.
+        to:
+          type: string
+          description: 'The phone number that was called.
+
+            *CRM Caveats* Only supported for HubSpot.'
+        from:
+          type: string
+          description: 'The phone number called from.
+
+            *CRM Caveats* Only supported for HubSpot.'
+        recordingUrl:
+          type: string
+          description: 'The URL of the recording of the call.
+
+            *CRM Caveats* Only supported for HubSpot.'
+        contactIds:
+          type: array
+          description: The participants involved in this call. If this is an inbound call, this is the contacts that called, if this is an outbound call, this is the contacts that were called.
+          items:
+            type: string
+        accountId:
+          type: string
+        ownerUserId:
+          type: string
+      required:
+      - disposition
+      - direction
+      - date
+    CallUpdate:
+      title: CallUpdate
+      type: object
+      properties:
+        disposition:
+          type: string
+          description: See /details endpoint for possible values.
+        ownerUserId:
+          type: string
+      required:
+      - disposition
     Call:
       title: Call
       type: object
@@ -705,270 +969,6 @@ components:
               description: The Id of the User that owns this call
         additional:
           type: object
-    Field:
-      title: Field
-      type: object
-      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
-      properties:
-        key:
-          type: string
-          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
-        name:
-          type: string
-          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
-        type:
-          type: string
-          enum:
-          - string
-          - number
-          - datetime
-          - date
-          - boolean
-          - reference
-          - phone
-          - url
-          - id
-          - email
-          - percent
-          - singleselect
-          - multiselect
-          - address
-          - decimal
-          - time
-          - daterange
-          - object
-        options:
-          type: array
-          description: Possible options for this field
-          items:
-            type: object
-            properties:
-              key:
-                oneOf:
-                - type: string
-                - type: number
-              name:
-                type: string
-        isArray:
-          type: boolean
-          description: If this field is an array
-        custom:
-          type: boolean
-          description: If this field is a custom field
-        universal:
-          type: boolean
-          description: If this is a field we've unified across CRMs
-        required:
-          type: boolean
-          description: If this field is required when creating the object
-        creatable:
-          type: boolean
-          description: If this field can be used when creating the object
-        updatable:
-          type: boolean
-          description: If this field can be updated
-      required:
-      - key
-      - name
-      - type
-      - custom
-      - universal
-      - required
-      - creatable
-      - updatable
-      examples:
-      - key: numberOfEmployees
-        name: number of employees
-        type: number
-        options: null
-        isArray: false
-        custom: false
-        universal: true
-        required: false
-        creatable: true
-        updatable: true
-    CallUpdate:
-      title: CallUpdate
-      type: object
-      properties:
-        disposition:
-          type: string
-          description: See /details endpoint for possible values.
-        ownerUserId:
-          type: string
-      required:
-      - disposition
-    CustomFieldUpdate:
-      type: object
-      description: ''
-      properties:
-        key:
-          type: string
-        options:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              key:
-                type: string
-            required:
-            - name
-            - key
-      required:
-      - key
-    NumberFilter:
-      type: object
-      properties:
-        equals:
-          type: number
-        gt:
-          type: number
-        lt:
-          type: number
-        lte:
-          type: number
-        gte:
-          type: number
-        not:
-          type: number
-        in:
-          type: array
-          items:
-            type: number
-        notIn:
-          type: array
-          items:
-            type: number
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-    StringFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
-    CallCreate:
-      title: CallCreate
-      type: object
-      properties:
-        subject:
-          type: string
-        disposition:
-          type: string
-          description: See /details endpoint for possible values.
-        direction:
-          type: string
-          enum:
-          - inbound
-          - outbound
-          - internal
-        description:
-          type: string
-        date:
-          type: string
-          description: ISO Formatted date for when the call occurred
-        status:
-          type: string
-          description: Possibly an enum, See /details endpoint for values.
-        duration:
-          type: integer
-          description: The duration of the call.
-        to:
-          type: string
-          description: 'The phone number that was called.
-
-            *CRM Caveats* Only supported for HubSpot.'
-        from:
-          type: string
-          description: 'The phone number called from.
-
-            *CRM Caveats* Only supported for HubSpot.'
-        recordingUrl:
-          type: string
-          description: 'The URL of the recording of the call.
-
-            *CRM Caveats* Only supported for HubSpot.'
-        contactIds:
-          type: array
-          description: The participants involved in this call. If this is an inbound call, this is the contacts that called, if this is an outbound call, this is the contacts that were called.
-          items:
-            type: string
-        accountId:
-          type: string
-        ownerUserId:
-          type: string
-      required:
-      - disposition
-      - direction
-      - date
-  parameters:
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

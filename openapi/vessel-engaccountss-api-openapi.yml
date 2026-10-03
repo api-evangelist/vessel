@@ -98,29 +98,6 @@ paths:
       description: Search accounts.
 components:
   schemas:
-    EngAddress:
-      title: Address
-      type: object
-      properties:
-        line1:
-          type: string
-        line2:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-      examples:
-      - line1: 123 Main St
-        line2: Apt 1
-        city: San Francisco
-        state: CA
-        postalCode: 94105
-        country: US
     EngAccount:
       title: Account
       type: object
@@ -212,6 +189,29 @@ components:
       - createdTime
       - modifiedTime
       - associations
+    EngAddress:
+      title: Address
+      type: object
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+      examples:
+      - line1: 123 Main St
+        line2: Apt 1
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

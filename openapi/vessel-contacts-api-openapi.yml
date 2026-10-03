@@ -486,14 +486,35 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve Contacts by a set of Id's
 components:
-  schemas:
-    InvalidIds:
-      type: array
-      items:
+  parameters:
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
         type: string
-      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
-    ContactCreate:
-      title: ContactCreate
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+  schemas:
+    ContactUpdate:
+      title: ContactUpdate
       type: object
       examples:
       - email: tom@bluecross.com
@@ -502,7 +523,7 @@ components:
         jobTitle: Director of Operations
         phone: '2101128833'
         mobilePhone: '2106541111'
-      description: Properties that a contact can be created with
+      description: Update a Contact.
       properties:
         email:
           type: string
@@ -518,99 +539,12 @@ components:
           description: The primary phone
         mobilePhone:
           type: string
-        accountId:
-          type: string
-          description: The Id of the account to associate this contact with
         ownerUserId:
           type: string
           description: The Id of the User to assign this Contact to
         additional:
           type: object
           description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
-      required:
-      - lastName
-    Field:
-      title: Field
-      type: object
-      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
-      properties:
-        key:
-          type: string
-          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
-        name:
-          type: string
-          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
-        type:
-          type: string
-          enum:
-          - string
-          - number
-          - datetime
-          - date
-          - boolean
-          - reference
-          - phone
-          - url
-          - id
-          - email
-          - percent
-          - singleselect
-          - multiselect
-          - address
-          - decimal
-          - time
-          - daterange
-          - object
-        options:
-          type: array
-          description: Possible options for this field
-          items:
-            type: object
-            properties:
-              key:
-                oneOf:
-                - type: string
-                - type: number
-              name:
-                type: string
-        isArray:
-          type: boolean
-          description: If this field is an array
-        custom:
-          type: boolean
-          description: If this field is a custom field
-        universal:
-          type: boolean
-          description: If this is a field we've unified across CRMs
-        required:
-          type: boolean
-          description: If this field is required when creating the object
-        creatable:
-          type: boolean
-          description: If this field can be used when creating the object
-        updatable:
-          type: boolean
-          description: If this field can be updated
-      required:
-      - key
-      - name
-      - type
-      - custom
-      - universal
-      - required
-      - creatable
-      - updatable
-      examples:
-      - key: numberOfEmployees
-        name: number of employees
-        type: number
-        options: null
-        isArray: false
-        custom: false
-        universal: true
-        required: false
-        creatable: true
-        updatable: true
     Contact:
       title: Contact
       type: object
@@ -736,29 +670,6 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
     StringFilter:
       type: object
       properties:
@@ -784,8 +695,113 @@ components:
           type: string
           enum:
           - insensitive
-    ContactUpdate:
-      title: ContactUpdate
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    Field:
+      title: Field
+      type: object
+      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
+      properties:
+        key:
+          type: string
+          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
+        name:
+          type: string
+          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
+        type:
+          type: string
+          enum:
+          - string
+          - number
+          - datetime
+          - date
+          - boolean
+          - reference
+          - phone
+          - url
+          - id
+          - email
+          - percent
+          - singleselect
+          - multiselect
+          - address
+          - decimal
+          - time
+          - daterange
+          - object
+        options:
+          type: array
+          description: Possible options for this field
+          items:
+            type: object
+            properties:
+              key:
+                oneOf:
+                - type: string
+                - type: number
+              name:
+                type: string
+        isArray:
+          type: boolean
+          description: If this field is an array
+        custom:
+          type: boolean
+          description: If this field is a custom field
+        universal:
+          type: boolean
+          description: If this is a field we've unified across CRMs
+        required:
+          type: boolean
+          description: If this field is required when creating the object
+        creatable:
+          type: boolean
+          description: If this field can be used when creating the object
+        updatable:
+          type: boolean
+          description: If this field can be updated
+      required:
+      - key
+      - name
+      - type
+      - custom
+      - universal
+      - required
+      - creatable
+      - updatable
+      examples:
+      - key: numberOfEmployees
+        name: number of employees
+        type: number
+        options: null
+        isArray: false
+        custom: false
+        universal: true
+        required: false
+        creatable: true
+        updatable: true
+    ContactCreate:
+      title: ContactCreate
       type: object
       examples:
       - email: tom@bluecross.com
@@ -794,7 +810,7 @@ components:
         jobTitle: Director of Operations
         phone: '2101128833'
         mobilePhone: '2106541111'
-      description: Update a Contact.
+      description: Properties that a contact can be created with
       properties:
         email:
           type: string
@@ -810,38 +826,22 @@ components:
           description: The primary phone
         mobilePhone:
           type: string
+        accountId:
+          type: string
+          description: The Id of the account to associate this contact with
         ownerUserId:
           type: string
           description: The Id of the User to assign this Contact to
         additional:
           type: object
           description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
-  parameters:
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
+      required:
+      - lastName
+    InvalidIds:
+      type: array
+      items:
         type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

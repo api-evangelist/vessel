@@ -134,6 +134,35 @@ paths:
       description: Retrieve a single List by Id
 components:
   schemas:
+    ListWithoutAssociations:
+      title: List
+      type: object
+      description: A List or View in a CRM
+      properties:
+        id:
+          type: string
+          description: Id of the object.
+        nativeId:
+          type: string
+          description: Id of the object in the connected CRM.
+        name:
+          type: string
+          description: The name of the list
+        createdTime:
+          type: string
+          description: The timestamp that the list was created
+        modifiedTime:
+          type: string
+          description: The timestamp the list was last modified
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream CRM
+      required:
+      - id
+      - nativeId
+      - name
+      - createdTime
+      - modifiedTime
     ListWithAssociations:
       title: List
       type: object
@@ -182,35 +211,6 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    ListWithoutAssociations:
-      title: List
-      type: object
-      description: A List or View in a CRM
-      properties:
-        id:
-          type: string
-          description: Id of the object.
-        nativeId:
-          type: string
-          description: Id of the object in the connected CRM.
-        name:
-          type: string
-          description: The name of the list
-        createdTime:
-          type: string
-          description: The timestamp that the list was created
-        modifiedTime:
-          type: string
-          description: The timestamp the list was last modified
-        additional:
-          type: object
-          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream CRM
-      required:
-      - id
-      - nativeId
-      - name
-      - createdTime
-      - modifiedTime
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

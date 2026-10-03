@@ -696,6 +696,14 @@ paths:
     - url: https://api.vessel.dev
 components:
   schemas:
+    NativeData:
+      title: Native Data
+      type: object
+      description: Native fields for the connected platform. For reads, this object is only returned if the include.$native field is set to true in the request body.
+    SyncedCache:
+      title: Use Synced Cache
+      type: boolean
+      description: If true, will hit the [synced-cache](/pages/home/synced-cache)
     AccountUpdate:
       title: AccountUpdate
       type: object
@@ -732,14 +740,6 @@ components:
           $ref: '#/components/schemas/NativeData'
       required:
       - name
-    NativeData:
-      title: Native Data
-      type: object
-      description: Native fields for the connected platform. For reads, this object is only returned if the include.$native field is set to true in the request body.
-    SyncedCache:
-      title: Use Synced Cache
-      type: boolean
-      description: If true, will hit the [synced-cache](/pages/home/synced-cache)
     Address:
       title: Address
       type: object
@@ -760,59 +760,54 @@ components:
         state: CA
         postalCode: 94105
         country: US
-    InvalidIds:
-      type: array
-      items:
-        type: string
-      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
-    AccountCreate:
-      title: AccountCreate
+    StringFilter:
       type: object
-      examples:
-      - name: Blue Cross
-        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
-        industry: TV and Media
-        annualRevenue: 10000000
-        numberOfEmployees: 100
-        website: www.bluecross.penn
-        phone: '8192223333'
-        address:
-          street: 100 Blue Dr
-          city: Scranton
-          state: Pennsylvania
-          postalCode: '281332'
-          country: USA
       properties:
-        name:
+        equals:
           type: string
-        description:
+        contains:
           type: string
-          description: Not supported by Pipedrive
-        industry:
+        startsWith:
           type: string
-          description: Not supported by Pipedrive
-        website:
+        endsWith:
           type: string
-          description: Not supported by Pipedrive
-        numberOfEmployees:
-          type: number
-          description: Not supported by Pipedrive
-        annualRevenue:
-          type: number
-          description: Not supported by Pipedrive
-        phone:
+        not:
           type: string
-          description: The primary phone | Not supported by Pipedrive
-        ownerUserId:
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
           type: string
-          description: The Id of the User to assign this Account to
-        address:
-          $ref: '#/components/schemas/Address'
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
-      required:
-      - name
+          enum:
+          - insensitive
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
     Field:
       title: Field
       type: object
@@ -895,56 +890,34 @@ components:
         required: false
         creatable: true
         updatable: true
-    AccountUpdate_2:
-      title: AccountUpdate
+    NumberFilter:
       type: object
-      examples:
-      - name: Blue Cross
-        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
-        industry: TV and Media
-        annualRevenue: 10000000
-        numberOfEmployees: 100
-        website: www.bluecross.penn
-        createdTime: '2019-08-24T14:15:22Z'
-        modifiedTime: '2019-08-24T14:15:22Z'
-        phone: '8192223333'
-        address:
-          street: 100 Blue Dr
-          city: Scranton
-          state: Pennsylvania
-          postalCode: '281332'
-          country: USA
       properties:
-        name:
-          type: string
-        description:
-          type: string
-          description: Not supported by Pipedrive
-        industry:
-          type: string
-          description: Not supported by Pipedrive
-        website:
-          type: string
-          description: Not supported by Pipedrive
-        numberOfEmployees:
+        equals:
           type: number
-          description: Not supported by Pipedrive
-        annualRevenue:
+        gt:
           type: number
-          description: Not supported by Pipedrive
-        phone:
-          type: string
-          description: The primary phone| Not supported by Pipedrive
-        address:
-          $ref: '#/components/schemas/Address'
-        ownerUserId:
-          type: string
-          description: The Id of the User to assign this Account to
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
-      required:
-      - name
+        lt:
+          type: number
+        lte:
+          type: number
+        gte:
+          type: number
+        not:
+          type: number
+        in:
+          type: array
+          items:
+            type: number
+        notIn:
+          type: array
+          items:
+            type: number
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
     Account:
       title: Account
       type: object
@@ -1078,77 +1051,104 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    NumberFilter:
+    AccountUpdate_2:
+      title: AccountUpdate
       type: object
+      examples:
+      - name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        annualRevenue: 10000000
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+        phone: '8192223333'
+        address:
+          street: 100 Blue Dr
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
       properties:
-        equals:
+        name:
+          type: string
+        description:
+          type: string
+          description: Not supported by Pipedrive
+        industry:
+          type: string
+          description: Not supported by Pipedrive
+        website:
+          type: string
+          description: Not supported by Pipedrive
+        numberOfEmployees:
           type: number
-        gt:
+          description: Not supported by Pipedrive
+        annualRevenue:
           type: number
-        lt:
-          type: number
-        lte:
-          type: number
-        gte:
-          type: number
-        not:
-          type: number
-        in:
-          type: array
-          items:
-            type: number
-        notIn:
-          type: array
-          items:
-            type: number
-    DateFilter:
+          description: Not supported by Pipedrive
+        phone:
+          type: string
+          description: The primary phone| Not supported by Pipedrive
+        address:
+          $ref: '#/components/schemas/Address'
+        ownerUserId:
+          type: string
+          description: The Id of the User to assign this Account to
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - name
+    AccountCreate:
+      title: AccountCreate
       type: object
+      examples:
+      - name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        annualRevenue: 10000000
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        phone: '8192223333'
+        address:
+          street: 100 Blue Dr
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
       properties:
-        equals:
+        name:
           type: string
-        gt:
+        description:
           type: string
-        lt:
+          description: Not supported by Pipedrive
+        industry:
           type: string
-        lte:
+          description: Not supported by Pipedrive
+        website:
           type: string
-        gte:
+          description: Not supported by Pipedrive
+        numberOfEmployees:
+          type: number
+          description: Not supported by Pipedrive
+        annualRevenue:
+          type: number
+          description: Not supported by Pipedrive
+        phone:
           type: string
-        not:
+          description: The primary phone | Not supported by Pipedrive
+        ownerUserId:
           type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-    StringFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
+          description: The Id of the User to assign this Account to
+        address:
+          $ref: '#/components/schemas/Address'
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - name
     AccountUpdate_3:
       title: AccountUpdate
       type: object
@@ -1213,10 +1213,11 @@ components:
         postalCode: 94105
         country: US
   parameters:
-    cursor:
-      name: cursor
+    accessToken:
+      name: accessToken
       in: query
-      description: The cursor to use for pagination
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
       schema:
         type: string
     allFields:
@@ -1225,19 +1226,18 @@ components:
       description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       schema:
         type: boolean
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
     limit:
       name: limit
       in: query
       description: The number of records to return per page.
       schema:
         type: number
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

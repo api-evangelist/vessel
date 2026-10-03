@@ -208,6 +208,13 @@ paths:
       - VesselAPIToken: []
 components:
   parameters:
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
     allFields:
       name: allFields
       in: query
@@ -226,14 +233,19 @@ components:
       description: The number of records to return per page.
       schema:
         type: number
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
   schemas:
+    EngSequenceStart:
+      title: SequenceStart
+      type: object
+      description: Start a sequence
+      examples:
+      - contactId: 233b4b8f0f2910ea0f2a0f2a0f939f3f
+        mailboxId: 8f0f2a0f2a0f2a0f939f3f91233b4b0e
+      properties:
+        contactId:
+          type: string
+        mailboxId:
+          type: string
     EngSequenceStepCreate:
       title: Create Sequence Steps
       type: object
@@ -268,57 +280,6 @@ components:
       - name
       - type
       - settings
-      - shareType
-    EngSequenceStepSettingsCreate:
-      title: Create Sequence Step Settings
-      type: object
-      properties:
-        templateName:
-          type: string
-          description: The name for this template
-        isReply:
-          type: boolean
-          description: Whether or not this email is a reply to the previous step's email
-        subject:
-          type: string
-          description: The subject line for this email
-        body:
-          type: string
-          description: The body of the email
-    EngSequenceStart:
-      title: SequenceStart
-      type: object
-      description: Start a sequence
-      examples:
-      - contactId: 233b4b8f0f2910ea0f2a0f2a0f939f3f
-        mailboxId: 8f0f2a0f2a0f2a0f939f3f91233b4b0e
-      properties:
-        contactId:
-          type: string
-        mailboxId:
-          type: string
-    EngSequenceCreate:
-      title: Create Sequence
-      type: object
-      description: null
-      examples:
-      - name: Email Sequence
-        shareType: team
-        additional: {}
-      properties:
-        name:
-          type: string
-        shareType:
-          type: string
-          enum:
-          - team
-          - private
-          description: '''team'' will share the sequence with all users in the team. ''private'' will only share the sequence with the user that created it.'
-        additional:
-          type: object
-          description: Create any property in the downstream Engagement Platform, such as a custom property.
-      required:
-      - name
       - shareType
     EngSequence:
       title: Sequence
@@ -370,6 +331,45 @@ components:
         modifiedTime:
           type: string
           description: Not supported by Apollo. The timestamp the user was last modified
+    EngSequenceCreate:
+      title: Create Sequence
+      type: object
+      description: null
+      examples:
+      - name: Email Sequence
+        shareType: team
+        additional: {}
+      properties:
+        name:
+          type: string
+        shareType:
+          type: string
+          enum:
+          - team
+          - private
+          description: '''team'' will share the sequence with all users in the team. ''private'' will only share the sequence with the user that created it.'
+        additional:
+          type: object
+          description: Create any property in the downstream Engagement Platform, such as a custom property.
+      required:
+      - name
+      - shareType
+    EngSequenceStepSettingsCreate:
+      title: Create Sequence Step Settings
+      type: object
+      properties:
+        templateName:
+          type: string
+          description: The name for this template
+        isReply:
+          type: boolean
+          description: Whether or not this email is a reply to the previous step's email
+        subject:
+          type: string
+          description: The subject line for this email
+        body:
+          type: string
+          description: The body of the email
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

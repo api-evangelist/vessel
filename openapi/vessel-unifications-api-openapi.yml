@@ -7728,15 +7728,6 @@ components:
       required:
       - id
       - createdTime
-    IncludeFields:
-      title: Include Fields
-      type: object
-      examples:
-      - $native: true
-      properties:
-        $native:
-          type: boolean
-          description: Set to true if you want to include all native fields.
     User:
       title: User
       type: object
@@ -7761,294 +7752,19 @@ components:
       required:
       - id
       - createdTime
-    CustomFieldCreate:
+    IncludeFields:
+      title: Include Fields
       type: object
-      description: ''
-      properties:
-        customKey:
-          type: string
-          description: Used for overriding the default key generated from the name of the field. Not supported for Close
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-          - singleselect
-          - text
-          - number
-          - percentage
-          - currency
-        options:
-          type: array
-          description: Required when `type = singleselect`
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              key:
-                type: string
-            required:
-            - name
-            - key
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - name
-      - type
-    Call:
-      title: Call
-      type: object
-      properties:
-        id:
-          type: string
-          description: Id of the object in the connected CRM.
-        subject:
-          type: string
-        disposition:
-          type: string
-          description: Possibly an enum, See /details endpoint for values.
-        direction:
-          type: string
-          enum:
-          - inbound
-          - outbound
-          - internal
-        description:
-          type: string
-        date:
-          type: string
-          description: The date the call occurred
-        createdTime:
-          type: string
-          description: The timestamp that the call object was created
-        modifiedTime:
-          type: string
-          description: The timestamp the call object was last modified
-        associations:
-          type: object
-          required:
-          - accountIds
-          - leadIds
-          - contactIds
-          - dealIds
-          - ownerUserId
-          properties:
-            accountIds:
-              type: array
-              items:
-                type: string
-            contactIds:
-              type: array
-              items:
-                type: string
-            dealIds:
-              type: array
-              items:
-                type: string
-            leadIds:
-              type: array
-              items:
-                type: string
-            ownerUserId:
-              type: string
-              description: The Id of the User that owns this call
-        $native:
-          $ref: '#/components/schemas/NativeData'
-    CallUpdate:
-      title: CallUpdate
-      type: object
-      properties:
-        disposition:
-          type: string
-          description: See /details endpoint for possible values.
-        associations:
-          type: object
-          properties:
-            ownerUserId:
-              type: string
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - disposition
-    Field:
-      title: Field
-      type: object
-      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
-      properties:
-        key:
-          type: string
-          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
-        name:
-          type: string
-          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
-        type:
-          type: string
-          enum:
-          - string
-          - number
-          - datetime
-          - date
-          - boolean
-          - reference
-          - phone
-          - url
-          - id
-          - email
-          - percent
-          - singleselect
-          - multiselect
-          - address
-          - decimal
-          - time
-          - daterange
-          - object
-        options:
-          type: array
-          description: Possible options for this field
-          items:
-            type: object
-            properties:
-              key:
-                oneOf:
-                - type: string
-                - type: number
-              name:
-                type: string
-        isArray:
-          type: boolean
-          description: If this field is an array
-        custom:
-          type: boolean
-          description: If this field is a custom field
-        universal:
-          type: boolean
-          description: If this is a field we've unified across CRMs
-        required:
-          type: boolean
-          description: If this field is required when creating the object
-        creatable:
-          type: boolean
-          description: If this field can be used when creating the object
-        updatable:
-          type: boolean
-          description: If this field can be updated
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - key
-      - name
-      - type
-      - custom
-      - universal
-      - required
-      - creatable
-      - updatable
       examples:
-      - key: numberOfEmployees
-        name: number of employees
-        type: number
-        options: null
-        isArray: false
-        custom: false
-        universal: true
-        required: false
-        creatable: true
-        updatable: true
-    NoteCreate:
-      title: NoteCreate
-      type: object
-      description: Create a new Note. You may only associate a note with at most one entity of each type upon creation.
+      - $native: true
       properties:
-        contentText:
-          type: string
-          description: The body of the note as text
-        contentHtml:
-          type: string
-          description: The body of the note as HTML.
-        associations:
-          type: object
-          properties:
-            ownerUserId:
-              type: string
-              description: The user to assign this note to. If there is no ownerUserId provided, the behavior is defined by the downstream system (either assigned to no user or to the user that installed the app).
-            dealId:
-              type: string
-              description: Required unless leadId/accountId/contactId are specified.
-            leadId:
-              type: string
-              description: Required unless dealId/accountId/contactId are specified.
-            accountId:
-              type: string
-              description: Required unless leadId/dealId/contactId are specified.
-            contactId:
-              type: string
-              description: Required unless leadId/accountId/dealId are specified.
         $native:
-          $ref: '#/components/schemas/NativeData'
-    Task:
-      title: Task
-      type: object
-      description: A task attached to some CRM object
-      properties:
-        id:
-          type: string
-          description: Id of the object in the connected CRM.
-        body:
-          type: string
-        subject:
-          type: string
-        isDone:
           type: boolean
-        dueDate:
-          type: string
-        status:
-          type: string
-          description: Not supported by Pipedrive
-        priority:
-          type: string
-          description: Not supported by Pipedrive
-        createdTime:
-          type: string
-          description: The timestamp that the task was created
-        modifiedTime:
-          type: string
-          description: The timestamp the task was last modified
-        associations:
-          type: object
-          required:
-          - dealIds
-          - contactIds
-          - accountIds
-          - leadIds
-          - ownerUserId
-          properties:
-            dealIds:
-              type: array
-              items:
-                type: string
-            contactIds:
-              type: array
-              items:
-                type: string
-            accountIds:
-              type: array
-              items:
-                type: string
-            leadIds:
-              type: array
-              items:
-                type: string
-            ownerUserId:
-              type: string
-              description: The Id of the User that owns this Task
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - id
-      - createdTime
-      - modifiedTime
-      - associations
+          description: Set to true if you want to include all native fields.
+    SyncedCache:
+      title: Use Synced Cache
+      type: boolean
+      description: If true, will hit the [synced-cache](/pages/home/synced-cache)
     EmailUpdate:
       title: EmailUpdate
       type: object
@@ -8072,248 +7788,6 @@ components:
               description: The Id of the User that owns this email
         $native:
           $ref: '#/components/schemas/NativeData'
-    NativeData:
-      title: Native Data
-      type: object
-      description: Native fields for the connected platform. For reads, this object is only returned if the include.$native field is set to true in the request body.
-    Note:
-      title: Note
-      type: object
-      description: 'A Note attached to some CRM Object. '
-      properties:
-        id:
-          type: string
-          description: Id of the object in the connected CRM.
-        contentHtml:
-          type: string
-          description: The body of the note (populated if CRM notes support html)
-        contentText:
-          type: string
-          description: The body of the note (populated if CRM notes only support plaintext)
-        createdTime:
-          type: string
-          description: The timestamp that the note was created
-        modifiedTime:
-          type: string
-          description: The timestamp the note was last modified
-        associations:
-          type: object
-          required:
-          - dealIds
-          - contactIds
-          - accountIds
-          - leadIds
-          - ownerUserId
-          properties:
-            dealIds:
-              type: array
-              items:
-                type: string
-            contactIds:
-              type: array
-              items:
-                type: string
-            accountIds:
-              type: array
-              items:
-                type: string
-            leadIds:
-              type: array
-              items:
-                type: string
-            ownerUserId:
-              type: string
-              description: The Id of the User that owns this note
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - id
-      - createdTime
-      - modifiedTime
-      - associations
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-    EventAttendeeCreate:
-      title: EventAttendeeCreate
-      type: object
-      description: ''
-      properties:
-        email:
-          type: string
-          description: 'Required if associationId is not present and the CRM supports "Other" for attendee associatedObjectType '
-        associatedObjectType:
-          type: string
-          description: The object type of the associated object (e.g., Contact, Lead, etc) or Other if this Attendee is not associated with a CRM object
-          enum:
-          - contacts
-          - leads
-          - other
-        status:
-          type: string
-        associations:
-          type: object
-          required:
-          - eventId
-          properties:
-            associationId:
-              type: string
-              description: Required unless email is present and CRM supports "Other" for associatedObjectType
-            eventId:
-              type: string
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - associatedObjectType
-      - associations
-    BooleanFilter:
-      type: object
-      properties:
-        equals:
-          type: boolean
-        not:
-          type: boolean
-    LeadUpdate:
-      description: ''
-      type: object
-      title: LeadUpdate
-      properties:
-        firstName:
-          type: string
-          description: Not supported for Pipedrive
-        lastName:
-          type: string
-          description: Not supported for Pipedrive
-        jobTitle:
-          type: string
-        email:
-          type: string
-          description: Not supported for Pipedrive
-        accountName:
-          type: string
-          description: Name of the Account associated with this lead. Not supported for Pipedrive
-        phone:
-          type: string
-          description: The primary phone. Not supported for Pipedrive
-        mobilePhone:
-          type: string
-          description: The primary mobile phone number for this lead. Possibly the same as the phone number. Not supported for Pipedrive
-        $native:
-          $ref: '#/components/schemas/NativeData'
-    ContactCreate:
-      title: ContactCreate
-      type: object
-      description: Properties that a contact can be created with
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        jobTitle:
-          type: string
-          description: Not supported by Pipedrive
-        phone:
-          type: string
-          description: The primary phone
-        mobilePhone:
-          type: string
-        associations:
-          type: object
-          properties:
-            accountId:
-              type: string
-              description: The Id of the account to associate this contact with
-            ownerUserId:
-              type: string
-              description: The Id of the User to assign this Contact to
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - lastName
-    AccountCreate:
-      title: AccountCreate
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-          description: Not supported by Pipedrive
-        industry:
-          type: string
-          description: Not supported by Pipedrive
-        website:
-          type: string
-          description: Not supported by Pipedrive
-        numberOfEmployees:
-          type: number
-          description: Not supported by Pipedrive
-        annualRevenue:
-          type: number
-          description: Not supported by Pipedrive
-        phone:
-          type: string
-          description: The primary phone | Not supported by Pipedrive
-        associations:
-          type: object
-          properties:
-            ownerUserId:
-              type: string
-              description: The Id of the User to assign this Account to
-        address:
-          $ref: '#/components/schemas/Address'
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - name
-    EventUpdate:
-      title: EventUpdate
-      type: object
-      properties:
-        subject:
-          type: string
-        description:
-          type: string
-        type:
-          type: string
-        location:
-          type: string
-        startDateTime:
-          type: string
-        endDateTime:
-          type: string
-        isAllDayEvent:
-          type: boolean
-          description: Not supported by HubSpot and Pipedrive
-        associations:
-          type: object
-          properties:
-            ownerUserId:
-              type: string
-        $native:
-          $ref: '#/components/schemas/NativeData'
     Address:
       title: Address
       type: object
@@ -8334,55 +7808,165 @@ components:
         state: CA
         postalCode: 94105
         country: US
-    LeadCreate:
-      description: ''
+    ListWithAssociations:
+      title: List
       type: object
-      title: LeadCreate
+      description: A List or View in a CRM
       properties:
+        id:
+          type: string
+          description: Id of the object in the connected CRM.
+        name:
+          type: string
+          description: The name of the list
+        createdTime:
+          type: string
+          description: The timestamp that the list was created
+        modifiedTime:
+          type: string
+          description: The timestamp the list was last modified
+        associations:
+          type: object
+          required:
+          - contactIds
+          - leadIds
+          - ownerUserId
+          properties:
+            contactIds:
+              type: array
+              items:
+                type: string
+            leadIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this list
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - id
+      - name
+      - createdTime
+      - modifiedTime
+      - associations
+    DealUpdate:
+      title: DealUpdate
+      type: object
+      properties:
+        name:
+          type: string
+        amount:
+          type: number
+        closeDate:
+          type: string
+        probability:
+          type: string
+          description: Decimal probability of closing the deal
+        stage:
+          type: string
+          description: The stage the deal is in. See /deal/details for possible values
+        associations:
+          type: object
+          properties:
+            accountId:
+              type: string
+              description: Update the account this deal is associated with.
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - closeDate
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+    Contact:
+      title: Contact
+      type: object
+      description: Information about an individual affiliated with another CRM Object (e.g., a Lead, a Deal, etc)
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected CRM.
+        email:
+          type: string
         firstName:
           type: string
         lastName:
           type: string
         jobTitle:
           type: string
-        email:
-          type: string
-        accountName:
-          type: string
-          description: 'Name of the Account associated with this lead. Not supported for Pipedrive. Defaults to `[TODO]: Fill in Company Name` in Salesforce'
+          description: Not supported by Pipedrive
         phone:
           type: string
-          description: The primary phone number for this lead
+          description: The primary phone number for this contact
         mobilePhone:
           type: string
-          description: The primary mobile phone number for this lead. Possibly the same as the phone number.
+          description: The primary mobile phone number for this contact. Possibly the same as the phone number.
+        createdTime:
+          type: string
+          description: The timestamp that the contact was created
+        modifiedTime:
+          type: string
+          description: The timestamp the contact was last modified
+        associations:
+          type: object
+          required:
+          - accountIds
+          - dealIds
+          - leadIds
+          - ownerUserId
+          properties:
+            accountIds:
+              type: array
+              items:
+                type: string
+            dealIds:
+              type: array
+              items:
+                type: string
+            leadIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
         $native:
           $ref: '#/components/schemas/NativeData'
       required:
-      - lastName
-    NoteUpdate:
-      title: NoteUpdate
+      - id
+      - createdTime
+      - modifiedTime
+      - associations
+    BooleanFilter:
       type: object
-      description: Update an existing Note. Please note that updating associations is not currently supported.
       properties:
-        contentText:
-          type: string
-          description: The body of the note as text
-        contentHtml:
-          type: string
-          description: The body of the note as HTML.
-        associations:
-          type: object
-          properties:
-            ownerUserId:
-              type: string
-              description: Only Admins can change this property
-        $native:
-          $ref: '#/components/schemas/NativeData'
-    SyncedCache:
-      title: Use Synced Cache
-      type: boolean
-      description: If true, will hit the [synced-cache](/pages/home/synced-cache)
+        equals:
+          type: boolean
+        not:
+          type: boolean
     EventCreate:
       title: EventCreate
       type: object
@@ -8460,102 +8044,83 @@ components:
               type: string
         $native:
           $ref: '#/components/schemas/NativeData'
-    TaskUpdate:
-      title: TaskUpdate
+    CustomFieldCreate:
       type: object
       description: ''
       properties:
-        body:
+        customKey:
           type: string
-        subject:
+          description: Used for overriding the default key generated from the name of the field. Not supported for Close
+        name:
           type: string
-        dueDate:
+        type:
           type: string
-        priority:
-          type: string
-          description: Not supported by Pipedrive
-        status:
-          type: string
-          description: Not supported by Pipedrive
-        isDone:
-          type: boolean
-          description: If both `isDone` and `status` are included, `isDone` will take precedence and automatically set `status` to either the default or a 'closed' status depending on the `isDone` value.
-        associations:
-          type: object
-          properties:
-            ownerUserId:
-              type: string
+          enum:
+          - singleselect
+          - text
+          - number
+          - percentage
+          - currency
+        options:
+          type: array
+          description: Required when `type = singleselect`
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              key:
+                type: string
+            required:
+            - name
+            - key
         $native:
           $ref: '#/components/schemas/NativeData'
-    Deal:
-      title: Deal
+      required:
+      - name
+      - type
+    EventAttendee:
+      title: EventAttendee
       type: object
-      description: '(Alias: Opportunity) An object representing either the opportunity to sell a product to an Account, or in the case of an `isWon` deal, a product sold to an Account.
-
-        *CRM Caveats*:
-
-        - Pipedrive: Users must have "Deal probability" turned on for the given pipeline for probability to be configurable and returned.'
+      description: Event Attendees hold information about someone who attendee or was invited to an event. Attendees are always associated with some Event and another person object such as a Contact, Lead, or Other.
       properties:
         id:
           type: string
           description: Id of the object in the connected CRM.
-        name:
+        status:
           type: string
-          description: Optional name for this deal
-        stage:
+        associatedObjectType:
           type: string
-          description: The stage of the pipeline the deal is in. See /deal/details for possible values
-        amount:
-          type: number
-          description: Total deal money value
-        closeDate:
+          description: The object type of the associated object (e.g., Contact, Lead, etc) or Other if this Attendee is not associated with a CRM object
+          enum:
+          - contacts
+          - leads
+          - other
+        email:
           type: string
-          description: When this deal is projected to be closed
-        probability:
-          type: string
-          description: Decimal probability of closing this deal.
-        expectedRevenue:
-          type: number
-          description: probability * amount. This is a computed property
-        isWon:
-          type: boolean
-          description: If this deal has been won. This is a computed property based on stage
-        isClosed:
-          type: boolean
-          description: If this deal is closed (either closed-won or closed-lost). This is a computed property based on stage
-        currency:
-          type: string
-          description: The currency of the deal in ISO format. This can be null if the CRM does not support multiple currencies. See `/info/find` for default currency value
+          description: Optional unless `associationId` is null
         createdTime:
           type: string
-          description: The timestamp that the deal was created
+          description: The timestamp that the event attendee was created
         modifiedTime:
           type: string
-          description: The timestamp the deal was last modified
+          description: The timestamp the event attendee was last modified
         associations:
           type: object
           required:
-          - contactIds
-          - accountIds
-          - ownerUserId
+          - eventId
+          - associationId
           properties:
-            contactIds:
-              type: array
-              items:
-                type: string
-            accountIds:
-              type: array
-              items:
-                type: string
-            ownerUserId:
+            eventId:
               type: string
-              description: The Id of the User that owns this Deal
+            associationId:
+              type: string
+              description: The id of the associated object, if this Attendee is not associated with a CRM object, this id is null and the `email` field will be present
         $native:
           $ref: '#/components/schemas/NativeData'
       required:
       - id
-      - name
-      - closeDate
+      - associatedObjectType
       - createdTime
       - modifiedTime
       - associations
@@ -8587,66 +8152,6 @@ components:
         modifiedTime:
           type: string
           description: The timestamp the user was last modified
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - id
-      - createdTime
-      - modifiedTime
-      - associations
-    Lead:
-      title: Lead
-      type: object
-      description: 'A Lead represents an individual, or sometimes an organization, that is interested in purchasing your product (i.e., is a potential Deal).
-
-        *CRM Caveats*:
-
-        - HubSpot: we consider contacts with the `leadStatus` set to be leads.'
-      properties:
-        id:
-          type: string
-          description: Id of the object in the connected CRM.
-        firstName:
-          type: string
-        lastName:
-          type: string
-        jobTitle:
-          type: string
-        email:
-          type: string
-        accountName:
-          type: string
-          description: Name of the Account associated with this lead
-        phone:
-          type: string
-          description: The primary phone
-        mobilePhone:
-          type: string
-          description: The primary mobile phone number for this lead. Possibly the same as the phone number
-        createdTime:
-          type: string
-          description: The timestamp that the lead was created
-        modifiedTime:
-          type: string
-          description: The timestamp the lead was last modified
-        associations:
-          type: object
-          required:
-          - contactIds
-          - accountIds
-          - ownerUserId
-          properties:
-            contactIds:
-              type: array
-              items:
-                type: string
-            accountIds:
-              type: array
-              items:
-                type: string
-            ownerUserId:
-              type: string
-              description: The Id of the User that owns this Lead
         $native:
           $ref: '#/components/schemas/NativeData'
       required:
@@ -8720,48 +8225,44 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    Contact:
-      title: Contact
+    Note:
+      title: Note
       type: object
-      description: Information about an individual affiliated with another CRM Object (e.g., a Lead, a Deal, etc)
+      description: 'A Note attached to some CRM Object. '
       properties:
         id:
           type: string
           description: Id of the object in the connected CRM.
-        email:
+        contentHtml:
           type: string
-        firstName:
+          description: The body of the note (populated if CRM notes support html)
+        contentText:
           type: string
-        lastName:
-          type: string
-        jobTitle:
-          type: string
-          description: Not supported by Pipedrive
-        phone:
-          type: string
-          description: The primary phone number for this contact
-        mobilePhone:
-          type: string
-          description: The primary mobile phone number for this contact. Possibly the same as the phone number.
+          description: The body of the note (populated if CRM notes only support plaintext)
         createdTime:
           type: string
-          description: The timestamp that the contact was created
+          description: The timestamp that the note was created
         modifiedTime:
           type: string
-          description: The timestamp the contact was last modified
+          description: The timestamp the note was last modified
         associations:
           type: object
           required:
-          - accountIds
           - dealIds
+          - contactIds
+          - accountIds
           - leadIds
           - ownerUserId
           properties:
-            accountIds:
+            dealIds:
               type: array
               items:
                 type: string
-            dealIds:
+            contactIds:
+              type: array
+              items:
+                type: string
+            accountIds:
               type: array
               items:
                 type: string
@@ -8771,6 +8272,7 @@ components:
                 type: string
             ownerUserId:
               type: string
+              description: The Id of the User that owns this note
         $native:
           $ref: '#/components/schemas/NativeData'
       required:
@@ -8778,6 +8280,135 @@ components:
       - createdTime
       - modifiedTime
       - associations
+    CallUpdate:
+      title: CallUpdate
+      type: object
+      properties:
+        disposition:
+          type: string
+          description: See /details endpoint for possible values.
+        associations:
+          type: object
+          properties:
+            ownerUserId:
+              type: string
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - disposition
+    Lead:
+      title: Lead
+      type: object
+      description: 'A Lead represents an individual, or sometimes an organization, that is interested in purchasing your product (i.e., is a potential Deal).
+
+        *CRM Caveats*:
+
+        - HubSpot: we consider contacts with the `leadStatus` set to be leads.'
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected CRM.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+        email:
+          type: string
+        accountName:
+          type: string
+          description: Name of the Account associated with this lead
+        phone:
+          type: string
+          description: The primary phone
+        mobilePhone:
+          type: string
+          description: The primary mobile phone number for this lead. Possibly the same as the phone number
+        createdTime:
+          type: string
+          description: The timestamp that the lead was created
+        modifiedTime:
+          type: string
+          description: The timestamp the lead was last modified
+        associations:
+          type: object
+          required:
+          - contactIds
+          - accountIds
+          - ownerUserId
+          properties:
+            contactIds:
+              type: array
+              items:
+                type: string
+            accountIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this Lead
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - id
+      - createdTime
+      - modifiedTime
+      - associations
+    TaskUpdate:
+      title: TaskUpdate
+      type: object
+      description: ''
+      properties:
+        body:
+          type: string
+        subject:
+          type: string
+        dueDate:
+          type: string
+        priority:
+          type: string
+          description: Not supported by Pipedrive
+        status:
+          type: string
+          description: Not supported by Pipedrive
+        isDone:
+          type: boolean
+          description: If both `isDone` and `status` are included, `isDone` will take precedence and automatically set `status` to either the default or a 'closed' status depending on the `isDone` value.
+        associations:
+          type: object
+          properties:
+            ownerUserId:
+              type: string
+        $native:
+          $ref: '#/components/schemas/NativeData'
+    LeadCreate:
+      description: ''
+      type: object
+      title: LeadCreate
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+        email:
+          type: string
+        accountName:
+          type: string
+          description: 'Name of the Account associated with this lead. Not supported for Pipedrive. Defaults to `[TODO]: Fill in Company Name` in Salesforce'
+        phone:
+          type: string
+          description: The primary phone number for this lead
+        mobilePhone:
+          type: string
+          description: The primary mobile phone number for this lead. Possibly the same as the phone number.
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - lastName
     NumberFilter:
       type: object
       properties:
@@ -8839,317 +8470,6 @@ components:
       - disposition
       - direction
       - date
-    ListWithoutAssociations:
-      title: List
-      type: object
-      description: A List or View in a CRM
-      properties:
-        id:
-          type: string
-          description: Id of the object in the connected CRM.
-        name:
-          type: string
-          description: The name of the list
-        createdTime:
-          type: string
-          description: The timestamp that the list was created
-        modifiedTime:
-          type: string
-          description: The timestamp the list was last modified
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - id
-      - name
-      - createdTime
-      - modifiedTime
-    Event:
-      title: Event
-      type: object
-      description: 'Events are a type of activity that has attendees and takes place at a certain point in time (i.e., has a start and end date).
-
-        For the currently supported CRMs, these are the objects Events most closely maps to:
-
-        - Salesforce = Events
-
-        - HubSpot = Meetings
-
-        - Pipedrive = Activities
-
-        - Zoho = Events'
-      properties:
-        id:
-          type: string
-          description: Id of the object in the connected CRM.
-        subject:
-          type: string
-        description:
-          type: string
-        type:
-          type: string
-        location:
-          type: string
-          description: Where this event takes place. Can be virtual
-        startDateTime:
-          type: string
-        endDateTime:
-          type: string
-        isAllDayEvent:
-          type: boolean
-        createdTime:
-          type: string
-          description: The timestamp that the event was created
-        modifiedTime:
-          type: string
-          description: The timestamp the event was last modified
-        associations:
-          type: object
-          required:
-          - accountIds
-          - leadIds
-          - contactIds
-          - dealIds
-          - eventAttendeeIds
-          - ownerUserId
-          properties:
-            accountIds:
-              type: array
-              items:
-                type: string
-            leadIds:
-              type: array
-              items:
-                type: string
-            contactIds:
-              type: array
-              items:
-                type: string
-            dealIds:
-              type: array
-              items:
-                type: string
-            eventAttendeeIds:
-              type: array
-              items:
-                type: string
-            ownerUserId:
-              type: string
-              description: The Id of the User that owns this event
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - id
-      - createdTime
-      - modifiedTime
-      - associations
-    ListWithAssociations:
-      title: List
-      type: object
-      description: A List or View in a CRM
-      properties:
-        id:
-          type: string
-          description: Id of the object in the connected CRM.
-        name:
-          type: string
-          description: The name of the list
-        createdTime:
-          type: string
-          description: The timestamp that the list was created
-        modifiedTime:
-          type: string
-          description: The timestamp the list was last modified
-        associations:
-          type: object
-          required:
-          - contactIds
-          - leadIds
-          - ownerUserId
-          properties:
-            contactIds:
-              type: array
-              items:
-                type: string
-            leadIds:
-              type: array
-              items:
-                type: string
-            ownerUserId:
-              type: string
-              description: The Id of the User that owns this list
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - id
-      - name
-      - createdTime
-      - modifiedTime
-      - associations
-    DealUpdate:
-      title: DealUpdate
-      type: object
-      properties:
-        name:
-          type: string
-        amount:
-          type: number
-        closeDate:
-          type: string
-        probability:
-          type: string
-          description: Decimal probability of closing the deal
-        stage:
-          type: string
-          description: The stage the deal is in. See /deal/details for possible values
-        associations:
-          type: object
-          properties:
-            accountId:
-              type: string
-              description: Update the account this deal is associated with.
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - closeDate
-    Email:
-      title: Email
-      type: object
-      description: An email is a message sent from one person to another through an email service. Emails involve participants - the person who the email was sent to, or the person that sent it. Participants are usually a Contact, Lead, or User but in certain CRMs, can be a person not yet associated with a CRM object.
-      properties:
-        id:
-          type: string
-          description: Id of the object in the connected CRM.
-        from:
-          type: string
-          description: The email address that sent the email
-        to:
-          type: array
-          description: The email addresses that received the email
-          items:
-            type: string
-        cc:
-          type: array
-          description: The email addresses that received a copy of the email
-          items:
-            type: string
-        bcc:
-          type: array
-          description: The email addresses that received a blind copy of the email
-          items:
-            type: string
-        subject:
-          type: string
-          description: The subject of the email
-        bodyText:
-          type: string
-          description: The text formatted body of the email
-        bodyHtml:
-          type: string
-          description: The html formatted body of the email
-        messageDate:
-          type: string
-          description: The date the email was created. This can be set when creating the email object and is not necessarily the same as the `createdTime` field.
-        isIncoming:
-          type: boolean
-          description: If this email was sent to the user or sent by the user
-        isBounced:
-          type: boolean
-          description: If this email was bounced
-        hasAttachment:
-          type: boolean
-          description: If this email has attachment(s)
-        status:
-          type: string
-          description: The status of the email (CRM specific, see /details).
-        createdTime:
-          type: string
-          description: The timestamp that the email object was created
-        modifiedTime:
-          type: string
-          description: The timestamp the email object was last modified
-        associations:
-          type: object
-          required:
-          - accountIds
-          - leadIds
-          - contactIds
-          - dealIds
-          - ownerUserId
-          properties:
-            accountIds:
-              type: array
-              items:
-                type: string
-            leadIds:
-              type: array
-              items:
-                type: string
-            contactIds:
-              type: array
-              items:
-                type: string
-            dealIds:
-              type: array
-              items:
-                type: string
-            ownerUserId:
-              type: string
-              description: The Id of the User that owns this email
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - id
-      - from
-      - to
-      - subject
-      - createdTime
-      - modifiedTime
-      - associations
-    EventAttendee:
-      title: EventAttendee
-      type: object
-      description: Event Attendees hold information about someone who attendee or was invited to an event. Attendees are always associated with some Event and another person object such as a Contact, Lead, or Other.
-      properties:
-        id:
-          type: string
-          description: Id of the object in the connected CRM.
-        status:
-          type: string
-        associatedObjectType:
-          type: string
-          description: The object type of the associated object (e.g., Contact, Lead, etc) or Other if this Attendee is not associated with a CRM object
-          enum:
-          - contacts
-          - leads
-          - other
-        email:
-          type: string
-          description: Optional unless `associationId` is null
-        createdTime:
-          type: string
-          description: The timestamp that the event attendee was created
-        modifiedTime:
-          type: string
-          description: The timestamp the event attendee was last modified
-        associations:
-          type: object
-          required:
-          - eventId
-          - associationId
-          properties:
-            eventId:
-              type: string
-            associationId:
-              type: string
-              description: The id of the associated object, if this Attendee is not associated with a CRM object, this id is null and the `email` field will be present
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - id
-      - associatedObjectType
-      - createdTime
-      - modifiedTime
-      - associations
     EventAttendeeUpdate:
       title: EventAttendeeUpdate
       type: object
@@ -9254,58 +8574,85 @@ components:
       - from
       - to
       - subject
-    StringFilter:
+    Event:
+      title: Event
       type: object
+      description: 'Events are a type of activity that has attendees and takes place at a certain point in time (i.e., has a start and end date).
+
+        For the currently supported CRMs, these are the objects Events most closely maps to:
+
+        - Salesforce = Events
+
+        - HubSpot = Meetings
+
+        - Pipedrive = Activities
+
+        - Zoho = Events'
       properties:
-        equals:
+        id:
           type: string
-        contains:
+          description: Id of the object in the connected CRM.
+        subject:
           type: string
-        startsWith:
+        description:
           type: string
-        endsWith:
+        type:
           type: string
-        not:
+        location:
           type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
+          description: Where this event takes place. Can be virtual
+        startDateTime:
           type: string
-          enum:
-          - insensitive
-    ContactUpdate:
-      title: ContactUpdate
-      type: object
-      description: Update a Contact.
-      properties:
-        email:
+        endDateTime:
           type: string
-        firstName:
+        isAllDayEvent:
+          type: boolean
+        createdTime:
           type: string
-        lastName:
+          description: The timestamp that the event was created
+        modifiedTime:
           type: string
-        jobTitle:
-          type: string
-          description: Not supported by Pipedrive
-        phone:
-          type: string
-          description: The primary phone
-        mobilePhone:
-          type: string
+          description: The timestamp the event was last modified
         associations:
           type: object
+          required:
+          - accountIds
+          - leadIds
+          - contactIds
+          - dealIds
+          - eventAttendeeIds
+          - ownerUserId
           properties:
+            accountIds:
+              type: array
+              items:
+                type: string
+            leadIds:
+              type: array
+              items:
+                type: string
+            contactIds:
+              type: array
+              items:
+                type: string
+            dealIds:
+              type: array
+              items:
+                type: string
+            eventAttendeeIds:
+              type: array
+              items:
+                type: string
             ownerUserId:
               type: string
-              description: The Id of the User to assign this Contact to
+              description: The Id of the User that owns this event
         $native:
           $ref: '#/components/schemas/NativeData'
+      required:
+      - id
+      - createdTime
+      - modifiedTime
+      - associations
     DealCreate:
       title: DealCreate
       type: object
@@ -9333,6 +8680,701 @@ components:
       required:
       - name
       - closeDate
+    ContactUpdate:
+      title: ContactUpdate
+      type: object
+      description: Update a Contact.
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+          description: Not supported by Pipedrive
+        phone:
+          type: string
+          description: The primary phone
+        mobilePhone:
+          type: string
+        associations:
+          type: object
+          properties:
+            ownerUserId:
+              type: string
+              description: The Id of the User to assign this Contact to
+        $native:
+          $ref: '#/components/schemas/NativeData'
+    Deal:
+      title: Deal
+      type: object
+      description: '(Alias: Opportunity) An object representing either the opportunity to sell a product to an Account, or in the case of an `isWon` deal, a product sold to an Account.
+
+        *CRM Caveats*:
+
+        - Pipedrive: Users must have "Deal probability" turned on for the given pipeline for probability to be configurable and returned.'
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected CRM.
+        name:
+          type: string
+          description: Optional name for this deal
+        stage:
+          type: string
+          description: The stage of the pipeline the deal is in. See /deal/details for possible values
+        amount:
+          type: number
+          description: Total deal money value
+        closeDate:
+          type: string
+          description: When this deal is projected to be closed
+        probability:
+          type: string
+          description: Decimal probability of closing this deal.
+        expectedRevenue:
+          type: number
+          description: probability * amount. This is a computed property
+        isWon:
+          type: boolean
+          description: If this deal has been won. This is a computed property based on stage
+        isClosed:
+          type: boolean
+          description: If this deal is closed (either closed-won or closed-lost). This is a computed property based on stage
+        currency:
+          type: string
+          description: The currency of the deal in ISO format. This can be null if the CRM does not support multiple currencies. See `/info/find` for default currency value
+        createdTime:
+          type: string
+          description: The timestamp that the deal was created
+        modifiedTime:
+          type: string
+          description: The timestamp the deal was last modified
+        associations:
+          type: object
+          required:
+          - contactIds
+          - accountIds
+          - ownerUserId
+          properties:
+            contactIds:
+              type: array
+              items:
+                type: string
+            accountIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this Deal
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - id
+      - name
+      - closeDate
+      - createdTime
+      - modifiedTime
+      - associations
+    ListWithoutAssociations:
+      title: List
+      type: object
+      description: A List or View in a CRM
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected CRM.
+        name:
+          type: string
+          description: The name of the list
+        createdTime:
+          type: string
+          description: The timestamp that the list was created
+        modifiedTime:
+          type: string
+          description: The timestamp the list was last modified
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - id
+      - name
+      - createdTime
+      - modifiedTime
+    AccountCreate:
+      title: AccountCreate
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: Not supported by Pipedrive
+        industry:
+          type: string
+          description: Not supported by Pipedrive
+        website:
+          type: string
+          description: Not supported by Pipedrive
+        numberOfEmployees:
+          type: number
+          description: Not supported by Pipedrive
+        annualRevenue:
+          type: number
+          description: Not supported by Pipedrive
+        phone:
+          type: string
+          description: The primary phone | Not supported by Pipedrive
+        associations:
+          type: object
+          properties:
+            ownerUserId:
+              type: string
+              description: The Id of the User to assign this Account to
+        address:
+          $ref: '#/components/schemas/Address'
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - name
+    Email:
+      title: Email
+      type: object
+      description: An email is a message sent from one person to another through an email service. Emails involve participants - the person who the email was sent to, or the person that sent it. Participants are usually a Contact, Lead, or User but in certain CRMs, can be a person not yet associated with a CRM object.
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected CRM.
+        from:
+          type: string
+          description: The email address that sent the email
+        to:
+          type: array
+          description: The email addresses that received the email
+          items:
+            type: string
+        cc:
+          type: array
+          description: The email addresses that received a copy of the email
+          items:
+            type: string
+        bcc:
+          type: array
+          description: The email addresses that received a blind copy of the email
+          items:
+            type: string
+        subject:
+          type: string
+          description: The subject of the email
+        bodyText:
+          type: string
+          description: The text formatted body of the email
+        bodyHtml:
+          type: string
+          description: The html formatted body of the email
+        messageDate:
+          type: string
+          description: The date the email was created. This can be set when creating the email object and is not necessarily the same as the `createdTime` field.
+        isIncoming:
+          type: boolean
+          description: If this email was sent to the user or sent by the user
+        isBounced:
+          type: boolean
+          description: If this email was bounced
+        hasAttachment:
+          type: boolean
+          description: If this email has attachment(s)
+        status:
+          type: string
+          description: The status of the email (CRM specific, see /details).
+        createdTime:
+          type: string
+          description: The timestamp that the email object was created
+        modifiedTime:
+          type: string
+          description: The timestamp the email object was last modified
+        associations:
+          type: object
+          required:
+          - accountIds
+          - leadIds
+          - contactIds
+          - dealIds
+          - ownerUserId
+          properties:
+            accountIds:
+              type: array
+              items:
+                type: string
+            leadIds:
+              type: array
+              items:
+                type: string
+            contactIds:
+              type: array
+              items:
+                type: string
+            dealIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this email
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - id
+      - from
+      - to
+      - subject
+      - createdTime
+      - modifiedTime
+      - associations
+    NativeData:
+      title: Native Data
+      type: object
+      description: Native fields for the connected platform. For reads, this object is only returned if the include.$native field is set to true in the request body.
+    NoteCreate:
+      title: NoteCreate
+      type: object
+      description: Create a new Note. You may only associate a note with at most one entity of each type upon creation.
+      properties:
+        contentText:
+          type: string
+          description: The body of the note as text
+        contentHtml:
+          type: string
+          description: The body of the note as HTML.
+        associations:
+          type: object
+          properties:
+            ownerUserId:
+              type: string
+              description: The user to assign this note to. If there is no ownerUserId provided, the behavior is defined by the downstream system (either assigned to no user or to the user that installed the app).
+            dealId:
+              type: string
+              description: Required unless leadId/accountId/contactId are specified.
+            leadId:
+              type: string
+              description: Required unless dealId/accountId/contactId are specified.
+            accountId:
+              type: string
+              description: Required unless leadId/dealId/contactId are specified.
+            contactId:
+              type: string
+              description: Required unless leadId/accountId/dealId are specified.
+        $native:
+          $ref: '#/components/schemas/NativeData'
+    LeadUpdate:
+      description: ''
+      type: object
+      title: LeadUpdate
+      properties:
+        firstName:
+          type: string
+          description: Not supported for Pipedrive
+        lastName:
+          type: string
+          description: Not supported for Pipedrive
+        jobTitle:
+          type: string
+        email:
+          type: string
+          description: Not supported for Pipedrive
+        accountName:
+          type: string
+          description: Name of the Account associated with this lead. Not supported for Pipedrive
+        phone:
+          type: string
+          description: The primary phone. Not supported for Pipedrive
+        mobilePhone:
+          type: string
+          description: The primary mobile phone number for this lead. Possibly the same as the phone number. Not supported for Pipedrive
+        $native:
+          $ref: '#/components/schemas/NativeData'
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    EventUpdate:
+      title: EventUpdate
+      type: object
+      properties:
+        subject:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        location:
+          type: string
+        startDateTime:
+          type: string
+        endDateTime:
+          type: string
+        isAllDayEvent:
+          type: boolean
+          description: Not supported by HubSpot and Pipedrive
+        associations:
+          type: object
+          properties:
+            ownerUserId:
+              type: string
+        $native:
+          $ref: '#/components/schemas/NativeData'
+    Field:
+      title: Field
+      type: object
+      description: '(Alias: property) A field is a key-value pair on a CRM Object that provides information about that object.'
+      properties:
+        key:
+          type: string
+          description: 'The key in the CRM object (ex: annualRevenue, numberOfEmployees, etc)'
+        name:
+          type: string
+          description: 'The display name of this field (ex: number of employees, annual revenue, etc)'
+        type:
+          type: string
+          enum:
+          - string
+          - number
+          - datetime
+          - date
+          - boolean
+          - reference
+          - phone
+          - url
+          - id
+          - email
+          - percent
+          - singleselect
+          - multiselect
+          - address
+          - decimal
+          - time
+          - daterange
+          - object
+        options:
+          type: array
+          description: Possible options for this field
+          items:
+            type: object
+            properties:
+              key:
+                oneOf:
+                - type: string
+                - type: number
+              name:
+                type: string
+        isArray:
+          type: boolean
+          description: If this field is an array
+        custom:
+          type: boolean
+          description: If this field is a custom field
+        universal:
+          type: boolean
+          description: If this is a field we've unified across CRMs
+        required:
+          type: boolean
+          description: If this field is required when creating the object
+        creatable:
+          type: boolean
+          description: If this field can be used when creating the object
+        updatable:
+          type: boolean
+          description: If this field can be updated
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - key
+      - name
+      - type
+      - custom
+      - universal
+      - required
+      - creatable
+      - updatable
+      examples:
+      - key: numberOfEmployees
+        name: number of employees
+        type: number
+        options: null
+        isArray: false
+        custom: false
+        universal: true
+        required: false
+        creatable: true
+        updatable: true
+    ContactCreate:
+      title: ContactCreate
+      type: object
+      description: Properties that a contact can be created with
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+          description: Not supported by Pipedrive
+        phone:
+          type: string
+          description: The primary phone
+        mobilePhone:
+          type: string
+        associations:
+          type: object
+          properties:
+            accountId:
+              type: string
+              description: The Id of the account to associate this contact with
+            ownerUserId:
+              type: string
+              description: The Id of the User to assign this Contact to
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - lastName
+    EventAttendeeCreate:
+      title: EventAttendeeCreate
+      type: object
+      description: ''
+      properties:
+        email:
+          type: string
+          description: 'Required if associationId is not present and the CRM supports "Other" for attendee associatedObjectType '
+        associatedObjectType:
+          type: string
+          description: The object type of the associated object (e.g., Contact, Lead, etc) or Other if this Attendee is not associated with a CRM object
+          enum:
+          - contacts
+          - leads
+          - other
+        status:
+          type: string
+        associations:
+          type: object
+          required:
+          - eventId
+          properties:
+            associationId:
+              type: string
+              description: Required unless email is present and CRM supports "Other" for associatedObjectType
+            eventId:
+              type: string
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - associatedObjectType
+      - associations
+    NoteUpdate:
+      title: NoteUpdate
+      type: object
+      description: Update an existing Note. Please note that updating associations is not currently supported.
+      properties:
+        contentText:
+          type: string
+          description: The body of the note as text
+        contentHtml:
+          type: string
+          description: The body of the note as HTML.
+        associations:
+          type: object
+          properties:
+            ownerUserId:
+              type: string
+              description: Only Admins can change this property
+        $native:
+          $ref: '#/components/schemas/NativeData'
+    Call:
+      title: Call
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected CRM.
+        subject:
+          type: string
+        disposition:
+          type: string
+          description: Possibly an enum, See /details endpoint for values.
+        direction:
+          type: string
+          enum:
+          - inbound
+          - outbound
+          - internal
+        description:
+          type: string
+        date:
+          type: string
+          description: The date the call occurred
+        createdTime:
+          type: string
+          description: The timestamp that the call object was created
+        modifiedTime:
+          type: string
+          description: The timestamp the call object was last modified
+        associations:
+          type: object
+          required:
+          - accountIds
+          - leadIds
+          - contactIds
+          - dealIds
+          - ownerUserId
+          properties:
+            accountIds:
+              type: array
+              items:
+                type: string
+            contactIds:
+              type: array
+              items:
+                type: string
+            dealIds:
+              type: array
+              items:
+                type: string
+            leadIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this call
+        $native:
+          $ref: '#/components/schemas/NativeData'
+    Task:
+      title: Task
+      type: object
+      description: A task attached to some CRM object
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected CRM.
+        body:
+          type: string
+        subject:
+          type: string
+        isDone:
+          type: boolean
+        dueDate:
+          type: string
+        status:
+          type: string
+          description: Not supported by Pipedrive
+        priority:
+          type: string
+          description: Not supported by Pipedrive
+        createdTime:
+          type: string
+          description: The timestamp that the task was created
+        modifiedTime:
+          type: string
+          description: The timestamp the task was last modified
+        associations:
+          type: object
+          required:
+          - dealIds
+          - contactIds
+          - accountIds
+          - leadIds
+          - ownerUserId
+          properties:
+            dealIds:
+              type: array
+              items:
+                type: string
+            contactIds:
+              type: array
+              items:
+                type: string
+            accountIds:
+              type: array
+              items:
+                type: string
+            leadIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this Task
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - id
+      - createdTime
+      - modifiedTime
+      - associations
+    Contact_2:
+      title: Contact
+      type: object
+      examples:
+      - id: e5f32d4fd2115220bd20a2ccf81210ec
+        firstName: Tom
+        lastName: Smith
+        companyName: Dunder Mifflin
+        description: Tom Smith is a sales rep at Dunder Mifflin
+        phones:
+        - number: '8192223333'
+          type: work
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Dialer.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
+        description:
+          type: string
+        phones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phone'
+        createdTime:
+          type: string
+          description: The timestamp that the contact was created
+        modifiedTime:
+          type: string
+          description: The timestamp the contact was last modified
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - id
+      - createdTime
+      - modifiedTime
     ContactCreate_2:
       title: ContactCreate
       type: object
@@ -9370,6 +9412,59 @@ components:
       required:
       - createdTime
       - modifiedTime
+    User_3:
+      title: User
+      type: object
+      description: Users of the connected Dialer. These are *not* the contacts, but rather the user accounts from the connected Dialer.
+      examples:
+      - id: 56f653659ea9524b9e0fb0ba67e6f8a0
+        firstName: Micheal
+        lastName: Scott
+        email: micheal@dundermifflin.com
+        role: agent
+        isAvailable: true
+        availabilityStatus: available
+        createdTime: '2019-08-24T14:15:22Z'
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Dialer.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          format: email
+          type: string
+        role:
+          type: string
+          enum:
+          - agent
+          - admin
+        isAvailable:
+          type: boolean
+        availabilityStatus:
+          type: string
+        createdTime:
+          type: string
+          description: The timestamp that the user was created
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - id
+      - createdTime
+    Phone:
+      title: Phone
+      type: object
+      properties:
+        number:
+          type: string
+          description: The phone number
+        type:
+          type: string
+      example:
+        number: 555-555-5555
+        type: work
     Call_2:
       title: Call
       type: object
@@ -9464,448 +9559,22 @@ components:
       - id
       - createdTime
       - modifiedTime
-    Phone:
-      title: Phone
+    Tag:
+      title: Tag
       type: object
-      properties:
-        number:
-          type: string
-          description: The phone number
-        type:
-          type: string
-      example:
-        number: 555-555-5555
-        type: work
-    User_3:
-      title: User
-      type: object
-      description: Users of the connected Dialer. These are *not* the contacts, but rather the user accounts from the connected Dialer.
+      description: A tag or label used to categorize objects.
       examples:
       - id: 56f653659ea9524b9e0fb0ba67e6f8a0
-        firstName: Micheal
-        lastName: Scott
-        email: micheal@dundermifflin.com
-        role: agent
-        isAvailable: true
-        availabilityStatus: available
-        createdTime: '2019-08-24T14:15:22Z'
-      properties:
-        id:
-          type: string
-          description: Id of the object in the connected Dialer.
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          format: email
-          type: string
-        role:
-          type: string
-          enum:
-          - agent
-          - admin
-        isAvailable:
-          type: boolean
-        availabilityStatus:
-          type: string
-        createdTime:
-          type: string
-          description: The timestamp that the user was created
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - id
-      - createdTime
-    Contact_2:
-      title: Contact
-      type: object
-      examples:
-      - id: e5f32d4fd2115220bd20a2ccf81210ec
-        firstName: Tom
-        lastName: Smith
-        companyName: Dunder Mifflin
-        description: Tom Smith is a sales rep at Dunder Mifflin
-        phones:
-        - number: '8192223333'
-          type: work
-        createdTime: '2019-08-24T14:15:22Z'
-        modifiedTime: '2019-08-24T14:15:22Z'
-      properties:
-        id:
-          type: string
-          description: Id of the object in the connected Dialer.
-        firstName:
-          type: string
-        lastName:
-          type: string
-        companyName:
-          type: string
-        description:
-          type: string
-        phones:
-          type: array
-          items:
-            $ref: '#/components/schemas/Phone'
-        createdTime:
-          type: string
-          description: The timestamp that the contact was created
-        modifiedTime:
-          type: string
-          description: The timestamp the contact was last modified
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - id
-      - createdTime
-      - modifiedTime
-    Phone_2:
-      title: Phone
-      type: object
-      properties:
-        number:
-          type: string
-          description: The phone number
-        type:
-          type: string
-          enum:
-          - work
-          - personal
-          - other
-        isPrimary:
-          type: boolean
-          description: Whether this is the primary phone number
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      example:
-        number: 555-555-5555
-        type: work
-        isPrimary: true
-    ContactCreate_3:
-      title: ContactCreate
-      type: object
-      examples:
-      - firstName: Tom
-        lastName: Smith
-        jobTitle: Director of Operations
-        emails:
-        - address: fake@email.com
-          type: work
-          isPrimary: true
-        address:
-          line1: 100 Blue Dr
-          line2: Suite 100
-          city: Scranton
-          state: Pennsylvania
-          postalCode: '281332'
-          country: USA
-        customFields: {}
-      description: Properties that a contact can be created with
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        jobTitle:
-          type: string
-        address:
-          $ref: '#/components/schemas/Address_2'
-        emails:
-          type: array
-          items:
-            type: object
-            properties:
-              address:
-                type: string
-              isPrimary:
-                type: boolean
-              type:
-                type: string
-                enum:
-                - work
-                - personal
-            required:
-            - address
-        customFields:
-          type: object
-          description: Set any custom fields on this contact's creation.
-        $native:
-          $ref: '#/components/schemas/NativeData'
-    AccountCreate_2:
-      title: AccountCreate
-      type: object
-      examples:
-      - name: Blue Cross
-        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
-        industry: TV and Media
-        numberOfEmployees: 100
-        website: www.bluecross.penn
-        phone: '8192223333'
-        address:
-          line1: 100 Blue Dr
-          line2: Suite 100
-          city: Scranton
-          state: Pennsylvania
-          postalCode: '281332'
-          country: USA
-      description: Properties that an account can be created with
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-          description: A description of this Company/Account.
-        industry:
-          type: string
-          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
-        numberOfEmployees:
-          type: number
-        website:
-          type: string
-        phone:
-          type: string
-          description: The primary phone number.
-        address:
-          $ref: '#/components/schemas/Address_2'
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - name
-    SequenceStepCreate:
-      title: Create Sequence Steps
-      type: object
-      description: properties that a sequence step can be created with
-      examples:
-      - name: Step 1 (Automated Email)
-        type: auto_email
-        daysAfter: 2
-        settings:
-          templateName: Email Template
-          isReply: false
-          subject: Hello from Dunder!
-          body: Hi {{first_name}}! I'm reaching out to ask you about your paper needs.
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-          - auto_email
-          - manual_email
-        daysAfter:
-          type: number
-          description: The number of days after the previous step that this step should be sent.
-        settings:
-          $ref: '#/components/schemas/SequenceStepSettingsCreate'
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - name
-      - type
-      - settings
-      - shareType
-    Mailbox:
-      title: Mailbox
-      type: object
-      description: Mailboxes in the connected Engagement platform. These are email accounts that outbound emails will be sent from.
-      examples:
-      - id: 2322707bbc41577d9806400e2daa25de
-        email: fake@email.com
-        isDefault: true
-        associations:
-          ownerUserId: d9806400e2daa25de2322707bbc41577
-      properties:
-        id:
-          type: string
-        email:
-          type: string
-        isDefault:
-          type: boolean
-          description: Not supported by Outreach.
-        createdTime:
-          type: string
-          description: Not supported by Apollo. The timestamp that the user was created
-        modifiedTime:
-          type: string
-          description: Not supported by Apollo. The timestamp the user was last modified
-        associations:
-          type: object
-          properties:
-            ownerUserId:
-              type: string
-        $native:
-          $ref: '#/components/schemas/NativeData'
-    SequenceCreate:
-      title: Create Sequence
-      type: object
-      description: null
-      examples:
-      - name: Email Sequence
-        shareType: team
-      properties:
-        name:
-          type: string
-        shareType:
-          type: string
-          enum:
-          - team
-          - private
-          description: '''team'' will share the sequence with all users in the team. ''private'' will only share the sequence with the user that created it.'
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - name
-      - shareType
-    Address_2:
-      title: Address
-      type: object
-      properties:
-        line1:
-          type: string
-        line2:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      examples:
-      - line1: 123 Main St
-        line2: Apt 1
-        city: San Francisco
-        state: CA
-        postalCode: 94105
-        country: US
-    EmailAddress:
-      title: EmailAddress
-      type: object
-      properties:
-        address:
-          type: string
-          description: The email address
-        type:
-          type: string
-          enum:
-          - work
-          - personal
-        isPrimary:
-          type: boolean
-          description: Whether this is the primary email address
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      example:
-        address: tom@dunder.com
-        type: work
-        isPrimary: true
-    ContactCustomFieldCreate:
-      title: ContactCustomFieldCreate
-      type: object
-      examples:
-      - name: customField1
-      properties:
-        name:
-          type: string
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - name
-    Sequence:
-      title: Sequence
-      type: object
-      description: Properties that a sequence can be created with
-      examples:
-      - id: 2322707bbc41577d9806400e2daa25de
-        isEnabled: true
-        name: Reaching out about My Company
-        tags:
-        - cold
-        numSteps: 1
-        scheduledCount: 0
-        openedCount: 0
-        optedOutCount: 0
-        repliedCount: 0
-        clickedCount: 0
-      properties:
-        id:
-          type: string
-        isEnabled:
-          type: boolean
-        name:
-          type: string
-        tags:
-          type: array
-          items:
-            type: string
-        numSteps:
-          type: number
-          description: Not supported in Salesloft.
-        scheduledCount:
-          type: number
-        openedCount:
-          type: number
-          description: Not supported in Salesloft.
-        optedOutCount:
-          type: number
-          description: Not supported in Salesloft.
-        repliedCount:
-          type: number
-          description: Not supported in Salesloft.
-        clickedCount:
-          type: number
-          description: Not supported in Salesloft.
-        createdTime:
-          type: string
-          description: The timestamp that the user was created
-        modifiedTime:
-          type: string
-          description: Not supported by Apollo. The timestamp the user was last modified
-        $native:
-          $ref: '#/components/schemas/NativeData'
-    SequenceStepSettingsCreate:
-      title: Create Sequence Step Settings
-      type: object
-      properties:
-        templateName:
-          type: string
-          description: The name for this template
-        isReply:
-          type: boolean
-          description: Whether or not this email is a reply to the previous step's email
-        subject:
-          type: string
-          description: The subject line for this email
-        body:
-          type: string
-          description: The body of the email. Can be HTML.
-        $native:
-          $ref: '#/components/schemas/NativeData'
-    User_4:
-      title: User
-      type: object
-      description: Users of the connected Engagement platform. These are *not* the contacts or leads, but rather the user accounts from the connected Engagement Platform.
-      examples:
-      - id: 56f653659ea9524b9e0fb0ba67e6f8a0
-        firstName: Micheal
-        lastName: Scott
-        email: micheal@dundermifflin.com
+        name: Tag 1
         createdTime: '2019-08-24T14:15:22Z'
         modifiedTime: '2019-08-24T14:15:22Z'
       properties:
         id:
           type: string
           description: Id of the object in the connected Engagement Platform.
-        firstName:
+        name:
           type: string
-        lastName:
-          type: string
-        email:
-          format: email
-          type: string
+          description: Display name of the tag
         createdTime:
           type: string
           description: The timestamp that the user was created.
@@ -9916,97 +9585,6 @@ components:
           $ref: '#/components/schemas/NativeData'
       required:
       - id
-      - createdTime
-      - modifiedTime
-    SequenceStart:
-      title: SequenceStart
-      type: object
-      description: Start a sequence
-      examples:
-      - contactId: 233b4b8f0f2910ea0f2a0f2a0f939f3f
-        mailboxId: 8f0f2a0f2a0f2a0f939f3f91233b4b0e
-      properties:
-        contactId:
-          type: string
-        mailboxId:
-          type: string
-        $native:
-          $ref: '#/components/schemas/NativeData'
-    Account_2:
-      title: Account
-      type: object
-      examples:
-      - id: '344'
-        name: Blue Cross
-        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
-        industry: TV and Media
-        numberOfEmployees: 100
-        website: www.bluecross.penn
-        createdTime: '2019-08-24T14:15:22Z'
-        modifiedTime: '2019-08-24T14:15:22Z'
-        phone: '8192223333'
-        locality: Scranton
-        address:
-          line1: 100 Blue Dr
-          line2: Suite 100
-          city: Scranton
-          state: Pennsylvania
-          postalCode: '281332'
-          country: USA
-        associations:
-          contactIds:
-          - e5f32d4fd2115220bd20a2ccf81210ec
-          ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
-      description: '(Alias: company, organization) An organization involved with your business.'
-      properties:
-        id:
-          type: string
-          description: Id of the object in the connected Engagement Platform.
-        name:
-          type: string
-        description:
-          type: string
-          description: A description of this Company/Account.
-        industry:
-          type: string
-          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
-        locality:
-          type: string
-        numberOfEmployees:
-          type: number
-        website:
-          type: string
-        phone:
-          type: string
-          description: The primary phone number.
-        address:
-          $ref: '#/components/schemas/Address_2'
-        createdTime:
-          type: string
-          description: The timestamp that the account was created
-        modifiedTime:
-          type: string
-          description: The timestamp the account was last modified
-        associations:
-          type: object
-          required:
-          - contactIds
-          - ownerUserId
-          properties:
-            contactIds:
-              type: array
-              items:
-                type: string
-            ownerUserId:
-              type: string
-              description: The Id of the User that owns this Account
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      required:
-      - id
-      - createdTime
-      - modifiedTime
-      - associations
     Contact_3:
       title: Contact
       type: object
@@ -10100,32 +9678,137 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    Tag:
-      title: Tag
+    Address_2:
+      title: Address
       type: object
-      description: A tag or label used to categorize objects.
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        $native:
+          $ref: '#/components/schemas/NativeData'
       examples:
-      - id: 56f653659ea9524b9e0fb0ba67e6f8a0
-        name: Tag 1
+      - line1: 123 Main St
+        line2: Apt 1
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
+    Mailbox:
+      title: Mailbox
+      type: object
+      description: Mailboxes in the connected Engagement platform. These are email accounts that outbound emails will be sent from.
+      examples:
+      - id: 2322707bbc41577d9806400e2daa25de
+        email: fake@email.com
+        isDefault: true
+        associations:
+          ownerUserId: d9806400e2daa25de2322707bbc41577
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        isDefault:
+          type: boolean
+          description: Not supported by Outreach.
+        createdTime:
+          type: string
+          description: Not supported by Apollo. The timestamp that the user was created
+        modifiedTime:
+          type: string
+          description: Not supported by Apollo. The timestamp the user was last modified
+        associations:
+          type: object
+          properties:
+            ownerUserId:
+              type: string
+        $native:
+          $ref: '#/components/schemas/NativeData'
+    Account_2:
+      title: Account
+      type: object
+      examples:
+      - id: '344'
+        name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        numberOfEmployees: 100
+        website: www.bluecross.penn
         createdTime: '2019-08-24T14:15:22Z'
         modifiedTime: '2019-08-24T14:15:22Z'
+        phone: '8192223333'
+        locality: Scranton
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        associations:
+          contactIds:
+          - e5f32d4fd2115220bd20a2ccf81210ec
+          ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
+      description: '(Alias: company, organization) An organization involved with your business.'
       properties:
         id:
           type: string
           description: Id of the object in the connected Engagement Platform.
         name:
           type: string
-          description: Display name of the tag
+        description:
+          type: string
+          description: A description of this Company/Account.
+        industry:
+          type: string
+          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
+        locality:
+          type: string
+        numberOfEmployees:
+          type: number
+        website:
+          type: string
+        phone:
+          type: string
+          description: The primary phone number.
+        address:
+          $ref: '#/components/schemas/Address_2'
         createdTime:
           type: string
-          description: The timestamp that the user was created.
+          description: The timestamp that the account was created
         modifiedTime:
           type: string
-          description: Not supported by Apollo. The timestamp the user was last modified.
+          description: The timestamp the account was last modified
+        associations:
+          type: object
+          required:
+          - contactIds
+          - ownerUserId
+          properties:
+            contactIds:
+              type: array
+              items:
+                type: string
+            ownerUserId:
+              type: string
+              description: The Id of the User that owns this Account
         $native:
           $ref: '#/components/schemas/NativeData'
       required:
       - id
+      - createdTime
+      - modifiedTime
+      - associations
     ContactCustomField:
       title: ContactCustomField
       type: object
@@ -10148,6 +9831,251 @@ components:
       required:
       - key
       - type
+    User_4:
+      title: User
+      type: object
+      description: Users of the connected Engagement platform. These are *not* the contacts or leads, but rather the user accounts from the connected Engagement Platform.
+      examples:
+      - id: 56f653659ea9524b9e0fb0ba67e6f8a0
+        firstName: Micheal
+        lastName: Scott
+        email: micheal@dundermifflin.com
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+      properties:
+        id:
+          type: string
+          description: Id of the object in the connected Engagement Platform.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          format: email
+          type: string
+        createdTime:
+          type: string
+          description: The timestamp that the user was created.
+        modifiedTime:
+          type: string
+          description: Not supported by Apollo. The timestamp the user was last modified.
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - id
+      - createdTime
+      - modifiedTime
+    SequenceStepSettingsCreate:
+      title: Create Sequence Step Settings
+      type: object
+      properties:
+        templateName:
+          type: string
+          description: The name for this template
+        isReply:
+          type: boolean
+          description: Whether or not this email is a reply to the previous step's email
+        subject:
+          type: string
+          description: The subject line for this email
+        body:
+          type: string
+          description: The body of the email. Can be HTML.
+        $native:
+          $ref: '#/components/schemas/NativeData'
+    ContactCustomFieldCreate:
+      title: ContactCustomFieldCreate
+      type: object
+      examples:
+      - name: customField1
+      properties:
+        name:
+          type: string
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - name
+    ContactUpdate_2:
+      title: ContactUpdate
+      type: object
+      examples:
+      - firstName: Tom
+        lastName: Smith
+        jobTitle: Director of Operations
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        customFields: {}
+      description: Properties that a contact can be updated with
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address_2'
+        customFields:
+          type: object
+          description: Update any custom fields.
+        $native:
+          $ref: '#/components/schemas/NativeData'
+    EmailAddress:
+      title: EmailAddress
+      type: object
+      properties:
+        address:
+          type: string
+          description: The email address
+        type:
+          type: string
+          enum:
+          - work
+          - personal
+        isPrimary:
+          type: boolean
+          description: Whether this is the primary email address
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      example:
+        address: tom@dunder.com
+        type: work
+        isPrimary: true
+    SequenceCreate:
+      title: Create Sequence
+      type: object
+      description: null
+      examples:
+      - name: Email Sequence
+        shareType: team
+      properties:
+        name:
+          type: string
+        shareType:
+          type: string
+          enum:
+          - team
+          - private
+          description: '''team'' will share the sequence with all users in the team. ''private'' will only share the sequence with the user that created it.'
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - name
+      - shareType
+    Phone_2:
+      title: Phone
+      type: object
+      properties:
+        number:
+          type: string
+          description: The phone number
+        type:
+          type: string
+          enum:
+          - work
+          - personal
+          - other
+        isPrimary:
+          type: boolean
+          description: Whether this is the primary phone number
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      example:
+        number: 555-555-5555
+        type: work
+        isPrimary: true
+    SequenceStepCreate:
+      title: Create Sequence Steps
+      type: object
+      description: properties that a sequence step can be created with
+      examples:
+      - name: Step 1 (Automated Email)
+        type: auto_email
+        daysAfter: 2
+        settings:
+          templateName: Email Template
+          isReply: false
+          subject: Hello from Dunder!
+          body: Hi {{first_name}}! I'm reaching out to ask you about your paper needs.
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - auto_email
+          - manual_email
+        daysAfter:
+          type: number
+          description: The number of days after the previous step that this step should be sent.
+        settings:
+          $ref: '#/components/schemas/SequenceStepSettingsCreate'
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - name
+      - type
+      - settings
+      - shareType
+    SequenceStart:
+      title: SequenceStart
+      type: object
+      description: Start a sequence
+      examples:
+      - contactId: 233b4b8f0f2910ea0f2a0f2a0f939f3f
+        mailboxId: 8f0f2a0f2a0f2a0f939f3f91233b4b0e
+      properties:
+        contactId:
+          type: string
+        mailboxId:
+          type: string
+        $native:
+          $ref: '#/components/schemas/NativeData'
+    AccountCreate_2:
+      title: AccountCreate
+      type: object
+      examples:
+      - name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        phone: '8192223333'
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+      description: Properties that an account can be created with
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: A description of this Company/Account.
+        industry:
+          type: string
+          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
+        numberOfEmployees:
+          type: number
+        website:
+          type: string
+        phone:
+          type: string
+          description: The primary phone number.
+        address:
+          $ref: '#/components/schemas/Address_2'
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      required:
+      - name
     Email_2:
       title: Email
       type: object
@@ -10206,13 +10134,17 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    ContactUpdate_2:
-      title: ContactUpdate
+    ContactCreate_3:
+      title: ContactCreate
       type: object
       examples:
       - firstName: Tom
         lastName: Smith
         jobTitle: Director of Operations
+        emails:
+        - address: fake@email.com
+          type: work
+          isPrimary: true
         address:
           line1: 100 Blue Dr
           line2: Suite 100
@@ -10221,7 +10153,7 @@ components:
           postalCode: '281332'
           country: USA
         customFields: {}
-      description: Properties that a contact can be updated with
+      description: Properties that a contact can be created with
       properties:
         firstName:
           type: string
@@ -10231,43 +10163,88 @@ components:
           type: string
         address:
           $ref: '#/components/schemas/Address_2'
+        emails:
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                type: string
+              isPrimary:
+                type: boolean
+              type:
+                type: string
+                enum:
+                - work
+                - personal
+            required:
+            - address
         customFields:
           type: object
-          description: Update any custom fields.
+          description: Set any custom fields on this contact's creation.
         $native:
           $ref: '#/components/schemas/NativeData'
-    ContactCreate_4:
-      title: ContactCreate
+    Sequence:
+      title: Sequence
       type: object
+      description: Properties that a sequence can be created with
       examples:
-      - email: tom@dundermifflin.com
-        firstName: Tom
-        lastName: Haverford
-        phone: '8192223333'
-        listId: '12'
+      - id: 2322707bbc41577d9806400e2daa25de
+        isEnabled: true
+        name: Reaching out about My Company
+        tags:
+        - cold
+        numSteps: 1
+        scheduledCount: 0
+        openedCount: 0
+        optedOutCount: 0
+        repliedCount: 0
+        clickedCount: 0
       properties:
-        email:
+        id:
           type: string
-        firstName:
+        isEnabled:
+          type: boolean
+        name:
           type: string
-        lastName:
+        tags:
+          type: array
+          items:
+            type: string
+        numSteps:
+          type: number
+          description: Not supported in Salesloft.
+        scheduledCount:
+          type: number
+        openedCount:
+          type: number
+          description: Not supported in Salesloft.
+        optedOutCount:
+          type: number
+          description: Not supported in Salesloft.
+        repliedCount:
+          type: number
+          description: Not supported in Salesloft.
+        clickedCount:
+          type: number
+          description: Not supported in Salesloft.
+        createdTime:
           type: string
-        phone:
+          description: The timestamp that the user was created
+        modifiedTime:
           type: string
-        listId:
-          type: string
+          description: Not supported by Apollo. The timestamp the user was last modified
         $native:
           $ref: '#/components/schemas/NativeData'
-    User_5:
-      title: User
+    ContactUpdate_3:
+      title: ContactUpdate
       type: object
       examples:
       - id: e5f32d4fd2115220bd20a2ccf81210ec
         email: tom@dundermifflin.com
         firstName: Tom
         lastName: Haverford
-        createdTime: '2019-08-24T14:15:22Z'
-        modifiedTime: '2019-08-24T14:15:22Z'
+        phone: '8192223333'
       properties:
         id:
           type: string
@@ -10278,12 +10255,8 @@ components:
           type: string
         lastName:
           type: string
-        createdTime:
+        phone:
           type: string
-          description: The timestamp that the user was created
-        modifiedTime:
-          type: string
-          description: The timestamp the user was last modified
         $native:
           $ref: '#/components/schemas/NativeData'
       required:
@@ -10325,6 +10298,28 @@ components:
       - id
       - createdTime
       - modifiedTime
+    ContactCreate_4:
+      title: ContactCreate
+      type: object
+      examples:
+      - email: tom@dundermifflin.com
+        firstName: Tom
+        lastName: Haverford
+        phone: '8192223333'
+        listId: '12'
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        listId:
+          type: string
+        $native:
+          $ref: '#/components/schemas/NativeData'
     List:
       title: List
       type: object
@@ -10351,15 +10346,16 @@ components:
       - id
       - createdTime
       - modifiedTime
-    ContactUpdate_3:
-      title: ContactUpdate
+    User_5:
+      title: User
       type: object
       examples:
       - id: e5f32d4fd2115220bd20a2ccf81210ec
         email: tom@dundermifflin.com
         firstName: Tom
         lastName: Haverford
-        phone: '8192223333'
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
       properties:
         id:
           type: string
@@ -10370,8 +10366,12 @@ components:
           type: string
         lastName:
           type: string
-        phone:
+        createdTime:
           type: string
+          description: The timestamp that the user was created
+        modifiedTime:
+          type: string
+          description: The timestamp the user was last modified
         $native:
           $ref: '#/components/schemas/NativeData'
       required:

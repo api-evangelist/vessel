@@ -63,6 +63,13 @@ paths:
       description: Retrieve all Call Dispositions
 components:
   parameters:
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
     allFields:
       name: allFields
       in: query
@@ -81,13 +88,6 @@ components:
       description: The number of records to return per page.
       schema:
         type: number
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
   schemas:
     CallDisposition:
       title: Call Disposition

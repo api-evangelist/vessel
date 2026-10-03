@@ -107,6 +107,20 @@ paths:
       description: Retrieve a single User by Id
 components:
   parameters:
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
+    id:
+      name: id
+      in: query
+      description: The id of the object to retrieve
+      required: true
+      schema:
+        type: string
     allFields:
       name: allFields
       in: query
@@ -119,26 +133,12 @@ components:
       description: The cursor to use for pagination
       schema:
         type: string
-    id:
-      name: id
-      in: query
-      description: The id of the object to retrieve
-      required: true
-      schema:
-        type: string
     limit:
       name: limit
       in: query
       description: The number of records to return per page.
       schema:
         type: number
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
   schemas:
     EngUser:
       title: User
