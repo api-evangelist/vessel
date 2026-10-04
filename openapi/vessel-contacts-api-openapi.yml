@@ -487,11 +487,16 @@ paths:
       description: Retrieve Contacts by a set of Id's
 components:
   parameters:
-    accessToken:
-      name: accessToken
+    limit:
+      name: limit
       in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
+      description: The number of records to return per page.
+      schema:
+        type: number
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
       schema:
         type: string
     allFields:
@@ -500,51 +505,14 @@ components:
       description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       schema:
         type: boolean
-    cursor:
-      name: cursor
+    accessToken:
+      name: accessToken
       in: query
-      description: The cursor to use for pagination
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
       schema:
         type: string
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
   schemas:
-    ContactUpdate:
-      title: ContactUpdate
-      type: object
-      examples:
-      - email: tom@bluecross.com
-        firstName: Tom
-        lastName: Smith
-        jobTitle: Director of Operations
-        phone: '2101128833'
-        mobilePhone: '2106541111'
-      description: Update a Contact.
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        jobTitle:
-          type: string
-          description: Not supported by Pipedrive
-        phone:
-          type: string
-          description: The primary phone
-        mobilePhone:
-          type: string
-        ownerUserId:
-          type: string
-          description: The Id of the User to assign this Contact to
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
     Contact:
       title: Contact
       type: object
@@ -670,6 +638,103 @@ components:
       - createdTime
       - modifiedTime
       - associations
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    ContactUpdate:
+      title: ContactUpdate
+      type: object
+      examples:
+      - email: tom@bluecross.com
+        firstName: Tom
+        lastName: Smith
+        jobTitle: Director of Operations
+        phone: '2101128833'
+        mobilePhone: '2106541111'
+      description: Update a Contact.
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+          description: Not supported by Pipedrive
+        phone:
+          type: string
+          description: The primary phone
+        mobilePhone:
+          type: string
+        ownerUserId:
+          type: string
+          description: The Id of the User to assign this Contact to
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+    ContactCreate:
+      title: ContactCreate
+      type: object
+      examples:
+      - email: tom@bluecross.com
+        firstName: Tom
+        lastName: Smith
+        jobTitle: Director of Operations
+        phone: '2101128833'
+        mobilePhone: '2106541111'
+      description: Properties that a contact can be created with
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+          description: Not supported by Pipedrive
+        phone:
+          type: string
+          description: The primary phone
+        mobilePhone:
+          type: string
+        accountId:
+          type: string
+          description: The Id of the account to associate this contact with
+        ownerUserId:
+          type: string
+          description: The Id of the User to assign this Contact to
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - lastName
     StringFilter:
       type: object
       properties:
@@ -695,29 +760,6 @@ components:
           type: string
           enum:
           - insensitive
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
     Field:
       title: Field
       type: object
@@ -800,48 +842,6 @@ components:
         required: false
         creatable: true
         updatable: true
-    ContactCreate:
-      title: ContactCreate
-      type: object
-      examples:
-      - email: tom@bluecross.com
-        firstName: Tom
-        lastName: Smith
-        jobTitle: Director of Operations
-        phone: '2101128833'
-        mobilePhone: '2106541111'
-      description: Properties that a contact can be created with
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        jobTitle:
-          type: string
-          description: Not supported by Pipedrive
-        phone:
-          type: string
-          description: The primary phone
-        mobilePhone:
-          type: string
-        accountId:
-          type: string
-          description: The Id of the account to associate this contact with
-        ownerUserId:
-          type: string
-          description: The Id of the User to assign this Contact to
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
-      required:
-      - lastName
-    InvalidIds:
-      type: array
-      items:
-        type: string
-      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

@@ -492,33 +492,71 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve Deals by a set of Id's
 components:
-  parameters:
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
   schemas:
+    DealUpdate:
+      title: DealUpdate
+      type: object
+      examples:
+      - name: Blue Cross Deal
+        amount: 10000
+        closeDate: '2020-08-23T00:00:00Z'
+        probability: '0.4'
+      properties:
+        name:
+          type: string
+        amount:
+          type: number
+        closeDate:
+          type: string
+        probability:
+          type: string
+          description: Decimal probability of closing the deal
+        stage:
+          type: string
+          description: The stage the deal is in. See /deal/details for possible values
+        accountId:
+          type: string
+          description: Update the account this deal is associated with.
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - closeDate
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    BooleanFilter:
+      type: object
+      properties:
+        equals:
+          type: boolean
+        not:
+          type: boolean
     DealCreate:
       title: DealCreate
       type: object
@@ -547,6 +585,54 @@ components:
       required:
       - name
       - closeDate
+    NumberFilter:
+      type: object
+      properties:
+        equals:
+          type: number
+        gt:
+          type: number
+        lt:
+          type: number
+        lte:
+          type: number
+        gte:
+          type: number
+        not:
+          type: number
+        in:
+          type: array
+          items:
+            type: number
+        notIn:
+          type: array
+          items:
+            type: number
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
     Deal:
       title: Deal
       type: object
@@ -675,90 +761,6 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    StringFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
-    DealUpdate:
-      title: DealUpdate
-      type: object
-      examples:
-      - name: Blue Cross Deal
-        amount: 10000
-        closeDate: '2020-08-23T00:00:00Z'
-        probability: '0.4'
-      properties:
-        name:
-          type: string
-        amount:
-          type: number
-        closeDate:
-          type: string
-        probability:
-          type: string
-          description: Decimal probability of closing the deal
-        stage:
-          type: string
-          description: The stage the deal is in. See /deal/details for possible values
-        accountId:
-          type: string
-          description: Update the account this deal is associated with.
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
-      required:
-      - closeDate
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-    BooleanFilter:
-      type: object
-      properties:
-        equals:
-          type: boolean
-        not:
-          type: boolean
     Field:
       title: Field
       type: object
@@ -841,34 +843,32 @@ components:
         required: false
         creatable: true
         updatable: true
-    NumberFilter:
-      type: object
-      properties:
-        equals:
-          type: number
-        gt:
-          type: number
-        lt:
-          type: number
-        lte:
-          type: number
-        gte:
-          type: number
-        not:
-          type: number
-        in:
-          type: array
-          items:
-            type: number
-        notIn:
-          type: array
-          items:
-            type: number
-    InvalidIds:
-      type: array
-      items:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
         type: string
-      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

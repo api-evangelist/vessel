@@ -265,30 +265,11 @@ paths:
       description: Complete a task.
 components:
   parameters:
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
     id:
       name: id
       in: query
       description: The id of the object to retrieve
       required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
       schema:
         type: string
     limit:
@@ -297,23 +278,89 @@ components:
       description: The number of records to return per page.
       schema:
         type: number
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
   schemas:
-    EngTaskUpdate:
-      title: TaskUpdate
+    EngTaskCreate:
+      title: TaskCreate
       type: object
-      description: Properties that a task can be updated with
+      description: Properties that a task can be created with
       examples:
-      - body: Call Dunder Mifflin to get a paper refill
+      - type: call
+        body: Call Dunder Mifflin to get a paper refill
         dueDate: '2019-09-24T14:15:22Z'
+        contactId: 2d4fd2115220bd20a2ccf81210ec
+        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
         additional: {}
       properties:
         body:
           type: string
         dueDate:
           type: string
+        type:
+          type: string
+          enum:
+          - call
+          - email
+          - other
+        contactId:
+          type: string
+        ownerUserId:
+          type: string
+          description: The Id of the User that owns this Task
         additional:
           type: object
           description: Update any property in the downstream Engagement Platform, such as a custom property.
+      required:
+      - type
+      - dueDate
+      - contactId
+      - ownerUserId
+    EngTaskComplete:
+      title: TaskComplete
+      type: object
+      examples:
+      - type: call
+        durationSeconds: 120
+        phone: '8192223333'
+        body: Call went well, they'll likely buy our paper.
+        dispositionKey: answered_meeting_set
+      description: Complete a call or other task.
+      properties:
+        type:
+          type: string
+          enum:
+          - call
+          - other
+          description: The type of the action that was completed. Only call and other actions are currently supported.
+        body:
+          type: string
+        durationSeconds:
+          type: number
+          description: Supported for call actions. How long the call lasted, in seconds.
+        phone:
+          type: string
+          description: Supported for call actions. The phone number called.
+        dispositionKey:
+          type: string
+          description: Supported for call actions. The key of the disposition selected for the call. Call /call-dispositions for possible values.
     EngTask:
       title: Task
       type: object
@@ -384,69 +431,22 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    EngTaskComplete:
-      title: TaskComplete
+    EngTaskUpdate:
+      title: TaskUpdate
       type: object
+      description: Properties that a task can be updated with
       examples:
-      - type: call
-        durationSeconds: 120
-        phone: '8192223333'
-        body: Call went well, they'll likely buy our paper.
-        dispositionKey: answered_meeting_set
-      description: Complete a call or other task.
-      properties:
-        type:
-          type: string
-          enum:
-          - call
-          - other
-          description: The type of the action that was completed. Only call and other actions are currently supported.
-        body:
-          type: string
-        durationSeconds:
-          type: number
-          description: Supported for call actions. How long the call lasted, in seconds.
-        phone:
-          type: string
-          description: Supported for call actions. The phone number called.
-        dispositionKey:
-          type: string
-          description: Supported for call actions. The key of the disposition selected for the call. Call /call-dispositions for possible values.
-    EngTaskCreate:
-      title: TaskCreate
-      type: object
-      description: Properties that a task can be created with
-      examples:
-      - type: call
-        body: Call Dunder Mifflin to get a paper refill
+      - body: Call Dunder Mifflin to get a paper refill
         dueDate: '2019-09-24T14:15:22Z'
-        contactId: 2d4fd2115220bd20a2ccf81210ec
-        ownerUserId: 56f653659ea9524b9e0fb0ba67e6f8a0
         additional: {}
       properties:
         body:
           type: string
         dueDate:
           type: string
-        type:
-          type: string
-          enum:
-          - call
-          - email
-          - other
-        contactId:
-          type: string
-        ownerUserId:
-          type: string
-          description: The Id of the User that owns this Task
         additional:
           type: object
           description: Update any property in the downstream Engagement Platform, such as a custom property.
-      required:
-      - type
-      - dueDate
-      - contactId
-      - ownerUserId
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

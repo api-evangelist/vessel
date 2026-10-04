@@ -256,6 +256,117 @@ paths:
       description: Update an existing account.
 components:
   schemas:
+    EngAccountUpdate:
+      title: AccountUpdate
+      type: object
+      examples:
+      - name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        phone: '8192223333'
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        additional: {}
+      description: Properties that an account can be update with
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: A description of this Company/Account.
+        industry:
+          type: string
+          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
+        numberOfEmployees:
+          type: number
+        website:
+          type: string
+        phone:
+          type: string
+          description: The primary phone number.
+        locality:
+          type: string
+          description: The locality of the account (e.g. "Scranton", "New York City", etc.)
+        address:
+          $ref: '#/components/schemas/EngAddress'
+        additional:
+          type: object
+          description: Update any property in the downstream Engagement Platform, such as a custom property.
+    EngAccountCreate:
+      title: AccountCreate
+      type: object
+      examples:
+      - name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        phone: '8192223333'
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        additional: {}
+      description: Properties that an account can be created with
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: A description of this Company/Account.
+        industry:
+          type: string
+          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
+        numberOfEmployees:
+          type: number
+        website:
+          type: string
+        phone:
+          type: string
+          description: The primary phone number.
+        locality:
+          type: string
+          description: The locality of the account (e.g. "Scranton", "New York City", etc.)
+        address:
+          $ref: '#/components/schemas/EngAddress'
+        additional:
+          type: object
+          description: Create any property in the downstream Engagement Platform, such as a custom property.
+      required:
+      - name
+    EngAddress:
+      title: Address
+      type: object
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+      examples:
+      - line1: 123 Main St
+        line2: Apt 1
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
     EngAccount:
       title: Account
       type: object
@@ -347,142 +458,12 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    EngAddress:
-      title: Address
-      type: object
-      properties:
-        line1:
-          type: string
-        line2:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-      examples:
-      - line1: 123 Main St
-        line2: Apt 1
-        city: San Francisco
-        state: CA
-        postalCode: 94105
-        country: US
-    EngAccountCreate:
-      title: AccountCreate
-      type: object
-      examples:
-      - name: Blue Cross
-        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
-        industry: TV and Media
-        numberOfEmployees: 100
-        website: www.bluecross.penn
-        phone: '8192223333'
-        address:
-          line1: 100 Blue Dr
-          line2: Suite 100
-          city: Scranton
-          state: Pennsylvania
-          postalCode: '281332'
-          country: USA
-        additional: {}
-      description: Properties that an account can be created with
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-          description: A description of this Company/Account.
-        industry:
-          type: string
-          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
-        numberOfEmployees:
-          type: number
-        website:
-          type: string
-        phone:
-          type: string
-          description: The primary phone number.
-        locality:
-          type: string
-          description: The locality of the account (e.g. "Scranton", "New York City", etc.)
-        address:
-          $ref: '#/components/schemas/EngAddress'
-        additional:
-          type: object
-          description: Create any property in the downstream Engagement Platform, such as a custom property.
-      required:
-      - name
-    EngAccountUpdate:
-      title: AccountUpdate
-      type: object
-      examples:
-      - name: Blue Cross
-        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
-        industry: TV and Media
-        numberOfEmployees: 100
-        website: www.bluecross.penn
-        phone: '8192223333'
-        address:
-          line1: 100 Blue Dr
-          line2: Suite 100
-          city: Scranton
-          state: Pennsylvania
-          postalCode: '281332'
-          country: USA
-        additional: {}
-      description: Properties that an account can be update with
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-          description: A description of this Company/Account.
-        industry:
-          type: string
-          description: The industry that this Account belongs to (e.g. "Healthcare", "Technology", etc.)
-        numberOfEmployees:
-          type: number
-        website:
-          type: string
-        phone:
-          type: string
-          description: The primary phone number.
-        locality:
-          type: string
-          description: The locality of the account (e.g. "Scranton", "New York City", etc.)
-        address:
-          $ref: '#/components/schemas/EngAddress'
-        additional:
-          type: object
-          description: Update any property in the downstream Engagement Platform, such as a custom property.
   parameters:
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
     id:
       name: id
       in: query
       description: The id of the object to retrieve
       required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
       schema:
         type: string
     limit:
@@ -491,6 +472,25 @@ components:
       description: The number of records to return per page.
       schema:
         type: number
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

@@ -362,6 +362,120 @@ paths:
       description: Search contacts.
 components:
   schemas:
+    Phone:
+      title: Phone
+      type: object
+      properties:
+        number:
+          type: string
+          description: The phone number
+        type:
+          type: string
+          enum:
+          - work
+          - personal
+          - other
+        isPrimary:
+          type: boolean
+          description: Whether this is the primary phone number
+      example:
+        number: 555-555-5555
+        type: work
+        isPrimary: true
+    EngContactCreate:
+      title: ContactCreate
+      type: object
+      examples:
+      - firstName: Tom
+        lastName: Smith
+        jobTitle: Director of Operations
+        emails:
+        - address: fake@email.com
+          type: work
+          isPrimary: true
+        address:
+          line1: 100 Blue Dr
+          line2: Suite 100
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+        customFields: {}
+        additional: {}
+      description: Properties that a contact can be created with
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+        address:
+          $ref: '#/components/schemas/EngAddress'
+        emails:
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                type: string
+              isPrimary:
+                type: boolean
+              type:
+                type: string
+                enum:
+                - work
+                - personal
+            required:
+            - address
+        customFields:
+          type: object
+          description: Set any custom fields on this contact's creation.
+        additional:
+          type: object
+          description: Create any property in the downstream Engagement Platform, such as a custom property.
+    EmailEngAddress:
+      title: EmailAddress
+      type: object
+      properties:
+        address:
+          type: string
+          description: The email address
+        type:
+          type: string
+          enum:
+          - work
+          - personal
+        isPrimary:
+          type: boolean
+          description: Whether this is the primary email address
+      example:
+        address: tom@dunder.com
+        type: work
+        isPrimary: true
+    EngAddress:
+      title: Address
+      type: object
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+      examples:
+      - line1: 123 Main St
+        line2: Apt 1
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
     EngContact:
       title: Contact
       type: object
@@ -503,126 +617,24 @@ components:
         additional:
           type: object
           description: Update any property in the downstream Engagement Platform, such as a custom property.
-    EmailEngAddress:
-      title: EmailAddress
-      type: object
-      properties:
-        address:
-          type: string
-          description: The email address
-        type:
-          type: string
-          enum:
-          - work
-          - personal
-        isPrimary:
-          type: boolean
-          description: Whether this is the primary email address
-      example:
-        address: tom@dunder.com
-        type: work
-        isPrimary: true
-    Phone:
-      title: Phone
-      type: object
-      properties:
-        number:
-          type: string
-          description: The phone number
-        type:
-          type: string
-          enum:
-          - work
-          - personal
-          - other
-        isPrimary:
-          type: boolean
-          description: Whether this is the primary phone number
-      example:
-        number: 555-555-5555
-        type: work
-        isPrimary: true
-    EngAddress:
-      title: Address
-      type: object
-      properties:
-        line1:
-          type: string
-        line2:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-      examples:
-      - line1: 123 Main St
-        line2: Apt 1
-        city: San Francisco
-        state: CA
-        postalCode: 94105
-        country: US
-    EngContactCreate:
-      title: ContactCreate
-      type: object
-      examples:
-      - firstName: Tom
-        lastName: Smith
-        jobTitle: Director of Operations
-        emails:
-        - address: fake@email.com
-          type: work
-          isPrimary: true
-        address:
-          line1: 100 Blue Dr
-          line2: Suite 100
-          city: Scranton
-          state: Pennsylvania
-          postalCode: '281332'
-          country: USA
-        customFields: {}
-        additional: {}
-      description: Properties that a contact can be created with
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        jobTitle:
-          type: string
-        address:
-          $ref: '#/components/schemas/EngAddress'
-        emails:
-          type: array
-          items:
-            type: object
-            properties:
-              address:
-                type: string
-              isPrimary:
-                type: boolean
-              type:
-                type: string
-                enum:
-                - work
-                - personal
-            required:
-            - address
-        customFields:
-          type: object
-          description: Set any custom fields on this contact's creation.
-        additional:
-          type: object
-          description: Create any property in the downstream Engagement Platform, such as a custom property.
   parameters:
     id:
       name: id
       in: query
       description: The id of the object to retrieve
       required: true
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
       schema:
         type: string
     allFields:
@@ -638,18 +650,6 @@ components:
       required: true
       schema:
         type: string
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

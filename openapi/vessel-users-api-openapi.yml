@@ -291,33 +291,81 @@ paths:
         description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
       description: Retrieve Users by a set of Id's
 components:
-  parameters:
-    accessToken:
-      name: accessToken
-      in: query
-      description: The token for the customer's account. This was generated when they connected their account.
-      required: true
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
   schemas:
+    User:
+      title: User
+      type: object
+      description: Users of the connected CRM platform. These are *not* the contacts or leads, but rather the user accounts from the connected CRM.
+      examples:
+      - id: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
+        nativeId: '12'
+        firstName: Micheal
+        lastName: Scott
+        email: micheal@dundermifflin.com
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+        archived: false
+        additional: {}
+      properties:
+        id:
+          type: string
+          description: Unique Vessel Id.
+        nativeId:
+          type: string
+          description: Id of the object in the connected CRM.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          format: email
+          type: string
+        createdTime:
+          type: string
+          description: The timestamp that the user was created
+        modifiedTime:
+          type: string
+          description: The timestamp the user was last modified
+        archived:
+          type: boolean
+          description: Whether or not the user is archived
+        additional:
+          type: object
+          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream CRM
+      required:
+      - id
+      - nativeId
+      - createdTime
+      - modifiedTime
+      - associations
+    DateFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        gt:
+          type: string
+        lt:
+          type: string
+        lte:
+          type: string
+        gte:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
     StringFilter:
       type: object
       properties:
@@ -343,29 +391,6 @@ components:
           type: string
           enum:
           - insensitive
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
     Field:
       title: Field
       type: object
@@ -448,57 +473,32 @@ components:
         required: false
         creatable: true
         updatable: true
-    InvalidIds:
-      type: array
-      items:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
         type: string
-      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
-    User:
-      title: User
-      type: object
-      description: Users of the connected CRM platform. These are *not* the contacts or leads, but rather the user accounts from the connected CRM.
-      examples:
-      - id: v.user.56f653659ea9524b9e0fb0ba67e6f8a0
-        nativeId: '12'
-        firstName: Micheal
-        lastName: Scott
-        email: micheal@dundermifflin.com
-        createdTime: '2019-08-24T14:15:22Z'
-        modifiedTime: '2019-08-24T14:15:22Z'
-        archived: false
-        additional: {}
-      properties:
-        id:
-          type: string
-          description: Unique Vessel Id.
-        nativeId:
-          type: string
-          description: Id of the object in the connected CRM.
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          format: email
-          type: string
-        createdTime:
-          type: string
-          description: The timestamp that the user was created
-        modifiedTime:
-          type: string
-          description: The timestamp the user was last modified
-        archived:
-          type: boolean
-          description: Whether or not the user is archived
-        additional:
-          type: object
-          description: Returned when `allFields` is set in the query params. Includes all data, untransformed, we received from the downstream CRM
-      required:
-      - id
-      - nativeId
-      - createdTime
-      - modifiedTime
-      - associations
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
+    accessToken:
+      name: accessToken
+      in: query
+      description: The token for the customer's account. This was generated when they connected their account.
+      required: true
+      schema:
+        type: string
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token
