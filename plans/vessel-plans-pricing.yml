@@ -150,3 +150,45 @@ x-verification:
     Launch and Custom are quoted. The "Start for free" and "Log in" buttons on the page both point at
     https://app.vessel.dev, which did not answer on the same date, so the free tier is not currently self-serve
     reachable.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - subscription
+  units:
+  - object
+  - period
+  - request
+  plans:
+  - name: Start
+    access: freemium
+    model: subscription
+    model_how: derived
+    units:
+    - object
+    - period
+    - request
+    periods:
+    - month
+    - per-use
+  - name: Launch
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - object
+    - period
+    - request
+    periods:
+    - month
+    - per-use
+  - name: Custom
+    access: enterprise
+    model: subscription
+    model_how: derived
+    units:
+    - object
+    - period
+    periods:
+    - month
+    - per-use
