@@ -696,6 +696,30 @@ paths:
     - url: https://api.vessel.dev
 components:
   schemas:
+    NativeData:
+      title: Native Data
+      type: object
+      description: Native fields for the connected platform. For reads, this object is only returned if the include.$native field is set to true in the request body.
+    Address:
+      title: Address
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+      examples:
+      - street: 123 Main St
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
     SyncedCache:
       title: Use Synced Cache
       type: boolean
@@ -734,80 +758,6 @@ components:
               description: The Id of the User to assign this Account to
         $native:
           $ref: '#/components/schemas/NativeData'
-      required:
-      - name
-    NativeData:
-      title: Native Data
-      type: object
-      description: Native fields for the connected platform. For reads, this object is only returned if the include.$native field is set to true in the request body.
-    Address:
-      title: Address
-      type: object
-      properties:
-        street:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-      examples:
-      - street: 123 Main St
-        city: San Francisco
-        state: CA
-        postalCode: 94105
-        country: US
-    AccountUpdate_2:
-      title: AccountUpdate
-      type: object
-      examples:
-      - name: Blue Cross
-        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
-        industry: TV and Media
-        annualRevenue: 10000000
-        numberOfEmployees: 100
-        website: www.bluecross.penn
-        createdTime: '2019-08-24T14:15:22Z'
-        modifiedTime: '2019-08-24T14:15:22Z'
-        phone: '8192223333'
-        address:
-          street: 100 Blue Dr
-          city: Scranton
-          state: Pennsylvania
-          postalCode: '281332'
-          country: USA
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-          description: Not supported by Pipedrive
-        industry:
-          type: string
-          description: Not supported by Pipedrive
-        website:
-          type: string
-          description: Not supported by Pipedrive
-        numberOfEmployees:
-          type: number
-          description: Not supported by Pipedrive
-        annualRevenue:
-          type: number
-          description: Not supported by Pipedrive
-        phone:
-          type: string
-          description: The primary phone| Not supported by Pipedrive
-        address:
-          $ref: '#/components/schemas/Address'
-        ownerUserId:
-          type: string
-          description: The Id of the User to assign this Account to
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
       required:
       - name
     Account:
@@ -943,6 +893,84 @@ components:
       - createdTime
       - modifiedTime
       - associations
+    AccountUpdate_2:
+      title: AccountUpdate
+      type: object
+      examples:
+      - name: Blue Cross
+        description: Blue Cross of Pennsylvania is responsible for providing services to the good people of Scranton
+        industry: TV and Media
+        annualRevenue: 10000000
+        numberOfEmployees: 100
+        website: www.bluecross.penn
+        createdTime: '2019-08-24T14:15:22Z'
+        modifiedTime: '2019-08-24T14:15:22Z'
+        phone: '8192223333'
+        address:
+          street: 100 Blue Dr
+          city: Scranton
+          state: Pennsylvania
+          postalCode: '281332'
+          country: USA
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          description: Not supported by Pipedrive
+        industry:
+          type: string
+          description: Not supported by Pipedrive
+        website:
+          type: string
+          description: Not supported by Pipedrive
+        numberOfEmployees:
+          type: number
+          description: Not supported by Pipedrive
+        annualRevenue:
+          type: number
+          description: Not supported by Pipedrive
+        phone:
+          type: string
+          description: The primary phone| Not supported by Pipedrive
+        address:
+          $ref: '#/components/schemas/Address'
+        ownerUserId:
+          type: string
+          description: The Id of the User to assign this Account to
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
+      required:
+      - name
+    NumberFilter:
+      type: object
+      properties:
+        equals:
+          type: number
+        gt:
+          type: number
+        lt:
+          type: number
+        lte:
+          type: number
+        gte:
+          type: number
+        not:
+          type: number
+        in:
+          type: array
+          items:
+            type: number
+        notIn:
+          type: array
+          items:
+            type: number
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
     AccountCreate:
       title: AccountCreate
       type: object
@@ -1014,59 +1042,6 @@ components:
           type: array
           items:
             type: string
-    InvalidIds:
-      type: array
-      items:
-        type: string
-      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
-    NumberFilter:
-      type: object
-      properties:
-        equals:
-          type: number
-        gt:
-          type: number
-        lt:
-          type: number
-        lte:
-          type: number
-        gte:
-          type: number
-        not:
-          type: number
-        in:
-          type: array
-          items:
-            type: number
-        notIn:
-          type: array
-          items:
-            type: number
-    StringFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        contains:
-          type: string
-        startsWith:
-          type: string
-        endsWith:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-          enum:
-          - insensitive
     Field:
       title: Field
       type: object
@@ -1149,6 +1124,56 @@ components:
         required: false
         creatable: true
         updatable: true
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
+    Address_2:
+      title: Address
+      type: object
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        $native:
+          $ref: '#/components/schemas/NativeData'
+      examples:
+      - line1: 123 Main St
+        line2: Apt 1
+        city: San Francisco
+        state: CA
+        postalCode: 94105
+        country: US
     AccountUpdate_3:
       title: AccountUpdate
       type: object
@@ -1187,50 +1212,7 @@ components:
           $ref: '#/components/schemas/Address_2'
         $native:
           $ref: '#/components/schemas/NativeData'
-    Address_2:
-      title: Address
-      type: object
-      properties:
-        line1:
-          type: string
-        line2:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-        $native:
-          $ref: '#/components/schemas/NativeData'
-      examples:
-      - line1: 123 Main St
-        line2: Apt 1
-        city: San Francisco
-        state: CA
-        postalCode: 94105
-        country: US
   parameters:
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
     accessToken:
       name: accessToken
       in: query
@@ -1238,6 +1220,24 @@ components:
       required: true
       schema:
         type: string
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

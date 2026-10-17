@@ -63,24 +63,6 @@ paths:
       description: Retrieve all Call Dispositions
 components:
   parameters:
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
     accessToken:
       name: accessToken
       in: query
@@ -88,6 +70,24 @@ components:
       required: true
       schema:
         type: string
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
   schemas:
     CallDisposition:
       title: Call Disposition

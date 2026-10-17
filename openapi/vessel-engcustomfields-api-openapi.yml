@@ -95,16 +95,6 @@ paths:
       description: Create a contact custom field
 components:
   schemas:
-    EngContactCustomFieldCreate:
-      title: ContactCustomFieldCreate
-      type: object
-      examples:
-      - key: customField1
-      properties:
-        key:
-          type: string
-      required:
-      - key
     EngContactCustomField:
       title: ContactCustomField
       type: object
@@ -130,6 +120,16 @@ components:
       - key
       - type
       - additional
+    EngContactCustomFieldCreate:
+      title: ContactCustomFieldCreate
+      type: object
+      examples:
+      - key: customField1
+      properties:
+        key:
+          type: string
+      required:
+      - key
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token

@@ -487,24 +487,6 @@ paths:
       description: Retrieve Contacts by a set of Id's
 components:
   parameters:
-    limit:
-      name: limit
-      in: query
-      description: The number of records to return per page.
-      schema:
-        type: number
-    cursor:
-      name: cursor
-      in: query
-      description: The cursor to use for pagination
-      schema:
-        type: string
-    allFields:
-      name: allFields
-      in: query
-      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
-      schema:
-        type: boolean
     accessToken:
       name: accessToken
       in: query
@@ -512,7 +494,30 @@ components:
       required: true
       schema:
         type: string
+    cursor:
+      name: cursor
+      in: query
+      description: The cursor to use for pagination
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      description: The number of records to return per page.
+      schema:
+        type: number
+    allFields:
+      name: allFields
+      in: query
+      description: Returns all fields including non-unifiable and custom fields under the "additional" property in the response
+      schema:
+        type: boolean
   schemas:
+    InvalidIds:
+      type: array
+      items:
+        type: string
+      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
     Contact:
       title: Contact
       type: object
@@ -638,66 +643,6 @@ components:
       - createdTime
       - modifiedTime
       - associations
-    DateFilter:
-      type: object
-      properties:
-        equals:
-          type: string
-        gt:
-          type: string
-        lt:
-          type: string
-        lte:
-          type: string
-        gte:
-          type: string
-        not:
-          type: string
-        in:
-          type: array
-          items:
-            type: string
-        notIn:
-          type: array
-          items:
-            type: string
-    InvalidIds:
-      type: array
-      items:
-        type: string
-      description: Ids that didn't return anything. Will be an empty array if all Ids are valid.
-    ContactUpdate:
-      title: ContactUpdate
-      type: object
-      examples:
-      - email: tom@bluecross.com
-        firstName: Tom
-        lastName: Smith
-        jobTitle: Director of Operations
-        phone: '2101128833'
-        mobilePhone: '2106541111'
-      description: Update a Contact.
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        jobTitle:
-          type: string
-          description: Not supported by Pipedrive
-        phone:
-          type: string
-          description: The primary phone
-        mobilePhone:
-          type: string
-        ownerUserId:
-          type: string
-          description: The Id of the User to assign this Contact to
-        additional:
-          type: object
-          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
     ContactCreate:
       title: ContactCreate
       type: object
@@ -735,16 +680,18 @@ components:
           description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
       required:
       - lastName
-    StringFilter:
+    DateFilter:
       type: object
       properties:
         equals:
           type: string
-        contains:
+        gt:
           type: string
-        startsWith:
+        lt:
           type: string
-        endsWith:
+        lte:
+          type: string
+        gte:
           type: string
         not:
           type: string
@@ -756,10 +703,38 @@ components:
           type: array
           items:
             type: string
-        mode:
+    ContactUpdate:
+      title: ContactUpdate
+      type: object
+      examples:
+      - email: tom@bluecross.com
+        firstName: Tom
+        lastName: Smith
+        jobTitle: Director of Operations
+        phone: '2101128833'
+        mobilePhone: '2106541111'
+      description: Update a Contact.
+      properties:
+        email:
           type: string
-          enum:
-          - insensitive
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+          description: Not supported by Pipedrive
+        phone:
+          type: string
+          description: The primary phone
+        mobilePhone:
+          type: string
+        ownerUserId:
+          type: string
+          description: The Id of the User to assign this Contact to
+        additional:
+          type: object
+          description: Create any property in the downstream CRM, such as a custom or native property. For a list of all properties see /details.
     Field:
       title: Field
       type: object
@@ -842,6 +817,31 @@ components:
         required: false
         creatable: true
         updatable: true
+    StringFilter:
+      type: object
+      properties:
+        equals:
+          type: string
+        contains:
+          type: string
+        startsWith:
+          type: string
+        endsWith:
+          type: string
+        not:
+          type: string
+        in:
+          type: array
+          items:
+            type: string
+        notIn:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+          enum:
+          - insensitive
   securitySchemes:
     VesselAPIToken:
       name: vessel-api-token
